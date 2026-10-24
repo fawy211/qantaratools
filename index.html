@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="QantaraTools provides free browser-based utilities for developers, creators, text, data, images, PDF tasks, security, and everyday work. Many tools process data locally on your device.">
+    <meta name="robots" content="index,follow">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="color-scheme" content="dark light">
+    <link rel="canonical" href="https://qantaratools.com/">
+    <meta property="og:title" content="QantaraTools - Free Online Utility Tools">
+    <meta property="og:description" content="Free browser-based tools for developers, creators, text, data, images, PDF tasks, and everyday work.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://qantaratools.com/">
+    <title>QantaraTools - Your everyday work, upgraded. Hub</title>
+    <link rel="icon" type="image/svg+xml" href="assets/branding/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script type="application/ld+json">
+    {
+      "@context":"https://schema.org",
+      "@type":"WebSite",
+      "name":"QantaraTools",
+      "url":"https://qantaratools.com/",
+      "description":"Free browser-based utility tools for development, business, text, images, PDF tasks, security, and everyday work."
+    }
+    </script>
+    <!-- Tailwind CSS -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+
+    <script src="assets/js/external-resources.js"></script>
+    <script src="assets/js/consent.js"></script>
+    <script src="assets/js/smart-examples.js"></script>
+
+    <link rel="stylesheet" href="assets/css/custom.css">
+
+    <!-- سكريبت الفحص الفوري للثيم لمنع الوميض -->
+    <script>
+        if (localStorage.getItem('theme') === 'light') {
+            document.documentElement.classList.remove('dark');
+        } else {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
+
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6378843738233809" crossorigin="anonymous"></script>
+
+    <!-- Language & Geographic Targeting (US & UK) -->
+    <meta http-equiv="content-language" content="en-US">
+    <link rel="alternate" href="https://qantaratools.com/" hreflang="en-us">
+    <link rel="alternate" href="https://qantaratools.com/" hreflang="en-gb">
+    <link rel="alternate" href="https://qantaratools.com/" hreflang="x-default">
+</head>
+<body id="page-body" class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans transition-colors duration-300 selection:bg-blue-500 selection:text-white">
+
+    <!-- Header -->
+    <header id="site-header" class="bg-slate-900/80 backdrop-blur-md border-b border-slate-800 p-4 sticky top-0 z-50 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="qt-brand cursor-pointer" onclick="closeToolView()" aria-label="QantaraTools home">
+                <img class="qt-brand-mark" src="assets/branding/qantara-mark.svg" alt="" aria-hidden="true">
+                <div class="qt-brand-copy">
+                    <h1 id="brand-title"><span class="qt-brand-name-main">Qantara</span><span class="qt-brand-name-accent">Tools</span></h1>
+                    <span class="qt-brand-tagline">All Tools <span aria-hidden="true">•</span> One Place</span>
+                </div>
+            </div>
+            
+            <!-- Actions (Theme Toggle) -->
+            <div class="flex items-center gap-2">
+                <div class="qt-identity-switcher" role="group" aria-label="Visual identity">
+                    <button type="button" data-identity="electric" onclick="setVisualIdentity('electric')">Electric</button>
+                    <button type="button" data-identity="citrus" onclick="setVisualIdentity('citrus')">Citrus</button>
+                    <button type="button" data-identity="violet" onclick="setVisualIdentity('violet')">Violet</button>
+                </div>
+                <button onclick="toggleTheme()" class="bg-slate-800 border border-slate-700 p-2.5 rounded-xl text-slate-300 hover:text-blue-400 transition shadow-sm cursor-pointer" title="Toggle Theme" aria-label="Toggle theme">
+                    <i id="theme-icon" class="fa-solid fa-sun"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto p-6 w-full">
+        
+        <!-- Active Tool Container -->
+        <div id="tool-view-container" class="mb-10 hidden">
+            <button onclick="closeToolView()" class="mb-6 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-200 px-4 py-2 rounded-xl flex items-center gap-2 transition shadow-sm font-medium cursor-pointer">
+                <i class="fa-solid fa-arrow-left"></i> Back to Tools List
+            </button>
+            <div id="active-tool-box" class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl transition-colors duration-300">
+                <!-- Dynamic tool injection goes here -->
+            </div>
+        </div>
+
+        <!-- Tools Grid Container -->
+        <div id="tools-grid-container">
+            <!-- Hero Section -->
+            <div class="mb-10 text-center md:text-left py-6">
+                <h2 id="hero-title" class="text-3xl font-extrabold text-slate-100 mb-3 tracking-tight">Your everyday work, upgraded.</h2>
+                <p id="hero-desc" class="text-slate-400 max-w-2xl text-base">A free, ad-light toolkit for building, creating, fixing, and getting things done faster. No annoying pop-ups, no clutter, just useful tools that keep your work yours.</p>
+                <div class="qt-hero-metrics" aria-label="Toolkit highlights">
+                    <span><strong>Free</strong> to use</span><span><strong>No annoying ads</strong></span><span><strong>50+</strong> focused tools</span><span><strong>Local-first</strong> processing</span>
+                </div>
+            </div>
+            
+            <!-- Search, category navigation & Tool Request -->
+            <div class="tool-controls mb-8">
+                <div class="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center justify-between">
+                    <div class="relative w-full lg:max-w-xl">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-slate-400">
+                            <i class="fa-solid fa-search"></i>
+                        </span>
+                        <input type="text" id="tool-search-input" oninput="filterTools()" placeholder="Find a tool in seconds..." aria-label="Search tools" class="w-full pl-11 pr-20 py-3.5 bg-slate-900 border border-slate-800 rounded-2xl text-slate-100 placeholder-slate-400 focus:outline-none focus:border-blue-500 transition shadow-sm">
+                        <kbd class="absolute right-3 top-1/2 -translate-y-1/2 hidden sm:inline-flex px-2 py-1 rounded-lg border border-slate-700 bg-slate-800 text-slate-400 text-xs">/</kbd>
+                    </div>
+                    <button onclick="openRequestModal()" class="w-full lg:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-3.5 rounded-2xl flex items-center justify-center gap-2 transition shadow-md hover:shadow-lg cursor-pointer">
+                        <i class="fa-solid fa-lightbulb"></i> Request a Tool
+                    </button>
+                </div>
+                <div class="category-nav mt-4" aria-label="Tool categories">
+                    <button type="button" class="category-filter active" data-filter="all" onclick="setCategoryFilter('all', this)">All Tools</button>
+                    <button type="button" class="category-filter" data-filter="dev" onclick="setCategoryFilter('dev', this)"><i class="fa-solid fa-code"></i> Development</button>
+                    <button type="button" class="category-filter" data-filter="business" onclick="setCategoryFilter('business', this)"><i class="fa-solid fa-chart-line"></i> Business</button>
+                    <button type="button" class="category-filter" data-filter="pdf" onclick="setCategoryFilter('pdf', this)"><i class="fa-solid fa-file-pdf"></i> PDF & Documents</button>
+                    <button type="button" class="category-filter" data-filter="security" onclick="setCategoryFilter('security', this)"><i class="fa-solid fa-shield-halved"></i> Security & Media</button>
+                    <button type="button" class="category-filter" data-filter="text" onclick="setCategoryFilter('text', this)"><i class="fa-solid fa-font"></i> Text</button>
+                    <button type="button" class="category-filter" data-filter="fun" onclick="setCategoryFilter('fun', this)"><i class="fa-solid fa-wand-magic-sparkles"></i> Creative</button>
+                </div>
+            </div>
+
+            <!-- Personal tool shortcuts -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                <section class="rounded-2xl border border-slate-800 bg-slate-900/40 p-4">
+                    <div class="flex items-center justify-between mb-3 gap-3">
+                        <h3 class="font-semibold text-slate-200 flex items-center gap-2"><i class="fa-solid fa-clock-rotate-left text-blue-400"></i> Recent Tools</h3>
+                        <div class="flex items-center gap-2">
+                            <span id="tool-count-label" class="text-xs text-slate-500" aria-live="polite">0 tools shown</span>
+                            <button id="clear-recent-tools" type="button" onclick="clearRecentlyUsed()" class="recent-clear-btn" title="Clear recently used tools" aria-label="Clear recently used tools">
+                                <i class="fa-solid fa-trash-can"></i><span>Clear</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="recent-tools-list" class="flex flex-wrap gap-2"></div>
+                </section>
+                <section class="rounded-2xl border border-slate-800 bg-slate-900/40 p-4">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="font-semibold text-slate-200 flex items-center gap-2"><i class="fa-solid fa-star text-amber-400"></i> Favorites</h3>
+                    </div>
+                    <div id="favorite-tools-list" class="flex flex-wrap gap-2"></div>
+                </section>
+            </div>
+
+            <!-- Featured: AI Chat & Content to Office Converter -->
+            <div class="mb-12 featured-tool-wrap qt-featured-wrap">
+                <div onclick="loadAiToOfficeTool()" class="bg-gradient-to-r from-blue-600/20 via-indigo-600/25 to-purple-600/20 border-2 border-blue-500/50 hover:border-blue-500 p-8 rounded-3xl cursor-pointer transition-all duration-300 shadow-lg hover:shadow-xl group relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-blue-600 text-white text-xs font-bold px-4 py-1.5 rounded-bl-2xl uppercase tracking-wider shadow-sm">Featured Exclusive</div>
+                    <div class="flex items-center gap-5">
+                        <div class="qt-featured-icon group-hover:scale-110 transition shrink-0"><img src="assets/icons/ai-office.svg" alt="" aria-hidden="true"></div>
+                        <div>
+                            <h3 id="feat-title" class="text-2xl font-bold mb-2 text-slate-100 group-hover:text-blue-400 transition">AI Chat & Content to Office Converter</h3>
+                            <p id="feat-desc" class="text-slate-300 text-base">Instantly convert AI prompts, chat sessions, and raw text into formatted Word (.docx), Excel (.xlsx), or PDF files securely in your browser.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-intro mb-5">
+                <p class="section-kicker qt-toolkit-tagline">Clean, quick, and free utilities designed to save your time.</p>
+            </div>
+
+            <!-- 1. Core & Dev Tools -->
+            <div class="mb-10 category-section" data-category="dev">
+                <h3 class="category-heading text-xl font-bold mb-4 text-slate-200 border-b border-slate-800 pb-2 flex items-center gap-2"><span class="qt-group-icon"><img src="assets/icons/groups/dev.svg" alt="" aria-hidden="true"></span> <span>Core &amp; Dev Tools</span></h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div onclick="router.loadTool('Core & Dev', 'Base64 Encoder / Decoder', 'base64')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group">
+                        <div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/base64.svg" alt="" aria-hidden="true"></div>
+                        <h4 class="card-title text-lg font-semibold mb-1 text-slate-200">Base64 Encoder / Decoder</h4>
+                        <p class="card-desc text-slate-400 text-sm">Encode and decode text or files securely in Base64.</p>
+                    </div>
+                    <div onclick="router.loadTool('Core & Dev', 'Color Converter', 'color-converter')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group">
+                        <div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/color-converter.svg" alt="" aria-hidden="true"></div>
+                        <h4 class="card-title text-lg font-semibold mb-1 text-slate-200">Color Converter</h4>
+                        <p class="card-desc text-slate-400 text-sm">Convert between HEX, RGB, HSL, and CMYK color formats.</p>
+                    </div>
+                    <div onclick="router.loadTool('Core & Dev', 'CSV Data Cleaner', 'csv-cleaner')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group">
+                        <div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/csv-cleaner.svg" alt="" aria-hidden="true"></div>
+                        <h4 class="card-title text-lg font-semibold mb-1 text-slate-200">CSV Data Cleaner</h4>
+                        <p class="card-desc text-slate-400 text-sm">Clean, trim, and format CSV files securely inside your browser.</p>
+                    </div>
+                    <div onclick="router.loadTool('Core & Dev', 'HTML Entity Encoder', 'html-entity')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group">
+                        <div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/html-entity.svg" alt="" aria-hidden="true"></div>
+                        <h4 class="card-title text-lg font-semibold mb-1 text-slate-200">HTML Entity Encoder</h4>
+                        <p class="card-desc text-slate-400 text-sm">Encode special characters to HTML entities and decode safely.</p>
+                    </div>
+                    <div onclick="router.loadTool('Core & Dev', 'JSON Formatter & Validator', 'json-formatter')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group">
+                        <div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/json-formatter.svg" alt="" aria-hidden="true"></div>
+                        <h4 class="card-title text-lg font-semibold mb-1 text-slate-200">JSON Formatter & Validator</h4>
+                        <p class="card-desc text-slate-400 text-sm">Format, validate, minify, and inspect JSON payloads.</p>
+                    </div>
+                    <div onclick="router.loadTool('Core & Dev', 'UUID v4 Generator', 'uuid-generator')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group">
+                        <div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/uuid-generator.svg" alt="" aria-hidden="true"></div>
+                        <h4 class="card-title text-lg font-semibold mb-1 text-slate-200">UUID v4 Generator</h4>
+                        <p class="card-desc text-slate-400 text-sm">Generate single or bulk random UUIDs securely.</p>
+                    </div>
+<div onclick="router.loadTool('Core & Dev', 'URL Encoder & Decoder', 'url-encoder')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group"><div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/url-encoder.svg" alt="" aria-hidden="true"></div><h4 class="card-title text-lg font-semibold mb-1 text-slate-200">URL Encoder & Decoder</h4><p class="card-desc text-slate-400 text-sm">Encode and decode URL text locally.</p></div>
+<div onclick="router.loadTool('Core & Dev', 'JWT Decoder', 'jwt-decoder')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group"><div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/jwt-decoder.svg" alt="" aria-hidden="true"></div><h4 class="card-title text-lg font-semibold mb-1 text-slate-200">JWT Decoder</h4><p class="card-desc text-slate-400 text-sm">Read JWT headers and payloads without sending them anywhere.</p></div>
+<div onclick="router.loadTool('Core & Dev', 'Regex Tester', 'regex-tester')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group"><div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/regex-tester.svg" alt="" aria-hidden="true"></div><h4 class="card-title text-lg font-semibold mb-1 text-slate-200">Regex Tester</h4><p class="card-desc text-slate-400 text-sm">Test JavaScript regular expressions locally.</p></div>
+<div onclick="router.loadTool('Core & Dev', 'Timestamp Converter', 'timestamp-converter')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group"><div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/timestamp-converter.svg" alt="" aria-hidden="true"></div><h4 class="card-title text-lg font-semibold mb-1 text-slate-200">Timestamp Converter</h4><p class="card-desc text-slate-400 text-sm">Convert Unix timestamps and dates.</p></div>
+<div onclick="router.loadTool('Core & Dev', 'Hash Generator', 'hash-generator')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group"><div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/hash-generator.svg" alt="" aria-hidden="true"></div><h4 class="card-title text-lg font-semibold mb-1 text-slate-200">Hash Generator</h4><p class="card-desc text-slate-400 text-sm">Create SHA-1, SHA-256, SHA-384, and SHA-512 hashes.</p></div>
+<div onclick="router.loadTool('Core & Dev', 'JSON ↔ CSV Converter', 'json-csv')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group"><div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/json-csv.svg" alt="" aria-hidden="true"></div><h4 class="card-title text-lg font-semibold mb-1 text-slate-200">JSON ↔ CSV Converter</h4><p class="card-desc text-slate-400 text-sm">Convert JSON tables and CSV data.</p></div>
+<div onclick="router.loadTool('Core & Dev', 'SQL Formatter', 'sql-formatter')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group"><div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/sql-formatter.svg" alt="" aria-hidden="true"></div><h4 class="card-title text-lg font-semibold mb-1 text-slate-200">SQL Formatter</h4><p class="card-desc text-slate-400 text-sm">Make common SQL queries easier to read.</p></div>
+<div onclick="router.loadTool('Core & Dev', 'HTML / CSS / JavaScript Formatter', 'code-formatter')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group"><div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/code-formatter.svg" alt="" aria-hidden="true"></div><h4 class="card-title text-lg font-semibold mb-1 text-slate-200">HTML / CSS / JavaScript Formatter</h4><p class="card-desc text-slate-400 text-sm">Apply simple readable formatting to web code.</p></div>
+                </div>
+            </div>
+
+            <!-- 2. Business & Finance Tools -->
+            <div class="mb-10 category-section" data-category="business">
+                <h3 class="category-heading text-xl font-bold mb-4 text-slate-200 border-b border-slate-800 pb-2 flex items-center gap-2"><span class="qt-group-icon"><img src="assets/icons/groups/business.svg" alt="" aria-hidden="true"></span> <span>Business &amp; Finance Tools</span></h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div onclick="router.loadTool('Business & Finance', 'Currency & Exchange Converter', 'currency-converter')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group">
+                        <div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/currency-converter.svg" alt="" aria-hidden="true"></div>
+                        <h4 class="card-title text-lg font-semibold mb-1 text-slate-200">Currency & Exchange Converter</h4>
+                        <p class="card-desc text-slate-400 text-sm">Convert currencies with live and offline rates.</p>
+                    </div>
+                    <div onclick="router.loadTool('Business & Finance', 'Discount & Markup Calculator', 'discount-calculator')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group">
+                        <div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/discount-calculator.svg" alt="" aria-hidden="true"></div>
+                        <h4 class="card-title text-lg font-semibold mb-1 text-slate-200">Discount & Markup Calculator</h4>
+                        <p class="card-desc text-slate-400 text-sm">Calculate retail discounts, profit margins, and markups.</p>
+                    </div>
+                    <div onclick="router.loadTool('Business & Finance', 'Loan & Mortgage Amortization', 'loan-calculator')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group">
+                        <div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/loan-calculator.svg" alt="" aria-hidden="true"></div>
+                        <h4 class="card-title text-lg font-semibold mb-1 text-slate-200">Loan & Mortgage Amortization</h4>
+                        <p class="card-desc text-slate-400 text-sm">Calculate loan payments, interest, and amortization schedule.</p>
+                    </div>
+                    <div onclick="router.loadTool('Business & Finance', 'Quick QR Code Generator', 'qr-generator')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group">
+                        <div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/qr-generator.svg" alt="" aria-hidden="true"></div>
+                        <h4 class="card-title text-lg font-semibold mb-1 text-slate-200">Quick QR Code Generator</h4>
+                        <p class="card-desc text-slate-400 text-sm">Generate custom QR codes for URLs, Wi-Fi, and text.</p>
+                    </div>
+                    <div onclick="router.loadTool('Business & Finance', 'VAT & Tax Calculator', 'vat-calculator')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group">
+                        <div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/vat-calculator.svg" alt="" aria-hidden="true"></div>
+                        <h4 class="card-title text-lg font-semibold mb-1 text-slate-200">VAT & Tax Calculator</h4>
+                        <p class="card-desc text-slate-400 text-sm">Add or extract Value Added Tax (VAT) accurately.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PDF & Documents Tools -->
+            <div class="mb-10 category-section" data-category="pdf"><h3 class="category-heading text-xl font-bold mb-4 text-slate-200 border-b border-slate-800 pb-2 flex items-center gap-2"><span class="qt-group-icon"><img src="assets/icons/groups/pdf.svg" alt="" aria-hidden="true"></span> <span>PDF &amp; Documents Tools</span></h3><div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+<div onclick="router.loadTool('PDF & Documents', 'PDF Merge', 'pdf-merge')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group"><div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/pdf-merge.svg" alt="" aria-hidden="true"></div><h4 class="card-title text-lg font-semibold mb-1 text-slate-200">PDF Merge</h4><p class="card-desc text-slate-400 text-sm">Combine PDF files in your browser.</p></div>
+<div onclick="router.loadTool('PDF & Documents', 'PDF Split & Page Extractor', 'pdf-split')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group"><div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/pdf-split.svg" alt="" aria-hidden="true"></div><h4 class="card-title text-lg font-semibold mb-1 text-slate-200">PDF Split & Page Extractor</h4><p class="card-desc text-slate-400 text-sm">Extract a page range into a new PDF.</p></div>
+<div onclick="router.loadTool('PDF & Documents', 'PDF Optimizer', 'pdf-compress')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group"><div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/pdf-compress.svg" alt="" aria-hidden="true"></div><h4 class="card-title text-lg font-semibold mb-1 text-slate-200">PDF Optimizer</h4><p class="card-desc text-slate-400 text-sm">Re-save PDFs with lossless optimization.</p></div>
+<div onclick="router.loadTool('PDF & Documents', 'PDF Page Rotator', 'pdf-rotate')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group"><div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/pdf-rotate.svg" alt="" aria-hidden="true"></div><h4 class="card-title text-lg font-semibold mb-1 text-slate-200">PDF Page Rotator</h4><p class="card-desc text-slate-400 text-sm">Rotate every page in a PDF.</p></div>
+<div onclick="router.loadTool('PDF & Documents', 'PDF Page Reorder', 'pdf-reorder')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group"><div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/pdf-reorder.svg" alt="" aria-hidden="true"></div><h4 class="card-title text-lg font-semibold mb-1 text-slate-200">PDF Page Reorder</h4><p class="card-desc text-slate-400 text-sm">Reorder pages using page numbers.</p></div>
+<div onclick="router.loadTool('PDF & Documents', 'Images to PDF', 'images-pdf')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group"><div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/images-pdf.svg" alt="" aria-hidden="true"></div><h4 class="card-title text-lg font-semibold mb-1 text-slate-200">Images to PDF</h4><p class="card-desc text-slate-400 text-sm">Create a PDF from multiple images.</p></div>
+<div onclick="router.loadTool('PDF & Documents', 'Text to PDF', 'text-pdf')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group"><div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/text-pdf.svg" alt="" aria-hidden="true"></div><h4 class="card-title text-lg font-semibold mb-1 text-slate-200">Text to PDF</h4><p class="card-desc text-slate-400 text-sm">Create a printable PDF from text.</p></div>
+</div></div>
+
+            <!-- 3. Security & Media Tools -->
+            <div class="mb-10 category-section" data-category="security">
+                <h3 class="category-heading text-xl font-bold mb-4 text-slate-200 border-b border-slate-800 pb-2 flex items-center gap-2"><span class="qt-group-icon"><img src="assets/icons/groups/security.svg" alt="" aria-hidden="true"></span> <span>Security &amp; Media Tools</span></h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div onclick="router.loadTool('Security & Media', 'EXIF Data Viewer', 'exif-viewer')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group">
+                        <div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/exif-viewer.svg" alt="" aria-hidden="true"></div>
+                        <h4 class="card-title text-lg font-semibold mb-1 text-slate-200">EXIF Data Viewer</h4>
+                        <p class="card-desc text-slate-400 text-sm">Inspect image metadata, camera info, and GPS details.</p>
+                    </div>
+                    <div onclick="router.loadTool('Security & Media', 'Image Compressor & Resizer', 'image-compressor')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group">
+                        <div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/image-compressor.svg" alt="" aria-hidden="true"></div>
+                        <h4 class="card-title text-lg font-semibold mb-1 text-slate-200">Image Compressor & Resizer</h4>
+                        <p class="card-desc text-slate-400 text-sm">Compress and resize images right in your browser.</p>
+                    </div>
+                    <div onclick="router.loadTool('Security & Media', 'Image to Base64 Converter', 'image-base64')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group">
+                        <div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/image-base64.svg" alt="" aria-hidden="true"></div>
+                        <h4 class="card-title text-lg font-semibold mb-1 text-slate-200">Image to Base64 Converter</h4>
+                        <p class="card-desc text-slate-400 text-sm">Convert images to Base64 data-URIs instantly.</p>
+                    </div>
+                    <div onclick="router.loadTool('Security & Media', 'Secure Password Generator', 'password-generator')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group">
+                        <div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/password-generator.svg" alt="" aria-hidden="true"></div>
+                        <h4 class="card-title text-lg font-semibold mb-1 text-slate-200">Secure Password Generator</h4>
+                        <p class="card-desc text-slate-400 text-sm">Generate highly secure random passwords and passphrases.</p>
+                    </div>
+                    <div onclick="router.loadTool('Security & Media', 'SVG to CSS Background', 'svg-to-css')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group">
+                        <div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/svg-to-css.svg" alt="" aria-hidden="true"></div>
+                        <h4 class="card-title text-lg font-semibold mb-1 text-slate-200">SVG to CSS Background</h4>
+                        <p class="card-desc text-slate-400 text-sm">Convert SVG code into encoded CSS background URIs.</p>
+                    </div>
+<div onclick="router.loadTool('Security & Media', 'Image Format Converter', 'image-format')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group"><div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/image-format.svg" alt="" aria-hidden="true"></div><h4 class="card-title text-lg font-semibold mb-1 text-slate-200">Image Format Converter</h4><p class="card-desc text-slate-400 text-sm">Convert images to PNG, JPEG, or WebP locally.</p></div>
+<div onclick="router.loadTool('Security & Media', 'Image Cropper', 'image-cropper')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group"><div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/image-cropper.svg" alt="" aria-hidden="true"></div><h4 class="card-title text-lg font-semibold mb-1 text-slate-200">Image Cropper</h4><p class="card-desc text-slate-400 text-sm">Crop images directly in your browser.</p></div>
+                </div>
+            </div>
+
+            <div onclick="router.loadTool('Security & Media', 'Image Rotate & Flip', 'image-rotate-flip')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group"><div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/image-rotate-flip.svg" alt="" aria-hidden="true"></div><h4 class="card-title text-lg font-semibold mb-1 text-slate-200">Image Rotate & Flip</h4><p class="card-desc text-slate-400 text-sm">Rotate and flip images locally.</p></div>
+<div onclick="router.loadTool('Security & Media', 'Batch Image Converter', 'image-batch')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group"><div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/image-batch.svg" alt="" aria-hidden="true"></div><h4 class="card-title text-lg font-semibold mb-1 text-slate-200">Batch Image Converter</h4><p class="card-desc text-slate-400 text-sm">Convert multiple images at once.</p></div>
+<div onclick="router.loadTool('Security & Media', 'Image Watermark', 'image-watermark')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group"><div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/image-watermark.svg" alt="" aria-hidden="true"></div><h4 class="card-title text-lg font-semibold mb-1 text-slate-200">Image Watermark</h4><p class="card-desc text-slate-400 text-sm">Add a simple text watermark locally.</p></div>
+
+            <!-- 4. Text & Unicode Tools -->
+            <div class="mb-10 category-section" data-category="text">
+                <h3 class="category-heading text-xl font-bold mb-4 text-slate-200 border-b border-slate-800 pb-2 flex items-center gap-2"><span class="qt-group-icon"><img src="assets/icons/groups/text.svg" alt="" aria-hidden="true"></span> <span>Text &amp; Unicode Tools</span></h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div onclick="router.loadTool('Text & Unicode', 'Text Case & Slug Converter', 'text-case')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group">
+                        <div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/text-case.svg" alt="" aria-hidden="true"></div>
+                        <h4 class="card-title text-lg font-semibold mb-1 text-slate-200">Text Case & Slug Converter</h4>
+                        <p class="card-desc text-slate-400 text-sm">Convert text casing and format URL slugs cleanly.</p>
+                    </div>
+                    <div onclick="router.loadTool('Text & Unicode', 'Word & Character Counter', 'word-counter')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group">
+                        <div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/word-counter.svg" alt="" aria-hidden="true"></div>
+                        <h4 class="card-title text-lg font-semibold mb-1 text-slate-200">Word & Character Counter</h4>
+                        <p class="card-desc text-slate-400 text-sm">Count words, characters, and estimate reading time.</p>
+                    </div>
+                    <div onclick="router.loadTool('Text & Unicode', 'Text Diff Checker', 'text-diff')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group">
+                        <div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/text-diff.svg" alt="" aria-hidden="true"></div>
+                        <h4 class="card-title text-lg font-semibold mb-1 text-slate-200">Text Diff Checker</h4>
+                        <p class="card-desc text-slate-400 text-sm">Compare text blocks and spot differences easily.</p>
+                    </div>
+                    <div onclick="router.loadTool('Text & Unicode', 'Arabic Fixer', 'arabic-fixer')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group">
+                        <div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/arabic-fixer.svg" alt="" aria-hidden="true"></div>
+                        <h4 class="card-title text-lg font-semibold mb-1 text-slate-200">Arabic Fixer</h4>
+                        <p class="card-desc text-slate-400 text-sm">Fix disconnected Arabic text and letter shaping.</p>
+                    </div>
+                    <div onclick="router.loadTool('Text & Unicode', 'Duplicate Line Remover', 'duplicate-remover')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group">
+                        <div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/duplicate-remover.svg" alt="" aria-hidden="true"></div>
+                        <h4 class="card-title text-lg font-semibold mb-1 text-slate-200">Duplicate Line Remover</h4>
+                        <p class="card-desc text-slate-400 text-sm">Strip duplicate lines instantly from raw text.</p>
+                    </div>
+                    <div onclick="router.loadTool('Text & Unicode', 'RTL & Unicode Cleaner', 'rtl-cleaner')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group">
+                        <div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/rtl-cleaner.svg" alt="" aria-hidden="true"></div>
+                        <h4 class="card-title text-lg font-semibold mb-1 text-slate-200">RTL & Unicode Cleaner</h4>
+                        <p class="card-desc text-slate-400 text-sm">Clean zero-width spaces, directional marks, and unicode garbage.</p>
+                    </div>
+<div onclick="router.loadTool('Text & Unicode', 'Text Sorter', 'text-sorter')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group"><div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/text-sorter.svg" alt="" aria-hidden="true"></div><h4 class="card-title text-lg font-semibold mb-1 text-slate-200">Text Sorter</h4><p class="card-desc text-slate-400 text-sm">Sort lines alphabetically or numerically.</p></div>
+<div onclick="router.loadTool('Text & Unicode', 'Lorem Ipsum Generator', 'lorem-ipsum')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group"><div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/lorem-ipsum.svg" alt="" aria-hidden="true"></div><h4 class="card-title text-lg font-semibold mb-1 text-slate-200">Lorem Ipsum Generator</h4><p class="card-desc text-slate-400 text-sm">Generate placeholder text locally.</p></div>
+<div onclick="router.loadTool('Text & Unicode', 'Markdown to HTML', 'markdown-html')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group"><div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/markdown-html.svg" alt="" aria-hidden="true"></div><h4 class="card-title text-lg font-semibold mb-1 text-slate-200">Markdown to HTML</h4><p class="card-desc text-slate-400 text-sm">Convert common Markdown to HTML.</p></div>
+                </div>
+            </div>
+
+            <!-- 5. Fun & Creative Tools -->
+            <div class="mb-10 category-section" data-category="fun">
+                <h3 class="category-heading text-xl font-bold mb-4 text-slate-200 border-b border-slate-800 pb-2 flex items-center gap-2"><span class="qt-group-icon"><img src="assets/icons/groups/creative.svg" alt="" aria-hidden="true"></span> <span>Fun &amp; Creative Tools</span></h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div onclick="router.loadTool('Fun & Creative', 'ASCII Art Text Generator', 'ascii-art')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group">
+                        <div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/ascii-art.svg" alt="" aria-hidden="true"></div>
+                        <h4 class="card-title text-lg font-semibold mb-1 text-slate-200">ASCII Art Text Generator</h4>
+                        <p class="card-desc text-slate-400 text-sm">Convert normal text into stunning ASCII banner art.</p>
+                    </div>
+                    <div onclick="router.loadTool('Fun & Creative', 'Background & Gradient Generator', 'gradient-generator')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group">
+                        <div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/gradient-generator.svg" alt="" aria-hidden="true"></div>
+                        <h4 class="card-title text-lg font-semibold mb-1 text-slate-200">Background & Gradient Generator</h4>
+                        <p class="card-desc text-slate-400 text-sm">Design CSS gradients and patterns with CSS export.</p>
+                    </div>
+                    <div onclick="router.loadTool('Fun & Creative', 'Fancy Text Generator', 'fancy-text')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group">
+                        <div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/fancy-text.svg" alt="" aria-hidden="true"></div>
+                        <h4 class="card-title text-lg font-semibold mb-1 text-slate-200">Fancy Text Generator</h4>
+                        <p class="card-desc text-slate-400 text-sm">Create stylish Unicode typography for social media.</p>
+                    </div>
+                    <div onclick="router.loadTool('Fun & Creative', 'Random Decision Maker', 'decision-maker')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group">
+                        <div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/decision-maker.svg" alt="" aria-hidden="true"></div>
+                        <h4 class="card-title text-lg font-semibold mb-1 text-slate-200">Random Decision Maker</h4>
+                        <p class="card-desc text-slate-400 text-sm">Spin wheels or pick random items effortlessly.</p>
+                    </div>
+                    <div onclick="router.loadTool('Fun & Creative', 'Stopwatch & Pomodoro Timer', 'pomodoro-timer')" class="tool-card relative bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md group">
+                        <div class="qt-tool-icon-wrap group-hover:scale-110 transition"><img class="qt-tool-icon-image" src="assets/icons/pomodoro-timer.svg" alt="" aria-hidden="true"></div>
+                        <h4 class="card-title text-lg font-semibold mb-1 text-slate-200">Stopwatch & Pomodoro Timer</h4>
+                        <p class="card-desc text-slate-400 text-sm">Boost productivity with timers and focus sessions.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Request Tool Modal -->
+    <div id="request-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 max-w-lg w-full shadow-2xl">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-slate-100 flex items-center gap-2"><i class="fa-solid fa-lightbulb text-amber-400"></i> Request a New Tool</h3>
+                <button onclick="closeRequestModal()" class="text-slate-400 hover:text-slate-100 text-xl cursor-pointer">&times;</button>
+            </div>
+            <p class="text-slate-400 text-sm mb-4">Have an idea for a client-side utility? Let us know and we will engineer it!</p>
+            <input type="text" id="req-tool-name" placeholder="Tool Name / Idea..." class="w-full p-3 mb-4 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 focus:outline-none focus:border-blue-500">
+            <textarea id="req-tool-desc" rows="4" placeholder="Briefly describe what it should do..." class="w-full p-3 mb-4 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 focus:outline-none focus:border-blue-500"></textarea>
+            <textarea id="req-tool-example" rows="3" placeholder="Optional: give an example of how you would use it..." class="w-full p-3 mb-4 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 focus:outline-none focus:border-blue-500"></textarea>
+            <div class="flex justify-end gap-3">
+                <button onclick="closeRequestModal()" class="px-4 py-2 bg-slate-800 text-slate-300 rounded-xl hover:bg-slate-700 cursor-pointer">Cancel</button>
+                <button onclick="submitToolRequest()" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl shadow-md cursor-pointer">Submit Request</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Professional Footer -->
+    <footer id="site-footer" class="bg-slate-900 border-t border-slate-800 mt-20 py-12 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            <div>
+                <h4 class="footer-title text-slate-100 font-bold text-lg mb-3">About QantaraTools</h4>
+                <p class="footer-desc text-slate-400 text-sm leading-relaxed">A professional suite of 100% client-side developer and utility tools designed to protect your privacy and accelerate your daily workflows.</p>
+            </div>
+            <div>
+                <h4 class="footer-title text-slate-100 font-bold text-lg mb-3">Legal & Privacy</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="faq.html" class="footer-link text-slate-400 hover:text-blue-400 transition">FAQ</a></li>
+                    <li><a href="contact.html" class="footer-link text-slate-400 hover:text-blue-400 transition">Contact Us</a></li>
+                    <li><a href="privacy.html" class="footer-link text-slate-400 hover:text-blue-400 transition">Privacy Policy</a></li>
+                    <li><a href="terms.html" class="footer-link text-slate-400 hover:text-blue-400 transition">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="footer-title text-slate-100 font-bold text-lg mb-3">Connect & Open Source</h4>
+                <p class="footer-desc text-slate-400 text-sm mb-3">Built with modern web technologies and Tailwind CSS.</p>
+                <div class="flex gap-4">
+                    <a href="#" class="text-slate-400 hover:text-blue-400 text-xl transition"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" class="text-slate-400 hover:text-blue-400 text-xl transition"><i class="fa-brands fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-6 pt-6 border-t border-slate-800/60 text-center text-slate-500 text-sm">
+            &copy; 2026 QantaraTools. All rights reserved. 100% Local & Secure Browser Utilities.
+        </div>
+    </footer>
+
+    <!-- ربط ملفات السكريبت الأساسية -->
+    <script type="module" src="assets/js/tool-registry.js"></script>
+    <script src="assets/js/plugin-system.js"></script>
+    <!-- Add opt-in plugin scripts here, before the router. -->
+    <script type="module" src="assets/js/tool-feedback.js"></script>
+    <script src="assets/js/router.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/ai-office.js"></script>
+
+
+
+</body>
+</html>

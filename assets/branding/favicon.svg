@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title desc">
+  <title id="title">QantaraTools</title><desc id="desc">Blue Q mark with globe and bridge wave</desc>
+  <defs>
+    <linearGradient id="ring" x1="12" y1="10" x2="84" y2="88" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#007BFF"/><stop offset=".55" stop-color="#0B5ED7"/><stop offset="1" stop-color="#123B9A"/>
+    </linearGradient>
+    <linearGradient id="wave" x1="28" y1="70" x2="88" y2="82" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#007BFF"/><stop offset=".52" stop-color="#00C8FF"/><stop offset="1" stop-color="#53E7FF"/>
+    </linearGradient>
+    <clipPath id="globeClip"><circle cx="48" cy="39" r="24"/></clipPath>
+  </defs>
+  <circle cx="48" cy="39" r="35" fill="none" stroke="url(#ring)" stroke-width="10"/>
+  <circle cx="48" cy="39" r="24" fill="#0A2A5B" stroke="#0D63D8" stroke-width="2"/>
+  <g clip-path="url(#globeClip)" fill="none" stroke="#D9F7FF" stroke-width="1.8" opacity=".82">
+    <ellipse cx="48" cy="39" rx="11" ry="24"/><ellipse cx="48" cy="39" rx="20" ry="24"/>
+    <path d="M24 39h48M27 29h42M27 49h42"/>
+  </g>
+  <g fill="#F3FCFF" opacity=".96">
+    <path d="M37 27c3-4 7-6 11-7l-2 7-6 3-4-3z"/>
+    <path d="M54 28l7 2 4 6-4 3-5-2-4-5z"/>
+    <path d="M40 42l7-3 7 4-2 8-7 4-6-5z"/>
+  </g>
+  <path d="M19 69c12-8 23-10 34-6 9 3 16 10 25 12 6 1 10 0 14-2-7 9-17 14-28 13-12-1-18-9-29-10-6-1-11 1-16 4 0-4 0-7 0-11z" fill="url(#wave)"/>
+  <path d="M24 72c11-5 19-5 28-2 8 3 13 8 22 9" fill="none" stroke="#B7F5FF" stroke-width="2.2" stroke-linecap="round" opacity=".85"/>
+  <path d="M22 64v11M31 62v14M40 62v14" stroke="#0A2A5B" stroke-width="3" stroke-linecap="round" opacity=".9"/>
+</svg>

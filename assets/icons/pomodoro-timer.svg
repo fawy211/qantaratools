@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Stopwatch &amp; Pomodoro Timer icon">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6366f1"/><stop offset="1" stop-color="#f59e0b"/></linearGradient></defs>
+<rect x="2" y="2" width="60" height="60" rx="16" fill="url(#g)"/>
+<rect x="3" y="3" width="58" height="58" rx="15" fill="none" stroke="#ffffff" stroke-opacity=".16"/>
+<g fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="34" r="16"/><path d="M27 16h10M32 18v-5M22 14l-4-4M42 14l4-4"/><path d="M32 25v10l7 4"/></g>
+</svg>

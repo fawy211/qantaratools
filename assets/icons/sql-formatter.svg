@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="SQL Formatter icon">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2563eb"/><stop offset="1" stop-color="#3b82f6"/></linearGradient></defs>
+<rect x="2" y="2" width="60" height="60" rx="16" fill="url(#g)"/>
+<rect x="3" y="3" width="58" height="58" rx="15" fill="none" stroke="#ffffff" stroke-opacity=".16"/>
+<g fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="32" cy="18" rx="16" ry="6"/><path d="M16 18v18c0 3 7 6 16 6s16-3 16-6V18"/><path d="M22 29h20"/></g>
+</svg>

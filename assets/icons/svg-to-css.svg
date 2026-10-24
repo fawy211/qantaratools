@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="SVG to CSS Background icon">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4f46e5"/><stop offset="1" stop-color="#3b82f6"/></linearGradient></defs>
+<rect x="2" y="2" width="60" height="60" rx="16" fill="url(#g)"/>
+<rect x="3" y="3" width="58" height="58" rx="15" fill="none" stroke="#ffffff" stroke-opacity=".16"/>
+<g fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M32 13l18 7-4 27-14 4-14-4-4-27z"/><path d="M21 25l-6 7 6 7M43 25l6 7-6 7M36 20l-8 24"/></g>
+</svg>

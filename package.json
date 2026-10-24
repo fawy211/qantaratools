@@ -1,0 +1,7 @@
+{
+  "name": "qantara-tools",
+  "private": true,
+  "scripts": {"start":"node assets/js/server.js","qa":"playwright test","qa:headed":"playwright test --headed","qa:report":"playwright show-report"},
+  "dependencies": {"express":"^4.21.2"},
+  "devDependencies": {"@playwright/test":"^1.56.0"}
+}
