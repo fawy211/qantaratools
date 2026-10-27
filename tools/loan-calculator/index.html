@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta name="description" content="Calculate loan payments, interest, and amortization schedule.">
+  <meta name="theme-color" content="#17151f">
+  <link rel="canonical" href="https://qantaratools.com/tools/loan-calculator/">
+  <link rel="icon" type="image/svg+xml" href="../../assets/branding/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="../../assets/css/custom.css">
+  <link rel="stylesheet" href="../../assets/css/theme-light.css">
+  <script src="../../assets/js/theme.js"></script>
+  <meta property="og:type" content="website"><meta property="og:site_name" content="QantaraTools">
+  <meta property="og:title" content="Loan &amp; Mortgage Amortization | Free Online Tool | QantaraTools">
+  <meta property="og:description" content="Calculate loan payments, interest, and amortization schedule."><meta property="og:url" content="https://qantaratools.com/tools/loan-calculator/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Loan & Mortgage Amortization","url":"https://qantaratools.com/tools/loan-calculator/","description":"Calculate loan payments, interest, and amortization schedule.","applicationCategory":"Business & Finance","operatingSystem":"Any","browserRequirements":"Requires a modern web browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+  <script>document.documentElement.classList.toggle('dark',localStorage.getItem('theme')!=='light');document.documentElement.dataset.identity=localStorage.getItem('visual_identity')||'electric';</script>
+  <title>Loan &amp; Mortgage Amortization | Free Online Tool | QantaraTools</title>
+  <style>
+    .qt-tool-page{min-height:100vh}.qt-tool-header{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--qt-bg) 90%,transparent);backdrop-filter:blur(16px);border-bottom:1px solid var(--qt-line)}
+    .qt-tool-header-inner{max-width:1160px;margin:auto;padding:12px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .qt-tool-brand{display:flex;align-items:center;gap:10px;color:var(--qt-text);text-decoration:none;font-weight:900}.qt-tool-brand img{width:36px;height:36px}.qt-tool-brand span span{color:var(--qt-blue)}
+    .qt-tool-nav{display:flex;gap:12px;align-items:center}.qt-tool-nav a{font-size:13px;font-weight:800;color:var(--qt-blue);text-decoration:none}
+    .qt-tool-main{width:min(960px,calc(100% - 28px));margin:0 auto;padding:38px 0 64px}.qt-tool-intro{padding:28px 32px;border:2px solid #17151f;border-radius:24px;background:linear-gradient(115deg,#fffdf8,#f1eeff 58%,#e9fff6);box-shadow:6px 6px 0 #17151f}
+    .qt-tool-kicker{color:#6857ff;font-size:11px;font-weight:900;letter-spacing:.15em;text-transform:uppercase}.qt-tool-intro h1{margin:12px 0;color:#17151f;font-size:clamp(30px,5vw,48px);line-height:1.08;letter-spacing:-.055em;font-weight:900}.qt-tool-intro p{max-width:720px;color:#635d6c;font-size:15px;line-height:1.75}
+    .qt-tool-workspace{margin-top:28px;padding:24px;border:1px solid var(--qt-line);border-radius:22px;background:var(--qt-panel);box-shadow:0 10px 28px rgba(23,21,31,.08)}.qt-tool-workspace h2{margin:0 0 14px;font-size:20px;font-weight:900;color:var(--qt-text)}
+    .qt-tool-details{margin-top:28px;padding:24px;border:1px solid var(--qt-line);border-radius:20px;background:var(--qt-panel)}.qt-tool-details h2{font-size:19px;font-weight:900;color:var(--qt-text)}.qt-tool-details p,.qt-tool-details li{color:var(--qt-muted);line-height:1.75;font-size:14px}
+    .qt-tool-footer{padding:22px;text-align:center;border-top:1px solid var(--qt-line);color:var(--qt-muted);font-size:12px}.qt-tool-footer a{margin:0 8px;color:var(--qt-blue);font-weight:800;text-decoration:none}
+    html.dark .qt-tool-intro{background:linear-gradient(115deg,#1a1725,#242044 58%,#123934);border-color:#fff9ef;box-shadow:6px 6px 0 #fff9ef}html.dark .qt-tool-intro h1{color:#fff9ef}html.dark .qt-tool-intro p{color:#b6acbd}
+    @media(max-width:600px){.qt-tool-header-inner{padding:10px 14px}.qt-tool-nav{gap:8px}.qt-tool-nav a{font-size:11px}.qt-tool-main{padding-top:22px}.qt-tool-intro{padding:23px 20px}.qt-tool-workspace,.qt-tool-details{padding:16px}}
+  </style>
+</head>
+<body class="qt-tool-page">
+  <a class="skip-link" href="#tool-workspace">Skip to tool</a>
+  <header class="qt-tool-header"><div class="qt-tool-header-inner">
+    <a class="qt-tool-brand" href="/"><img src="../../assets/branding/qantara-mark.svg" alt=""><span>Qantara<span>Tools</span></span></a>
+    <nav class="qt-tool-nav" aria-label="Main navigation"><a href="/">All tools</a><a href="/about-us.html">About</a><a href="/contact.html">Contact</a><button type="button" class="qt-theme-btn" data-theme-toggle aria-label="Toggle theme"><i class="fa-solid fa-sun" aria-hidden="true"></i></button></nav>
+  </div></header>
+  <main class="qt-tool-main">
+    <section class="qt-tool-intro" aria-labelledby="tool-page-title">
+      <span class="qt-tool-kicker">Business &amp; Finance · Free browser tool</span>
+      <h1 id="tool-page-title">Loan &amp; Mortgage Amortization</h1>
+      <p>Calculate loan payments, interest, and amortization schedule.</p>
+      <p>Use it for quick estimates and common business calculations. Check the assumptions and verify important financial decisions independently.</p>
+    </section>
+    <section id="tool-workspace" class="qt-tool-workspace" aria-labelledby="active-tool-title">
+      <h2 id="active-tool-title">Loan &amp; Mortgage Amortization</h2>
+      <div id="active-tool-box"><p role="status" aria-live="polite">Loading Loan &amp; Mortgage Amortization…</p></div>
+    </section>
+    <section class="qt-tool-details" aria-labelledby="tool-uses-title">
+      <h2 id="tool-uses-title">What you can do with Loan &amp; Mortgage Amortization</h2>
+      <p>Calculate loan payments, interest, and amortization schedule. This free business &amp;amp; finance tool runs in your browser. Tool behavior can vary by feature; see the <a href="/privacy.html">Privacy Policy</a> before using sensitive content.</p>
+      <h3>Common workflow</h3><ol><li>Make a quick estimate from your inputs</li><li>Compare the result under different assumptions</li><li>Export or copy figures where the tool supports it</li></ol>
+      <p>Need another utility? Browse the <a href="/">complete QantaraTools collection</a>.</p>
+    </section>
+  </main>
+  <footer class="qt-tool-footer">© 2026 QantaraTools <a href="/">All tools</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></footer>
+  <script src="../../assets/js/external-resources.js"></script>
+  <script src="../../assets/js/consent.js"></script>
+  <script src="../../assets/js/plugin-system.js"></script>
+  <script src="../../assets/js/tool-feedback.js"></script>
+  <script src="../../assets/js/router.js"></script>
+  <script src="../../assets/js/accessibility.js"></script>
+  <script>window.addEventListener('DOMContentLoaded',()=>{if(window.router)window.router.loadTool("Business & Finance","Loan & Mortgage Amortization","loan-calculator");});</script>
+</body></html>

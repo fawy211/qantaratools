@@ -1,0 +1,193 @@
+/* QantaraTools light mode: one palette for the homepage, every tool, ratings, dialogs, and static pages.
+   Tool templates were written with dark utility classes; these rules remap them only when light mode is active. */
+html{color-scheme:dark}
+html:not(.dark){color-scheme:light;
+  --qtl-bg:#f7f4ee;--qtl-panel:#fffdf8;--qtl-well:#f6f2ea;--qtl-raised:#efe9df;--qtl-raised-hover:#e5ddd0;
+  --qtl-line:#e3dbcf;--qtl-line-strong:#cfc5b6;--qtl-ink:#17151f;--qtl-ink-2:#2a2533;--qtl-ink-3:#433d4e;--qtl-muted:#5f5869;--qtl-faint:#736c7d}
+
+/* Surfaces */
+html:not(.dark) :is(.bg-gray-900,.bg-slate-900,.bg-gray-900\/80,.bg-slate-900\/80,.bg-gray-900\/40,.bg-slate-900\/40,.bg-slate-900\/50,.bg-gray-800\/50){background-color:var(--qtl-panel)!important}
+html:not(.dark) :is(.bg-gray-950,.bg-slate-950,.bg-gray-950\/60,.bg-slate-950\/70){background-color:var(--qtl-well)!important}
+html:not(.dark) :is(.bg-gray-800,.bg-slate-800,.bg-slate-800\/70,.bg-slate-700,.bg-slate-700\/50){background-color:var(--qtl-raised)!important}
+html:not(.dark) :is(.hover\:bg-gray-700,.hover\:bg-slate-700,.hover\:bg-gray-800,.hover\:bg-slate-800):hover{background-color:var(--qtl-raised-hover)!important}
+html:not(.dark) :is(.hover\:bg-slate-900,.hover\:bg-gray-900\/30):hover{background-color:var(--qtl-panel)!important}
+
+/* Borders */
+html:not(.dark) :is(.border-gray-800,.border-slate-800,.border-gray-900,.border-gray-800\/60,.border-gray-800\/80,.border-slate-800\/60){border-color:var(--qtl-line)!important}
+html:not(.dark) :is(.border-gray-700,.border-slate-700,.border-slate-700\/70){border-color:var(--qtl-line-strong)!important}
+html:not(.dark) :is(.hover\:border-gray-700):hover{border-color:var(--qtl-line-strong)!important}
+
+/* Text */
+html:not(.dark) :is(.text-white,.text-gray-100,.text-slate-100,.hover\:text-white:hover,.hover\:text-slate-100:hover){color:var(--qtl-ink)!important}
+html:not(.dark) :is(.text-gray-200,.text-slate-200,.hover\:text-gray-200:hover){color:var(--qtl-ink-2)!important}
+html:not(.dark) :is(.text-gray-300,.text-slate-300,.hover\:text-gray-300:hover){color:var(--qtl-ink-3)!important}
+html:not(.dark) :is(.text-gray-400,.text-slate-400){color:var(--qtl-muted)!important}
+html:not(.dark) :is(.text-gray-500,.text-slate-500){color:var(--qtl-faint)!important}
+html:not(.dark) :is(.text-emerald-400,.text-emerald-300){color:#047857!important}
+html:not(.dark) :is(.text-indigo-400,.text-indigo-300,.hover\:text-indigo-300:hover){color:#4f46e5!important}
+html:not(.dark) :is(.text-amber-400,.text-amber-300,.hover\:text-amber-400:hover){color:#b45309!important}
+html:not(.dark) :is(.text-red-400,.text-red-300){color:#b91c1c!important}
+html:not(.dark) .text-red-200\/80{color:#991b1b!important}
+html:not(.dark) :is(.text-blue-400,.hover\:text-blue-400:hover){color:#2563eb!important}
+html:not(.dark) ::placeholder{color:#8a8393!important;opacity:1}
+
+/* Keep white text on solid colored buttons, badges, and overlays */
+html:not(.dark) :is([class*="bg-indigo-6"],[class*="bg-blue-6"],[class*="bg-blue-5"],[class*="bg-emerald-6"],[class*="bg-rose-6"],[class*="bg-amber-6"],[class*="bg-red-6"],[class*="bg-black\/"]):is(.text-white,.text-gray-100,.text-slate-100),
+html:not(.dark) :is([class*="bg-indigo-6"],[class*="bg-blue-6"],[class*="bg-blue-5"],[class*="bg-emerald-6"],[class*="bg-rose-6"],[class*="bg-amber-6"],[class*="bg-red-6"],[class*="bg-black\/"]) :is(.text-white,i,span){color:#fff!important}
+
+/* Form controls inside tools */
+html:not(.dark) #active-tool-box :is(input:not([type="range"]):not([type="checkbox"]):not([type="radio"]):not([type="color"]),textarea,select){background-color:#fff!important;color:var(--qtl-ink)!important;border-color:var(--qtl-line-strong)!important}
+html:not(.dark) #active-tool-box :is(input,textarea,select)[readonly]{background-color:var(--qtl-well)!important}
+html:not(.dark) #active-tool-box :is(table thead,thead tr,th){background-color:var(--qtl-raised)!important;color:var(--qtl-ink-2)!important}
+html:not(.dark) #active-tool-box :is(td){border-color:var(--qtl-line)!important}
+html:not(.dark) #active-tool-box :is(pre,code){color:var(--qtl-ink-2)}
+html:not(.dark) #active-tool-box ::file-selector-button{background:var(--qtl-raised);color:var(--qtl-ink);border:1px solid var(--qtl-line-strong);border-radius:10px;padding:6px 12px;margin-right:10px;cursor:pointer}
+html:not(.dark) #active-tool-box :is(.shadow-xl,.shadow-lg){box-shadow:0 10px 26px rgba(23,21,31,.07)!important}
+
+/* Homepage tool view, dialog, shortcuts, and footer */
+html:not(.dark) #active-tool-box{background-color:var(--qtl-panel)!important;border-color:var(--qtl-line)!important;color:var(--qtl-ink)}
+html:not(.dark) #request-modal>div{background-color:var(--qtl-panel)!important;border-color:var(--qtl-line)!important}
+html:not(.dark) #request-modal :is(input,textarea){background-color:#fff!important;color:var(--qtl-ink)!important;border-color:var(--qtl-line-strong)!important}
+html:not(.dark) .favorite-tool-btn{background-color:rgba(255,253,248,.92)!important;border-color:var(--qtl-line)!important;color:var(--qtl-muted)!important}
+html:not(.dark) .favorite-tool-btn[aria-pressed="true"]{color:#d97706!important}
+html:not(.dark) #site-footer{background:#efe9df!important;border-color:var(--qtl-line)!important}
+html:not(.dark) #site-footer :is(.footer-title,h4){color:var(--qtl-ink)!important}
+html:not(.dark) #site-footer :is(.footer-desc,.footer-link,p,a,div){color:var(--qtl-muted)!important}
+html:not(.dark) #site-footer a:hover{color:var(--qt-blue)!important}
+html:not(.dark) #site-footer .border-t{border-color:var(--qtl-line-strong)!important}
+html:not(.dark) .qt-featured-wrap>div{background:linear-gradient(120deg,#fffdf8,#efeaff 58%,#e5fbf4)!important;border-color:#17151f!important;box-shadow:7px 7px 0 var(--qt-orange)!important}
+html:not(.dark) .qt-featured-wrap h3{color:var(--qtl-ink)!important}
+html:not(.dark) .qt-featured-wrap p{color:var(--qtl-muted)!important}
+html:not(.dark) .qt-featured-wrap>div:hover h3{color:var(--qt-blue)!important}
+
+/* Ratings */
+html:not(.dark) .qt-feedback{background:var(--qtl-panel)!important;border-color:var(--qtl-line)!important;color:var(--qtl-ink)!important;box-shadow:4px 4px 0 rgba(23,21,31,.08)}
+html:not(.dark) .qt-feedback h3{color:var(--qtl-ink)!important}
+html:not(.dark) :is(.qt-feedback-name,.qt-feedback-privacy,.qt-feedback-status,.qt-feedback-summary){color:var(--qtl-muted)!important}
+html:not(.dark) .qt-feedback-message{background:#fff!important;color:var(--qtl-ink)!important;border-color:var(--qtl-line-strong)!important}
+html:not(.dark) .qt-feedback-star{color:#a39aae}
+html:not(.dark) .qt-feedback-star.on{color:#e09b00}
+html.dark .qt-feedback{box-shadow:4px 4px 0 rgba(0,0,0,.25)}
+
+/* Static pages and standalone tool pages */
+html:not(.dark) :is(.qt-policy-page,.qt-tool-page){background-color:var(--qtl-bg)!important;color:var(--qtl-ink)!important}
+html:not(.dark) :is(.qt-policy-header,.qt-tool-header){background:rgba(247,244,238,.9)!important;border-color:var(--qtl-line)!important}
+html:not(.dark) :is(.qt-policy-card,.qt-static-card,.qt-tool-workspace,.qt-tool-details){background:var(--qtl-panel)!important;border-color:var(--qtl-line)!important}
+html:not(.dark) :is(.qt-policy-main h1,.qt-static-page h1,.qt-static-page h2,.qt-static-page h3,.qt-tool-details h2,.qt-tool-details h3,.qt-tool-workspace h2){color:var(--qtl-ink)!important}
+html:not(.dark) :is(.qt-static-page p,.qt-static-page li,.qt-tool-details p,.qt-tool-details li,.qt-policy-section p){color:var(--qtl-muted)!important}
+html:not(.dark) :is(.qt-policy-footer,.qt-tool-footer){background:#efe9df;border-color:var(--qtl-line)!important;color:var(--qtl-muted)!important}
+html.dark :is(.qt-policy-footer,.qt-tool-footer){background:transparent}
+
+/* One theme button style everywhere */
+.qt-theme-btn{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border:1px solid var(--qt-line);border-radius:12px;background:var(--qt-panel);color:var(--qt-text);cursor:pointer;transition:transform .15s,border-color .15s}
+.qt-theme-btn:hover{transform:translateY(-1px);border-color:var(--qt-blue)}
+html:not(.dark) .qt-theme-btn{background:#fffdf8!important;border-color:var(--qtl-line-strong)!important;color:var(--qtl-ink)!important}
+html.dark .qt-theme-btn{background:#1a1725!important;border-color:#45394f!important;color:#fff9ef!important}
+html:not(.dark) #site-header button[data-theme-toggle]{background:#fffdf8!important;border-color:var(--qtl-line-strong)!important;color:var(--qtl-ink)!important}
+.qt-static-nav .qt-theme-btn,.qt-tool-nav .qt-theme-btn,.qt-policy-actions .qt-theme-btn,.qt-about-nav .qt-theme-btn{width:34px;height:34px;flex:0 0 auto}
+
+
+/* QantaraTools refined light mode — restrained neutral surfaces and stronger brand legibility.
+   Light-only overrides: the existing dark theme and logo artwork remain unchanged. */
+html:not(.dark) {
+  --qtl-bg: #e9edf2;
+  --qtl-panel: #f3f5f7;
+  --qtl-well: #e6eaef;
+  --qtl-raised: #dde3e9;
+  --qtl-raised-hover: #d3dbe4;
+  --qtl-line: #d0d7e0;
+  --qtl-line-strong: #b8c3d0;
+  --qtl-ink: #182536;
+  --qtl-ink-2: #28394d;
+  --qtl-ink-3: #3f5065;
+  --qtl-muted: #536276;
+  --qtl-faint: #657387;
+}
+html:not(.dark) body {
+  background: #e9edf2 !important;
+  background-image: none !important;
+  color: #182536 !important;
+}
+html:not(.dark) #site-header {
+  background: #eef1f5 !important;
+  border-bottom-color: #cfd7e1 !important;
+  box-shadow: 0 2px 8px rgba(24, 37, 54, .045) !important;
+  backdrop-filter: none !important;
+}
+html:not(.dark) .qt-brand-name-main,
+html:not(.dark) #brand-title .qt-brand-name-main {
+  color: #17283d !important;
+  opacity: 1 !important;
+}
+html:not(.dark) .qt-brand-name-accent,
+html:not(.dark) #brand-title .qt-brand-name-accent {
+  color: #24558a !important;
+  opacity: 1 !important;
+}
+html:not(.dark) .qt-brand-tagline {
+  color: #4f6075 !important;
+}
+html:not(.dark) #tools-grid-container > .mb-10:first-child {
+  background: #e1e7ee !important;
+  border-color: #c9d3df !important;
+  box-shadow: 0 3px 12px rgba(24, 37, 54, .045) !important;
+}
+html:not(.dark) #tools-grid-container > .mb-10:first-child:after {
+  color: rgba(36, 85, 138, .045) !important;
+}
+html:not(.dark) #hero-title {
+  color: #17283d !important;
+}
+html:not(.dark) #hero-desc {
+  color: #536276 !important;
+}
+html:not(.dark) .tool-controls {
+  background: rgba(233, 237, 242, .97) !important;
+  backdrop-filter: none !important;
+}
+html:not(.dark) .tool-card {
+  background: #f3f5f7 !important;
+  border-color: #d0d7e0 !important;
+  box-shadow: 0 2px 7px rgba(24, 37, 54, .025) !important;
+}
+html:not(.dark) .tool-card:hover {
+  background: #f7f8fa !important;
+  border-color: #aebfd2 !important;
+  box-shadow: 0 6px 15px rgba(24, 37, 54, .055) !important;
+  transform: translateY(-2px) !important;
+}
+html:not(.dark) .qt-tool-icon-wrap {
+  background: #e3e9f0 !important;
+  border-color: #d1dae5 !important;
+}
+html:not(.dark) #tool-search-input,
+html:not(.dark) #active-tool-box :is(input:not([type="range"]):not([type="checkbox"]):not([type="radio"]):not([type="color"]), textarea, select),
+html:not(.dark) #request-modal :is(input, textarea) {
+  background-color: #f5f7f9 !important;
+  color: #182536 !important;
+}
+html:not(.dark) .qt-featured-wrap > div {
+  background: #e4e9ef !important;
+  border-color: #cbd4df !important;
+  box-shadow: 3px 3px 0 #cbd4df !important;
+}
+html:not(.dark) .qt-feedback,
+html:not(.dark) :is(.qt-policy-card,.qt-static-card,.qt-tool-workspace,.qt-tool-details) {
+  background: #f1f3f6 !important;
+}
+html:not(.dark) #site-footer {
+  background: #dfe5ec !important;
+  border-color: #c7d0dc !important;
+}
+html:not(.dark) #site-footer :is(.footer-title,h4) {
+  color: #182536 !important;
+}
+html:not(.dark) #site-footer :is(.footer-desc,.footer-link,p,a,div) {
+  color: #536276 !important;
+}
+html:not(.dark) .qt-theme-btn,
+html:not(.dark) #site-header button[data-theme-toggle] {
+  background: #e2e7ed !important;
+  border-color: #c4ced9 !important;
+  color: #1b2c41 !important;
+}

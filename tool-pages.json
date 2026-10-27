@@ -1,0 +1,302 @@
+[
+  {
+    "id": "base64",
+    "title": "Base64 Encoder / Decoder",
+    "category": "Core & Dev",
+    "description": "Encode and decode text or files securely in Base64."
+  },
+  {
+    "id": "color-converter",
+    "title": "Color Converter",
+    "category": "Core & Dev",
+    "description": "Convert between HEX, RGB, HSL, and CMYK color formats."
+  },
+  {
+    "id": "csv-cleaner",
+    "title": "CSV Data Cleaner",
+    "category": "Core & Dev",
+    "description": "Clean, trim, and format CSV files securely inside your browser."
+  },
+  {
+    "id": "html-entity",
+    "title": "HTML Entity Encoder",
+    "category": "Core & Dev",
+    "description": "Encode special characters to HTML entities and decode safely."
+  },
+  {
+    "id": "json-formatter",
+    "title": "JSON Formatter & Validator",
+    "category": "Core & Dev",
+    "description": "Format, validate, minify, and inspect JSON payloads."
+  },
+  {
+    "id": "uuid-generator",
+    "title": "UUID v4 Generator",
+    "category": "Core & Dev",
+    "description": "Generate single or bulk random UUIDs securely."
+  },
+  {
+    "id": "url-encoder",
+    "title": "URL Encoder & Decoder",
+    "category": "Core & Dev",
+    "description": "Encode and decode URL text locally."
+  },
+  {
+    "id": "jwt-decoder",
+    "title": "JWT Decoder",
+    "category": "Core & Dev",
+    "description": "Read JWT headers and payloads without sending them anywhere."
+  },
+  {
+    "id": "regex-tester",
+    "title": "Regex Tester",
+    "category": "Core & Dev",
+    "description": "Test JavaScript regular expressions locally."
+  },
+  {
+    "id": "timestamp-converter",
+    "title": "Timestamp Converter",
+    "category": "Core & Dev",
+    "description": "Convert Unix timestamps and dates."
+  },
+  {
+    "id": "hash-generator",
+    "title": "Hash Generator",
+    "category": "Core & Dev",
+    "description": "Create SHA-1, SHA-256, SHA-384, and SHA-512 hashes."
+  },
+  {
+    "id": "json-csv",
+    "title": "JSON ↔ CSV Converter",
+    "category": "Core & Dev",
+    "description": "Convert JSON tables and CSV data."
+  },
+  {
+    "id": "sql-formatter",
+    "title": "SQL Formatter",
+    "category": "Core & Dev",
+    "description": "Make common SQL queries easier to read."
+  },
+  {
+    "id": "code-formatter",
+    "title": "HTML / CSS / JavaScript Formatter",
+    "category": "Core & Dev",
+    "description": "Apply simple readable formatting to web code."
+  },
+  {
+    "id": "currency-converter",
+    "title": "Currency & Exchange Converter",
+    "category": "Business & Finance",
+    "description": "Convert currencies with live and offline rates."
+  },
+  {
+    "id": "discount-calculator",
+    "title": "Discount & Markup Calculator",
+    "category": "Business & Finance",
+    "description": "Calculate retail discounts, profit margins, and markups."
+  },
+  {
+    "id": "loan-calculator",
+    "title": "Loan & Mortgage Amortization",
+    "category": "Business & Finance",
+    "description": "Calculate loan payments, interest, and amortization schedule."
+  },
+  {
+    "id": "qr-generator",
+    "title": "Quick QR Code Generator",
+    "category": "Business & Finance",
+    "description": "Generate custom QR codes for URLs, Wi-Fi, and text."
+  },
+  {
+    "id": "vat-calculator",
+    "title": "VAT & Tax Calculator",
+    "category": "Business & Finance",
+    "description": "Add or extract Value Added Tax (VAT) accurately."
+  },
+  {
+    "id": "pdf-merge",
+    "title": "PDF Merge",
+    "category": "PDF & Documents",
+    "description": "Combine PDF files in your browser."
+  },
+  {
+    "id": "pdf-split",
+    "title": "PDF Split & Page Extractor",
+    "category": "PDF & Documents",
+    "description": "Extract a page range into a new PDF."
+  },
+  {
+    "id": "pdf-compress",
+    "title": "PDF Optimizer",
+    "category": "PDF & Documents",
+    "description": "Re-save PDFs with lossless optimization."
+  },
+  {
+    "id": "pdf-rotate",
+    "title": "PDF Page Rotator",
+    "category": "PDF & Documents",
+    "description": "Rotate every page in a PDF."
+  },
+  {
+    "id": "pdf-reorder",
+    "title": "PDF Page Reorder",
+    "category": "PDF & Documents",
+    "description": "Reorder pages using page numbers."
+  },
+  {
+    "id": "images-pdf",
+    "title": "Images to PDF",
+    "category": "PDF & Documents",
+    "description": "Create a PDF from multiple images."
+  },
+  {
+    "id": "text-pdf",
+    "title": "Text to PDF",
+    "category": "PDF & Documents",
+    "description": "Create a printable PDF from text."
+  },
+  {
+    "id": "exif-viewer",
+    "title": "EXIF Data Viewer",
+    "category": "Security & Media",
+    "description": "Inspect image metadata, camera info, and GPS details."
+  },
+  {
+    "id": "image-compressor",
+    "title": "Image Compressor & Resizer",
+    "category": "Security & Media",
+    "description": "Compress and resize images right in your browser."
+  },
+  {
+    "id": "image-base64",
+    "title": "Image to Base64 Converter",
+    "category": "Security & Media",
+    "description": "Convert images to Base64 data-URIs instantly."
+  },
+  {
+    "id": "password-generator",
+    "title": "Secure Password Generator",
+    "category": "Security & Media",
+    "description": "Generate highly secure random passwords and passphrases."
+  },
+  {
+    "id": "svg-to-css",
+    "title": "SVG to CSS Background",
+    "category": "Security & Media",
+    "description": "Convert SVG code into encoded CSS background URIs."
+  },
+  {
+    "id": "image-format",
+    "title": "Image Format Converter",
+    "category": "Security & Media",
+    "description": "Convert images to PNG, JPEG, or WebP locally."
+  },
+  {
+    "id": "image-cropper",
+    "title": "Image Cropper",
+    "category": "Security & Media",
+    "description": "Crop images directly in your browser."
+  },
+  {
+    "id": "image-rotate-flip",
+    "title": "Image Rotate & Flip",
+    "category": "Security & Media",
+    "description": "Rotate and flip images locally."
+  },
+  {
+    "id": "image-batch",
+    "title": "Batch Image Converter",
+    "category": "Security & Media",
+    "description": "Convert multiple images at once."
+  },
+  {
+    "id": "image-watermark",
+    "title": "Image Watermark",
+    "category": "Security & Media",
+    "description": "Add a simple text watermark locally."
+  },
+  {
+    "id": "text-case",
+    "title": "Text Case & Slug Converter",
+    "category": "Text & Unicode",
+    "description": "Convert text casing and format URL slugs cleanly."
+  },
+  {
+    "id": "word-counter",
+    "title": "Word & Character Counter",
+    "category": "Text & Unicode",
+    "description": "Count words, characters, and estimate reading time."
+  },
+  {
+    "id": "text-diff",
+    "title": "Text Diff Checker",
+    "category": "Text & Unicode",
+    "description": "Compare text blocks and spot differences easily."
+  },
+  {
+    "id": "arabic-fixer",
+    "title": "Arabic Fixer",
+    "category": "Text & Unicode",
+    "description": "Fix disconnected Arabic text and letter shaping."
+  },
+  {
+    "id": "duplicate-remover",
+    "title": "Duplicate Line Remover",
+    "category": "Text & Unicode",
+    "description": "Strip duplicate lines instantly from raw text."
+  },
+  {
+    "id": "rtl-cleaner",
+    "title": "RTL & Unicode Cleaner",
+    "category": "Text & Unicode",
+    "description": "Clean zero-width spaces, directional marks, and unicode garbage."
+  },
+  {
+    "id": "text-sorter",
+    "title": "Text Sorter",
+    "category": "Text & Unicode",
+    "description": "Sort lines alphabetically or numerically."
+  },
+  {
+    "id": "lorem-ipsum",
+    "title": "Lorem Ipsum Generator",
+    "category": "Text & Unicode",
+    "description": "Generate placeholder text locally."
+  },
+  {
+    "id": "markdown-html",
+    "title": "Markdown to HTML",
+    "category": "Text & Unicode",
+    "description": "Convert common Markdown to HTML."
+  },
+  {
+    "id": "ascii-art",
+    "title": "ASCII Art Text Generator",
+    "category": "Fun & Creative",
+    "description": "Convert normal text into stunning ASCII banner art."
+  },
+  {
+    "id": "gradient-generator",
+    "title": "Background & Gradient Generator",
+    "category": "Fun & Creative",
+    "description": "Design CSS gradients and patterns with CSS export."
+  },
+  {
+    "id": "fancy-text",
+    "title": "Fancy Text Generator",
+    "category": "Fun & Creative",
+    "description": "Create stylish Unicode typography for social media."
+  },
+  {
+    "id": "decision-maker",
+    "title": "Random Decision Maker",
+    "category": "Fun & Creative",
+    "description": "Spin wheels or pick random items effortlessly."
+  },
+  {
+    "id": "pomodoro-timer",
+    "title": "Stopwatch & Pomodoro Timer",
+    "category": "Fun & Creative",
+    "description": "Boost productivity with timers and focus sessions."
+  }
+]

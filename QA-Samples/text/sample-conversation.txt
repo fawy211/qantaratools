@@ -1,0 +1,5 @@
+User: Create a short project plan
+Assistant: Here is a simple plan.
+
+User: Add three steps.
+Assistant: 1. Plan\n2. Build\n3. Test
