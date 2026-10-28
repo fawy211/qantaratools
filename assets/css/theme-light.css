@@ -191,3 +191,52 @@ html:not(.dark) #site-header button[data-theme-toggle] {
   border-color: #c4ced9 !important;
   color: #1b2c41 !important;
 }
+
+
+/* Light-mode text visibility fix (2026-10-28).
+   theme.js explicitly adds .light, so use that state and cover pale Tailwind
+   text utilities and inline white colors used by dynamically injected tools. */
+html.light {
+  color-scheme: light !important;
+  --qt-light-text: #182536;
+  --qt-light-muted: #4b5b70;
+}
+html.light body,
+html.light body :is(h1,h2,h3,h4,h5,h6),
+html.light body :is(.text-white,.text-gray-50,.text-gray-100,.text-slate-50,.text-slate-100,
+  .text-zinc-50,.text-zinc-100,.text-neutral-50,.text-neutral-100,
+  .text-stone-50,.text-stone-100,.text-indigo-50,.text-blue-50,.text-violet-50,
+  .text-purple-50,.text-emerald-50,.text-teal-50,.text-cyan-50,.text-sky-50),
+html.light body [style*="color:white" i],
+html.light body [style*="color: white" i],
+html.light body [style*="color:#fff" i],
+html.light body [style*="color: #fff" i],
+html.light body [style*="color:#ffffff" i],
+html.light body [style*="color: #ffffff" i],
+html.light body [style*="color:rgb(255,255,255)" i],
+html.light body [style*="color: rgb(255, 255, 255)" i] {
+  color: var(--qt-light-text) !important;
+  opacity: 1 !important;
+}
+/* Dynamic tool templates often use light gray text, which also loses contrast
+   on light surfaces. Keep readable gray rather than turning all copy black. */
+html.light body :is(.text-gray-200,.text-slate-200,.text-zinc-200,.text-neutral-200,
+  .text-gray-300,.text-slate-300,.text-zinc-300,.text-neutral-300) {
+  color: var(--qt-light-muted) !important;
+  opacity: 1 !important;
+}
+/* Preserve white labels on solid, saturated controls and the blue featured badge. */
+html.light body :is(button,a,[role="button"],.qt-consent-actions button,.qt-feedback-save)
+  :is(.text-white,.text-gray-50,.text-gray-100,.text-slate-50,.text-slate-100,span,i),
+html.light body :is(button,a,[role="button"],div,span)[class*="bg-blue-600"],
+html.light body :is(button,a,[role="button"],div,span)[class*="bg-indigo-600"],
+html.light body :is(button,a,[role="button"],div,span)[class*="bg-violet-600"],
+html.light body :is(button,a,[role="button"],div,span)[class*="bg-emerald-600"],
+html.light body :is(button,a,[role="button"],div,span)[class*="bg-rose-600"],
+html.light body :is(button,a,[role="button"],div,span)[class*="bg-red-600"] {
+  color: #ffffff !important;
+}
+/* Explicitly keep brand text legible in the header. */
+html.light #brand-title .qt-brand-name-main { color: #17283d !important; }
+html.light #brand-title .qt-brand-name-accent { color: #24558a !important; }
+html.light .qt-brand-tagline { color: #4f6075 !important; }
