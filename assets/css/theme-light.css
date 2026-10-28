@@ -304,3 +304,23 @@ html.light body a[class*="bg-rose-6"] {
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
 }
+
+
+/* Light-mode hero metrics: Free to use / No annoying ads / 50+ focused tools / Local-first processing */
+html.light body .qt-hero-metrics,
+html.light body .qt-hero-metrics span,
+html.light body .qt-hero-metrics span:not(:before) {
+  color: #4b4058 !important;
+  -webkit-text-fill-color: #4b4058 !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+html.light body .qt-hero-metrics strong {
+  color: #17151f !important;
+  -webkit-text-fill-color: #17151f !important;
+  opacity: 1 !important;
+}
+html.light body .qt-hero-metrics span + span:before {
+  color: #9b91a8 !important;
+  -webkit-text-fill-color: #9b91a8 !important;
+}
