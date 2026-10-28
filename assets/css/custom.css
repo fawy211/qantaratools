@@ -88,3 +88,23 @@ html.dark :where(a,button,input,textarea,select,[tabindex="0"],[role="button"]):
     max-width: 100% !important;
   }
 }
+
+
+/* Production hotfix: ensure the descriptive words in the hero metric row are dark in Light Mode. */
+html.light .qt-hero-metrics,
+html.light .qt-hero-metrics span,
+html.light .qt-hero-metrics span *:not(strong),
+html[data-theme="light"] .qt-hero-metrics,
+html[data-theme="light"] .qt-hero-metrics span,
+html[data-theme="light"] .qt-hero-metrics span *:not(strong) {
+  color: #4b4058 !important;
+  -webkit-text-fill-color: #4b4058 !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+html.light .qt-hero-metrics strong,
+html[data-theme="light"] .qt-hero-metrics strong {
+  color: #17151f !important;
+  -webkit-text-fill-color: #17151f !important;
+  opacity: 1 !important;
+}
