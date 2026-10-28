@@ -240,3 +240,67 @@ html.light body :is(button,a,[role="button"],div,span)[class*="bg-red-600"] {
 html.light #brand-title .qt-brand-name-main { color: #17283d !important; }
 html.light #brand-title .qt-brand-name-accent { color: #24558a !important; }
 html.light .qt-brand-tagline { color: #4f6075 !important; }
+
+
+/* FINAL FIX: Light-mode headings and copy must never remain white on pale surfaces. */
+html.light body h1,
+html.light body h2,
+html.light body h3,
+html.light body h4,
+html.light body h5,
+html.light body h6,
+html.light body #hero-title,
+html.light body #active-tool-box h1,
+html.light body #active-tool-box h2,
+html.light body #active-tool-box h3,
+html.light body #active-tool-box h4,
+html.light body .qt-featured-wrap h3,
+html.light body .qt-brand-copy #brand-title,
+html.light body .qt-brand-name-main {
+  color: #17151f !important;
+  -webkit-text-fill-color: #17151f !important;
+  opacity: 1 !important;
+}
+html.light body p,
+html.light body li,
+html.light body label,
+html.light body .qt-brand-tagline,
+html.light body #hero-desc,
+html.light body #active-tool-box p,
+html.light body #active-tool-box label,
+html.light body #active-tool-box li {
+  color: #433d4e !important;
+  -webkit-text-fill-color: #433d4e !important;
+  opacity: 1 !important;
+}
+html.light body [class~="text-white"],
+html.light body [class~="text-slate-100"],
+html.light body [class~="text-gray-100"],
+html.light body [class~="text-slate-50"],
+html.light body [class~="text-gray-50"],
+html.light body [style*="color: white" i],
+html.light body [style*="color:white" i],
+html.light body [style*="color:#fff" i],
+html.light body [style*="color: #fff" i],
+html.light body [style*="color:#ffffff" i],
+html.light body [style*="color: #ffffff" i] {
+  color: #17151f !important;
+  -webkit-text-fill-color: #17151f !important;
+  opacity: 1 !important;
+}
+/* White text is retained only on actual solid action buttons, not their surrounding cards. */
+html.light body button[class*="bg-blue-6"],
+html.light body button[class*="bg-indigo-6"],
+html.light body button[class*="bg-violet-6"],
+html.light body button[class*="bg-emerald-6"],
+html.light body button[class*="bg-red-6"],
+html.light body button[class*="bg-rose-6"],
+html.light body a[class*="bg-blue-6"],
+html.light body a[class*="bg-indigo-6"],
+html.light body a[class*="bg-violet-6"],
+html.light body a[class*="bg-emerald-6"],
+html.light body a[class*="bg-red-6"],
+html.light body a[class*="bg-rose-6"] {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
