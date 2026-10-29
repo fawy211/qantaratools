@@ -247,3 +247,23 @@ async function loadTool(category, title, toolName) {
 window.router = { loadTool, registry: TOOL_REGISTRY };
 
 window.destroyActiveTool = function(){ if(activeToolInstance && typeof activeToolInstance.destroy==='function'){ try{activeToolInstance.destroy()}catch(e){console.warn('Tool cleanup failed:',e)} } activeToolInstance=null; };
+// --- التفعيل التلقائي للأداة عند فتح الرابط المباشر ---
+document.addEventListener('DOMContentLoaded', () => {
+    const path = window.location.pathname; // مثال: /tools/base64/ أو /tools/json-formatter/
+    const match = path.match(/\/tools\/([^\/]+)/);
+    
+    if (match && match[1]) {
+        const toolName = match[1];
+        const config = TOOL_REGISTRY[toolName];
+        
+        if (config) {
+            // جلب التصنيف والعنوان المخصص إن وجد
+            const pageLink = document.querySelector(`a[data-tool-id="${toolName}"]`);
+            const category = pageLink ? pageLink.dataset.toolCategory : 'Core & Dev';
+            const title = config.title;
+            
+            // استدعاء دالة تحميل الأداة فوراً
+            loadTool(category, title, toolName);
+        }
+    }
+});
