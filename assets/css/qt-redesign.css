@@ -190,3 +190,11 @@ html body #request-modal > div { background: var(--qt-surface); border: 1px soli
   html body #hero-desc { font-size: .95rem; }
 }
 @media (prefers-reduced-motion: reduce) { html body * { transition: none !important; animation: none !important; } }
+
+/* ---------- Search mode: results right under the search box ---------- */
+html body #tools-grid-container.is-searching > div:first-child,
+html body #tools-grid-container.is-searching > .grid,
+html body #tools-grid-container.is-searching .qt-featured-wrap,
+html body #tools-grid-container.is-searching .section-intro { display: none; }
+html body .qt-empty-state { text-align: center; padding: 2.5rem 1rem; color: var(--qt-muted); }
+html body .qt-empty-state[hidden] { display: none; }
