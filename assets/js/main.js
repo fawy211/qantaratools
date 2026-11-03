@@ -198,6 +198,25 @@ function filterTools() {
             .some(card => card.style.display !== 'none') ? '' : 'none';
     });
     updateSearchCount();
+
+    // While searching, hide hero/featured/shortcuts so results appear right under the search box
+    const root = document.getElementById('tools-grid-container');
+    if (root) root.classList.toggle('is-searching', Boolean(query));
+
+    // Empty state
+    const visibleCount = cards.filter(card => card.style.display !== 'none').length;
+    let empty = document.getElementById('qt-empty-state');
+    if (!empty && root) {
+        empty = document.createElement('p');
+        empty.id = 'qt-empty-state';
+        empty.className = 'qt-empty-state';
+        empty.hidden = true;
+        root.appendChild(empty);
+    }
+    if (empty) {
+        empty.textContent = `No tools match "${(input?.value || '').trim()}". Try another word, or use Request a Tool.`;
+        empty.hidden = visibleCount > 0;
+    }
 }
 
 function closeToolView() {
