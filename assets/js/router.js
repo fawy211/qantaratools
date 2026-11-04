@@ -181,9 +181,14 @@ async function loadTool(category, title, toolName) {
     const titleEl = document.getElementById('active-tool-title');
     const box = document.getElementById('active-tool-box');
 
+<<<<<<< HEAD
     const isToolPage = document.body.classList.contains('qt-tool-page');
     if (!box || (!view && !isToolPage)) {
         console.error('Tool view containers are missing from this page');
+=======
+    if (!view || !box) {
+        console.error('Tool view containers are missing from index.html');
+>>>>>>> 0b70eb83197e2af25bdb1dda0bf3aa21849361cc
         return;
     }
 
@@ -197,16 +202,25 @@ async function loadTool(category, title, toolName) {
     if (!config) {
         box.innerHTML = `<div class="p-6 rounded-xl border border-red-500/30 bg-red-500/10 text-red-300">Tool <b>${toolName}</b> is not registered yet.</div>`;
         if (grid) grid.classList.add('hidden');
+<<<<<<< HEAD
         if (view) view.classList.remove('hidden');
+=======
+        view.classList.remove('hidden');
+>>>>>>> 0b70eb83197e2af25bdb1dda0bf3aa21849361cc
         return;
     }
 
     if (grid) grid.classList.add('hidden');
+<<<<<<< HEAD
     if (view) view.classList.remove('hidden');
+=======
+    view.classList.remove('hidden');
+>>>>>>> 0b70eb83197e2af25bdb1dda0bf3aa21849361cc
     if (titleEl) titleEl.textContent = title || config.title;
     const pageLink = [...document.querySelectorAll('a[data-tool-link]')].find(link => link.dataset.toolId === toolName);
     const toolUrl = pageLink?.href || `https://qantaratools.com/tools/${encodeURIComponent(toolName)}/`;
     const toolDescription = pageLink?.dataset.toolDescription || `${title || config.title}, a free browser-based tool from QantaraTools.`;
+<<<<<<< HEAD
     // Standalone /tools/<id>/ pages ship their own optimized title, description and canonical:
     // never overwrite them. Only the home page (single-page mode) updates these tags.
     if (!isToolPage) {
@@ -219,6 +233,16 @@ async function loadTool(category, title, toolName) {
     }
     box.innerHTML = '<div class="py-12 text-center text-slate-400" role="status" aria-live="polite">Loading tool…</div>';
     if (!isToolPage) window.scrollTo({ top: 0, behavior: 'smooth' });
+=======
+    document.title = `${title || config.title} | Free Online Tool | QantaraTools`;
+    document.querySelector('link[rel="canonical"]')?.setAttribute('href', toolUrl);
+    document.querySelector('meta[name="description"]')?.setAttribute('content', toolDescription);
+    document.querySelector('meta[property="og:title"]')?.setAttribute('content', document.title);
+    document.querySelector('meta[property="og:description"]')?.setAttribute('content', toolDescription);
+    document.querySelector('meta[property="og:url"]')?.setAttribute('content', toolUrl);
+    box.innerHTML = '<div class="py-12 text-center text-slate-400" role="status" aria-live="polite">Loading tool…</div>';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+>>>>>>> 0b70eb83197e2af25bdb1dda0bf3aa21849361cc
 
     try {
         const moduleUrl = encodeURI(config.path);
@@ -254,7 +278,10 @@ window.router = { loadTool, registry: TOOL_REGISTRY };
 window.destroyActiveTool = function(){ if(activeToolInstance && typeof activeToolInstance.destroy==='function'){ try{activeToolInstance.destroy()}catch(e){console.warn('Tool cleanup failed:',e)} } activeToolInstance=null; };
 // --- التفعيل التلقائي للأداة عند فتح الرابط المباشر ---
 document.addEventListener('DOMContentLoaded', () => {
+<<<<<<< HEAD
     if (document.body.classList.contains('qt-tool-page')) return; // standalone page loads its own tool
+=======
+>>>>>>> 0b70eb83197e2af25bdb1dda0bf3aa21849361cc
     const path = window.location.pathname; // مثال: /tools/base64/ أو /tools/json-formatter/
     const match = path.match(/\/tools\/([^\/]+)/);
     
