@@ -1,0 +1,20 @@
+const FONT = {
+  A:['  A  ',' A A ','AAAAA','A   A','A   A'],B:['BBBB ','B   B','BBBB ','B   B','BBBB '],C:[' CCCC','C    ','C    ','C    ',' CCCC'],D:['DDDD ','D   D','D   D','D   D','DDDD '],E:['EEEEE','E    ','EEE  ','E    ','EEEEE'],F:['FFFFF','F    ','FFF  ','F    ','F    '],G:[' GGGG','G    ','G GGG','G   G',' GGG '],H:['H   H','H   H','HHHHH','H   H','H   H'],I:['IIIII','  I  ','  I  ','  I  ','IIIII'],J:['JJJJJ','    J','    J','J   J',' JJJ '],K:['K   K','K  K ','KKK  ','K  K ','K   K'],L:['L    ','L    ','L    ','L    ','LLLLL'],M:['M   M','MM MM','M M M','M   M','M   M'],N:['N   N','NN  N','N N N','N  NN','N   N'],O:[' OOO ','O   O','O   O','O   O',' OOO '],P:['PPPP ','P   P','PPPP ','P    ','P    '],Q:[' QQQ ','Q   Q','Q Q Q','Q  QQ',' QQQQ'],R:['RRRR ','R   R','RRRR ','R R  ','R  RR'],S:[' SSSS','S    ',' SSS ','    S','SSSS '],T:['TTTTT','  T  ','  T  ','  T  ','  T  '],U:['U   U','U   U','U   U','U   U',' UUU '],V:['V   V','V   V','V   V',' V V ','  V  '],W:['W   W','W   W','W W W','WW WW','W   W'],X:['X   X',' X X ','  X  ',' X X ','X   X'],Y:['Y   Y',' Y Y ','  Y  ','  Y  ','  Y  '],Z:['ZZZZZ','   Z ','  Z  ',' Z   ','ZZZZZ'],
+  '0':[' 000 ','0   0','0 0 0','0   0',' 000 '],'1':['  1  ',' 11  ','  1  ','  1  ','11111'],'2':[' 222 ','2   2','   2 ','  2  ','22222'],'3':['3333 ','    3',' 333 ','    3','3333 '],'4':['4  4 ','4  4 ','44444','   4 ','   4 '],'5':['55555','5    ','5555 ','    5','5555 '],'6':[' 666 ','6    ','6666 ','6   6',' 666 '],'7':['77777','    7','   7 ','  7  ',' 7   '],'8':[' 888 ','8   8',' 888 ','8   8',' 888 '],'9':[' 999 ','9   9',' 9999','    9',' 999 ']};
+
+export class AsciiArtTool {
+  constructor(id){ this.container=document.getElementById(id); if(this.container)this.init(); }
+  init(){
+    this.container.innerHTML=`<div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 shadow-xl space-y-4"><div><h2 class="text-lg font-semibold text-white">ASCII Art Text Generator</h2><p class="text-xs text-gray-400 mt-1">Turn short text into large decorative ASCII text. Works fully offline.</p></div><div class="flex gap-2"><input id="asciiInput" maxlength="40" value="QantaraTools" class="flex-1 bg-gray-950 border border-gray-800 rounded-xl p-3 text-gray-100"><button id="asciiGo" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs px-5 py-2.5 rounded-lg">Generate</button></div><div class="text-[11px] text-gray-500">Up to 40 characters. Letters, numbers and spaces are supported.</div><textarea id="asciiOut" rows="8" readonly class="w-full bg-gray-950 border border-gray-800 rounded-xl p-3 text-emerald-400 font-mono whitespace-pre overflow-auto"></textarea><div class="flex gap-2"><button id="asciiCopy" class="bg-gray-800 hover:bg-gray-700 text-gray-300 text-xs px-4 py-2.5 rounded-lg">Copy</button><button id="asciiDownload" class="bg-gray-800 hover:bg-gray-700 text-gray-300 text-xs px-4 py-2.5 rounded-lg">Download TXT</button></div></div>`;
+    const q=s=>this.container.querySelector(s); q('#asciiGo').onclick=()=>this.generate(); q('#asciiInput').oninput=()=>this.generate();
+    q('#asciiCopy').onclick=async()=>{try{await navigator.clipboard.writeText(q('#asciiOut').value);q('#asciiCopy').textContent='Copied';setTimeout(()=>q('#asciiCopy').textContent='Copy',1200)}catch{q('#asciiCopy').textContent='Select & copy'}};
+    q('#asciiDownload').onclick=()=>{const blob=new Blob([q('#asciiOut').value],{type:'text/plain;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='ascii-art.txt';a.click();setTimeout(()=>URL.revokeObjectURL(url),500)};
+    this.generate();
+  }
+  generate(){
+    const q=s=>this.container.querySelector(s), text=q('#asciiInput').value.slice(0,40), rows=Array(5).fill('');
+    if(!text.trim()){q('#asciiOut').value='';return;}
+    [...text.toUpperCase()].forEach(ch=>{const glyph=FONT[ch]||['     ','  ?  ',' ? ? ','  ?  ','     '];rows.forEach((_,i)=>rows[i]+=glyph[i]+'  ');});
+    q('#asciiOut').value=rows.map(r=>r.replace(/\s+$/,'')).join('\n');
+  }
+}

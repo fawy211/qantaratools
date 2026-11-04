@@ -1,0 +1,1 @@
+console.log('Wrote via node FS!');

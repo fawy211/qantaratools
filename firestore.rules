@@ -1,0 +1,36 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Community scores are public; a user can only create/update their own anonymous vote.
+    match /toolFeedback/{toolId}/ratings/{userId} {
+      allow read: if true;
+      allow create: if request.auth != null
+        && request.auth.uid == userId
+        && request.resource.data.keys().hasOnly(['rating', 'updatedAt'])
+        && request.resource.data.rating is int
+        && request.resource.data.rating >= 1
+        && request.resource.data.rating <= 5
+        && request.resource.data.updatedAt is timestamp;
+      allow update: if request.auth != null
+        && request.auth.uid == userId
+        && request.resource.data.keys().hasOnly(['rating', 'updatedAt'])
+        && request.resource.data.rating is int
+        && request.resource.data.rating >= 1
+        && request.resource.data.rating <= 5
+        && request.resource.data.updatedAt is timestamp;
+      allow delete: if false;
+    }
+
+    // Optional written comments are private to the anonymous browser identity.
+    match /toolFeedback/{toolId}/notes/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow create, update: if request.auth != null
+        && request.auth.uid == userId
+        && request.resource.data.keys().hasOnly(['note', 'updatedAt'])
+        && request.resource.data.note is string
+        && request.resource.data.note.size() <= 500
+        && request.resource.data.updatedAt is timestamp;
+      allow delete: if false;
+    }
+  }
+}

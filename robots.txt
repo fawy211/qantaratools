@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://qantaratools.com/sitemap.xml
