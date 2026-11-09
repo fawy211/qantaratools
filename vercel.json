@@ -1,0 +1,19 @@
+{
+  "redirects": [
+    {
+      "source": "/tools/text-pdf/privacy.html",
+      "destination": "/privacy.html",
+      "permanent": true
+    },
+    {
+      "source": "/tools/arabic-fixer/privacy.html",
+      "destination": "/privacy.html",
+      "permanent": true
+    },
+    {
+      "source": "/tools/vat-calculator/privacy.html",
+      "destination": "/privacy.html",
+      "permanent": true
+    }
+  ]
+}
