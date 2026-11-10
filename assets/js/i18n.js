@@ -269,7 +269,10 @@
       aiText: "Texto",
       aiCreatedLocally: "Creado localmente en tu dispositivo",
       aiUser: "Usuario",
-      aiAssistant: "Asistente"
+      aiAssistant: "Asistente",
+      aiSheetName: "Conversación",
+      aiDefaultFilename: "conversacion",
+      aiExampleText: "Usuario: Crea un breve plan de proyecto\nAsistente: Aquí tienes un plan claro.\n\nUsuario: Incluye una tabla sencilla.\nAsistente: Tarea\tEstado\nSitio web\tListo\nPruebas\tEn curso"
     }
   };
 
@@ -328,6 +331,4 @@
     get direction() { return LOCALES[current].dir; },
     t, setLocale, formatNumber, formatDate, formatCurrency
   });
-})();,
-      aiDefaultFilename: "conversacion",
-      aiExampleText: "Usuario: Crea un breve plan de proyecto\nAsistente: Aquí tienes un plan claro.\n\nUsuario: Incluye una tabla sencilla.\nAsistente: Tarea\tEstado\nSitio web\tListo\nPruebas\tEn curso"
+})();
