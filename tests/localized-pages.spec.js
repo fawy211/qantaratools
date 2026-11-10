@@ -31,3 +31,86 @@ test('language choice persists when switching from German to English and Arabic'
   await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
   expect(await page.evaluate(() => localStorage.getItem('qantaratools_language_v1'))).toBe('ar');
 });
+
+
+const officeLocales = {
+  en: { path: '/', user: 'User', assistant: 'Assistant', speaker: 'Speaker', message: 'Message', dir: 'ltr' },
+  ar: { path: '/?locale=ar', user: 'المستخدم', assistant: 'المساعد', speaker: 'المتحدث', message: 'الرسالة', dir: 'rtl' },
+  de: { path: '/de/', user: 'Nutzer', assistant: 'Assistent', speaker: 'Sprecher', message: 'Nachricht', dir: 'ltr' },
+  fr: { path: '/fr/', user: 'Utilisateur', assistant: 'Assistant', speaker: 'Intervenant', message: 'Message', dir: 'ltr' },
+  es: { path: '/es/', user: 'Usuario', assistant: 'Asistente', speaker: 'Interlocutor', message: 'Mensaje', dir: 'ltr' }
+};
+
+function unzipStoredEntry(buffer, wanted) {
+  let offset = 0;
+  while (offset + 30 <= buffer.length && buffer.readUInt32LE(offset) === 0x04034b50) {
+    const method = buffer.readUInt16LE(offset + 8);
+    const compressedSize = buffer.readUInt32LE(offset + 18);
+    const nameLength = buffer.readUInt16LE(offset + 26);
+    const extraLength = buffer.readUInt16LE(offset + 28);
+    const name = buffer.toString('utf8', offset + 30, offset + 30 + nameLength);
+    const start = offset + 30 + nameLength + extraLength;
+    if (name === wanted) {
+      if (method !== 0) throw new Error('Expected a store-mode ZIP entry: ' + wanted);
+      return buffer.toString('utf8', start, start + compressedSize);
+    }
+    offset = start + compressedSize;
+  }
+  throw new Error('ZIP entry not found: ' + wanted);
+}
+
+for (const [locale, expected] of Object.entries(officeLocales)) {
+  test('Chat to Office preserves source text and localizes Word, Excel and PDF for ' + locale, async ({ page }) => {
+    await page.goto(expected.path);
+    await page.waitForFunction(() => window.QTI18n && typeof window.QTI18n.setLocale === 'function');
+    await page.evaluate(localeCode => window.QTI18n.setLocale(localeCode), locale);
+    await page.evaluate(() => window.loadAiToOfficeTool());
+    const source = 'User: Keep this exact text — Café & <tag> 123\\nAssistant: Original answer stays unchanged: naïve & useful.';
+    const input = page.locator('#ai-office-input');
+    await input.fill(source);
+
+    const wordDownload = page.waitForEvent('download');
+    await page.locator('#ai-word').click();
+    const word = await wordDownload;
+    const wordBuffer = await word.createReadStream().then(stream => new Promise((resolve, reject) => {
+      const chunks = [];
+      stream.on('data', chunk => chunks.push(chunk));
+      stream.on('end', () => resolve(Buffer.concat(chunks)));
+      stream.on('error', reject);
+    }));
+    const wordXml = unzipStoredEntry(wordBuffer, 'word/document.xml');
+    expect(wordXml).toContain(expected.user);
+    expect(wordXml).toContain(expected.assistant);
+    expect(wordXml).toContain('Keep this exact text');
+    expect(wordXml).toContain('Café &amp; &lt;tag&gt; 123');
+    expect(wordXml).toContain('naïve &amp; useful.');
+
+    const excelDownload = page.waitForEvent('download');
+    await page.locator('#ai-excel').click();
+    const excel = await excelDownload;
+    const excelBuffer = await excel.createReadStream().then(stream => new Promise((resolve, reject) => {
+      const chunks = [];
+      stream.on('data', chunk => chunks.push(chunk));
+      stream.on('end', () => resolve(Buffer.concat(chunks)));
+      stream.on('error', reject);
+    }));
+    const sheet = unzipStoredEntry(excelBuffer, 'xl/worksheets/sheet1.xml');
+    expect(sheet).toContain(expected.speaker);
+    expect(sheet).toContain(expected.message);
+    expect(sheet).toContain(expected.user);
+    expect(sheet).toContain(expected.assistant);
+    expect(sheet).toContain('Keep this exact text');
+    expect(sheet).toContain('Café &amp; &lt;tag&gt; 123');
+
+    const popupPromise = page.waitForEvent('popup');
+    await page.locator('#ai-pdf').click();
+    const popup = await popupPromise;
+    await expect(popup.locator('html')).toHaveAttribute('lang', locale);
+    await expect(popup.locator('html')).toHaveAttribute('dir', expected.dir);
+    await expect(popup.locator('body')).toContainText(expected.user);
+    await expect(popup.locator('body')).toContainText(expected.assistant);
+    await expect(popup.locator('body')).toContainText('Keep this exact text');
+    await expect(popup.locator('body')).toContainText('Café & <tag> 123');
+    await popup.close();
+  });
+}
