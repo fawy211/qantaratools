@@ -10,7 +10,7 @@ for (const locale of ['de', 'fr', 'es']) {
   test(locale + ' localized Base64 page loads the working tool UI', async ({ page }) => {
     await page.goto('/' + locale + '/tools/base64/');
     await expect(page.locator('html')).toHaveAttribute('lang', locale);
-    await expect(page.locator('h1')).toBeVisible();
+    await expect(page.locator('h1').first()).toBeVisible();
     const input = page.locator('#active-tool-box textarea').first();
     await expect(input).toBeVisible({ timeout: 15000 });
     await expect(page.locator('#active-tool-box')).not.toContainText(/Could not load|not available yet/i);
