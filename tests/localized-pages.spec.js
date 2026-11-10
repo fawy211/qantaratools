@@ -369,3 +369,49 @@ for (const [locale, mergePath] of Object.entries(pdfFunctionalPaths)) {
     expect(result.widths).toEqual([100, 200, 300]);
   });
 }
+
+
+for (const [locale, mergePath] of Object.entries(pdfFunctionalPaths)) {
+  test('Images to PDF and Text to PDF create localized printable output for ' + locale, async ({ page }) => {
+    test.setTimeout(90000);
+    // Build a small, valid PNG fixture without relying on external image files.
+    const pngBase64 = await page.evaluate(() => {
+      const canvas = document.createElement('canvas');
+      canvas.width = 40;
+      canvas.height = 20;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#336699';
+      ctx.fillRect(0, 0, 40, 20);
+      return canvas.toDataURL('image/png').split(',')[1];
+    });
+
+    await page.goto(mergePath.replace('pdf-merge', 'images-pdf'));
+    const imagePath = page.locator('#imgs');
+    await imagePath.setInputFiles({
+      name: 'sample.png',
+      mimeType: 'image/png',
+      buffer: Buffer.from(pngBase64, 'base64')
+    });
+    let downloadPromise = page.waitForEvent('download');
+    await page.locator('#go').click();
+    const imageDownload = await downloadPromise;
+    await page.addScriptTag({ url: 'https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js' });
+    let pdfResult = await readDownloadedPdf(imageDownload, page);
+    expect(pdfResult.pageCount).toBe(1);
+    expect(pdfResult.widths).toHaveLength(1);
+
+    // Text-to-PDF opens a print-ready document; verify locale metadata and exact text.
+    await page.goto(mergePath.replace('pdf-merge', 'text-pdf'));
+    const sourceText = 'QantaraTools text export — Café, naïve & useful. 12345';
+    await page.locator('#filename').fill('localized-sample');
+    await page.locator('#txt').fill(sourceText);
+    const popupPromise = page.waitForEvent('popup');
+    await page.locator('#go').click();
+    const printPage = await popupPromise;
+    await expect(printPage.locator('body')).toContainText(sourceText);
+    await expect(printPage.locator('h1')).toHaveText('localized-sample');
+    await expect(printPage.locator('html')).toHaveAttribute('lang', locale);
+    await expect(printPage.locator('body')).toHaveCSS('font-size', '16px');
+    await printPage.close();
+  });
+}
