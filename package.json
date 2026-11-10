@@ -7,7 +7,8 @@
     "qa:headed": "playwright test --headed",
     "qa:report": "playwright show-report",
     "generate:tool-pages": "node scripts/generate-tool-pages.js",
-    "i18n:check": "node scripts/validate-locales.js"
+    "i18n:check": "node scripts/validate-locales.js",
+    "i18n:seo:check": "node scripts/validate-localized-seo.js"
   },
   "dependencies": {
     "express": "^4.21.2"
