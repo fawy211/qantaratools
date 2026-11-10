@@ -65,6 +65,12 @@
       aiSheetName: "Conversation",
       aiDefaultFilename: "conversation",
       aiExampleText: "User: Create a short project plan\nAssistant: Here is a clear plan.\n\nUser: Include a simple table.\nAssistant: Name\tStatus\nWebsite\tReady\nTesting\tIn progress"
+      aiDocxInvalidZip: "This Word file is not a valid ZIP-based document.",
+      aiDocxInvalidEntry: "The Word document has an invalid file entry.",
+      aiDocxCompression: "This Word file uses compression your browser cannot read locally.",
+      aiDocxUnreadable: "The Word file does not contain a readable document.",
+      aiDocxXmlError: "The Word document could not be read.",
+      aiDocxNoBody: "The Word document has no readable body.",
     },
     ar: {
       loading: 'جارٍ تحميل الأداة…', loadError: 'تعذر تحميل هذه الأداة',
