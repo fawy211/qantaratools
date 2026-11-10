@@ -85,10 +85,13 @@ for(const tool of tools){
  let html=fs.readFileSync(p,'utf8');
  let changed=false;
  if(!html.includes('data-locale-link="de"')){
-  const languageLinks='<a href="/de/tools/'+tool.id+'/" data-locale-link="de">Deutsch</a><a href="/fr/tools/'+tool.id+'/" data-locale-link="fr">Français</a><a href="/es/tools/'+tool.id+'/" data-locale-link="es">Español</a><a href="/tools/'+tool.id+'/?locale=ar" data-locale-link="ar">العربية</a>';
-  html=html.replace('<a href="/contact.html">Contact</a>', '<a href="/contact.html">Contact</a>'+languageLinks);
+  const languageLinks='<a href="/tools/'+tool.id+'/" data-locale-link="en">English</a><a href="/de/tools/'+tool.id+'/" data-locale-link="de">Deutsch</a><a href="/fr/tools/'+tool.id+'/" data-locale-link="fr">Français</a><a href="/es/tools/'+tool.id+'/" data-locale-link="es">Español</a><a href="/tools/'+tool.id+'/?locale=ar" data-locale-link="ar">العربية</a>';
+  if(html.includes('</nav>')) html=html.replace('</nav>',languageLinks+'</nav>');
+  else html=html.replace('</header>', '<nav class="qt-locale-switch">'+languageLinks+'</nav></header>');
   changed=true;
  }
+ const localeBootstrap='<script>(function(){var m=location.search.match(/[?&]locale=([a-z]{2})(?:&|$)/i);if(m&&m[1].toLowerCase()==="ar"){document.documentElement.lang="ar";document.documentElement.dir="rtl";document.documentElement.dataset.locale="ar";}})();</script>';
+ if(!html.includes('dataset.locale="ar"')){html=html.replace('</head>',localeBootstrap+'</head>');changed=true;}
  if(html.includes('/assets/js/i18n.js')&&!html.includes('qantaratools_language_v1')){
   html=html.replace('<script src="/assets/js/i18n.js"></script>','<script src="/assets/js/i18n.js"></script><script>document.querySelectorAll("[data-locale-link]").forEach(function(a){a.addEventListener("click",function(){try{localStorage.setItem("qantaratools_language_v1",a.dataset.localeLink);if(window.QTI18n&&window.QTI18n.setLocale)window.QTI18n.setLocale(a.dataset.localeLink);}catch(e){}});});</script>');
   changed=true;
