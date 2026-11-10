@@ -2939,7 +2939,9 @@
     "themeLight": "Switch to light mode",
     "themeDark": "Switch to dark mode",
     "featuredTitle": "AI Chat & Content to Office Converter",
-    "featuredDesc": "Instantly convert AI prompts, chat sessions, and raw text into formatted Word (.docx), Excel (.xlsx), or PDF files securely in your browser."
+    "featuredDesc": "Instantly convert AI prompts, chat sessions, and raw text into formatted Word (.docx), Excel (.xlsx), or PDF files securely in your browser.",
+    "brandTagline": "All Tools • One Place",
+    "close": "Close"
   },
   "ar": {
     "homeHeroTitle": "أدوات مجانية عبر الإنترنت للعمل وملفات PDF والنصوص والصور",
@@ -2996,7 +2998,9 @@
     "themeLight": "التبديل إلى الوضع الفاتح",
     "themeDark": "التبديل إلى الوضع الداكن",
     "featuredTitle": "تحويل محادثات الذكاء الاصطناعي والمحتوى إلى ملفات Office",
-    "featuredDesc": "حوّل محادثات الذكاء الاصطناعي والنصوص إلى ملفات Word وExcel وPDF منسقة، مع معالجة كل شيء على جهازك."
+    "featuredDesc": "حوّل محادثات الذكاء الاصطناعي والنصوص إلى ملفات Word وExcel وPDF منسقة، مع معالجة كل شيء على جهازك.",
+    "brandTagline": "كل الأدوات • في مكان واحد",
+    "close": "إغلاق"
   },
   "de": {
     "homeHeroTitle": "Kostenlose Online-Tools für Arbeit, PDF, Text und Bilder",
@@ -3053,7 +3057,9 @@
     "themeLight": "Zum hellen Modus wechseln",
     "themeDark": "Zum dunklen Modus wechseln",
     "featuredTitle": "KI-Chats und Inhalte in Office-Dateien umwandeln",
-    "featuredDesc": "Wandle KI-Chats und Texte sicher auf deinem Gerät in formatierte Word-, Excel- oder PDF-Dateien um."
+    "featuredDesc": "Wandle KI-Chats und Texte sicher auf deinem Gerät in formatierte Word-, Excel- oder PDF-Dateien um.",
+    "brandTagline": "Alle Tools • An einem Ort",
+    "close": "Schließen"
   },
   "fr": {
     "homeHeroTitle": "Outils en ligne gratuits pour le travail, PDF, texte et images",
@@ -3110,7 +3116,9 @@
     "themeLight": "Passer au mode clair",
     "themeDark": "Passer au mode sombre",
     "featuredTitle": "Convertisseur de conversations IA et contenus vers Office",
-    "featuredDesc": "Convertissez vos conversations IA et vos textes en fichiers Word, Excel ou PDF bien présentés. Tout est traité sur votre appareil."
+    "featuredDesc": "Convertissez vos conversations IA et vos textes en fichiers Word, Excel ou PDF bien présentés. Tout est traité sur votre appareil.",
+    "brandTagline": "Tous les outils • Au même endroit",
+    "close": "Fermer"
   },
   "es": {
     "homeHeroTitle": "Herramientas online gratuitas para trabajo, PDF, texto e imágenes",
@@ -3167,7 +3175,9 @@
     "themeLight": "Cambiar al modo claro",
     "themeDark": "Cambiar al modo oscuro",
     "featuredTitle": "Convertidor de chats y contenido de IA a Office",
-    "featuredDesc": "Convierte conversaciones de IA y textos en archivos Word, Excel o PDF bien organizados. Todo se procesa en tu dispositivo."
+    "featuredDesc": "Convierte conversaciones de IA y textos en archivos Word, Excel o PDF bien organizados. Todo se procesa en tu dispositivo.",
+    "brandTagline": "Todas las herramientas • En un solo lugar",
+    "close": "Cerrar"
   }
 };
   const TOOL_META = {
