@@ -127,7 +127,7 @@ export class CSVCleanerTool {
       const dt = new DataTransfer();
       dt.items.add(new File([csvData], 'sample-data.csv', { type: 'text/csv' }));
       fi.files = dt.files;
-      fileLabel.textContent = '📄 sample-data.csv ('+this.t('csvExampleLoaded','Example Loaded')+')';
+      fileLabel.textContent = '📄 sample-data.csv ('+this.t('aiExampleLoaded','Example Loaded')+')';
       fileLabel.classList.add('text-indigo-300');
       stats.textContent = this.t('csvExampleLoaded','Example CSV loaded. Click Clean CSV to process it.');
     };
@@ -165,7 +165,7 @@ export class CSVCleanerTool {
 
     document.getElementById('clearCsvBtn').onclick = () => {
       fi.value = '';
-      fileLabel.textContent = '📁 ${this.t('chooseCsv','Choose CSV or TXT file...')}';
+      fileLabel.textContent = `📁 ${this.t('chooseCsv','Choose CSV or TXT file...')}`;
       fileLabel.classList.remove('text-indigo-300');
       this.rows = [];
       stats.textContent = '';
