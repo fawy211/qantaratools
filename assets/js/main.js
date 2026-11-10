@@ -428,7 +428,8 @@ function applyHomeTranslations() {
     });
     const modal = document.getElementById('request-modal');
     if (modal) {
-        set('#request-modal-title', 'requestTitle', 'Request a New Tool');
+        const modalTitle = document.getElementById('request-modal-title');
+        if (modalTitle) { const icon = modalTitle.querySelector('i'); modalTitle.textContent = ''; if (icon) modalTitle.append(icon, document.createTextNode(' ')); modalTitle.append(document.createTextNode(t('requestTitle','Request a New Tool'))); }
         set('#request-modal-description', 'requestDesc', 'Have an idea for a useful tool? Share it with us.');
         const placeholders = [['#req-tool-name','toolNameIdea','Tool Name / Idea...'],['#req-tool-desc','describeTool','Briefly describe what it should do...'],['#req-tool-example','optionalExample','Optional: give an example of how you would use it...']];
         placeholders.forEach(([selector,key,fallback]) => { const el=document.querySelector(selector); if(el)el.placeholder=t(key,fallback); });
