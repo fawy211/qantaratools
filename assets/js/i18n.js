@@ -298,12 +298,6 @@
       aiDefaultFilename: "conversacion",
       aiExampleText: "Usuario: Crea un breve plan de proyecto\nAsistente: Aquí tienes un plan claro.\n\nUsuario: Incluye una tabla sencilla.\nAsistente: Tarea\tEstado\nSitio web\tListo\nPruebas\tEn curso",
     }
-      aiDocxInvalidZip: "Este archivo de Word no es un documento ZIP válido.",
-      aiDocxInvalidEntry: "El documento de Word contiene una entrada de archivo no válida.",
-      aiDocxCompression: "Este archivo de Word usa una compresión que el navegador no puede leer localmente.",
-      aiDocxUnreadable: "El archivo de Word no contiene un documento legible.",
-      aiDocxXmlError: "No se pudo leer el documento de Word.",
-      aiDocxNoBody: "El documento de Word no contiene contenido legible.",
   };
 
   const EXTRA_MESSAGES = {
