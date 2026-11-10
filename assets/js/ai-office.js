@@ -1,4 +1,4 @@
-/* QantaraTools - ${tr('aiTitle', 'Chat to Office File Converter')}
+/* QantaraTools - Chat to Office File Converter
    Local-first: text stays in the browser. No upload is used by this tool. */
 (function () {
   'use strict';
@@ -324,7 +324,7 @@
     return (v||'conversation').slice(0,80);
   }
   function download(blob,name) { const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1000); }
-  function openPdfPrint(raw,title) { const w=window.open('','_blank'); if(!w){alert('${tr('aiPopup', 'Please allow pop-ups for the PDF preview.')}');return;} w.document.open();w.document.write(makeHtml(raw,title));w.document.close();w.focus();setTimeout(()=>w.print(),450); }
+  function openPdfPrint(raw,title) { const w=window.open('','_blank'); if(!w){alert(tr('aiPopup', 'Please allow pop-ups for the PDF preview.'));return;} w.document.open();w.document.write(makeHtml(raw,title));w.document.close();w.focus();setTimeout(()=>w.print(),450); }
 
   window.loadAiToOfficeTool=function(){
     const box=document.getElementById('active-tool-box'),grid=document.getElementById('tools-grid-container'),view=document.getElementById('tool-view-container');
