@@ -320,5 +320,4 @@
     get direction() { return LOCALES[current].dir; },
     t, setLocale, formatNumber, formatDate, formatCurrency
   });
-})();,
-      aiSheetName: "Conversación"
+})();
