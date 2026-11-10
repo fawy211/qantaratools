@@ -47,7 +47,7 @@ function render(tool, locale) {
  '<h2>'+esc(l.more)+'</h2><ul class="qt-loc-related">'+related+'</ul><p><a href="/'+locale+'/">'+esc(l.browse)+'</a></p></section></main>'+
  '<footer class="qt-loc-footer">© 2026 QantaraTools · <a href="/privacy.html">'+esc(l.privacy)+'</a> · <a href="/terms.html">'+esc(l.terms)+'</a></footer>'+
  '<script src="/assets/js/external-resources.js"></script><script src="/assets/js/consent.js"></script><script src="/assets/js/plugin-system.js"></script><script src="/assets/js/tool-feedback.js"></script><script src="/assets/js/i18n.js"></script><script src="/assets/js/router.js"></script><script src="/assets/js/accessibility.js"></script>'+
- '<script>window.addEventListener("DOMContentLoaded",function(){if(window.router)window.router.loadTool('+JSON.stringify(tool.category)+','+JSON.stringify(tool.title)+','+JSON.stringify(tool.id)+');});</script></body></html>';
+ '<script>document.querySelectorAll("[data-locale-link]").forEach(function(a){a.addEventListener("click",function(){try{localStorage.setItem("qantaratools_language_v1",a.dataset.localeLink);}catch(e){}});});</script>'+\n ''<script>window.addEventListener("DOMContentLoaded",function(){if(window.router)window.router.loadTool('+JSON.stringify(tool.category)+','+JSON.stringify(tool.title)+','+JSON.stringify(tool.id)+');});</script></body></html>';
 }
 
 function renderHome(locale) {
