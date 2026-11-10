@@ -133,3 +133,23 @@ for (const locale of ['de', 'fr', 'es']) {
     }
   });
 }
+
+
+const pdfUiLocales = {
+  en: { path: '/tools/pdf-merge/', mergeTitle: 'PDF Merge', mergeButton: 'Merge PDFs', reorderPath: '/tools/pdf-reorder/', reorderTitle: 'PDF Page Reorder', example: 'Example: 3,1,4-6,2' },
+  ar: { path: '/tools/pdf-merge/?locale=ar', mergeTitle: 'دمج ملفات PDF', mergeButton: 'دمج ملفات PDF', reorderPath: '/tools/pdf-reorder/?locale=ar', reorderTitle: 'إعادة ترتيب صفحات PDF', example: 'مثال: 3,1,4-6,2' },
+  de: { path: '/de/tools/pdf-merge/', mergeTitle: 'PDF-Dateien zusammenführen', mergeButton: 'PDFs zusammenführen', reorderPath: '/de/tools/pdf-reorder/', reorderTitle: 'PDF-Seiten neu anordnen', example: 'Beispiel: 3,1,4-6,2' },
+  fr: { path: '/fr/tools/pdf-merge/', mergeTitle: 'Fusionner des PDF', mergeButton: 'Fusionner les PDF', reorderPath: '/fr/tools/pdf-reorder/', reorderTitle: 'Réorganiser les pages PDF', example: 'Exemple : 3,1,4-6,2' },
+  es: { path: '/es/tools/pdf-merge/', mergeTitle: 'Unir archivos PDF', mergeButton: 'Unir PDF', reorderPath: '/es/tools/pdf-reorder/', reorderTitle: 'Reordenar páginas PDF', example: 'Ejemplo: 3,1,4-6,2' }
+};
+
+for (const [locale, expected] of Object.entries(pdfUiLocales)) {
+  test('PDF tool interface is localized for ' + locale, async ({ page }) => {
+    await page.goto(expected.path);
+    await expect(page.locator('#active-tool-box')).toContainText(expected.mergeTitle);
+    await expect(page.locator('#active-tool-box button#go')).toHaveText(expected.mergeButton);
+    await page.goto(expected.reorderPath);
+    await expect(page.locator('#active-tool-box')).toContainText(expected.reorderTitle);
+    await expect(page.locator('#active-tool-box input#pages')).toHaveAttribute('placeholder', expected.example);
+  });
+}
