@@ -2765,6 +2765,114 @@
   }
 };
 
+  const FANCY_MESSAGES = {
+  "en": {
+    "allStyles": "All",
+    "fonts": "Fonts",
+    "symbols": "Symbols",
+    "effects": "Effects",
+    "decorations": "Decorations",
+    "fancySearch": "Search styles...",
+    "yourText": "Your text",
+    "fancyPlaceholder": "Type your text here...",
+    "fancyChars": "{count} characters",
+    "fancyClear": "Clear",
+    "fancyCopyAll": "Copy all",
+    "fancyStyles": "{count} styles",
+    "fancyType": "Type something above to see your styles.",
+    "fancyNoStyles": "No styles match your search.",
+    "unicodeStyles": "Unicode Styles",
+    "fancyNotice": "Some styles use Unicode characters rather than real fonts. A few apps or older devices may display an unsupported character as a box.",
+    "fancyCopy": "Copy",
+    "fancyCopied": "Copied",
+    "fancySelectCopy": "Select & copy"
+  },
+  "ar": {
+    "allStyles": "الكل",
+    "fonts": "الخطوط",
+    "symbols": "الرموز",
+    "effects": "التأثيرات",
+    "decorations": "الزخارف",
+    "fancySearch": "ابحث عن الأنماط...",
+    "yourText": "النص",
+    "fancyPlaceholder": "اكتب النص هنا...",
+    "fancyChars": "{count} حرفًا",
+    "fancyClear": "مسح",
+    "fancyCopyAll": "نسخ الكل",
+    "fancyStyles": "{count} نمط",
+    "fancyType": "اكتب شيئًا بالأعلى لمشاهدة الأنماط.",
+    "fancyNoStyles": "لا توجد أنماط تطابق بحثك.",
+    "unicodeStyles": "أنماط Unicode",
+    "fancyNotice": "تستخدم بعض الأنماط محارف Unicode بدلًا من الخطوط الحقيقية. وقد تعرض بعض التطبيقات أو الأجهزة القديمة المحارف غير المدعومة كمربعات.",
+    "fancyCopy": "نسخ",
+    "fancyCopied": "تم النسخ",
+    "fancySelectCopy": "حدد وانسخ"
+  },
+  "de": {
+    "allStyles": "Alle",
+    "fonts": "Schriftarten",
+    "symbols": "Symbole",
+    "effects": "Effekte",
+    "decorations": "Dekorationen",
+    "fancySearch": "Stile suchen…",
+    "yourText": "Dein Text",
+    "fancyPlaceholder": "Gib deinen Text hier ein…",
+    "fancyChars": "{count} Zeichen",
+    "fancyClear": "Leeren",
+    "fancyCopyAll": "Alle kopieren",
+    "fancyStyles": "{count} Stile",
+    "fancyType": "Gib oben etwas ein, um die Stile zu sehen.",
+    "fancyNoStyles": "Keine passenden Stile gefunden.",
+    "unicodeStyles": "Unicode-Stile",
+    "fancyNotice": "Einige Stile verwenden Unicode-Zeichen statt echter Schriftarten. Manche Apps oder ältere Geräte zeigen nicht unterstützte Zeichen möglicherweise als Kästchen an.",
+    "fancyCopy": "Kopieren",
+    "fancyCopied": "Kopiert",
+    "fancySelectCopy": "Auswählen und kopieren"
+  },
+  "fr": {
+    "allStyles": "Tout",
+    "fonts": "Polices",
+    "symbols": "Symboles",
+    "effects": "Effets",
+    "decorations": "Décorations",
+    "fancySearch": "Rechercher des styles…",
+    "yourText": "Votre texte",
+    "fancyPlaceholder": "Saisissez votre texte ici…",
+    "fancyChars": "{count} caractères",
+    "fancyClear": "Effacer",
+    "fancyCopyAll": "Tout copier",
+    "fancyStyles": "{count} styles",
+    "fancyType": "Saisissez du texte ci-dessus pour voir les styles.",
+    "fancyNoStyles": "Aucun style ne correspond à votre recherche.",
+    "unicodeStyles": "Styles Unicode",
+    "fancyNotice": "Certains styles utilisent des caractères Unicode plutôt que de vraies polices. Certaines applications ou anciens appareils peuvent afficher les caractères non pris en charge sous forme de carrés.",
+    "fancyCopy": "Copier",
+    "fancyCopied": "Copié",
+    "fancySelectCopy": "Sélectionner et copier"
+  },
+  "es": {
+    "allStyles": "Todos",
+    "fonts": "Fuentes",
+    "symbols": "Símbolos",
+    "effects": "Efectos",
+    "decorations": "Decoraciones",
+    "fancySearch": "Buscar estilos…",
+    "yourText": "Tu texto",
+    "fancyPlaceholder": "Escribe tu texto aquí…",
+    "fancyChars": "{count} caracteres",
+    "fancyClear": "Borrar",
+    "fancyCopyAll": "Copiar todo",
+    "fancyStyles": "{count} estilos",
+    "fancyType": "Escribe algo arriba para ver los estilos.",
+    "fancyNoStyles": "Ningún estilo coincide con tu búsqueda.",
+    "unicodeStyles": "Estilos Unicode",
+    "fancyNotice": "Algunos estilos utilizan caracteres Unicode en lugar de fuentes reales. Algunas aplicaciones o dispositivos antiguos pueden mostrar los caracteres no compatibles como cuadrados.",
+    "fancyCopy": "Copiar",
+    "fancyCopied": "Copiado",
+    "fancySelectCopy": "Seleccionar y copiar"
+  }
+};
+
   function localeFromPath() {
     const first = location.pathname.split('/').filter(Boolean)[0];
     return Object.prototype.hasOwnProperty.call(LOCALES, first) ? first : null;
@@ -2808,7 +2916,8 @@
       (DEV_TOOL_MESSAGES[current] && DEV_TOOL_MESSAGES[current][key]) ||
       (DEV_EXTRA_MESSAGES[current] && DEV_EXTRA_MESSAGES[current][key]) ||
       (FINAL_TOOL_MESSAGES[current] && FINAL_TOOL_MESSAGES[current][key]) ||
-      MESSAGES.en[key] || EXTRA_MESSAGES.en[key] || CURRENCY_MESSAGES.en[key] || IMAGE_MESSAGES.en[key] || PDF_MESSAGES.en[key] || TEXT_TOOL_MESSAGES.en[key] || BUSINESS_MESSAGES.en[key] || MORE_TEXT_MESSAGES.en[key] || MEDIA_MESSAGES.en[key] || CORE_MESSAGES.en[key] || EXTRA_CORE_MESSAGES.en[key] || DEV_TOOL_MESSAGES.en[key] || DEV_EXTRA_MESSAGES.en[key] || FINAL_TOOL_MESSAGES.en[key] || fallback || key;
+      (FANCY_MESSAGES[current] && FANCY_MESSAGES[current][key]) ||
+      MESSAGES.en[key] || EXTRA_MESSAGES.en[key] || CURRENCY_MESSAGES.en[key] || IMAGE_MESSAGES.en[key] || PDF_MESSAGES.en[key] || TEXT_TOOL_MESSAGES.en[key] || BUSINESS_MESSAGES.en[key] || MORE_TEXT_MESSAGES.en[key] || MEDIA_MESSAGES.en[key] || CORE_MESSAGES.en[key] || EXTRA_CORE_MESSAGES.en[key] || DEV_TOOL_MESSAGES.en[key] || DEV_EXTRA_MESSAGES.en[key] || FINAL_TOOL_MESSAGES.en[key] || FANCY_MESSAGES.en[key] || fallback || key;
   }
 
   function formatNumber(value, options) {
