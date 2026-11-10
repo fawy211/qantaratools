@@ -203,10 +203,11 @@ async function loadTool(category, title, toolName) {
 
     if (grid) grid.classList.add('hidden');
     if (view) view.classList.remove('hidden');
-    if (titleEl) titleEl.textContent = title || config.title;
+    const localizedTitle = window.QTI18n?.toolTitle(toolName, title || config.title) || title || config.title;
+    if (titleEl) titleEl.textContent = localizedTitle;
     const pageLink = [...document.querySelectorAll('a[data-tool-link]')].find(link => link.dataset.toolId === toolName);
     const toolUrl = pageLink?.href || `https://qantaratools.com/tools/${encodeURIComponent(toolName)}/`;
-    const toolDescription = pageLink?.dataset.toolDescription || `${title || config.title}, a free browser-based tool from QantaraTools.`;
+    const toolDescription = window.QTI18n?.toolDescription(toolName, pageLink?.dataset.toolDescription || `${title || config.title}, a free browser-based tool from QantaraTools.`) || pageLink?.dataset.toolDescription || `${title || config.title}, a free browser-based tool from QantaraTools.`;
     // Standalone /tools/<id>/ pages ship their own optimized title, description and canonical:
     // never overwrite them. Only the home page (single-page mode) updates these tags.
     if (!isToolPage) {
@@ -234,10 +235,10 @@ async function loadTool(category, title, toolName) {
         requestAnimationFrame(() => {
             const heading = box.querySelector('h1, h2, h3');
             if (heading) { heading.setAttribute('tabindex', '-1'); heading.focus({ preventScroll: true }); }
-            window.QTToolFeedback?.add(toolName, title || config.title);
+            window.QTToolFeedback?.add(toolName, localizedTitle);
         });
         if (typeof window.applySmartExample === 'function') window.applySmartExample(toolName);
-        if (typeof window.recordRecentTool === 'function') window.recordRecentTool(toolName, title || config.title);
+        if (typeof window.recordRecentTool === 'function') window.recordRecentTool(toolName, localizedTitle);
     } catch (error) {
         console.error(`Failed to load tool: ${toolName}`, error);
         box.innerHTML = `
