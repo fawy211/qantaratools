@@ -255,7 +255,7 @@
     for (let p = bytes.length - 22; p >= min; p--) {
       if (u32at(p) === 0x06054b50) { eocd = p; break; }
     }
-    if (eocd < 0) throw new Error('This Word file is not a valid ZIP-based document.');
+    if (eocd < 0) throw new Error(tr('aiDocxInvalidZip', 'This Word file is not a valid ZIP-based document.'));
     const entries = u16at(eocd + 10);
     const cdOffset = u32at(eocd + 16);
     let p = cdOffset;
@@ -269,7 +269,7 @@
       const localOffset = u32at(p + 42);
       const name = dec.decode(bytes.slice(p + 46, p + 46 + nameLen));
       if (name === wantedName) {
-        if (u32at(localOffset) !== 0x04034b50) throw new Error('The Word document has an invalid file entry.');
+        if (u32at(localOffset) !== 0x04034b50) throw new Error(tr('aiDocxInvalidEntry', 'The Word document has an invalid file entry.'));
         const localNameLen = u16at(localOffset + 26);
         const localExtraLen = u16at(localOffset + 28);
         const dataStart = localOffset + 30 + localNameLen + localExtraLen;
@@ -279,22 +279,22 @@
           const stream = new Blob([raw]).stream().pipeThrough(new DecompressionStream('deflate-raw'));
           return new Uint8Array(await new Response(stream).arrayBuffer());
         }
-        throw new Error('This Word file uses compression your browser cannot read locally.');
+        throw new Error(tr('aiDocxCompression', 'This Word file uses compression your browser cannot read locally.'));
       }
       p += 46 + nameLen + extraLen + commentLen;
     }
-    throw new Error('The Word file does not contain a readable document.');
+    throw new Error(tr('aiDocxUnreadable', 'The Word file does not contain a readable document.'));
   }
 
   function docxXmlToText(xml) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(xml, 'application/xml');
-    if (doc.querySelector('parsererror')) throw new Error('The Word document could not be read.');
+    if (doc.querySelector('parsererror')) throw new Error(tr('aiDocxXmlError', 'The Word document could not be read.'));
     const ns = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main';
     const textOf = node => [...node.getElementsByTagNameNS(ns, 't')].map(n => n.textContent || '').join('');
     const paragraphs = [];
     const body = doc.getElementsByTagNameNS(ns, 'body')[0];
-    if (!body) throw new Error('The Word document has no readable body.');
+    if (!body) throw new Error(tr('aiDocxNoBody', 'The Word document has no readable body.'));
     for (const child of body.children) {
       if (child.localName === 'p') {
         let value = textOf(child);
