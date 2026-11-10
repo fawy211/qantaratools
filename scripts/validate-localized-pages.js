@@ -34,6 +34,8 @@ for(const tool of tools){
  if(!fs.existsSync(file)){errors.push('en/'+tool.id+': page missing');continue;}
  const html=fs.readFileSync(file,'utf8');
  if(!html.includes('hreflang="de"')||!html.includes('hreflang="fr"')||!html.includes('hreflang="es"')) errors.push('en/'+tool.id+': localized hreflang links missing');
+ if(!html.includes('data-locale-link="de"')||!html.includes('data-locale-link="ar"')) errors.push('en/'+tool.id+': language selector links missing');
+ if(!html.includes('qantaratools_language_v1')) errors.push('en/'+tool.id+': language persistence handler missing');
 }
 const sitemap=fs.readFileSync(path.join(root,'sitemap.xml'),'utf8');
 for(const locale of locales){
