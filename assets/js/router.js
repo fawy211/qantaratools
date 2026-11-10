@@ -195,7 +195,7 @@ async function loadTool(category, title, toolName) {
 
     const config = TOOL_REGISTRY[toolName];
     if (!config) {
-        box.innerHTML = `<div class="p-6 rounded-xl border border-red-500/30 bg-red-500/10 text-red-300">Tool <b>${toolName}</b> is not registered yet.</div>`;
+        box.innerHTML = `<div class="p-6 rounded-xl border border-red-500/30 bg-red-500/10 text-red-300">${window.QTI18n?.t('notRegistered', 'This tool is not available yet.') || 'This tool is not available yet.'}</div>`;
         if (grid) grid.classList.add('hidden');
         if (view) view.classList.remove('hidden');
         return;
@@ -217,7 +217,7 @@ async function loadTool(category, title, toolName) {
         document.querySelector('meta[property="og:description"]')?.setAttribute('content', toolDescription);
         document.querySelector('meta[property="og:url"]')?.setAttribute('content', toolUrl);
     }
-    box.innerHTML = '<div class="py-12 text-center text-slate-400" role="status" aria-live="polite">Loading tool…</div>';
+    box.innerHTML = `<div class="py-12 text-center text-slate-400" role="status" aria-live="polite">${window.QTI18n?.t('loading', 'Loading tool…') || 'Loading tool…'}</div>`;
     if (!isToolPage) window.scrollTo({ top: 0, behavior: 'smooth' });
 
     try {
@@ -242,9 +242,9 @@ async function loadTool(category, title, toolName) {
         console.error(`Failed to load tool: ${toolName}`, error);
         box.innerHTML = `
             <div class="p-6 rounded-2xl border border-red-500/30 bg-red-500/10">
-                <h3 class="text-lg font-semibold text-red-300 mb-2">Could not load this tool</h3>
+                <h3 class="text-lg font-semibold text-red-300 mb-2">${window.QTI18n?.t('loadError', 'Could not load this tool') || 'Could not load this tool'}</h3>
                 <p class="text-sm text-red-200/80 mb-3">${error.message}</p>
-                <p class="text-xs text-slate-400">Open the browser console (F12) if you need the technical details.</p>
+                <p class="text-xs text-slate-400">${window.QTI18n?.t('technicalDetails', 'Open the browser console (F12) if you need the technical details.') || 'Open the browser console (F12) if you need the technical details.'}</p>
             </div>`;
     }
 }
