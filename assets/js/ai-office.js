@@ -16,14 +16,14 @@
     const lines = raw.split('\n');
     const out = [];
     let current = null;
-    const colonStart = /^(user|you|me|assistant|ai|chatgpt|claude|gemini|copilot)\s*[:：]\s*(.*)$/i;
-    const bareStart = /^(user|you|me|assistant|ai|chatgpt|claude|gemini|copilot)\s*$/i;
+    const colonStart = /^(user|you|me|usuario|utilisateur|nutzer|المستخدم|المستخدمه|assistant|asistente|assistent|المساعد|ai|chatgpt|claude|gemini|copilot)\s*[:：]\s*(.*)$/i;
+    const bareStart = /^(user|you|me|usuario|utilisateur|nutzer|المستخدم|المستخدمه|assistant|asistente|assistent|المساعد|ai|chatgpt|claude|gemini|copilot)\s*$/i;
     const push = () => { if (current && current.content.trim()) out.push({ ...current, content: current.content.trim() }); };
     for (const line of lines) {
       let m = line.match(colonStart);
       if (m) {
         push();
-        const role = /^(assistant|ai|chatgpt|claude|gemini|copilot)$/i.test(m[1]) ? 'Assistant' : 'User';
+        const role = /^(assistant|asistente|assistent|المساعد|ai|chatgpt|claude|gemini|copilot)$/i.test(m[1]) ? 'Assistant' : 'User';
         current = { role, content: m[2] };
         continue;
       }
@@ -332,7 +332,7 @@
     box.innerHTML=`<div dir="auto">
       <div class="mb-6"><h2 class="text-2xl font-bold text-slate-100 mb-2">${tr('aiTitle', 'Chat to Office File Converter')}</h2><p class="text-slate-400">${tr('aiIntro', 'Turn a copied AI conversation, text file, or Word document into a clean Word, Excel, or PDF file. Everything is processed on your device.')}</p></div>
       <div class="mb-4 flex flex-col sm:flex-row gap-3 items-stretch sm:items-end">
-        <label class="flex-1 text-sm text-slate-400">${tr('aiFileName', 'File name')}<input id="ai-office-name" class="mt-1 w-full p-3 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" value="conversation" maxlength="80"></label>
+        <label class="flex-1 text-sm text-slate-400">${tr('aiFileName', 'File name')}<input id="ai-office-name" class="mt-1 w-full p-3 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" value="${tr('aiDefaultFilename', 'conversation')}" maxlength="80"></label>
         <label class="px-4 py-3 rounded-xl border border-slate-700 text-slate-200 cursor-pointer text-center hover:bg-slate-800">${tr('aiOpenFile', 'Open a text or Word file')}<input id="ai-office-file" type="file" accept=".txt,.md,.csv,.docx,text/plain,text/markdown,text/csv,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="hidden"></label>
         <button id="ai-example" class="px-4 py-3 rounded-xl border border-slate-700 text-slate-300 hover:bg-slate-800">${tr('aiExample', 'Load Example')}</button><button id="ai-clear" class="px-4 py-3 rounded-xl border border-slate-700 text-slate-300 hover:bg-slate-800">${tr('aiClear', 'Clear')}</button>
       </div>
@@ -349,13 +349,13 @@
     const input=document.getElementById('ai-office-input'), count=document.getElementById('ai-count'), status=document.getElementById('ai-status'), name=document.getElementById('ai-office-name');
     const update=()=>{const n=input.value.length;count.textContent=(window.QTI18n?.formatNumber(n) || n.toLocaleString())+' '+(n===1?tr('aiCharacter','character'):tr('aiCharacters','characters'));const msgs=parseConversation(input.value);status.textContent=input.value.trim()?(msgs.length>1?(window.QTI18n?.formatNumber(msgs.length) || msgs.length)+' '+tr('aiMessagesDetected','messages detected'):tr('aiReadyConvert','Ready to convert')):tr('aiWaiting','Waiting for text');};
     input.addEventListener('input',update);
-    document.getElementById('ai-example').onclick=()=>{input.value='User: Create a short project plan\nAssistant: Here is a clear plan.\n\nUser: Include a simple table.\nAssistant: Name\tStatus\nWebsite\tReady\nTesting\tIn progress';name.value='qantaratools-example';update();status.textContent=tr('aiExampleLoaded','Example loaded');};
+    document.getElementById('ai-example').onclick=()=>{input.value=tr('aiExampleText', 'User: Create a short project plan\\nAssistant: Here is a clear plan.');name.value=tr('aiDefaultFilename', 'conversation')+'-example';update();status.textContent=tr('aiExampleLoaded','Example loaded');};
     document.getElementById('ai-clear').onclick=()=>{input.value='';update();input.focus();};
     document.getElementById('ai-office-file').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{const isDocx=/\.docx$/i.test(file.name)||file.type==='application/vnd.openxmlformats-officedocument.wordprocessingml.document';input.value=isDocx?await readDocxFile(file):await file.text();name.value=safeFileName(file.name.replace(/\.[^.]+$/,''));update();status.textContent=isDocx?tr('aiWordLoaded','Word document loaded locally'):tr('aiTextLoaded','Text loaded locally');}catch(err){status.textContent=tr('aiFileError','Could not open the selected file');alert(err?.message||tr('aiFileErrorDetail','The selected file could not be opened locally.'));}e.target.value='';};
     const ensure=()=>{if(!input.value.trim()){alert(tr('aiPasteFirst','Please paste or open some text first.'));return false;}return true;};
-    document.getElementById('ai-word').onclick=()=>{if(!ensure())return;download(makeDocx(input.value,name.value.trim() || 'Conversation'),safeFileName(name.value)+'.docx');status.textContent=tr('aiWordCreated','Word file created locally');};
+    document.getElementById('ai-word').onclick=()=>{if(!ensure())return;download(makeDocx(input.value,name.value.trim() || tr('aiDefaultFilename', 'conversation')),safeFileName(name.value)+'.docx');status.textContent=tr('aiWordCreated','Word file created locally');};
     document.getElementById('ai-excel').onclick=()=>{if(!ensure())return;download(makeXlsx(input.value),safeFileName(name.value)+'.xlsx');status.textContent=tr('aiExcelCreated','Excel file created locally');};
-    document.getElementById('ai-pdf').onclick=()=>{if(!ensure())return;openPdfPrint(input.value,name.value.trim() || 'Conversation');status.textContent=tr('aiPdfOpened','PDF print view opened locally — choose Save as PDF');};
+    document.getElementById('ai-pdf').onclick=()=>{if(!ensure())return;openPdfPrint(input.value,name.value.trim() || tr('aiDefaultFilename', 'conversation'));status.textContent=tr('aiPdfOpened','PDF print view opened locally — choose Save as PDF');};
     update();
     requestAnimationFrame(() => window.QTToolFeedback?.add('ai-office', 'AI Chat & Content to Office Converter'));
   };
