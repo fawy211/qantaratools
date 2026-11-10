@@ -161,7 +161,7 @@ const homeOfficePaths = {
 for (const [locale, homePath] of Object.entries(homeOfficePaths)) {
   test('localized homepage features and opens Chat to Office for ' + locale, async ({ page }) => {
     await page.goto(homePath);
-    const featured = page.locator('#qt-featured-office');
+    const featured = page.locator('#qt-featured-office, .qt-featured-wrap');
     await expect(featured).toBeVisible();
     await featured.click();
     await expect(page.locator('#ai-office-input')).toBeVisible();
