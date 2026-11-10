@@ -31,7 +31,7 @@ function render(tool, locale) {
  const steps=(l.steps[tool.category]||l.steps['Core & Dev']).map(x=>'<li>'+esc(x)+'</li>').join('');
  const faq=r.faq.map(x=>'<details><summary>'+esc(x[0])+'</summary><p>'+esc(x[1])+'</p></details>').join('');
  const title=esc(r.title+' | QantaraTools');
- const nav=[['English','/tools/'+tool.id+'/','en'],['Deutsch','/de/tools/'+tool.id+'/','de'],['Français','/fr/tools/'+tool.id+'/','fr'],['Español','/es/tools/'+tool.id+'/','es'],['العربية','/tools/'+tool.id+'/','ar']].map(x=>'<a href="'+x[1]+'" data-locale-link="'+x[2]+'">'+x[0]+'</a>').join('');
+ const nav=[['English','/tools/'+tool.id+'/','en'],['Deutsch','/de/tools/'+tool.id+'/','de'],['Français','/fr/tools/'+tool.id+'/','fr'],['Español','/es/tools/'+tool.id+'/','es'],['العربية','/tools/'+tool.id+'/?locale=ar','ar']].map(x=>'<a href="'+x[1]+'" data-locale-link="'+x[2]+'">'+x[0]+'</a>').join('');
  return '<!doctype html><html lang="'+locale+'" dir="ltr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'+
  '<title>'+title+'</title><meta name="description" content="'+esc(r.desc.slice(0,155))+'"><meta name="robots" content="index,follow">'+
  '<link rel="canonical" href="'+url+'">'+alternates+
