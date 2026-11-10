@@ -61,7 +61,8 @@
       aiText: "Text",
       aiCreatedLocally: "Created locally on your device",
       aiUser: "User",
-      aiAssistant: "Assistant"
+      aiAssistant: "Assistant",
+      aiSheetName: "Conversation"
     },
     ar: {
       loading: 'جارٍ تحميل الأداة…', loadError: 'تعذر تحميل هذه الأداة',
@@ -110,7 +111,8 @@
       aiText: "النص",
       aiCreatedLocally: "تم الإنشاء محليًا على جهازك",
       aiUser: "المستخدم",
-      aiAssistant: "المساعد"
+      aiAssistant: "المساعد",
+      aiSheetName: "المحادثة"
     },
     de: {
       loading: 'Tool wird geladen…', loadError: 'Dieses Tool konnte nicht geladen werden',
@@ -159,7 +161,8 @@
       aiText: "Text",
       aiCreatedLocally: "Lokal auf deinem Gerät erstellt",
       aiUser: "Nutzer",
-      aiAssistant: "Assistent"
+      aiAssistant: "Assistent",
+      aiSheetName: "Konversation"
     },
     fr: {
       loading: 'Chargement de l’outil…', loadError: 'Impossible de charger cet outil',
@@ -208,7 +211,8 @@
       aiText: "Texte",
       aiCreatedLocally: "Créé localement sur votre appareil",
       aiUser: "Utilisateur",
-      aiAssistant: "Assistant"
+      aiAssistant: "Assistant",
+      aiSheetName: "Conversation"
     },
     es: {
       loading: 'Cargando herramienta…', loadError: 'No se pudo cargar esta herramienta',
@@ -316,4 +320,5 @@
     get direction() { return LOCALES[current].dir; },
     t, setLocale, formatNumber, formatDate, formatCurrency
   });
-})();
+})();,
+      aiSheetName: "Conversación"
