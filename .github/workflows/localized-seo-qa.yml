@@ -43,6 +43,12 @@ jobs:
           test "$(find es/tools -name index.html | wc -l)" -eq 50
           grep -q 'hreflang="de"' tools/base64/index.html
           grep -q '/de/tools/base64/' sitemap.xml
+      - name: Install browser test dependencies
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+      - name: Test localized pages in Chromium
+        run: npx playwright test tests/localized-pages.spec.js --project=chromium
       - name: Commit generated localized pages to feature branch
         if: github.event_name == 'push' && github.ref == 'refs/heads/feature/complete-multilingual-support'
         run: |
