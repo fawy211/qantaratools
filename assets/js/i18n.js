@@ -3396,7 +3396,9 @@
     } catch (_) { return 'en'; }
   }
 
-  let current = localeFromPath() || storedLocale();
+  const pathLocale = localeFromPath();
+  let current = pathLocale || storedLocale();
+  if (pathLocale) { try { localStorage.setItem(STORAGE_KEY, pathLocale); } catch (_) {} }
 
   function applyDocumentLocale() {
     document.documentElement.lang = current;
