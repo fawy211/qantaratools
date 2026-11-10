@@ -3437,6 +3437,12 @@
       MESSAGES.en[key] || EXTRA_MESSAGES.en[key] || CURRENCY_MESSAGES.en[key] || IMAGE_MESSAGES.en[key] || PDF_MESSAGES.en[key] || TEXT_TOOL_MESSAGES.en[key] || BUSINESS_MESSAGES.en[key] || MORE_TEXT_MESSAGES.en[key] || MEDIA_MESSAGES.en[key] || CORE_MESSAGES.en[key] || EXTRA_CORE_MESSAGES.en[key] || DEV_TOOL_MESSAGES.en[key] || DEV_EXTRA_MESSAGES.en[key] || FINAL_TOOL_MESSAGES.en[key] || FANCY_MESSAGES.en[key] || HOME_MESSAGES.en[key] || fallback || key;
   }
 
+  const MESSAGE_TABLES = [MESSAGES, EXTRA_MESSAGES, CURRENCY_MESSAGES, IMAGE_MESSAGES, PDF_MESSAGES, TEXT_TOOL_MESSAGES, BUSINESS_MESSAGES, MORE_TEXT_MESSAGES, MEDIA_MESSAGES, CORE_MESSAGES, EXTRA_CORE_MESSAGES, DEV_TOOL_MESSAGES, DEV_EXTRA_MESSAGES, FINAL_TOOL_MESSAGES, FANCY_MESSAGES, HOME_MESSAGES];
+
+  function hasTranslation(locale, key) {
+    return MESSAGE_TABLES.some(table => Object.prototype.hasOwnProperty.call(table[locale] || {}, key));
+  }
+
   function formatNumber(value, options) {
     return new Intl.NumberFormat(LOCALES[current].intl, options).format(value);
   }
@@ -3457,7 +3463,7 @@
     locales: LOCALES,
     get locale() { return current; },
     get direction() { return LOCALES[current].dir; },
-    t, setLocale, formatNumber, formatDate, formatCurrency,
+    t, setLocale, formatNumber, formatDate, formatCurrency, hasTranslation,
     toolTitle: (id, fallback) => t(TOOL_META[id]?.[0], fallback || id),
     toolDescription: (id, fallback) => t(TOOL_META[id]?.[1], fallback || '')
   });
