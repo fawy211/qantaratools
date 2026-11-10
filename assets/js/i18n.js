@@ -3408,6 +3408,9 @@
     current = locale;
     try { localStorage.setItem(STORAGE_KEY, locale); } catch (_) {}
     applyDocumentLocale();
+    if (typeof window.dispatchEvent === 'function' && typeof CustomEvent === 'function') {
+      window.dispatchEvent(new CustomEvent('qt:localechange', { detail: { locale } }));
+    }
     return true;
   }
 
