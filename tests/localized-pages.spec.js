@@ -153,3 +153,20 @@ for (const [locale, expected] of Object.entries(pdfUiLocales)) {
     await expect(page.locator('#active-tool-box input#pages')).toHaveAttribute('placeholder', expected.example);
   });
 }
+
+
+const homeOfficePaths = {
+  en: '/', ar: '/?locale=ar', de: '/de/', fr: '/fr/', es: '/es/'
+};
+for (const [locale, homePath] of Object.entries(homeOfficePaths)) {
+  test('localized homepage features and opens Chat to Office for ' + locale, async ({ page }) => {
+    await page.goto(homePath);
+    const featured = page.locator('#qt-featured-office');
+    await expect(featured).toBeVisible();
+    await featured.click();
+    await expect(page.locator('#ai-office-input')).toBeVisible();
+    await expect(page.locator('#ai-word')).toBeVisible();
+    await expect(page.locator('#ai-excel')).toBeVisible();
+    await expect(page.locator('#ai-pdf')).toBeVisible();
+  });
+}
