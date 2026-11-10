@@ -30,10 +30,12 @@ jobs:
           node --check scripts/validate-localized-seo.js
           node --check scripts/generate-tool-pages.js
           node --check scripts/generate-localized-tool-pages.js
+          node --check scripts/validate-localized-pages.js
       - name: Validate complete localized SEO records
         run: npm run i18n:seo:check
       - name: Generate localized tool pages
         run: node scripts/generate-localized-tool-pages.js
+          node scripts/validate-localized-pages.js
       - name: Verify localized page output
         run: |
           test "$(find de/tools -name index.html | wc -l)" -eq 50
