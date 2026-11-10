@@ -18,5 +18,5 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 24
-      - name: Check German, French, and Spanish message coverage
+      - name: Check Arabic, German, French, and Spanish message coverage
         run: node scripts/validate-locales.js
