@@ -64,7 +64,7 @@
       aiAssistant: "Assistant",
       aiSheetName: "Conversation",
       aiDefaultFilename: "conversation",
-      aiExampleText: "User: Create a short project plan\nAssistant: Here is a clear plan.\n\nUser: Include a simple table.\nAssistant: Name\tStatus\nWebsite\tReady\nTesting\tIn progress"
+      aiExampleText: "User: Create a short project plan\nAssistant: Here is a clear plan.\n\nUser: Include a simple table.\nAssistant: Name\tStatus\nWebsite\tReady\nTesting\tIn progress",
       aiDocxInvalidZip: "This Word file is not a valid ZIP-based document.",
       aiDocxInvalidEntry: "The Word document has an invalid file entry.",
       aiDocxCompression: "This Word file uses compression your browser cannot read locally.",
@@ -122,7 +122,7 @@
       aiAssistant: "المساعد",
       aiSheetName: "المحادثة",
       aiDefaultFilename: "محادثة",
-      aiExampleText: "المستخدم: أنشئ خطة مشروع مختصرة\nالمساعد: إليك خطة واضحة.\n\nالمستخدم: أضف جدولًا بسيطًا.\nالمساعد: المهمة\tالحالة\nالموقع الإلكتروني\tجاهز\nالاختبار\tقيد التنفيذ"
+      aiExampleText: "المستخدم: أنشئ خطة مشروع مختصرة\nالمساعد: إليك خطة واضحة.\n\nالمستخدم: أضف جدولًا بسيطًا.\nالمساعد: المهمة\tالحالة\nالموقع الإلكتروني\tجاهز\nالاختبار\tقيد التنفيذ",
     },
     de: {
       loading: 'Tool wird geladen…', loadError: 'Dieses Tool konnte nicht geladen werden',
@@ -174,7 +174,7 @@
       aiAssistant: "Assistent",
       aiSheetName: "Konversation",
       aiDefaultFilename: "Konversation",
-      aiExampleText: "Nutzer: Erstelle einen kurzen Projektplan\nAssistent: Hier ist ein übersichtlicher Plan.\n\nNutzer: Füge eine einfache Tabelle hinzu.\nAssistent: Aufgabe\tStatus\nWebsite\tBereit\nTesten\tIn Arbeit"
+      aiExampleText: "Nutzer: Erstelle einen kurzen Projektplan\nAssistent: Hier ist ein übersichtlicher Plan.\n\nNutzer: Füge eine einfache Tabelle hinzu.\nAssistent: Aufgabe\tStatus\nWebsite\tBereit\nTesten\tIn Arbeit",
     },
     fr: {
       loading: 'Chargement de l’outil…', loadError: 'Impossible de charger cet outil',
@@ -226,7 +226,7 @@
       aiAssistant: "Assistant",
       aiSheetName: "Conversation",
       aiDefaultFilename: "conversation",
-      aiExampleText: "Utilisateur : Crée un court plan de projet\nAssistant : Voici un plan clair.\n\nUtilisateur : Ajoute un tableau simple.\nAssistant : Tâche\tStatut\nSite web\tPrêt\nTests\tEn cours"
+      aiExampleText: "Utilisateur : Crée un court plan de projet\nAssistant : Voici un plan clair.\n\nUtilisateur : Ajoute un tableau simple.\nAssistant : Tâche\tStatut\nSite web\tPrêt\nTests\tEn cours",
     },
     es: {
       loading: 'Cargando herramienta…', loadError: 'No se pudo cargar esta herramienta',
@@ -278,7 +278,7 @@
       aiAssistant: "Asistente",
       aiSheetName: "Conversación",
       aiDefaultFilename: "conversacion",
-      aiExampleText: "Usuario: Crea un breve plan de proyecto\nAsistente: Aquí tienes un plan claro.\n\nUsuario: Incluye una tabla sencilla.\nAsistente: Tarea\tEstado\nSitio web\tListo\nPruebas\tEn curso"
+      aiExampleText: "Usuario: Crea un breve plan de proyecto\nAsistente: Aquí tienes un plan claro.\n\nUsuario: Incluye una tabla sencilla.\nAsistente: Tarea\tEstado\nSitio web\tListo\nPruebas\tEn curso",
     }
   };
 
