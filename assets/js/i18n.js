@@ -434,6 +434,84 @@
   }
 };
 
+  const CURRENCY_MESSAGES = {
+  "en": {
+    "currencyTitle": "Currency & Exchange Rate Converter",
+    "currencyIntro": "Convert currencies using a daily reference rate. Rates are not live.",
+    "currencies": "Currencies",
+    "dailyRate": "Daily Rate",
+    "from": "From",
+    "to": "To",
+    "convertCurrency": "Convert Currency",
+    "swapCurrencies": "Swap Currencies",
+    "convertedResult": "Converted Result",
+    "dailyRateUnavailable": "Daily rate unavailable",
+    "connectTryAgain": "Connect to the internet and try again.",
+    "currencyCount": "currencies",
+    "dailyReference": "Daily reference"
+  },
+  "ar": {
+    "currencyTitle": "محول العملات وأسعار الصرف",
+    "currencyIntro": "حوّل العملات باستخدام سعر مرجعي يومي. الأسعار ليست مباشرة.",
+    "currencies": "عملة",
+    "dailyRate": "سعر يومي",
+    "from": "من",
+    "to": "إلى",
+    "convertCurrency": "تحويل العملة",
+    "swapCurrencies": "تبديل العملات",
+    "convertedResult": "نتيجة التحويل",
+    "dailyRateUnavailable": "السعر اليومي غير متاح",
+    "connectTryAgain": "اتصل بالإنترنت ثم حاول مرة أخرى.",
+    "currencyCount": "عملة",
+    "dailyReference": "سعر مرجعي يومي"
+  },
+  "de": {
+    "currencyTitle": "Währungs- und Wechselkursrechner",
+    "currencyIntro": "Währungen mit einem täglichen Referenzkurs umrechnen. Die Kurse sind nicht live.",
+    "currencies": "Währungen",
+    "dailyRate": "Tageskurs",
+    "from": "Von",
+    "to": "Nach",
+    "convertCurrency": "Währung umrechnen",
+    "swapCurrencies": "Währungen tauschen",
+    "convertedResult": "Umrechnungsergebnis",
+    "dailyRateUnavailable": "Tageskurs nicht verfügbar",
+    "connectTryAgain": "Stelle eine Internetverbindung her und versuche es erneut.",
+    "currencyCount": "Währungen",
+    "dailyReference": "Täglicher Referenzkurs"
+  },
+  "fr": {
+    "currencyTitle": "Convertisseur de devises et de taux de change",
+    "currencyIntro": "Convertissez des devises avec un taux de référence quotidien. Les taux ne sont pas en temps réel.",
+    "currencies": "Devises",
+    "dailyRate": "Taux quotidien",
+    "from": "De",
+    "to": "Vers",
+    "convertCurrency": "Convertir la devise",
+    "swapCurrencies": "Inverser les devises",
+    "convertedResult": "Résultat de la conversion",
+    "dailyRateUnavailable": "Taux quotidien indisponible",
+    "connectTryAgain": "Connectez-vous à Internet puis réessayez.",
+    "currencyCount": "devises",
+    "dailyReference": "Taux de référence quotidien"
+  },
+  "es": {
+    "currencyTitle": "Conversor de divisas y tipos de cambio",
+    "currencyIntro": "Convierte divisas con un tipo de referencia diario. Los tipos no son en tiempo real.",
+    "currencies": "Divisas",
+    "dailyRate": "Tipo diario",
+    "from": "De",
+    "to": "A",
+    "convertCurrency": "Convertir divisa",
+    "swapCurrencies": "Intercambiar divisas",
+    "convertedResult": "Resultado de la conversión",
+    "dailyRateUnavailable": "Tipo diario no disponible",
+    "connectTryAgain": "Conéctate a Internet e inténtalo de nuevo.",
+    "currencyCount": "divisas",
+    "dailyReference": "Tipo de referencia diario"
+  }
+};
+
   function localeFromPath() {
     const first = location.pathname.split('/').filter(Boolean)[0];
     return Object.prototype.hasOwnProperty.call(LOCALES, first) ? first : null;
@@ -465,7 +543,8 @@
   function t(key, fallback) {
     return (MESSAGES[current] && MESSAGES[current][key]) ||
       (EXTRA_MESSAGES[current] && EXTRA_MESSAGES[current][key]) ||
-      MESSAGES.en[key] || EXTRA_MESSAGES.en[key] || fallback || key;
+      (CURRENCY_MESSAGES[current] && CURRENCY_MESSAGES[current][key]) ||
+      MESSAGES.en[key] || EXTRA_MESSAGES.en[key] || CURRENCY_MESSAGES.en[key] || fallback || key;
   }
 
   function formatNumber(value, options) {
