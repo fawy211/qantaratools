@@ -1,0 +1,27 @@
+name: Localized SEO QA
+
+on:
+  push:
+    branches:
+      - feature/complete-multilingual-support
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  localized-seo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Validate JavaScript syntax
+        run: |
+          node --check scripts/seo-locales.js
+          node --check scripts/validate-localized-seo.js
+          node --check scripts/generate-tool-pages.js
+      - name: Validate complete localized SEO records
+        run: npm run i18n:seo:check
