@@ -327,6 +327,7 @@
   function openPdfPrint(raw,title) { const w=window.open('','_blank'); if(!w){alert(tr('aiPopup', 'Please allow pop-ups for the PDF preview.'));return;} w.document.open();w.document.write(makeHtml(raw,title));w.document.close();w.focus();setTimeout(()=>w.print(),450); }
 
   window.loadAiToOfficeTool=function(){
+    window.QTActiveToolId='ai-office';
     const box=document.getElementById('active-tool-box'),grid=document.getElementById('tools-grid-container'),view=document.getElementById('tool-view-container');
     if(grid)grid.classList.add('hidden');if(view)view.classList.remove('hidden');
     box.innerHTML=`<div dir="auto">
