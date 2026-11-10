@@ -92,8 +92,10 @@ for(const tool of tools){
  }
  const localeBootstrap='<script>(function(){var m=location.search.match(/[?&]locale=([a-z]{2})(?:&|$)/i);if(m&&m[1].toLowerCase()==="ar"){document.documentElement.lang="ar";document.documentElement.dir="rtl";document.documentElement.dataset.locale="ar";}})();</script>';
  if(!html.includes('dataset.locale="ar"')){html=html.replace('</head>',localeBootstrap+'</head>');changed=true;}
- if(html.includes('/assets/js/i18n.js')&&!html.includes('qantaratools_language_v1')){
-  html=html.replace('<script src="/assets/js/i18n.js"></script>','<script src="/assets/js/i18n.js"></script><script>document.querySelectorAll("[data-locale-link]").forEach(function(a){a.addEventListener("click",function(){try{localStorage.setItem("qantaratools_language_v1",a.dataset.localeLink);if(window.QTI18n&&window.QTI18n.setLocale)window.QTI18n.setLocale(a.dataset.localeLink);}catch(e){}});});</script>');
+ const localePersistence='<script src="/assets/js/i18n.js"></script><script data-qt-locale-persist>(function(){function bind(){document.querySelectorAll("[data-locale-link]").forEach(function(a){if(a.dataset.qtLocaleBound)return;a.dataset.qtLocaleBound="1";a.addEventListener("click",function(){var locale=a.dataset.localeLink;try{localStorage.setItem("qantaratools_language_v1",locale);}catch(e){}if(window.QTI18n&&window.QTI18n.setLocale)window.QTI18n.setLocale(locale);});});}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",bind);else bind();})();</script>';
+ if(!html.includes('data-qt-locale-persist')){
+  if(!html.includes('/assets/js/i18n.js')) html=html.replace('</body>',localePersistence+'</body>');
+  else html=html.replace('</body>','<script data-qt-locale-persist>(function(){function bind(){document.querySelectorAll("[data-locale-link]").forEach(function(a){if(a.dataset.qtLocaleBound)return;a.dataset.qtLocaleBound="1";a.addEventListener("click",function(){var locale=a.dataset.localeLink;try{localStorage.setItem("qantaratools_language_v1",locale);}catch(e){}if(window.QTI18n&&window.QTI18n.setLocale)window.QTI18n.setLocale(locale);});});}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",bind);else bind();})();</script></body>');
   changed=true;
  }
  if(!html.includes('hreflang="de"')){
