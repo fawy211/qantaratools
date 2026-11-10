@@ -1,0 +1,22 @@
+name: Locale translation coverage
+
+on:
+  push:
+    branches:
+      - feature/complete-multilingual-support
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  translation-coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Check German, French, and Spanish message coverage
+        run: node scripts/validate-locales.js
