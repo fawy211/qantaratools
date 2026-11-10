@@ -2785,7 +2785,7 @@
     "fancyNotice": "Some styles use Unicode characters rather than real fonts. A few apps or older devices may display an unsupported character as a box.",
     "fancyCopy": "Copy",
     "fancyCopied": "Copied",
-    "fancySelectCopy": "Select & copy"
+    "fancySelectCopy": "Select & copy",
     "fancyTitle": "Fancy Text Generator",
     "fancyDesc": "Create stylish Unicode text, symbols and decorative designs.",
   },
@@ -2808,7 +2808,7 @@
     "fancyNotice": "تستخدم بعض الأنماط محارف Unicode بدلًا من الخطوط الحقيقية. وقد تعرض بعض التطبيقات أو الأجهزة القديمة المحارف غير المدعومة كمربعات.",
     "fancyCopy": "نسخ",
     "fancyCopied": "تم النسخ",
-    "fancySelectCopy": "حدد وانسخ"
+    "fancySelectCopy": "حدد وانسخ",
     "fancyTitle": "مولّد النصوص المزخرفة",
     "fancyDesc": "أنشئ نصوص Unicode أنيقة ورموزًا وتصميمات زخرفية.",
   },
@@ -2831,7 +2831,7 @@
     "fancyNotice": "Einige Stile verwenden Unicode-Zeichen statt echter Schriftarten. Manche Apps oder ältere Geräte zeigen nicht unterstützte Zeichen möglicherweise als Kästchen an.",
     "fancyCopy": "Kopieren",
     "fancyCopied": "Kopiert",
-    "fancySelectCopy": "Auswählen und kopieren"
+    "fancySelectCopy": "Auswählen und kopieren",
     "fancyTitle": "Generator für ausgefallene Schrift",
     "fancyDesc": "Erstelle stilvolle Unicode-Texte, Symbole und dekorative Designs.",
   },
@@ -2854,7 +2854,7 @@
     "fancyNotice": "Certains styles utilisent des caractères Unicode plutôt que de vraies polices. Certaines applications ou anciens appareils peuvent afficher les caractères non pris en charge sous forme de carrés.",
     "fancyCopy": "Copier",
     "fancyCopied": "Copié",
-    "fancySelectCopy": "Sélectionner et copier"
+    "fancySelectCopy": "Sélectionner et copier",
     "fancyTitle": "Générateur de texte fantaisie",
     "fancyDesc": "Créez des textes Unicode élégants, des symboles et des décorations.",
   },
@@ -2877,7 +2877,7 @@
     "fancyNotice": "Algunos estilos utilizan caracteres Unicode en lugar de fuentes reales. Algunas aplicaciones o dispositivos antiguos pueden mostrar los caracteres no compatibles como cuadrados.",
     "fancyCopy": "Copiar",
     "fancyCopied": "Copiado",
-    "fancySelectCopy": "Seleccionar y copiar"
+    "fancySelectCopy": "Seleccionar y copiar",
     "fancyTitle": "Generador de texto decorativo",
     "fancyDesc": "Crea texto Unicode con estilo, símbolos y diseños decorativos.",
   }
