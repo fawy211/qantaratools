@@ -454,6 +454,15 @@ function applyHomeTranslations() {
     if(theme){const label=document.documentElement.classList.contains('dark')?t('themeLight','Switch to light mode'):t('themeDark','Switch to dark mode');theme.setAttribute('aria-label',label);theme.title=label;}
 }
 
+window.addEventListener('qt:localechange', () => {
+    applyHomeTranslations();
+    renderQuickToolLists();
+    updateSearchCount();
+    const activeId = window.QTActiveToolId;
+    const config = activeId && window.router?.registry?.[activeId];
+    if (config) window.router.loadTool(config.category, window.QTI18n?.toolTitle(activeId, config.title) || config.title, activeId);
+});
+
 window.addEventListener('DOMContentLoaded', () => {
     prepareToolSections();
     applyHomeTranslations();
