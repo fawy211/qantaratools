@@ -7,7 +7,7 @@ const path = require('node:path');
 const vm = require('node:vm');
 
 const root = path.resolve(__dirname, '..');
-const locales = ['de', 'fr', 'es'];
+const locales = ['ar', 'de', 'fr', 'es'];
 const source = fs.readFileSync(path.join(root, 'assets/js/i18n.js'), 'utf8');
 const windowStub = { dispatchEvent() {} };
 const context = {
@@ -90,6 +90,6 @@ if (missing.length || untranslatedToolMeta.length) {
   const frenchNumber = i18n.formatNumber(12345.6);
   i18n.setLocale('es');
   const spanishNumber = i18n.formatNumber(12345.6);
-  console.log('Locale QA passed: ' + used.size + ' UI keys and ' + tools.length + ' tool metadata records checked for de/fr/es.');
+  console.log('Locale QA passed: ' + used.size + ' UI keys and ' + tools.length + ' tool metadata records checked for ar/de/fr/es.');
   console.log('Locale number formatting samples: de=' + germanNumber + ', fr=' + frenchNumber + ', es=' + spanishNumber);
 }
