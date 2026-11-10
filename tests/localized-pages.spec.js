@@ -256,3 +256,116 @@ for (const [locale, calculatorPath] of Object.entries(functionalLocalePaths)) {
     await expect(page.locator('#jsonOutput')).toContainText('"hello": "world"');
   });
 }
+
+
+// Real PDF processing checks: create valid sample PDFs, run each operation, then
+// reopen the downloaded file and verify its structure rather than only its UI.
+async function makePdfFixture(page, widths) {
+  await page.addScriptTag({ url: 'https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js' });
+  return page.evaluate(async (sizes) => {
+    const doc = await PDFLib.PDFDocument.create();
+    for (const width of sizes) doc.addPage([width, 200]);
+    const bytes = await doc.save();
+    let binary = '';
+    for (const byte of bytes) binary += String.fromCharCode(byte);
+    return btoa(binary);
+  }, widths);
+}
+
+async function setPdfFixture(input, base64, name = 'sample.pdf') {
+  await input.setInputFiles({
+    name,
+    mimeType: 'application/pdf',
+    buffer: Buffer.from(base64, 'base64')
+  });
+}
+
+async function readDownloadedPdf(download, page) {
+  const stream = await download.createReadStream();
+  const bytes = await new Promise((resolve, reject) => {
+    const chunks = [];
+    stream.on('data', chunk => chunks.push(chunk));
+    stream.on('end', () => resolve(Buffer.concat(chunks)));
+    stream.on('error', reject);
+  });
+  const base64 = bytes.toString('base64');
+  return page.evaluate(async (encoded) => {
+    const binary = atob(encoded);
+    const data = Uint8Array.from(binary, char => char.charCodeAt(0));
+    const doc = await PDFLib.PDFDocument.load(data);
+    return {
+      pageCount: doc.getPageCount(),
+      widths: doc.getPages().map(p => Math.round(p.getWidth())),
+      rotations: doc.getPages().map(p => p.getRotation().angle)
+    };
+  }, base64);
+}
+
+const pdfFunctionalPaths = {
+  en: '/tools/pdf-merge/',
+  ar: '/tools/pdf-merge/?locale=ar',
+  de: '/de/tools/pdf-merge/',
+  fr: '/fr/tools/pdf-merge/',
+  es: '/es/tools/pdf-merge/'
+};
+
+for (const [locale, mergePath] of Object.entries(pdfFunctionalPaths)) {
+  test('PDF merge, split, rotate, reorder and optimize produce valid files for ' + locale, async ({ page }) => {
+    test.setTimeout(90000);
+    const fixture = await makePdfFixture(page, [100, 200, 300]);
+    const onePageFixture = await makePdfFixture(page, [400]);
+
+    // Merge: three pages plus one page must produce a valid four-page PDF.
+    await page.goto(mergePath);
+    await setPdfFixture(page.locator('[data-pdf-files]'), fixture);
+    await page.locator('[data-pdf-files]').setInputFiles([
+      { name: 'first.pdf', mimeType: 'application/pdf', buffer: Buffer.from(fixture, 'base64') },
+      { name: 'second.pdf', mimeType: 'application/pdf', buffer: Buffer.from(onePageFixture, 'base64') }
+    ]);
+    let downloadPromise = page.waitForEvent('download');
+    await page.locator('#go').click();
+    let result = await readDownloadedPdf(await downloadPromise, page);
+    expect(result.pageCount).toBe(4);
+    expect(result.widths).toEqual([100, 200, 300, 400]);
+
+    // Split: extracting pages 1 and 3 from the same source must preserve their order.
+    await page.goto(mergePath.replace('pdf-merge', 'pdf-split'));
+    await setPdfFixture(page.locator('[data-pdf-files]'), fixture);
+    await page.locator('#pages').fill('1,3');
+    downloadPromise = page.waitForEvent('download');
+    await page.locator('#go').click();
+    result = await readDownloadedPdf(await downloadPromise, page);
+    expect(result.pageCount).toBe(2);
+    expect(result.widths).toEqual([100, 300]);
+
+    // Rotate: only page 2 should be rotated by 90 degrees.
+    await page.goto(mergePath.replace('pdf-merge', 'pdf-rotate'));
+    await setPdfFixture(page.locator('[data-pdf-files]'), fixture);
+    await page.locator('#pages').fill('2');
+    await page.locator('#degrees').selectOption('90');
+    downloadPromise = page.waitForEvent('download');
+    await page.locator('#go').click();
+    result = await readDownloadedPdf(await downloadPromise, page);
+    expect(result.pageCount).toBe(3);
+    expect(result.rotations).toEqual([0, 90, 0]);
+
+    // Reorder: all three pages should appear in the requested 3,1,2 sequence.
+    await page.goto(mergePath.replace('pdf-merge', 'pdf-reorder'));
+    await setPdfFixture(page.locator('[data-pdf-files]'), fixture);
+    await page.locator('#pages').fill('3,1,2');
+    downloadPromise = page.waitForEvent('download');
+    await page.locator('#go').click();
+    result = await readDownloadedPdf(await downloadPromise, page);
+    expect(result.pageCount).toBe(3);
+    expect(result.widths).toEqual([300, 100, 200]);
+
+    // Optimize: the rebuilt file must still be readable and retain all pages.
+    await page.goto(mergePath.replace('pdf-merge', 'pdf-compress'));
+    await setPdfFixture(page.locator('[data-pdf-files]'), fixture);
+    downloadPromise = page.waitForEvent('download');
+    await page.locator('#go').click();
+    result = await readDownloadedPdf(await downloadPromise, page);
+    expect(result.pageCount).toBe(3);
+    expect(result.widths).toEqual([100, 200, 300]);
+  });
+}
