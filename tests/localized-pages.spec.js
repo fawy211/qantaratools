@@ -170,3 +170,54 @@ for (const [locale, homePath] of Object.entries(homeOfficePaths)) {
     await expect(page.locator('#ai-pdf')).toBeVisible();
   });
 }
+
+// Additional PDF tools: verify localized titles and primary actions in every supported language.
+const pdfAdditionalLocales = {
+  en: {
+    split: ['PDF Split & Page Extractor', 'Extract Pages'],
+    rotate: ['PDF Page Rotator', 'Create Rotated PDF'],
+    compress: ['PDF Optimizer', 'Optimize PDF'],
+    images: ['Images to PDF', 'Create PDF'],
+    text: ['Text to PDF', 'Open PDF Print View']
+  },
+  ar: {
+    split: ['تقسيم PDF واستخراج الصفحات', 'استخراج الصفحات'],
+    rotate: ['تدوير صفحات PDF', 'إنشاء PDF بعد التدوير'],
+    compress: ['تحسين ملفات PDF', 'تحسين PDF'],
+    images: ['تحويل الصور إلى PDF', 'إنشاء PDF'],
+    text: ['تحويل النص إلى PDF', 'فتح معاينة طباعة PDF']
+  },
+  de: {
+    split: ['PDF teilen und Seiten extrahieren', 'Seiten extrahieren'],
+    rotate: ['PDF-Seiten drehen', 'Gedrehte PDF erstellen'],
+    compress: ['PDF optimieren', 'PDF optimieren'],
+    images: ['Bilder in PDF umwandeln', 'PDF erstellen'],
+    text: ['Text in PDF umwandeln', 'PDF-Druckansicht öffnen']
+  },
+  fr: {
+    split: ['Diviser un PDF et extraire des pages', 'Extraire les pages'],
+    rotate: ['Pivoter les pages PDF', 'Créer le PDF pivoté'],
+    compress: ['Optimiseur de PDF', 'Optimiser le PDF'],
+    images: ['Images en PDF', 'Créer le PDF'],
+    text: ['Texte en PDF', 'Ouvrir l’aperçu PDF']
+  },
+  es: {
+    split: ['Dividir PDF y extraer páginas', 'Extraer páginas'],
+    rotate: ['Girar páginas PDF', 'Crear PDF girado'],
+    compress: ['Optimizador de PDF', 'Optimizar PDF'],
+    images: ['Convertir imágenes a PDF', 'Crear PDF'],
+    text: ['Convertir texto a PDF', 'Abrir vista de impresión PDF']
+  }
+};
+
+for (const [locale, expected] of Object.entries(pdfAdditionalLocales)) {
+  const prefix = locale === 'en' ? '' : locale === 'ar' ? '' : '/' + locale;
+  const suffix = locale === 'ar' ? '?locale=ar' : '';
+  for (const [key, slug] of [['split', 'pdf-split'], ['rotate', 'pdf-rotate'], ['compress', 'pdf-compress'], ['images', 'images-pdf'], ['text', 'text-pdf']]) {
+    test('PDF ' + slug + ' interface is localized for ' + locale, async ({ page }) => {
+      await page.goto(prefix + '/tools/' + slug + '/' + suffix);
+      await expect(page.locator('#active-tool-box')).toContainText(expected[key][0]);
+      await expect(page.locator('#active-tool-box button#go')).toHaveText(expected[key][1]);
+    });
+  }
+}
