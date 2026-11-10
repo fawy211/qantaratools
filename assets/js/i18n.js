@@ -1028,6 +1028,134 @@
   }
 };
 
+  const TEXT_TOOL_MESSAGES = {
+  "en": {
+    "wcTitle": "Word & Character Counter",
+    "wcDesc": "Count words, characters, sentences, paragraphs, and reading time.",
+    "wcPlaceholder": "Type or paste your text here...",
+    "wcNoSpace": "No-space characters",
+    "wcReadingTime": "Reading time",
+    "wcClear": "Clear",
+    "wcSeconds": "sec",
+    "wcMinutes": "min",
+    "mdTitle": "Markdown to HTML",
+    "mdDesc": "Convert common Markdown headings, lists, links, bold, and italic text locally.",
+    "mdPlaceholder": "# Heading\n\n**Bold** text",
+    "mdConvert": "Convert",
+    "mdCopy": "Copy HTML",
+    "jcTitle": "JSON ↔ CSV Converter",
+    "jcDesc": "Convert simple arrays of JSON objects and CSV tables locally.",
+    "jcPlaceholder": "JSON: [{\"name\":\"Alex\",\"age\":30}] or a CSV table...",
+    "jcJsonToCsv": "JSON → CSV",
+    "jcCsvToJson": "CSV → JSON",
+    "jcCopy": "Copy",
+    "jcConvertedJson": "Converted JSON to CSV.",
+    "jcJsonArray": "Use a JSON array of objects.",
+    "jcConvertedCsv": "Converted CSV to JSON.",
+    "jcCsvError": "Could not read the CSV."
+  },
+  "ar": {
+    "wcTitle": "عداد الكلمات والأحرف",
+    "wcDesc": "احسب الكلمات والأحرف والجمل والفقرات ووقت القراءة.",
+    "wcPlaceholder": "اكتب النص أو الصقه هنا...",
+    "wcNoSpace": "الأحرف بدون مسافات",
+    "wcReadingTime": "وقت القراءة",
+    "wcClear": "مسح",
+    "wcSeconds": "ثانية",
+    "wcMinutes": "دقيقة",
+    "mdTitle": "تحويل Markdown إلى HTML",
+    "mdDesc": "حوّل العناوين والقوائم والروابط والنص العريض والمائل من Markdown محليًا.",
+    "mdPlaceholder": "# عنوان\n\n**نص عريض**",
+    "mdConvert": "تحويل",
+    "mdCopy": "نسخ HTML",
+    "jcTitle": "محول JSON ↔ CSV",
+    "jcDesc": "حوّل مصفوفات كائنات JSON البسيطة وجداول CSV محليًا.",
+    "jcPlaceholder": "JSON: [{\"name\":\"Alex\",\"age\":30}] أو جدول CSV...",
+    "jcJsonToCsv": "JSON ← CSV",
+    "jcCsvToJson": "CSV ← JSON",
+    "jcCopy": "نسخ",
+    "jcConvertedJson": "تم تحويل JSON إلى CSV.",
+    "jcJsonArray": "استخدم مصفوفة JSON تحتوي على كائنات.",
+    "jcConvertedCsv": "تم تحويل CSV إلى JSON.",
+    "jcCsvError": "تعذرت قراءة CSV."
+  },
+  "de": {
+    "wcTitle": "Wort- und Zeichenzähler",
+    "wcDesc": "Zähle Wörter, Zeichen, Sätze, Absätze und die Lesezeit.",
+    "wcPlaceholder": "Gib deinen Text hier ein oder füge ihn ein…",
+    "wcNoSpace": "Zeichen ohne Leerzeichen",
+    "wcReadingTime": "Lesezeit",
+    "wcClear": "Leeren",
+    "wcSeconds": "Sek.",
+    "wcMinutes": "Min.",
+    "mdTitle": "Markdown in HTML umwandeln",
+    "mdDesc": "Wandle Markdown-Überschriften, Listen, Links sowie fett und kursiv formatierten Text lokal um.",
+    "mdPlaceholder": "# Überschrift\n\n**Fetter** Text",
+    "mdConvert": "Umwandeln",
+    "mdCopy": "HTML kopieren",
+    "jcTitle": "JSON- ↔ CSV-Konverter",
+    "jcDesc": "Wandle einfache Arrays von JSON-Objekten und CSV-Tabellen lokal um.",
+    "jcPlaceholder": "JSON: [{\"name\":\"Alex\",\"age\":30}] oder eine CSV-Tabelle…",
+    "jcJsonToCsv": "JSON → CSV",
+    "jcCsvToJson": "CSV → JSON",
+    "jcCopy": "Kopieren",
+    "jcConvertedJson": "JSON wurde in CSV umgewandelt.",
+    "jcJsonArray": "Verwende ein JSON-Array aus Objekten.",
+    "jcConvertedCsv": "CSV wurde in JSON umgewandelt.",
+    "jcCsvError": "CSV konnte nicht gelesen werden."
+  },
+  "fr": {
+    "wcTitle": "Compteur de mots et de caractères",
+    "wcDesc": "Comptez les mots, caractères, phrases, paragraphes et le temps de lecture.",
+    "wcPlaceholder": "Saisissez ou collez votre texte ici…",
+    "wcNoSpace": "Caractères sans espaces",
+    "wcReadingTime": "Temps de lecture",
+    "wcClear": "Effacer",
+    "wcSeconds": "s",
+    "wcMinutes": "min",
+    "mdTitle": "Convertir Markdown en HTML",
+    "mdDesc": "Convertissez localement les titres, listes, liens et textes gras ou italiques Markdown.",
+    "mdPlaceholder": "# Titre\n\nTexte en **gras**",
+    "mdConvert": "Convertir",
+    "mdCopy": "Copier le HTML",
+    "jcTitle": "Convertisseur JSON ↔ CSV",
+    "jcDesc": "Convertissez localement des tableaux simples d’objets JSON et des tableaux CSV.",
+    "jcPlaceholder": "JSON : [{\"name\":\"Alex\",\"age\":30}] ou un tableau CSV…",
+    "jcJsonToCsv": "JSON → CSV",
+    "jcCsvToJson": "CSV → JSON",
+    "jcCopy": "Copier",
+    "jcConvertedJson": "JSON converti en CSV.",
+    "jcJsonArray": "Utilisez un tableau JSON d’objets.",
+    "jcConvertedCsv": "CSV converti en JSON.",
+    "jcCsvError": "Impossible de lire le CSV."
+  },
+  "es": {
+    "wcTitle": "Contador de palabras y caracteres",
+    "wcDesc": "Cuenta palabras, caracteres, oraciones, párrafos y tiempo de lectura.",
+    "wcPlaceholder": "Escribe o pega tu texto aquí…",
+    "wcNoSpace": "Caracteres sin espacios",
+    "wcReadingTime": "Tiempo de lectura",
+    "wcClear": "Borrar",
+    "wcSeconds": "s",
+    "wcMinutes": "min",
+    "mdTitle": "Convertir Markdown a HTML",
+    "mdDesc": "Convierte localmente títulos, listas, enlaces y texto en negrita o cursiva de Markdown.",
+    "mdPlaceholder": "# Encabezado\n\nTexto en **negrita**",
+    "mdConvert": "Convertir",
+    "mdCopy": "Copiar HTML",
+    "jcTitle": "Conversor JSON ↔ CSV",
+    "jcDesc": "Convierte localmente matrices sencillas de objetos JSON y tablas CSV.",
+    "jcPlaceholder": "JSON: [{\"name\":\"Alex\",\"age\":30}] o una tabla CSV…",
+    "jcJsonToCsv": "JSON → CSV",
+    "jcCsvToJson": "CSV → JSON",
+    "jcCopy": "Copiar",
+    "jcConvertedJson": "JSON convertido a CSV.",
+    "jcJsonArray": "Usa una matriz JSON de objetos.",
+    "jcConvertedCsv": "CSV convertido a JSON.",
+    "jcCsvError": "No se pudo leer el CSV."
+  }
+};
+
   function localeFromPath() {
     const first = location.pathname.split('/').filter(Boolean)[0];
     return Object.prototype.hasOwnProperty.call(LOCALES, first) ? first : null;
@@ -1062,7 +1190,8 @@
       (CURRENCY_MESSAGES[current] && CURRENCY_MESSAGES[current][key]) ||
       (IMAGE_MESSAGES[current] && IMAGE_MESSAGES[current][key]) ||
       (PDF_MESSAGES[current] && PDF_MESSAGES[current][key]) ||
-      MESSAGES.en[key] || EXTRA_MESSAGES.en[key] || CURRENCY_MESSAGES.en[key] || IMAGE_MESSAGES.en[key] || PDF_MESSAGES.en[key] || fallback || key;
+      (TEXT_TOOL_MESSAGES[current] && TEXT_TOOL_MESSAGES[current][key]) ||
+      MESSAGES.en[key] || EXTRA_MESSAGES.en[key] || CURRENCY_MESSAGES.en[key] || IMAGE_MESSAGES.en[key] || PDF_MESSAGES.en[key] || TEXT_TOOL_MESSAGES.en[key] || fallback || key;
   }
 
   function formatNumber(value, options) {
