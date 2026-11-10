@@ -3380,7 +3380,8 @@
   "pomodoro-timer": [
     "pomodoroTitle",
     "pomodoroDesc"
-  ]
+  ],
+  "ai-office": ["aiTitle", "aiIntro"]
 };
 
   function localeFromPath() {
