@@ -83,6 +83,13 @@ for(const tool of tools){
  const p=path.join(root,'tools',tool.id,'index.html');
  if(!fs.existsSync(p)) continue;
  let html=fs.readFileSync(p,'utf8');
+ if(!html.includes('data-locale-link="de"')){
+  const languageLinks='<a href="/de/tools/'+tool.id+'/" data-locale-link="de">Deutsch</a><a href="/fr/tools/'+tool.id+'/" data-locale-link="fr">Français</a><a href="/es/tools/'+tool.id+'/" data-locale-link="es">Español</a><a href="/tools/'+tool.id+'/?locale=ar" data-locale-link="ar">العربية</a>';
+  html=html.replace('<a href="/contact.html">Contact</a>', '<a href="/contact.html">Contact</a>'+languageLinks);
+ }
+ if(html.includes('/assets/js/i18n.js')&&!html.includes('qantaratools_language_v1')){
+  html=html.replace('<script src="/assets/js/i18n.js"></script>','<script src="/assets/js/i18n.js"></script><script>document.querySelectorAll("[data-locale-link]").forEach(function(a){a.addEventListener("click",function(){try{localStorage.setItem("qantaratools_language_v1",a.dataset.localeLink);}catch(e){}});});</script>');
+ }
  if(!html.includes('hreflang="de"')){
   const tags=['en','de','fr','es'].map(code=>'<link rel="alternate" hreflang="'+code+'" href="'+site+(code==='en'?'':'/'+code)+'/tools/'+tool.id+'/">').join('\n  ');
   html=html.replace(/<link rel="canonical" href="([^"]+)">/,m=>m+'\n  '+tags);
