@@ -2786,6 +2786,8 @@
     "fancyCopy": "Copy",
     "fancyCopied": "Copied",
     "fancySelectCopy": "Select & copy"
+    "fancyTitle": "Fancy Text Generator",
+    "fancyDesc": "Create stylish Unicode text, symbols and decorative designs.",
   },
   "ar": {
     "allStyles": "الكل",
@@ -2807,6 +2809,8 @@
     "fancyCopy": "نسخ",
     "fancyCopied": "تم النسخ",
     "fancySelectCopy": "حدد وانسخ"
+    "fancyTitle": "مولّد النصوص المزخرفة",
+    "fancyDesc": "أنشئ نصوص Unicode أنيقة ورموزًا وتصميمات زخرفية.",
   },
   "de": {
     "allStyles": "Alle",
@@ -2828,6 +2832,8 @@
     "fancyCopy": "Kopieren",
     "fancyCopied": "Kopiert",
     "fancySelectCopy": "Auswählen und kopieren"
+    "fancyTitle": "Generator für ausgefallene Schrift",
+    "fancyDesc": "Erstelle stilvolle Unicode-Texte, Symbole und dekorative Designs.",
   },
   "fr": {
     "allStyles": "Tout",
@@ -2849,6 +2855,8 @@
     "fancyCopy": "Copier",
     "fancyCopied": "Copié",
     "fancySelectCopy": "Sélectionner et copier"
+    "fancyTitle": "Générateur de texte fantaisie",
+    "fancyDesc": "Créez des textes Unicode élégants, des symboles et des décorations.",
   },
   "es": {
     "allStyles": "Todos",
@@ -2870,6 +2878,8 @@
     "fancyCopy": "Copiar",
     "fancyCopied": "Copiado",
     "fancySelectCopy": "Seleccionar y copiar"
+    "fancyTitle": "Generador de texto decorativo",
+    "fancyDesc": "Crea texto Unicode con estilo, símbolos y diseños decorativos.",
   }
 };
 
