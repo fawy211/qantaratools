@@ -123,6 +123,12 @@
       aiSheetName: "المحادثة",
       aiDefaultFilename: "محادثة",
       aiExampleText: "المستخدم: أنشئ خطة مشروع مختصرة\nالمساعد: إليك خطة واضحة.\n\nالمستخدم: أضف جدولًا بسيطًا.\nالمساعد: المهمة\tالحالة\nالموقع الإلكتروني\tجاهز\nالاختبار\tقيد التنفيذ",
+      aiDocxInvalidZip: "ملف Word ليس مستندًا صالحًا من نوع ZIP.",
+      aiDocxInvalidEntry: "يحتوي مستند Word على عنصر ملف غير صالح.",
+      aiDocxCompression: "يستخدم ملف Word ضغطًا لا يستطيع المتصفح قراءته محليًا.",
+      aiDocxUnreadable: "لا يحتوي ملف Word على مستند قابل للقراءة.",
+      aiDocxXmlError: "تعذرت قراءة مستند Word.",
+      aiDocxNoBody: "لا يحتوي مستند Word على محتوى قابل للقراءة.",
     },
     de: {
       loading: 'Tool wird geladen…', loadError: 'Dieses Tool konnte nicht geladen werden',
@@ -175,6 +181,12 @@
       aiSheetName: "Konversation",
       aiDefaultFilename: "Konversation",
       aiExampleText: "Nutzer: Erstelle einen kurzen Projektplan\nAssistent: Hier ist ein übersichtlicher Plan.\n\nNutzer: Füge eine einfache Tabelle hinzu.\nAssistent: Aufgabe\tStatus\nWebsite\tBereit\nTesten\tIn Arbeit",
+      aiDocxInvalidZip: "Diese Word-Datei ist kein gültiges ZIP-basiertes Dokument.",
+      aiDocxInvalidEntry: "Das Word-Dokument enthält einen ungültigen Dateieintrag.",
+      aiDocxCompression: "Diese Word-Datei verwendet eine Komprimierung, die Ihr Browser lokal nicht lesen kann.",
+      aiDocxUnreadable: "Die Word-Datei enthält kein lesbares Dokument.",
+      aiDocxXmlError: "Das Word-Dokument konnte nicht gelesen werden.",
+      aiDocxNoBody: "Das Word-Dokument enthält keinen lesbaren Inhalt.",
     },
     fr: {
       loading: 'Chargement de l’outil…', loadError: 'Impossible de charger cet outil',
@@ -227,6 +239,12 @@
       aiSheetName: "Conversation",
       aiDefaultFilename: "conversation",
       aiExampleText: "Utilisateur : Crée un court plan de projet\nAssistant : Voici un plan clair.\n\nUtilisateur : Ajoute un tableau simple.\nAssistant : Tâche\tStatut\nSite web\tPrêt\nTests\tEn cours",
+      aiDocxInvalidZip: "Ce fichier Word n’est pas un document ZIP valide.",
+      aiDocxInvalidEntry: "Le document Word contient une entrée de fichier invalide.",
+      aiDocxCompression: "Ce fichier Word utilise une compression que votre navigateur ne peut pas lire localement.",
+      aiDocxUnreadable: "Le fichier Word ne contient aucun document lisible.",
+      aiDocxXmlError: "Le document Word n’a pas pu être lu.",
+      aiDocxNoBody: "Le document Word ne contient aucun contenu lisible.",
     },
     es: {
       loading: 'Cargando herramienta…', loadError: 'No se pudo cargar esta herramienta',
@@ -280,6 +298,12 @@
       aiDefaultFilename: "conversacion",
       aiExampleText: "Usuario: Crea un breve plan de proyecto\nAsistente: Aquí tienes un plan claro.\n\nUsuario: Incluye una tabla sencilla.\nAsistente: Tarea\tEstado\nSitio web\tListo\nPruebas\tEn curso",
     }
+      aiDocxInvalidZip: "Este archivo de Word no es un documento ZIP válido.",
+      aiDocxInvalidEntry: "El documento de Word contiene una entrada de archivo no válida.",
+      aiDocxCompression: "Este archivo de Word usa una compresión que el navegador no puede leer localmente.",
+      aiDocxUnreadable: "El archivo de Word no contiene un documento legible.",
+      aiDocxXmlError: "No se pudo leer el documento de Word.",
+      aiDocxNoBody: "El documento de Word no contiene contenido legible.",
   };
 
   const EXTRA_MESSAGES = {
