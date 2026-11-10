@@ -43,12 +43,12 @@
     html.dark .qt-tool-intro{background:linear-gradient(115deg,#1a1725,#242044 58%,#123934);border-color:#fff9ef;box-shadow:6px 6px 0 #fff9ef}html.dark .qt-tool-intro h1{color:#fff9ef}html.dark .qt-tool-intro p{color:#b6acbd}
     @media(max-width:600px){.qt-tool-header-inner{padding:10px 14px}.qt-tool-nav{gap:8px}.qt-tool-nav a{font-size:11px}.qt-tool-main{padding-top:18px}.qt-tool-intro{padding:23px 20px}.qt-tool-workspace,.qt-tool-details{padding:16px}}
   </style>
-</head>
+<script>(function(){var m=location.search.match(/[?&]locale=([a-z]{2})(?:&|$)/i);if(m&&m[1].toLowerCase()==="ar"){document.documentElement.lang="ar";document.documentElement.dir="rtl";document.documentElement.dataset.locale="ar";}})();</script></head>
 <body class="qt-tool-page">
   <a class="skip-link" href="#tool-workspace">Skip to tool</a>
   <header class="qt-tool-header"><div class="qt-tool-header-inner">
     <a class="qt-tool-brand" href="/"><img src="/assets/branding/qantara-mark.svg" alt=""><span>Qantara<span>Tools</span></span></a>
-    <nav class="qt-tool-nav" aria-label="Main navigation"><a href="/">All tools</a><a href="/about-us.html">About</a><a href="/contact.html">Contact</a><button type="button" class="qt-theme-btn" data-theme-toggle aria-label="Toggle theme"><i class="fa-solid fa-sun" aria-hidden="true"></i></button></nav>
+    <nav class="qt-tool-nav" aria-label="Main navigation"><a href="/">All tools</a><a href="/about-us.html">About</a><a href="/contact.html">Contact</a><button type="button" class="qt-theme-btn" data-theme-toggle aria-label="Toggle theme"><i class="fa-solid fa-sun" aria-hidden="true"></i></button><a href="/tools/pdf-merge/" data-locale-link="en">English</a><a href="/de/tools/pdf-merge/" data-locale-link="de">Deutsch</a><a href="/fr/tools/pdf-merge/" data-locale-link="fr">Français</a><a href="/es/tools/pdf-merge/" data-locale-link="es">Español</a><a href="/tools/pdf-merge/?locale=ar" data-locale-link="ar">العربية</a></nav>
   </div></header>
   <main class="qt-tool-main">
     <nav aria-label="Breadcrumb"><ol class="qt-crumbs"><li><a href="/">All tools</a></li><li>PDF &amp; Documents</li><li aria-current="page">PDF Merge</li></ol></nav>
@@ -82,4 +82,4 @@
   <script src="/assets/js/router.js"></script>
   <script src="/assets/js/accessibility.js"></script>
   <script>window.addEventListener('DOMContentLoaded',()=>{if(window.router)window.router.loadTool("PDF & Documents","PDF Merge","pdf-merge");});</script>
-</body></html>
+<script src="/assets/js/i18n.js"></script><script data-qt-locale-persist>(function(){function bind(){document.querySelectorAll("[data-locale-link]").forEach(function(a){if(a.dataset.qtLocaleBound)return;a.dataset.qtLocaleBound="1";a.addEventListener("click",function(){var locale=a.dataset.localeLink;try{localStorage.setItem("qantaratools_language_v1",locale);}catch(e){}if(window.QTI18n&&window.QTI18n.setLocale)window.QTI18n.setLocale(locale);});});}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",bind);else bind();})();</script></body></html>
