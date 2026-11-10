@@ -194,6 +194,7 @@ async function loadTool(category, title, toolName) {
     activeToolInstance = null;
 
     const config = TOOL_REGISTRY[toolName];
+    window.QTActiveToolId = toolName;
     if (!config) {
         box.innerHTML = `<div class="p-6 rounded-xl border border-red-500/30 bg-red-500/10 text-red-300">${window.QTI18n?.t('notRegistered', 'This tool is not available yet.') || 'This tool is not available yet.'}</div>`;
         if (grid) grid.classList.add('hidden');
