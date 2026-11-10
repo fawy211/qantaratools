@@ -3,6 +3,7 @@
 export class ArabicFixerTool {
     constructor(containerId) {
         this.container = document.getElementById(containerId);
+        this.t=(k,f)=>window.QTI18n?.t(k,f)||f;
         this.init();
     }
 
@@ -13,27 +14,27 @@ export class ArabicFixerTool {
             <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 shadow-xl space-y-4">
                 <div class="flex items-center justify-between pb-4 border-b border-gray-800">
                     <div>
-                        <h2 class="text-lg font-semibold text-white">Arabic Mojibake & Text Fixer</h2>
-                        <p class="text-xs text-gray-400 mt-0.5">Fix broken Arabic text encoding, unreadable characters, and normalization.</p>
+                        <h2 class="text-lg font-semibold text-white">${this.t('arabicFixTitle','Arabic Mojibake & Text Fixer')}</h2>
+                        <p class="text-xs text-gray-400 mt-0.5">${this.t('arabicFixDesc','Fix broken Arabic text encoding, unreadable characters, and normalization.')}</p>
                     </div>
-                    <span class="bg-emerald-500/10 text-emerald-400 text-xs px-2.5 py-1 rounded-md border border-emerald-500/20">Active Engine</span>
+                    <span class="bg-emerald-500/10 text-emerald-400 text-xs px-2.5 py-1 rounded-md border border-emerald-500/20">${this.t('activeEngine','Active Engine')}</span>
                 </div>
 
                 <div>
-                    <label class="block text-xs font-medium text-gray-400 mb-1">Broken Arabic Text</label>
-                    <textarea id="arabicInput" rows="4" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-4 text-gray-100 text-sm font-mono focus:outline-none focus:border-indigo-500" placeholder="Paste broken text here (e.g. Ù…Ø±Ø­Ø¨Ø§)..."></textarea>
+                    <label class="block text-xs font-medium text-gray-400 mb-1">${this.t('brokenArabic','Broken Arabic Text')}</label>
+                    <textarea id="arabicInput" rows="4" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-4 text-gray-100 text-sm font-mono focus:outline-none focus:border-indigo-500" placeholder="${this.t('brokenPlaceholder','Paste broken text here (e.g. Ù…Ø±Ø­Ø¨Ø§)...')}"></textarea>
                 </div>
 
                 <div class="flex flex-wrap gap-2">
-                    <button id="fixArabicBtn" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs px-4 py-2.5 rounded-lg font-medium transition cursor-pointer">Fix & Normalize Text</button>
-                    <button id="clearArabicBtn" class="bg-gray-800 hover:bg-gray-700 text-gray-300 text-xs px-4 py-2.5 rounded-lg font-medium transition cursor-pointer">Clear</button>
+                    <button id="fixArabicBtn" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs px-4 py-2.5 rounded-lg font-medium transition cursor-pointer">${this.t('fixNormalize','Fix & Normalize Text')}</button>
+                    <button id="clearArabicBtn" class="bg-gray-800 hover:bg-gray-700 text-gray-300 text-xs px-4 py-2.5 rounded-lg font-medium transition cursor-pointer">${this.t('clear','Clear')}</button>
                 </div>
 
                 <div id="arabicResultArea" class="hidden mt-4 space-y-2">
-                    <label class="block text-xs font-medium text-gray-400">Corrected Output</label>
+                    <label class="block text-xs font-medium text-gray-400">${this.t('correctedOutput','Corrected Output')}</label>
                     <div class="relative">
                         <textarea id="arabicOutput" rows="4" readonly class="w-full bg-gray-950 p-4 rounded-xl border border-gray-800 text-emerald-400 text-sm font-mono focus:outline-none"></textarea>
-                        <button id="copyArabicBtn" class="absolute top-2 right-2 bg-gray-800 hover:bg-gray-700 text-gray-300 text-xs px-2.5 py-1 rounded border border-gray-700 transition">Copy</button>
+                        <button id="copyArabicBtn" class="absolute top-2 right-2 bg-gray-800 hover:bg-gray-700 text-gray-300 text-xs px-2.5 py-1 rounded border border-gray-700 transition">${this.t('copy','Copy')}</button>
                     </div>
                 </div>
             </div>
@@ -100,8 +101,8 @@ export class ArabicFixerTool {
                 if (!text) return;
 
                 navigator.clipboard.writeText(text).then(() => {
-                    copyBtn.textContent = 'Copied!';
-                    setTimeout(() => { copyBtn.textContent = 'Copy'; }, 2000);
+                    copyBtn.textContent = this.t('copied','Copied!');
+                    setTimeout(() => { copyBtn.textContent = this.t('copy','Copy'); }, 2000);
                 });
             });
         }
