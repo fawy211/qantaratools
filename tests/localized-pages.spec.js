@@ -221,3 +221,38 @@ for (const [locale, expected] of Object.entries(pdfAdditionalLocales)) {
     });
   }
 }
+
+
+const functionalLocalePaths = {
+  en: '/tools/discount-calculator/',
+  ar: '/tools/discount-calculator/?locale=ar',
+  de: '/de/tools/discount-calculator/',
+  fr: '/fr/tools/discount-calculator/',
+  es: '/es/tools/discount-calculator/'
+};
+for (const [locale, calculatorPath] of Object.entries(functionalLocalePaths)) {
+  test('calculator and text tool results follow selected locale for ' + locale, async ({ page }) => {
+    await page.goto(calculatorPath);
+    await page.locator('#dcGo').click();
+    const expectedAmount = await page.evaluate(() => window.QTI18n.formatNumber(80, { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+    await expect(page.locator('#dcMain')).toHaveText(expectedAmount);
+    const expectedLabel = await page.evaluate(() => window.QTI18n.t('finalPrice', 'Final Price'));
+    await expect(page.locator('#dcMainLabel')).toHaveText(expectedLabel);
+
+    const wordCounterPath = calculatorPath.replace('discount-calculator', 'word-counter');
+    await page.goto(wordCounterPath);
+    await page.locator('#wcInput').fill('Hello world. New line');
+    const expectedWords = await page.evaluate(() => window.QTI18n.formatNumber(4));
+    await expect(page.locator('#wcWords')).toHaveText(expectedWords);
+    const expectedWordLabel = await page.evaluate(() => window.QTI18n.t('words', 'Words'));
+    await expect(page.locator('#wcWords').locator('..')).toContainText(expectedWordLabel);
+
+    const jsonPath = calculatorPath.replace('discount-calculator', 'json-formatter');
+    await page.goto(jsonPath);
+    await page.locator('#jsonInput').fill('{"hello":"world"}');
+    await page.locator('#formatBtn').click();
+    const expectedStatus = await page.evaluate(() => window.QTI18n.t('validJson', 'Valid JSON.'));
+    await expect(page.locator('#jsonStatus')).toHaveText(expectedStatus);
+    await expect(page.locator('#jsonOutput')).toContainText('"hello": "world"');
+  });
+}
