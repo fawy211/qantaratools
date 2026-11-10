@@ -141,6 +141,7 @@ const page = tool => {
   <script src="/assets/js/consent.js"></script>
   <script src="/assets/js/plugin-system.js"></script>
   <script src="/assets/js/tool-feedback.js"></script>
+  <script src="/assets/js/i18n.js"></script>
   <script src="/assets/js/router.js"></script>
   <script src="/assets/js/accessibility.js"></script>
   <script>window.addEventListener('DOMContentLoaded',()=>{if(window.router)window.router.loadTool(${JSON.stringify(tool.category)},${JSON.stringify(tool.title)},${JSON.stringify(tool.id)});});</script>
