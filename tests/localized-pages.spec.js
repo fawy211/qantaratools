@@ -21,7 +21,7 @@ test('language choice persists when switching from German to English and Arabic'
   await page.goto('/de/tools/base64/');
   await expect(page.locator('html')).toHaveAttribute('lang', 'de');
   await page.locator('[data-locale-link="en"]').click();
-  await expect(page).toHaveURL(/\/tools\/base64\/$/);
+  await expect(page).toHaveURL(/\/tools\/base64\/\?locale=ar$/);
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
   expect(await page.evaluate(() => localStorage.getItem('qantaratools_language_v1'))).toBe('en');
 
