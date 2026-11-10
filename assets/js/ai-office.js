@@ -30,7 +30,7 @@
       m = line.match(bareStart);
       if (m) {
         push();
-        const role = /^(assistant|ai|chatgpt|claude|gemini|copilot)$/i.test(m[1]) ? 'Assistant' : 'User';
+        const role = /^(assistant|asistente|assistent|المساعد|ai|chatgpt|claude|gemini|copilot)$/i.test(m[1]) ? 'Assistant' : 'User';
         current = { role, content: '' };
         continue;
       }
