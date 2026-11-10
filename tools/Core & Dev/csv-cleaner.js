@@ -1,6 +1,8 @@
 export class CSVCleanerTool {
   constructor(containerId) {
     this.container = document.getElementById(containerId);
+    this.t=(k,f)=>window.QTI18n?.t(k,f)||f;
+    this.tf=(k,f,v)=>Object.entries(v).reduce((a,[x,y])=>a.replaceAll('{'+x+'}',y),this.t(k,f));
     this.rows = [];
     this.headers = [];
     this.fileName = 'cleaned.csv';
@@ -15,22 +17,22 @@ export class CSVCleanerTool {
         <!-- Main Tool Card -->
         <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 shadow-xl space-y-5">
           <div class="pb-4 border-b border-gray-800/80">
-            <h1 class="text-xl font-bold text-white tracking-tight">CSV Data Cleaner & Deduplicator</h1>
-            <p class="text-xs text-gray-400 mt-1">Clean spaces, remove blank rows, and strip duplicates from your CSV files locally in your browser.</p>
+            <h1 class="text-xl font-bold text-white tracking-tight">${this.t('csvCleanTitle','CSV Data Cleaner & Deduplicator')}</h1>
+            <p class="text-xs text-gray-400 mt-1">${this.t('csvCleanDesc','Clean spaces, remove blank rows, and strip duplicates from your CSV files locally in your browser.')}</p>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3 items-center">
             <label class="flex items-center justify-between cursor-pointer bg-gray-950 border border-gray-800 hover:border-gray-700 px-4 py-3 rounded-xl text-xs text-gray-300 transition-all">
-              <span class="truncate" id="csvFileLabel">📁 Choose CSV or TXT file...</span>
+              <span class="truncate" id="csvFileLabel">📁 ${this.t('chooseCsv','Choose CSV or TXT file...')}</span>
               <input id="csvFileInput" type="file" accept=".csv,.txt" class="hidden">
             </label>
-            <button id="loadSampleCsvBtn" class="bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-medium px-4 py-3 rounded-xl transition-all">Load Example CSV</button>
+            <button id="loadSampleCsvBtn" class="bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-medium px-4 py-3 rounded-xl transition-all">${this.t('loadExampleCsv','Load Example CSV')}</button>
           </div>
 
           <div class="flex flex-wrap gap-2 pt-2 border-t border-gray-800/60">
-            <button id="cleanCsvBtn" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium px-5 py-2.5 rounded-xl transition-all shadow-lg shadow-indigo-600/20">Clean CSV</button>
-            <button id="downloadCsvBtn" class="hidden bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium px-5 py-2.5 rounded-xl transition-all shadow-lg shadow-emerald-600/20">Download Cleaned CSV</button>
-            <button id="clearCsvBtn" class="bg-gray-800/50 hover:bg-gray-800 text-gray-400 hover:text-gray-200 text-xs font-medium px-4 py-2.5 rounded-xl transition-all ml-auto">Clear</button>
+            <button id="cleanCsvBtn" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium px-5 py-2.5 rounded-xl transition-all shadow-lg shadow-indigo-600/20">${this.t('cleanCsv','Clean CSV')}</button>
+            <button id="downloadCsvBtn" class="hidden bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium px-5 py-2.5 rounded-xl transition-all shadow-lg shadow-emerald-600/20">${this.t('downloadCleanCsv','Download Cleaned CSV')}</button>
+            <button id="clearCsvBtn" class="bg-gray-800/50 hover:bg-gray-800 text-gray-400 hover:text-gray-200 text-xs font-medium px-4 py-2.5 rounded-xl transition-all ml-auto">${this.t('clear','Clear')}</button>
           </div>
 
           <div id="csvStats" class="text-xs text-indigo-400 font-medium"></div>
@@ -42,7 +44,7 @@ export class CSVCleanerTool {
 
         <!-- SEO Content & Guide Section -->
         <section class="bg-gray-900/40 border border-gray-800/60 rounded-2xl p-6 text-gray-400 text-xs space-y-3">
-          <h2 class="text-sm font-semibold text-gray-300">About Online CSV Data Cleaner</h2>
+          <h2 class="text-sm font-semibold text-gray-300">${this.t('aboutCsv','About Online CSV Data Cleaner')}</h2>
           <p>
             Cleaning messy spreadsheets, trimming whitespaces, and filtering out duplicate rows is essential for data analysis. 
             **QantaraTools CSV Cleaner** processes your files entirely inside your web browser. Your sensitive datasets and private CSV files never leave your computer, ensuring 100% data privacy and instant execution.
@@ -125,15 +127,15 @@ export class CSVCleanerTool {
       const dt = new DataTransfer();
       dt.items.add(new File([csvData], 'sample-data.csv', { type: 'text/csv' }));
       fi.files = dt.files;
-      fileLabel.textContent = '📄 sample-data.csv (Example Loaded)';
+      fileLabel.textContent = '📄 sample-data.csv ('+this.t('csvExampleLoaded','Example Loaded')+')';
       fileLabel.classList.add('text-indigo-300');
-      stats.textContent = 'Example CSV loaded. Click Clean CSV to process it.';
+      stats.textContent = this.t('csvExampleLoaded','Example CSV loaded. Click Clean CSV to process it.');
     };
 
     clean.onclick = () => {
       const f = fi.files?.[0];
       if (!f) {
-        stats.textContent = 'Please choose or load a CSV file first.';
+        stats.textContent = this.t('csvChooseFirst','Please choose or load a CSV file first.');
         return;
       }
       this.fileName = 'cleaned-' + f.name;
@@ -147,7 +149,7 @@ export class CSVCleanerTool {
           seen.add(k);
           return true;
         });
-        stats.textContent = `Successfully cleaned! Processed ${raw.length} rows → ${this.rows.length} unique rows (Duplicates and blanks removed).`;
+        stats.textContent = this.tf('csvCleaned','Successfully cleaned! Processed {input} rows → {output} unique rows (Duplicates and blanks removed).',{input:window.QTI18n?.formatNumber(raw.length)||raw.length,output:window.QTI18n?.formatNumber(this.rows.length)||this.rows.length});
         this.render();
         dl.classList.remove('hidden');
       };
@@ -163,7 +165,7 @@ export class CSVCleanerTool {
 
     document.getElementById('clearCsvBtn').onclick = () => {
       fi.value = '';
-      fileLabel.textContent = '📁 Choose CSV or TXT file...';
+      fileLabel.textContent = '📁 ${this.t('chooseCsv','Choose CSV or TXT file...')}';
       fileLabel.classList.remove('text-indigo-300');
       this.rows = [];
       stats.textContent = '';
