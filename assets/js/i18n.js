@@ -2058,6 +2058,34 @@
   }
 };
 
+  const EXTRA_CORE_MESSAGES = {
+  "en": {
+    "b64About": "About Base64 Encoding & Privacy",
+    "secondsLabel": "Seconds",
+    "millisecondsLabel": "Milliseconds"
+  },
+  "ar": {
+    "b64About": "حول ترميز Base64 والخصوصية",
+    "secondsLabel": "الثواني",
+    "millisecondsLabel": "المللي ثانية"
+  },
+  "de": {
+    "b64About": "Über Base64-Kodierung und Datenschutz",
+    "secondsLabel": "Sekunden",
+    "millisecondsLabel": "Millisekunden"
+  },
+  "fr": {
+    "b64About": "À propos de l’encodage Base64 et de la confidentialité",
+    "secondsLabel": "Secondes",
+    "millisecondsLabel": "Millisecondes"
+  },
+  "es": {
+    "b64About": "Acerca de la codificación Base64 y la privacidad",
+    "secondsLabel": "Segundos",
+    "millisecondsLabel": "Milisegundos"
+  }
+};
+
   function localeFromPath() {
     const first = location.pathname.split('/').filter(Boolean)[0];
     return Object.prototype.hasOwnProperty.call(LOCALES, first) ? first : null;
@@ -2097,7 +2125,8 @@
       (MORE_TEXT_MESSAGES[current] && MORE_TEXT_MESSAGES[current][key]) ||
       (MEDIA_MESSAGES[current] && MEDIA_MESSAGES[current][key]) ||
       (CORE_MESSAGES[current] && CORE_MESSAGES[current][key]) ||
-      MESSAGES.en[key] || EXTRA_MESSAGES.en[key] || CURRENCY_MESSAGES.en[key] || IMAGE_MESSAGES.en[key] || PDF_MESSAGES.en[key] || TEXT_TOOL_MESSAGES.en[key] || BUSINESS_MESSAGES.en[key] || MORE_TEXT_MESSAGES.en[key] || MEDIA_MESSAGES.en[key] || CORE_MESSAGES.en[key] || fallback || key;
+      (EXTRA_CORE_MESSAGES[current] && EXTRA_CORE_MESSAGES[current][key]) ||
+      MESSAGES.en[key] || EXTRA_MESSAGES.en[key] || CURRENCY_MESSAGES.en[key] || IMAGE_MESSAGES.en[key] || PDF_MESSAGES.en[key] || TEXT_TOOL_MESSAGES.en[key] || BUSINESS_MESSAGES.en[key] || MORE_TEXT_MESSAGES.en[key] || MEDIA_MESSAGES.en[key] || CORE_MESSAGES.en[key] || EXTRA_CORE_MESSAGES.en[key] || fallback || key;
   }
 
   function formatNumber(value, options) {
