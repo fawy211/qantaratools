@@ -251,6 +251,14 @@ async function loadTool(category, title, toolName) {
     }
 }
 
+
+window.addEventListener('qt:localechange', () => {
+    if (!document.body.classList.contains('qt-tool-page') || !window.QTActiveToolId) return;
+    const id = window.QTActiveToolId;
+    const config = TOOL_REGISTRY[id];
+    if (config) loadTool(null, window.QTI18n?.toolTitle(id, config.title) || config.title, id);
+});
+
 window.router = { loadTool, registry: TOOL_REGISTRY };
 
 window.destroyActiveTool = function(){ if(activeToolInstance && typeof activeToolInstance.destroy==='function'){ try{activeToolInstance.destroy()}catch(e){console.warn('Tool cleanup failed:',e)} } activeToolInstance=null; };
