@@ -1,6 +1,8 @@
 export class FancyTextTool {
     constructor(containerId) {
         this.container = document.getElementById(containerId);
+        this.t=(k,f)=>window.QTI18n?.t(k,f)||f;
+        this.tf=(k,f,v)=>Object.entries(v).reduce((a,[x,y])=>a.replaceAll('{'+x+'}',y),this.t(k,f));
         this.styles = this.buildStyles();
         this.activeCategory = 'All';
         this.searchTerm = '';
@@ -13,18 +15,18 @@ export class FancyTextTool {
             <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 sm:p-6 shadow-xl space-y-5">
                 <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between pb-4 border-b border-gray-800">
                     <div>
-                        <h2 class="text-xl font-semibold text-white">Fancy Text Generator</h2>
-                        <p class="text-sm text-gray-400 mt-1">Create stylish Unicode text, symbols and decorative designs.</p>
+                        <h2 class="text-xl font-semibold text-white">${this.t('fancyTitle','Fancy Text Generator')}</h2>
+                        <p class="text-sm text-gray-400 mt-1">${this.t('fancyDesc','Create stylish Unicode text, symbols and decorative designs.')}</p>
                     </div>
-                    <span class="w-fit bg-indigo-500/10 text-indigo-300 text-xs px-3 py-1.5 rounded-full border border-indigo-500/20">Unicode Styles</span>
+                    <span class="w-fit bg-indigo-500/10 text-indigo-300 text-xs px-3 py-1.5 rounded-full border border-indigo-500/20">${this.t('unicodeStyles','Unicode Styles')}</span>
                 </div>
 
                 <div class="space-y-2">
-                    <label class="block text-sm font-medium text-gray-300" for="fancyInput">Your text</label>
-                    <textarea id="fancyInput" rows="2" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-3.5 text-gray-100 text-base focus:outline-none focus:border-indigo-500 resize-y" placeholder="Type your text here...">Qantara Tools</textarea>
+                    <label class="block text-sm font-medium text-gray-300" for="fancyInput">${this.t('yourText','Your text')}</label>
+                    <textarea id="fancyInput" rows="2" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-3.5 text-gray-100 text-base focus:outline-none focus:border-indigo-500 resize-y" placeholder="${this.t('fancyPlaceholder','Type your text here...')}">Qantara Tools</textarea>
                     <div class="flex items-center justify-between text-xs text-gray-500">
                         <span id="fancyCharCount">0 characters</span>
-                        <button id="fancyClearBtn" type="button" class="hover:text-gray-300 transition">Clear</button>
+                        <button id="fancyClearBtn" type="button" class="hover:text-gray-300 transition">${this.t('fancyClear','Clear')}</button>
                     </div>
                 </div>
 
@@ -32,19 +34,19 @@ export class FancyTextTool {
                     <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                         <div class="flex flex-wrap gap-1.5" id="fancyCategories"></div>
                         <div class="relative sm:w-56">
-                            <input id="fancySearch" type="search" class="w-full bg-gray-950 border border-gray-800 rounded-lg px-3 py-2 text-xs text-gray-200 focus:outline-none focus:border-indigo-500" placeholder="Search styles...">
+                            <input id="fancySearch" type="search" class="w-full bg-gray-950 border border-gray-800 rounded-lg px-3 py-2 text-xs text-gray-200 focus:outline-none focus:border-indigo-500" placeholder="${this.t('fancySearch','Search styles...')}">
                         </div>
                     </div>
                     <div class="flex items-center justify-between text-xs text-gray-500">
                         <span id="fancyResultCount"></span>
-                        <button id="fancyCopyAll" type="button" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded-lg transition">Copy all</button>
+                        <button id="fancyCopyAll" type="button" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded-lg transition">${this.t('fancyCopyAll','Copy all')}</button>
                     </div>
                 </div>
 
                 <div id="fancyResultsList" class="grid grid-cols-1 lg:grid-cols-2 gap-2.5 max-h-[34rem] overflow-y-auto pr-1"></div>
 
                 <div class="rounded-xl border border-gray-800 bg-gray-950/60 p-3 text-xs text-gray-500 leading-relaxed">
-                    Some styles use Unicode characters rather than real fonts. A few apps or older devices may display an unsupported character as a box.
+                    ${this.t('fancyNotice','Some styles use Unicode characters rather than real fonts. A few apps or older devices may display an unsupported character as a box.')}
                 </div>
             </div>
         `;
@@ -119,7 +121,7 @@ export class FancyTextTool {
         if (!el) return;
         const categories = ['All', ...new Set(this.styles.map(s => s.category))];
         el.innerHTML = categories.map(cat => `
-            <button type="button" data-category="${cat}" class="fancy-category-btn px-3 py-1.5 rounded-lg text-xs border transition ${cat===this.activeCategory?'bg-indigo-600 text-white border-indigo-500':'bg-gray-950 text-gray-400 border-gray-800 hover:text-gray-200'}">${cat}</button>
+            <button type="button" data-category="${cat}" class="fancy-category-btn px-3 py-1.5 rounded-lg text-xs border transition ${cat===this.activeCategory?'bg-indigo-600 text-white border-indigo-500':'bg-gray-950 text-gray-400 border-gray-800 hover:text-gray-200'}">${this.t(({All:'allStyles',Fonts:'fonts',Symbols:'symbols',Effects:'effects',Decorations:'decorations'})[cat]||cat,cat)}</button>
         `).join('');
         el.querySelectorAll('.fancy-category-btn').forEach(btn => btn.addEventListener('click', () => {
             this.activeCategory = btn.dataset.category;
@@ -136,7 +138,7 @@ export class FancyTextTool {
         if (!list) return;
 
         const text = this.inputText;
-        if (counter) counter.textContent = `${[...text].length} character${[...text].length===1?'':'s'}`;
+        if (counter) counter.textContent = this.tf('fancyChars','{count} characters',{count:window.QTI18n?.formatNumber([...text].length)||[...text].length});
         const q = this.searchTerm.trim().toLowerCase();
         const filtered = this.styles.filter(style => {
             const catOk = this.activeCategory === 'All' || style.category === this.activeCategory;
@@ -144,7 +146,7 @@ export class FancyTextTool {
             return catOk && searchOk;
         });
 
-        if (count) count.textContent = `${filtered.length} style${filtered.length===1?'':'s'}`;
+        if (count) count.textContent = this.tf('fancyStyles','{count} styles',{count:window.QTI18n?.formatNumber(filtered.length)||filtered.length});
         if (copyAll) copyAll.disabled = filtered.length === 0;
         list.innerHTML = '';
 
@@ -169,16 +171,16 @@ export class FancyTextTool {
                     </div>
                     <div class="text-sm text-gray-100 break-words select-all leading-6">${this.escape(value)}</div>
                 </div>
-                <button type="button" class="copy-style-btn shrink-0 bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs px-3 py-2 rounded-lg border border-gray-700 transition">Copy</button>
+                <button type="button" class="copy-style-btn shrink-0 bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs px-3 py-2 rounded-lg border border-gray-700 transition">${this.t('fancyCopy','Copy')}</button>
             `;
             const btn = item.querySelector('.copy-style-btn');
             btn.addEventListener('click', async () => {
                 try {
                     await navigator.clipboard.writeText(value);
-                    btn.textContent = 'Copied';
-                    setTimeout(() => btn.textContent = 'Copy', 1400);
+                    btn.textContent = this.t('fancyCopied','Copied');
+                    setTimeout(() => btn.textContent = this.t('fancyCopy','Copy'), 1400);
                 } catch {
-                    btn.textContent = 'Select & copy';
+                    btn.textContent = this.t('fancySelectCopy','Select & copy');
                 }
             });
             list.appendChild(item);
@@ -199,7 +201,7 @@ export class FancyTextTool {
             const styles = this.styles.filter(s => (this.activeCategory==='All'||s.category===this.activeCategory) && (!q||s.name.toLowerCase().includes(q)||s.category.toLowerCase().includes(q)));
             const output = styles.map(s => s.fn(this.inputText)).join('\n');
             if (!output) return;
-            try { await navigator.clipboard.writeText(output); copyAll.textContent='Copied'; setTimeout(()=>copyAll.textContent='Copy all',1400); } catch {}
+            try { await navigator.clipboard.writeText(output); copyAll.textContent=this.t('fancyCopied','Copied'); setTimeout(()=>copyAll.textContent=this.t('fancyCopyAll','Copy all'),1400); } catch {}
         });
     }
 
