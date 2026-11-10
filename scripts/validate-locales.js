@@ -84,12 +84,18 @@ if (missing.length || untranslatedToolMeta.length) {
   }
   process.exitCode = 1;
 } else {
-  i18n.setLocale('de');
-  const germanNumber = i18n.formatNumber(12345.6);
-  i18n.setLocale('fr');
-  const frenchNumber = i18n.formatNumber(12345.6);
-  i18n.setLocale('es');
-  const spanishNumber = i18n.formatNumber(12345.6);
+  const formatSamples = {};
+  for (const locale of ['ar', 'de', 'fr', 'es']) {
+    i18n.setLocale(locale);
+    formatSamples[locale] = {
+      number: i18n.formatNumber(12345.6),
+      date: i18n.formatDate(new Date('2026-11-10T12:00:00Z'), { dateStyle: 'long', timeZone: 'UTC' }),
+      currency: i18n.formatCurrency(1234.5, 'USD')
+    };
+    if (!formatSamples[locale].number || !formatSamples[locale].date || !formatSamples[locale].currency) {
+      throw new Error('Missing localized number/date/currency formatting for ' + locale);
+    }
+  }
   console.log('Locale QA passed: ' + used.size + ' UI keys and ' + tools.length + ' tool metadata records checked for ar/de/fr/es.');
-  console.log('Locale number formatting samples: de=' + germanNumber + ', fr=' + frenchNumber + ', es=' + spanishNumber);
+  console.log('Localized number/date/currency formatting samples: ' + JSON.stringify(formatSamples));
 }
