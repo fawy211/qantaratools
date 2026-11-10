@@ -45,7 +45,7 @@ jobs:
           grep -q '/de/tools/base64/' sitemap.xml
       - name: Install browser test dependencies
         run: |
-          npm ci
+          npm install --no-package-lock --no-audit --no-fund
           npx playwright install --with-deps chromium
       - name: Test localized pages in Chromium
         run: npx playwright test tests/localized-pages.spec.js --project=chromium
