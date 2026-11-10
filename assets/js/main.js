@@ -122,8 +122,8 @@ function renderQuickToolLists() {
         items.forEach(({ id, title }) => { const button = document.createElement('button'); button.type = 'button'; button.className = 'text-left px-3 py-2 rounded-xl bg-slate-800/70 hover:bg-slate-700 text-sm text-slate-200 truncate'; button.textContent = title; button.addEventListener('click', () => openToolById(id)); fragment.appendChild(button); });
         return fragment;
     };
-    if (recentBox) recentBox.replaceChildren(makeItems(normalize(readJsonStorage(RECENT_KEY)), 'Your recently used tools will appear here.'));
-    if (favoritesBox) favoritesBox.replaceChildren(makeItems(normalize(readJsonStorage(FAVORITES_KEY)), 'Star a tool to keep it here.'));
+    if (recentBox) recentBox.replaceChildren(makeItems(normalize(readJsonStorage(RECENT_KEY)), (window.QTI18n?.t('recentEmpty') || 'Your recently used tools will appear here.')));
+    if (favoritesBox) favoritesBox.replaceChildren(makeItems(normalize(readJsonStorage(FAVORITES_KEY)), (window.QTI18n?.t('favoriteEmpty') || 'Star a tool to keep it here.')));
 }
 
 function updateSearchCount() {
