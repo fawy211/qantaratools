@@ -2883,6 +2883,496 @@
   }
 };
 
+  const HOME_MESSAGES = {
+  "en": {
+    "homeHeroTitle": "Free Online Tools for Work, PDF, Text & Images",
+    "homeHeroDesc": "Get everyday tasks done with practical browser-based tools for PDFs, text, images, coding, and more. Many tools process your data locally on your device.",
+    "freeToUse": "Free to use",
+    "noAds": "No annoying ads",
+    "focusedTools": "focused tools",
+    "localFirst": "Local-first processing",
+    "searchTools": "Search tools",
+    "searchPlaceholder": "Find a tool in seconds...",
+    "requestTool": "Request a Tool",
+    "allTools": "All Tools",
+    "development": "Development",
+    "businessCategory": "Business",
+    "pdfDocuments": "PDF & Documents",
+    "securityMedia": "Security & Media",
+    "textCategory": "Text",
+    "creative": "Creative",
+    "recentTools": "Recent Tools",
+    "toolsShown": "{count} tools shown",
+    "favorites": "Favorites",
+    "featuredExclusive": "Featured Exclusive",
+    "toolkitTagline": "Clean, quick, and free utilities designed to save your time.",
+    "coreDevTools": "Core & Dev Tools",
+    "businessFinanceTools": "Business & Finance Tools",
+    "pdfDocumentsTools": "PDF & Documents Tools",
+    "securityMediaTools": "Security & Media Tools",
+    "textUnicodeTools": "Text & Unicode Tools",
+    "funCreativeTools": "Fun & Creative Tools",
+    "backToTools": "Back to Tools List",
+    "skipMain": "Skip to main content",
+    "requestTitle": "Request a New Tool",
+    "requestDesc": "Have an idea for a useful tool? Share it with us.",
+    "toolNameIdea": "Tool Name / Idea...",
+    "describeTool": "Briefly describe what it should do...",
+    "optionalExample": "Optional: give an example of how you would use it...",
+    "cancel": "Cancel",
+    "submitRequest": "Submit Request",
+    "about": "About QantaraTools",
+    "aboutDesc": "A browser-based toolkit. Many tools process your files locally; shared ratings and selected external features use third-party services as described in our Privacy Policy.",
+    "legalPrivacy": "Legal & Privacy",
+    "aboutUs": "About Us",
+    "faq": "FAQ",
+    "contactUs": "Contact Us",
+    "privacyPolicy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "connect": "Connect & Open Source",
+    "builtWith": "Built with modern web technologies and Tailwind CSS.",
+    "copyright": "All rights reserved. Free browser-based utilities. Processing varies by tool.",
+    "support": "Support QantaraTools on Ko-fi",
+    "noToolsFound": "No tools found. Try another search.",
+    "enterToolName": "Please enter the tool name or idea.",
+    "requestSaved": "Thanks! Your request was saved on this device.",
+    "themeLight": "Switch to light mode",
+    "themeDark": "Switch to dark mode",
+    "featuredTitle": "AI Chat & Content to Office Converter",
+    "featuredDesc": "Instantly convert AI prompts, chat sessions, and raw text into formatted Word (.docx), Excel (.xlsx), or PDF files securely in your browser."
+  },
+  "ar": {
+    "homeHeroTitle": "أدوات مجانية عبر الإنترنت للعمل وملفات PDF والنصوص والصور",
+    "homeHeroDesc": "أنجز مهامك اليومية باستخدام أدوات عملية تعمل في المتصفح لملفات PDF والنصوص والصور والبرمجة وغيرها. تعالج أدوات كثيرة بياناتك محليًا على جهازك.",
+    "freeToUse": "مجانية الاستخدام",
+    "noAds": "دون إعلانات مزعجة",
+    "focusedTools": "أداة متخصصة",
+    "localFirst": "المعالجة محليًا أولًا",
+    "searchTools": "البحث عن الأدوات",
+    "searchPlaceholder": "اعثر على الأداة خلال ثوانٍ...",
+    "requestTool": "اقترح أداة",
+    "allTools": "كل الأدوات",
+    "development": "التطوير",
+    "businessCategory": "الأعمال",
+    "pdfDocuments": "PDF والمستندات",
+    "securityMedia": "الأمان والوسائط",
+    "textCategory": "النصوص",
+    "creative": "الإبداع",
+    "recentTools": "الأدوات الأخيرة",
+    "toolsShown": "{count} أداة معروضة",
+    "favorites": "المفضلة",
+    "featuredExclusive": "أداة مميزة",
+    "toolkitTagline": "أدوات بسيطة وسريعة ومجانية لتوفير وقتك.",
+    "coreDevTools": "أدوات التطوير والبرمجة",
+    "businessFinanceTools": "أدوات الأعمال والمال",
+    "pdfDocumentsTools": "أدوات PDF والمستندات",
+    "securityMediaTools": "أدوات الأمان والوسائط",
+    "textUnicodeTools": "أدوات النصوص وUnicode",
+    "funCreativeTools": "أدوات الإبداع والترفيه",
+    "backToTools": "العودة إلى قائمة الأدوات",
+    "skipMain": "تجاوز إلى المحتوى الرئيسي",
+    "requestTitle": "اقتراح أداة جديدة",
+    "requestDesc": "هل لديك فكرة لأداة مفيدة؟ شاركنا بها.",
+    "toolNameIdea": "اسم الأداة أو الفكرة...",
+    "describeTool": "اشرح باختصار ما الذي ينبغي أن تفعله...",
+    "optionalExample": "اختياري: اذكر مثالًا لكيفية استخدامها...",
+    "cancel": "إلغاء",
+    "submitRequest": "إرسال الاقتراح",
+    "about": "حول QantaraTools",
+    "aboutDesc": "مجموعة أدوات تعمل في المتصفح. تعالج أدوات كثيرة ملفاتك محليًا، بينما تستخدم التقييمات المشتركة وبعض الميزات الخارجية خدمات جهات أخرى كما هو موضح في سياسة الخصوصية.",
+    "legalPrivacy": "الشؤون القانونية والخصوصية",
+    "aboutUs": "من نحن",
+    "faq": "الأسئلة الشائعة",
+    "contactUs": "اتصل بنا",
+    "privacyPolicy": "سياسة الخصوصية",
+    "terms": "شروط الخدمة",
+    "connect": "التواصل والمصدر المفتوح",
+    "builtWith": "تم البناء باستخدام تقنيات الويب الحديثة وTailwind CSS.",
+    "copyright": "جميع الحقوق محفوظة. أدوات مجانية تعمل في المتصفح. تختلف طريقة المعالجة حسب الأداة.",
+    "support": "ادعم QantaraTools عبر Ko-fi",
+    "noToolsFound": "لم يتم العثور على أدوات. جرّب بحثًا آخر.",
+    "enterToolName": "يرجى إدخال اسم الأداة أو الفكرة.",
+    "requestSaved": "شكرًا لك! تم حفظ اقتراحك على هذا الجهاز.",
+    "themeLight": "التبديل إلى الوضع الفاتح",
+    "themeDark": "التبديل إلى الوضع الداكن",
+    "featuredTitle": "تحويل محادثات الذكاء الاصطناعي والمحتوى إلى ملفات Office",
+    "featuredDesc": "حوّل محادثات الذكاء الاصطناعي والنصوص إلى ملفات Word وExcel وPDF منسقة، مع معالجة كل شيء على جهازك."
+  },
+  "de": {
+    "homeHeroTitle": "Kostenlose Online-Tools für Arbeit, PDF, Text und Bilder",
+    "homeHeroDesc": "Erledige alltägliche Aufgaben mit praktischen Browser-Tools für PDFs, Texte, Bilder, Programmierung und mehr. Viele Tools verarbeiten deine Daten lokal auf deinem Gerät.",
+    "freeToUse": "Kostenlos nutzbar",
+    "noAds": "Keine störende Werbung",
+    "focusedTools": "spezialisierte Tools",
+    "localFirst": "Lokale Verarbeitung zuerst",
+    "searchTools": "Tools suchen",
+    "searchPlaceholder": "Finde ein Tool in Sekunden…",
+    "requestTool": "Tool vorschlagen",
+    "allTools": "Alle Tools",
+    "development": "Entwicklung",
+    "businessCategory": "Business",
+    "pdfDocuments": "PDF & Dokumente",
+    "securityMedia": "Sicherheit & Medien",
+    "textCategory": "Text",
+    "creative": "Kreatives",
+    "recentTools": "Zuletzt verwendet",
+    "toolsShown": "{count} Tools angezeigt",
+    "favorites": "Favoriten",
+    "featuredExclusive": "Besonderes Tool",
+    "toolkitTagline": "Klare, schnelle und kostenlose Tools, die Zeit sparen.",
+    "coreDevTools": "Entwicklungs-Tools",
+    "businessFinanceTools": "Business- und Finanztools",
+    "pdfDocumentsTools": "PDF- und Dokumenttools",
+    "securityMediaTools": "Sicherheits- und Medientools",
+    "textUnicodeTools": "Text- und Unicode-Tools",
+    "funCreativeTools": "Kreativ- und Freizeittools",
+    "backToTools": "Zurück zur Toolliste",
+    "skipMain": "Zum Hauptinhalt springen",
+    "requestTitle": "Neues Tool vorschlagen",
+    "requestDesc": "Hast du eine Idee für ein nützliches Tool? Teile sie mit uns.",
+    "toolNameIdea": "Toolname oder Idee…",
+    "describeTool": "Beschreibe kurz, was das Tool tun soll…",
+    "optionalExample": "Optional: Beschreibe ein Beispiel für die Nutzung…",
+    "cancel": "Abbrechen",
+    "submitRequest": "Vorschlag senden",
+    "about": "Über QantaraTools",
+    "aboutDesc": "Eine Sammlung browserbasierter Tools. Viele Tools verarbeiten Dateien lokal; gemeinsame Bewertungen und ausgewählte externe Funktionen nutzen Drittanbieter gemäß unserer Datenschutzerklärung.",
+    "legalPrivacy": "Rechtliches & Datenschutz",
+    "aboutUs": "Über uns",
+    "faq": "FAQ",
+    "contactUs": "Kontakt",
+    "privacyPolicy": "Datenschutzerklärung",
+    "terms": "Nutzungsbedingungen",
+    "connect": "Kontakt & Open Source",
+    "builtWith": "Erstellt mit modernen Webtechnologien und Tailwind CSS.",
+    "copyright": "Alle Rechte vorbehalten. Kostenlose Browser-Tools. Die Verarbeitung hängt vom jeweiligen Tool ab.",
+    "support": "QantaraTools auf Ko-fi unterstützen",
+    "noToolsFound": "Keine Tools gefunden. Versuche eine andere Suche.",
+    "enterToolName": "Bitte gib einen Toolnamen oder eine Idee ein.",
+    "requestSaved": "Danke! Dein Vorschlag wurde auf diesem Gerät gespeichert.",
+    "themeLight": "Zum hellen Modus wechseln",
+    "themeDark": "Zum dunklen Modus wechseln",
+    "featuredTitle": "KI-Chats und Inhalte in Office-Dateien umwandeln",
+    "featuredDesc": "Wandle KI-Chats und Texte sicher auf deinem Gerät in formatierte Word-, Excel- oder PDF-Dateien um."
+  },
+  "fr": {
+    "homeHeroTitle": "Outils en ligne gratuits pour le travail, PDF, texte et images",
+    "homeHeroDesc": "Réalisez vos tâches quotidiennes avec des outils pratiques dans le navigateur pour les PDF, textes, images, code et plus encore. De nombreux outils traitent vos données localement sur votre appareil.",
+    "freeToUse": "Gratuit",
+    "noAds": "Sans publicités gênantes",
+    "focusedTools": "outils spécialisés",
+    "localFirst": "Traitement local prioritaire",
+    "searchTools": "Rechercher des outils",
+    "searchPlaceholder": "Trouvez un outil en quelques secondes…",
+    "requestTool": "Proposer un outil",
+    "allTools": "Tous les outils",
+    "development": "Développement",
+    "businessCategory": "Entreprise",
+    "pdfDocuments": "PDF et documents",
+    "securityMedia": "Sécurité et médias",
+    "textCategory": "Texte",
+    "creative": "Créatif",
+    "recentTools": "Outils récents",
+    "toolsShown": "{count} outils affichés",
+    "favorites": "Favoris",
+    "featuredExclusive": "À la une",
+    "toolkitTagline": "Des outils simples, rapides et gratuits pour gagner du temps.",
+    "coreDevTools": "Outils de développement",
+    "businessFinanceTools": "Outils professionnels et financiers",
+    "pdfDocumentsTools": "Outils PDF et documents",
+    "securityMediaTools": "Outils de sécurité et médias",
+    "textUnicodeTools": "Outils de texte et Unicode",
+    "funCreativeTools": "Outils créatifs et ludiques",
+    "backToTools": "Retour à la liste des outils",
+    "skipMain": "Aller au contenu principal",
+    "requestTitle": "Proposer un nouvel outil",
+    "requestDesc": "Vous avez une idée d’outil utile ? Partagez-la avec nous.",
+    "toolNameIdea": "Nom de l’outil ou idée…",
+    "describeTool": "Décrivez brièvement son fonctionnement…",
+    "optionalExample": "Facultatif : donnez un exemple d’utilisation…",
+    "cancel": "Annuler",
+    "submitRequest": "Envoyer la proposition",
+    "about": "À propos de QantaraTools",
+    "aboutDesc": "Une boîte à outils dans le navigateur. De nombreux outils traitent vos fichiers localement ; les avis partagés et certaines fonctions externes utilisent des services tiers, comme indiqué dans notre politique de confidentialité.",
+    "legalPrivacy": "Mentions légales et confidentialité",
+    "aboutUs": "À propos",
+    "faq": "FAQ",
+    "contactUs": "Nous contacter",
+    "privacyPolicy": "Politique de confidentialité",
+    "terms": "Conditions d’utilisation",
+    "connect": "Contact et open source",
+    "builtWith": "Conçu avec des technologies web modernes et Tailwind CSS.",
+    "copyright": "Tous droits réservés. Outils gratuits dans le navigateur. Le traitement varie selon l’outil.",
+    "support": "Soutenir QantaraTools sur Ko-fi",
+    "noToolsFound": "Aucun outil trouvé. Essayez une autre recherche.",
+    "enterToolName": "Veuillez saisir le nom ou l’idée de l’outil.",
+    "requestSaved": "Merci ! Votre proposition a été enregistrée sur cet appareil.",
+    "themeLight": "Passer au mode clair",
+    "themeDark": "Passer au mode sombre",
+    "featuredTitle": "Convertisseur de conversations IA et contenus vers Office",
+    "featuredDesc": "Convertissez vos conversations IA et vos textes en fichiers Word, Excel ou PDF bien présentés. Tout est traité sur votre appareil."
+  },
+  "es": {
+    "homeHeroTitle": "Herramientas online gratuitas para trabajo, PDF, texto e imágenes",
+    "homeHeroDesc": "Resuelve tus tareas diarias con herramientas prácticas en el navegador para PDF, texto, imágenes, programación y mucho más. Muchas herramientas procesan tus datos localmente en tu dispositivo.",
+    "freeToUse": "Gratis",
+    "noAds": "Sin anuncios molestos",
+    "focusedTools": "herramientas especializadas",
+    "localFirst": "Procesamiento local prioritario",
+    "searchTools": "Buscar herramientas",
+    "searchPlaceholder": "Encuentra una herramienta en segundos…",
+    "requestTool": "Solicitar una herramienta",
+    "allTools": "Todas las herramientas",
+    "development": "Desarrollo",
+    "businessCategory": "Negocios",
+    "pdfDocuments": "PDF y documentos",
+    "securityMedia": "Seguridad y medios",
+    "textCategory": "Texto",
+    "creative": "Creatividad",
+    "recentTools": "Herramientas recientes",
+    "toolsShown": "{count} herramientas mostradas",
+    "favorites": "Favoritos",
+    "featuredExclusive": "Destacado",
+    "toolkitTagline": "Herramientas sencillas, rápidas y gratuitas para ahorrar tiempo.",
+    "coreDevTools": "Herramientas de desarrollo",
+    "businessFinanceTools": "Herramientas de negocios y finanzas",
+    "pdfDocumentsTools": "Herramientas PDF y documentos",
+    "securityMediaTools": "Herramientas de seguridad y medios",
+    "textUnicodeTools": "Herramientas de texto y Unicode",
+    "funCreativeTools": "Herramientas creativas y de ocio",
+    "backToTools": "Volver a la lista de herramientas",
+    "skipMain": "Ir al contenido principal",
+    "requestTitle": "Solicitar una herramienta nueva",
+    "requestDesc": "¿Tienes una idea para una herramienta útil? Compártela con nosotros.",
+    "toolNameIdea": "Nombre o idea de la herramienta…",
+    "describeTool": "Describe brevemente qué debería hacer…",
+    "optionalExample": "Opcional: incluye un ejemplo de uso…",
+    "cancel": "Cancelar",
+    "submitRequest": "Enviar solicitud",
+    "about": "Acerca de QantaraTools",
+    "aboutDesc": "Un conjunto de herramientas para el navegador. Muchas procesan tus archivos localmente; las valoraciones compartidas y algunas funciones externas utilizan servicios de terceros según se explica en nuestra política de privacidad.",
+    "legalPrivacy": "Legal y privacidad",
+    "aboutUs": "Sobre nosotros",
+    "faq": "Preguntas frecuentes",
+    "contactUs": "Contacto",
+    "privacyPolicy": "Política de privacidad",
+    "terms": "Términos del servicio",
+    "connect": "Contacto y código abierto",
+    "builtWith": "Creado con tecnologías web modernas y Tailwind CSS.",
+    "copyright": "Todos los derechos reservados. Herramientas gratuitas para el navegador. El procesamiento varía según la herramienta.",
+    "support": "Apoya QantaraTools en Ko-fi",
+    "noToolsFound": "No se encontraron herramientas. Prueba otra búsqueda.",
+    "enterToolName": "Introduce el nombre o la idea de la herramienta.",
+    "requestSaved": "¡Gracias! Tu propuesta se ha guardado en este dispositivo.",
+    "themeLight": "Cambiar al modo claro",
+    "themeDark": "Cambiar al modo oscuro",
+    "featuredTitle": "Convertidor de chats y contenido de IA a Office",
+    "featuredDesc": "Convierte conversaciones de IA y textos en archivos Word, Excel o PDF bien organizados. Todo se procesa en tu dispositivo."
+  }
+};
+  const TOOL_META = {
+  "base64": [
+    "b64Title",
+    "b64Desc"
+  ],
+  "color-converter": [
+    "colorTitle",
+    "colorDesc"
+  ],
+  "csv-cleaner": [
+    "csvCleanTitle",
+    "csvCleanDesc"
+  ],
+  "html-entity": [
+    "entityTitle",
+    "entityDesc"
+  ],
+  "json-formatter": [
+    "jsonTitle",
+    "jsonDesc"
+  ],
+  "uuid-generator": [
+    "uuidTitle",
+    "uuidDesc"
+  ],
+  "url-encoder": [
+    "urlTitle",
+    "urlDesc"
+  ],
+  "jwt-decoder": [
+    "jwtTitle",
+    "jwtDesc"
+  ],
+  "regex-tester": [
+    "regexTitle",
+    "regexDesc"
+  ],
+  "timestamp-converter": [
+    "tsTitle",
+    "tsDesc"
+  ],
+  "hash-generator": [
+    "hashTitle",
+    "hashDesc"
+  ],
+  "json-csv": [
+    "jcTitle",
+    "jcDesc"
+  ],
+  "sql-formatter": [
+    "sqlTitle",
+    "sqlDesc"
+  ],
+  "code-formatter": [
+    "codeFormatTitle",
+    "codeFormatDesc"
+  ],
+  "currency-converter": [
+    "currencyTitle",
+    "currencyIntro"
+  ],
+  "discount-calculator": [
+    "dcTitle",
+    "dcDesc"
+  ],
+  "loan-calculator": [
+    "loanTitle",
+    "loanIntro"
+  ],
+  "qr-generator": [
+    "qrTitle",
+    "qrDesc"
+  ],
+  "vat-calculator": [
+    "vatTitle",
+    "vatIntro"
+  ],
+  "pdf-merge": [
+    "pdfMergeTitle",
+    "pdfMergeDesc"
+  ],
+  "pdf-split": [
+    "pdfSplitTitle",
+    "pdfSplitDesc"
+  ],
+  "pdf-compress": [
+    "pdfOptimizerTitle",
+    "pdfOptimizerDesc"
+  ],
+  "pdf-rotate": [
+    "pdfRotateTitle",
+    "pdfRotateDesc"
+  ],
+  "pdf-reorder": [
+    "pdfReorderTitle",
+    "pdfReorderDesc"
+  ],
+  "images-pdf": [
+    "pdfImagesTitle",
+    "pdfImagesDesc"
+  ],
+  "text-pdf": [
+    "pdfTextTitle",
+    "pdfTextDesc"
+  ],
+  "exif-viewer": [
+    "exifTitle",
+    "exifDesc"
+  ],
+  "image-compressor": [
+    "icTitle",
+    "icDesc"
+  ],
+  "image-base64": [
+    "base64Title",
+    "base64Desc"
+  ],
+  "password-generator": [
+    "passwordTitle",
+    "passwordDesc"
+  ],
+  "svg-to-css": [
+    "svgTitle",
+    "svgDesc"
+  ],
+  "image-format": [
+    "formatTitle",
+    "formatDesc"
+  ],
+  "image-cropper": [
+    "cropTitle",
+    "cropDesc"
+  ],
+  "image-rotate-flip": [
+    "imgRotateTitle",
+    "imgRotateDesc"
+  ],
+  "image-batch": [
+    "imgBatchTitle",
+    "imgBatchDesc"
+  ],
+  "image-watermark": [
+    "imgWatermarkTitle",
+    "imgWatermarkDesc"
+  ],
+  "text-case": [
+    "caseTitle",
+    "caseDesc"
+  ],
+  "word-counter": [
+    "wcTitle",
+    "wcDesc"
+  ],
+  "text-diff": [
+    "diffTitle",
+    "diffDesc"
+  ],
+  "arabic-fixer": [
+    "arabicFixTitle",
+    "arabicFixDesc"
+  ],
+  "duplicate-remover": [
+    "dupTitle",
+    "dupDesc"
+  ],
+  "rtl-cleaner": [
+    "rtlTitle",
+    "rtlDesc"
+  ],
+  "text-sorter": [
+    "sortTitle",
+    "sortDesc"
+  ],
+  "lorem-ipsum": [
+    "loremTitle",
+    "loremDesc"
+  ],
+  "markdown-html": [
+    "mdTitle",
+    "mdDesc"
+  ],
+  "ascii-art": [
+    "asciiTitle",
+    "asciiDesc"
+  ],
+  "gradient-generator": [
+    "gradientTitle",
+    "gradientDesc"
+  ],
+  "fancy-text": [
+    "fancyTitle",
+    "fancyDesc"
+  ],
+  "decision-maker": [
+    "decisionTitle",
+    "decisionDesc"
+  ],
+  "pomodoro-timer": [
+    "pomodoroTitle",
+    "pomodoroDesc"
+  ]
+};
+
   function localeFromPath() {
     const first = location.pathname.split('/').filter(Boolean)[0];
     return Object.prototype.hasOwnProperty.call(LOCALES, first) ? first : null;
@@ -2927,7 +3417,8 @@
       (DEV_EXTRA_MESSAGES[current] && DEV_EXTRA_MESSAGES[current][key]) ||
       (FINAL_TOOL_MESSAGES[current] && FINAL_TOOL_MESSAGES[current][key]) ||
       (FANCY_MESSAGES[current] && FANCY_MESSAGES[current][key]) ||
-      MESSAGES.en[key] || EXTRA_MESSAGES.en[key] || CURRENCY_MESSAGES.en[key] || IMAGE_MESSAGES.en[key] || PDF_MESSAGES.en[key] || TEXT_TOOL_MESSAGES.en[key] || BUSINESS_MESSAGES.en[key] || MORE_TEXT_MESSAGES.en[key] || MEDIA_MESSAGES.en[key] || CORE_MESSAGES.en[key] || EXTRA_CORE_MESSAGES.en[key] || DEV_TOOL_MESSAGES.en[key] || DEV_EXTRA_MESSAGES.en[key] || FINAL_TOOL_MESSAGES.en[key] || FANCY_MESSAGES.en[key] || fallback || key;
+      (HOME_MESSAGES[current] && HOME_MESSAGES[current][key]) ||
+      MESSAGES.en[key] || EXTRA_MESSAGES.en[key] || CURRENCY_MESSAGES.en[key] || IMAGE_MESSAGES.en[key] || PDF_MESSAGES.en[key] || TEXT_TOOL_MESSAGES.en[key] || BUSINESS_MESSAGES.en[key] || MORE_TEXT_MESSAGES.en[key] || MEDIA_MESSAGES.en[key] || CORE_MESSAGES.en[key] || EXTRA_CORE_MESSAGES.en[key] || DEV_TOOL_MESSAGES.en[key] || DEV_EXTRA_MESSAGES.en[key] || FINAL_TOOL_MESSAGES.en[key] || FANCY_MESSAGES.en[key] || HOME_MESSAGES.en[key] || fallback || key;
   }
 
   function formatNumber(value, options) {
@@ -2950,6 +3441,8 @@
     locales: LOCALES,
     get locale() { return current; },
     get direction() { return LOCALES[current].dir; },
-    t, setLocale, formatNumber, formatDate, formatCurrency
+    t, setLocale, formatNumber, formatDate, formatCurrency,
+    toolTitle: (id, fallback) => t(TOOL_META[id]?.[0], fallback || id),
+    toolDescription: (id, fallback) => t(TOOL_META[id]?.[1], fallback || '')
   });
 })();
