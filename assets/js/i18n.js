@@ -512,6 +512,119 @@
   }
 };
 
+  const IMAGE_MESSAGES = {
+  "en": {
+    "imgRotateTitle": "Image Rotate & Flip",
+    "imgRotateDesc": "Rotate or flip an image locally, then download the result.",
+    "imgChoose": "Choose an image first.",
+    "imgRotate90": "Rotate 90°",
+    "imgRotate180": "Rotate 180°",
+    "imgFlipH": "Flip Horizontal",
+    "imgFlipV": "Flip Vertical",
+    "imgDownloaded": "Image downloaded.",
+    "imgBatchTitle": "Batch Image Converter",
+    "imgBatchDesc": "Convert multiple images to PNG, JPEG, or WebP in your browser. Each result downloads separately.",
+    "imgChooseImages": "Choose images first.",
+    "imgConvertAll": "Convert All",
+    "imgConverted": "Converted",
+    "imgImages": "image(s).",
+    "imgWatermarkTitle": "Image Watermark",
+    "imgWatermarkDesc": "Add a text watermark to an image locally.",
+    "imgWatermarkPlaceholder": "Watermark text",
+    "imgAddWatermark": "Add Watermark",
+    "imgChooseWatermark": "Choose an image and enter watermark text.",
+    "imgWatermarked": "Watermarked image downloaded."
+  },
+  "ar": {
+    "imgRotateTitle": "تدوير الصور وقلبها",
+    "imgRotateDesc": "دوّر الصورة أو اقلبها على جهازك ثم نزّل النتيجة.",
+    "imgChoose": "اختر صورة أولًا.",
+    "imgRotate90": "تدوير 90°",
+    "imgRotate180": "تدوير 180°",
+    "imgFlipH": "قلب أفقي",
+    "imgFlipV": "قلب رأسي",
+    "imgDownloaded": "تم تنزيل الصورة.",
+    "imgBatchTitle": "تحويل مجموعة صور",
+    "imgBatchDesc": "حوّل عدة صور إلى PNG أو JPEG أو WebP في المتصفح. يتم تنزيل كل صورة على حدة.",
+    "imgChooseImages": "اختر صورًا أولًا.",
+    "imgConvertAll": "تحويل الكل",
+    "imgConverted": "تم تحويل",
+    "imgImages": "صورة.",
+    "imgWatermarkTitle": "علامة مائية على الصورة",
+    "imgWatermarkDesc": "أضف علامة مائية نصية إلى الصورة محليًا على جهازك.",
+    "imgWatermarkPlaceholder": "نص العلامة المائية",
+    "imgAddWatermark": "إضافة علامة مائية",
+    "imgChooseWatermark": "اختر صورة واكتب نص العلامة المائية.",
+    "imgWatermarked": "تم تنزيل الصورة بالعلامة المائية."
+  },
+  "de": {
+    "imgRotateTitle": "Bild drehen und spiegeln",
+    "imgRotateDesc": "Drehe oder spiegele ein Bild lokal und lade das Ergebnis herunter.",
+    "imgChoose": "Bitte wähle zuerst ein Bild aus.",
+    "imgRotate90": "90° drehen",
+    "imgRotate180": "180° drehen",
+    "imgFlipH": "Horizontal spiegeln",
+    "imgFlipV": "Vertikal spiegeln",
+    "imgDownloaded": "Bild heruntergeladen.",
+    "imgBatchTitle": "Stapel-Bildkonverter",
+    "imgBatchDesc": "Wandle mehrere Bilder im Browser in PNG, JPEG oder WebP um. Jedes Ergebnis wird einzeln heruntergeladen.",
+    "imgChooseImages": "Bitte wähle zuerst Bilder aus.",
+    "imgConvertAll": "Alle umwandeln",
+    "imgConverted": "Umgewandelt:",
+    "imgImages": "Bild(er).",
+    "imgWatermarkTitle": "Bild-Wasserzeichen",
+    "imgWatermarkDesc": "Füge einem Bild lokal einen Text als Wasserzeichen hinzu.",
+    "imgWatermarkPlaceholder": "Wasserzeichen-Text",
+    "imgAddWatermark": "Wasserzeichen hinzufügen",
+    "imgChooseWatermark": "Wähle ein Bild und gib einen Wasserzeichen-Text ein.",
+    "imgWatermarked": "Bild mit Wasserzeichen heruntergeladen."
+  },
+  "fr": {
+    "imgRotateTitle": "Pivoter et retourner une image",
+    "imgRotateDesc": "Faites pivoter ou retournez une image localement, puis téléchargez le résultat.",
+    "imgChoose": "Veuillez d’abord choisir une image.",
+    "imgRotate90": "Pivoter de 90°",
+    "imgRotate180": "Pivoter de 180°",
+    "imgFlipH": "Retourner horizontalement",
+    "imgFlipV": "Retourner verticalement",
+    "imgDownloaded": "Image téléchargée.",
+    "imgBatchTitle": "Convertisseur d’images par lot",
+    "imgBatchDesc": "Convertissez plusieurs images en PNG, JPEG ou WebP dans votre navigateur. Chaque résultat est téléchargé séparément.",
+    "imgChooseImages": "Veuillez d’abord choisir des images.",
+    "imgConvertAll": "Tout convertir",
+    "imgConverted": "Converties :",
+    "imgImages": "image(s).",
+    "imgWatermarkTitle": "Filigrane sur image",
+    "imgWatermarkDesc": "Ajoutez localement un filigrane textuel à une image.",
+    "imgWatermarkPlaceholder": "Texte du filigrane",
+    "imgAddWatermark": "Ajouter un filigrane",
+    "imgChooseWatermark": "Choisissez une image et saisissez le texte du filigrane.",
+    "imgWatermarked": "Image avec filigrane téléchargée."
+  },
+  "es": {
+    "imgRotateTitle": "Girar y voltear imagen",
+    "imgRotateDesc": "Gira o voltea una imagen localmente y descarga el resultado.",
+    "imgChoose": "Primero elige una imagen.",
+    "imgRotate90": "Girar 90°",
+    "imgRotate180": "Girar 180°",
+    "imgFlipH": "Voltear horizontalmente",
+    "imgFlipV": "Voltear verticalmente",
+    "imgDownloaded": "Imagen descargada.",
+    "imgBatchTitle": "Conversor de imágenes por lotes",
+    "imgBatchDesc": "Convierte varias imágenes a PNG, JPEG o WebP en el navegador. Cada resultado se descarga por separado.",
+    "imgChooseImages": "Primero elige algunas imágenes.",
+    "imgConvertAll": "Convertir todo",
+    "imgConverted": "Convertidas:",
+    "imgImages": "imagen(es).",
+    "imgWatermarkTitle": "Marca de agua en imagen",
+    "imgWatermarkDesc": "Añade una marca de agua de texto a una imagen localmente.",
+    "imgWatermarkPlaceholder": "Texto de la marca de agua",
+    "imgAddWatermark": "Añadir marca de agua",
+    "imgChooseWatermark": "Elige una imagen e introduce el texto de la marca de agua.",
+    "imgWatermarked": "Imagen con marca de agua descargada."
+  }
+};
+
   function localeFromPath() {
     const first = location.pathname.split('/').filter(Boolean)[0];
     return Object.prototype.hasOwnProperty.call(LOCALES, first) ? first : null;
@@ -544,7 +657,8 @@
     return (MESSAGES[current] && MESSAGES[current][key]) ||
       (EXTRA_MESSAGES[current] && EXTRA_MESSAGES[current][key]) ||
       (CURRENCY_MESSAGES[current] && CURRENCY_MESSAGES[current][key]) ||
-      MESSAGES.en[key] || EXTRA_MESSAGES.en[key] || CURRENCY_MESSAGES.en[key] || fallback || key;
+      (IMAGE_MESSAGES[current] && IMAGE_MESSAGES[current][key]) ||
+      MESSAGES.en[key] || EXTRA_MESSAGES.en[key] || CURRENCY_MESSAGES.en[key] || IMAGE_MESSAGES.en[key] || fallback || key;
   }
 
   function formatNumber(value, options) {
