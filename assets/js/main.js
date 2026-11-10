@@ -129,7 +129,7 @@ function renderQuickToolLists() {
 function updateSearchCount() {
     const count = [...document.querySelectorAll('.tool-card')].filter(card => card.style.display !== 'none').length;
     const label = document.getElementById('tool-count-label');
-    if (label) label.textContent = `${count} tool${count === 1 ? '' : 's'} shown`;
+    if (label) label.textContent = (window.QTI18n?.t('toolsShown','{count} tools shown') || '{count} tools shown').replace('{count}', window.QTI18n?.formatNumber(count) || String(count));
 }
 
 
@@ -214,7 +214,7 @@ function filterTools() {
         root.appendChild(empty);
     }
     if (empty) {
-        empty.textContent = `No tools match "${(input?.value || '').trim()}". Try another word, or use Request a Tool.`;
+        empty.textContent = `${window.QTI18n?.t('noToolsFound','No tools found. Try another search.') || 'No tools found. Try another search.'}`;
         empty.hidden = visibleCount > 0;
     }
 }
@@ -254,7 +254,7 @@ function submitToolRequest() {
     const desc = document.getElementById('req-tool-desc');
     const example = document.getElementById('req-tool-example');
     if (!name || !name.value.trim()) {
-        alert('Please enter the tool name or idea.');
+        alert(window.QTI18n?.t('enterToolName','Please enter the tool name or idea.') || 'Please enter the tool name or idea.');
         return;
     }
 
@@ -272,7 +272,7 @@ function submitToolRequest() {
     existing.push(request);
     localStorage.setItem(key, JSON.stringify(existing));
 
-    alert('Thanks! Your request was saved on this device.');
+    alert(window.QTI18n?.t('requestSaved','Thanks! Your request was saved on this device.') || 'Thanks! Your request was saved on this device.');
     name.value = '';
     if (desc) desc.value = '';
     if (example) example.value = '';
@@ -366,8 +366,96 @@ window.addEventListener('popstate', () => {
     }
 });
 
+
+function applyHomeTranslations() {
+    const i18n = window.QTI18n;
+    if (!i18n) return;
+    const t = (key, fallback) => i18n.t(key, fallback);
+    const set = (selector, key, fallback) => {
+        const el = document.querySelector(selector);
+        if (el) el.textContent = t(key, fallback);
+    };
+    set('.skip-link', 'skipMain', 'Skip to main content');
+    set('.qt-brand-tagline', 'brandTagline', 'All Tools • One Place');
+    set('#tool-view-container > button', 'backToTools', 'Back to Tools List');
+    set('#hero-title', 'homeHeroTitle', 'Free Online Tools for Work, PDF, Text & Images');
+    set('#hero-desc', 'homeHeroDesc', 'Get everyday tasks done with practical browser-based tools for PDFs, text, images, coding, and more.');
+    const metrics = document.querySelectorAll('.qt-hero-metrics span');
+    const metricKeys = [['freeToUse','Free to use'],['noAds','No annoying ads'],['focusedTools','50+ focused tools'],['localFirst','Local-first processing']];
+    metrics.forEach((el, i) => { if (metricKeys[i]) el.textContent = t(metricKeys[i][0], metricKeys[i][1]); });
+    const search = document.getElementById('tool-search-input');
+    if (search) { search.placeholder = t('searchPlaceholder','Find a tool in seconds...'); search.setAttribute('aria-label',t('searchTools','Search tools')); }
+    const searchLabel = document.querySelector('label[for="tool-search-input"]');
+    if (searchLabel) searchLabel.textContent = t('searchTools','Search tools');
+    const requestButton = [...document.querySelectorAll('button')].find(el => el.getAttribute('onclick') === 'openRequestModal()');
+    if (requestButton) requestButton.lastChild.textContent = ' ' + t('requestTool','Request a Tool');
+    const categoryKeys = {all:'allTools',dev:'development',business:'businessCategory',pdf:'pdfDocuments',security:'securityMedia',text:'textCategory',fun:'creative'};
+    document.querySelectorAll('.category-filter').forEach(btn => {
+        const key = categoryKeys[btn.dataset.filter];
+        if (key) {
+            const icon = btn.querySelector('i');
+            btn.textContent = t(key, btn.textContent.trim());
+            if (icon) btn.prepend(icon);
+            if (icon) btn.insertBefore(document.createTextNode(' '), icon.nextSibling);
+        }
+    });
+    set('.grid.grid-cols-1.md\\:grid-cols-2 section:first-child h3', 'recentTools', 'Recent Tools');
+    set('.grid.grid-cols-1.md\\:grid-cols-2 section:nth-child(2) h3', 'favorites', 'Favorites');
+    set('#clear-recent-tools span', 'clear', 'Clear');
+    const clearRecent = document.getElementById('clear-recent-tools');
+    if (clearRecent) { clearRecent.title = t('clear','Clear'); clearRecent.setAttribute('aria-label',t('clear','Clear recently used tools')); }
+    set('.qt-featured-wrap .absolute', 'featuredExclusive', 'Featured Exclusive');
+    set('#feat-title', 'featuredTitle', 'AI Chat & Content to Office Converter');
+    set('#feat-desc', 'featuredDesc', 'Convert AI conversations and text into Word, Excel, or PDF files.');
+    set('.qt-toolkit-tagline', 'toolkitTagline', 'Clean, quick, and free utilities designed to save your time.');
+    const sectionKeys = {dev:'coreDevTools',business:'businessFinanceTools',pdf:'pdfDocumentsTools',security:'securityMediaTools',text:'textUnicodeTools',fun:'funCreativeTools'};
+    document.querySelectorAll('.category-section').forEach(section => {
+        const key = sectionKeys[section.dataset.category];
+        const heading = section.querySelector('.category-heading span:last-child');
+        if (key && heading) heading.textContent = t(key, heading.textContent);
+    });
+    document.querySelectorAll('.tool-card').forEach(card => {
+        const link = card.querySelector('a[data-tool-id]');
+        if (!link) return;
+        const id = link.dataset.toolId;
+        const title = i18n.toolTitle(id, link.dataset.toolTitle || link.textContent);
+        const desc = i18n.toolDescription(id, link.dataset.toolDescription || card.querySelector('.card-desc')?.textContent || '');
+        link.textContent = title;
+        link.dataset.toolTitle = title;
+        link.dataset.toolDescription = desc;
+        const description = card.querySelector('.card-desc');
+        if (description) description.textContent = desc;
+    });
+    const modal = document.getElementById('request-modal');
+    if (modal) {
+        set('#request-modal-title', 'requestTitle', 'Request a New Tool');
+        set('#request-modal-description', 'requestDesc', 'Have an idea for a useful tool? Share it with us.');
+        const placeholders = [['#req-tool-name','toolNameIdea','Tool Name / Idea...'],['#req-tool-desc','describeTool','Briefly describe what it should do...'],['#req-tool-example','optionalExample','Optional: give an example of how you would use it...']];
+        placeholders.forEach(([selector,key,fallback]) => { const el=document.querySelector(selector); if(el)el.placeholder=t(key,fallback); });
+        const buttons = modal.querySelectorAll('button');
+        if(buttons[0])buttons[0].setAttribute('aria-label',t('close','Close request form'));
+        if(buttons[1])buttons[1].textContent=t('cancel','Cancel');
+        if(buttons[2])buttons[2].textContent=t('submitRequest','Submit Request');
+    }
+    const footerTitles = document.querySelectorAll('#site-footer .footer-title');
+    const footerKeys = ['about','legalPrivacy','connect'];
+    footerTitles.forEach((el,i)=>{if(footerKeys[i])el.textContent=t(footerKeys[i],el.textContent);});
+    const footerDesc = document.querySelectorAll('#site-footer .footer-desc');
+    if(footerDesc[0])footerDesc[0].textContent=t('aboutDesc',footerDesc[0].textContent);
+    if(footerDesc[1])footerDesc[1].textContent=t('builtWith',footerDesc[1].textContent);
+    const footerLinkKeys = {'about-us.html':'aboutUs','faq.html':'faq','contact.html':'contactUs','privacy.html':'privacyPolicy','terms.html':'terms'};
+    document.querySelectorAll('#site-footer a.footer-link').forEach(a=>{const key=footerLinkKeys[a.getAttribute('href')];if(key)a.textContent=t(key,a.textContent);});
+    const copyright = document.querySelector('#site-footer .max-w-7xl.text-center');
+    if(copyright) copyright.firstChild.textContent='© 2026 QantaraTools. '+t('copyright','All rights reserved. Free browser-based utilities. Processing varies by tool.');
+    const support = document.querySelector('#site-footer a[href*="ko-fi.com"]');
+    if(support) support.lastChild.textContent=' '+t('support','Support QantaraTools on Ko-fi');
+    const theme = document.querySelector('[data-theme-toggle]');
+    if(theme){const label=document.documentElement.classList.contains('dark')?t('themeLight','Switch to light mode'):t('themeDark','Switch to dark mode');theme.setAttribute('aria-label',label);theme.title=label;}
+}
+
 window.addEventListener('DOMContentLoaded', () => {
     prepareToolSections();
+    applyHomeTranslations();
     applyTheme(localStorage.getItem('theme') !== 'light');
     setVisualIdentity(localStorage.getItem('visual_identity') || 'electric');
     setupFavoriteButtons();
