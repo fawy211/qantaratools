@@ -459,6 +459,7 @@ window.addEventListener('qt:localechange', () => {
     renderQuickToolLists();
     updateSearchCount();
     const activeId = window.QTActiveToolId;
+    if (activeId === 'ai-office') { window.loadAiToOfficeTool?.(); return; }
     const config = activeId && window.router?.registry?.[activeId];
     if (config) window.router.loadTool(config.category, window.QTI18n?.toolTitle(activeId, config.title) || config.title, activeId);
 });
