@@ -1,3 +1,30 @@
+function exifRow(tag, value) {
+    const tr = document.createElement('tr');
+    tr.className = 'border-b border-gray-800';
+    const tagCell = document.createElement('td');
+    tagCell.className = 'p-2 text-gray-400';
+    tagCell.textContent = String(tag);
+    const valueCell = document.createElement('td');
+    valueCell.className = 'p-2 text-gray-100 break-all';
+    valueCell.textContent = String(value);
+    tr.append(tagCell, valueCell);
+    return tr;
+}
+function exifTable(keys, data) {
+    const table = document.createElement('table');
+    table.className = 'w-full text-xs';
+    const tbody = document.createElement('tbody');
+    keys.forEach(k => tbody.appendChild(exifRow(k, data[k])));
+    table.appendChild(tbody);
+    return table;
+}
+function exifMessage(text, colorClass) {
+    const div = document.createElement('div');
+    div.className = 'p-4 ' + colorClass;
+    div.textContent = text;
+    return div;
+}
+
 export class ExifViewerTool {
     constructor(id) {
         this.container = document.getElementById(id);
@@ -35,14 +62,14 @@ export class ExifViewerTool {
                 const keys = Object.keys(data);
                 out.classList.remove('hidden');
                 if (!keys.length) {
-                    out.innerHTML = '<div class="p-4 text-gray-400">No readable EXIF metadata was found.</div>';
+                    out.replaceChildren(exifMessage('No readable EXIF metadata was found.', 'text-gray-400'));
                     return;
                 }
-                out.innerHTML = '<table class="w-full text-xs"><tbody>' + keys.map(k => `<tr class="border-b border-gray-800"><td class="p-2 text-gray-400">${k}</td><td class="p-2 text-gray-100 break-all">${String(data[k])}</td></tr>`).join('') + '</tbody></table>';
+                out.replaceChildren(exifTable(keys, data));
             });
         } catch (e) {
             out.classList.remove('hidden');
-            out.innerHTML = '<div class="p-4 text-amber-300">' + String(e.message || e) + '</div>';
+            out.replaceChildren(exifMessage(String(e.message || e), 'text-amber-300'));
         }
     }
 }

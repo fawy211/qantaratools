@@ -17,3 +17,35 @@ for (const identity of ['electric', 'citrus', 'violet']) {
   });
 }
 test('local storage labels are text only', async ({ page }) => { await page.addInitScript(() => localStorage.setItem('qantaratools_recent_v1', JSON.stringify([{id:'json-formatter',title:'<img src=x onerror=alert(1)>'}]))); await home(page); await expect(page.locator('#recent-tools-list img')).toHaveCount(0); });
+
+test('exif viewer shows metadata as text, not markup', async ({ page }) => {
+  await page.addInitScript(() => {
+    window.__xss = 0;
+    window.EXIF = {
+      getData(file, cb) { cb.call({}); },
+      getAllTags() {
+        return {
+          ImageDescription: '<img src=x onerror="window.__xss=1">',
+          Artist: '<script>window.__xss=2</script>',
+          Software: 'ordinary value'
+        };
+      }
+    };
+  });
+  await page.goto('/tools/exif-viewer/index.html', { waitUntil: 'domcontentloaded' });
+  await page.setInputFiles('#exifFile', { name: 'photo.jpg', mimeType: 'image/jpeg', buffer: Buffer.from('junk') });
+  await expect(page.locator('#exifOut table')).toBeVisible();
+  await expect(page.locator('#exifOut')).toContainText('<img src=x onerror="window.__xss=1">');
+  await expect(page.locator('#exifOut img')).toHaveCount(0);
+  await expect(page.locator('#exifOut script')).toHaveCount(0);
+  expect(await page.evaluate(() => window.__xss)).toBe(0);
+
+  await page.evaluate(() => {
+    window.__xss = 0;
+    window.EXIF.getAllTags = () => { throw new Error('<img src=x onerror="window.__xss=3">'); };
+  });
+  await page.setInputFiles('#exifFile', { name: 'bad.jpg', mimeType: 'image/jpeg', buffer: Buffer.from('junk2') });
+  await expect(page.locator('#exifOut')).toContainText('<img src=x onerror="window.__xss=3">');
+  await expect(page.locator('#exifOut img')).toHaveCount(0);
+  expect(await page.evaluate(() => window.__xss)).toBe(0);
+});
