@@ -65,7 +65,7 @@ for (const [locale, expected] of Object.entries(officeLocales)) {
     await page.waitForFunction(() => window.QTI18n && typeof window.QTI18n.setLocale === 'function');
     await page.evaluate(localeCode => window.QTI18n.setLocale(localeCode), locale);
     await page.evaluate(() => window.loadAiToOfficeTool());
-    const source = 'User: Keep this exact text — Café & <tag> 123\\nAssistant: Original answer stays unchanged: naïve & useful.';
+    const source = 'User: Keep this exact text — Café & <tag> 123\nAssistant: Original answer stays unchanged: naïve & useful.';
     const input = page.locator('#ai-office-input');
     await input.fill(source);
 
