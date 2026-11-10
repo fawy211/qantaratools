@@ -336,8 +336,8 @@
         <label class="px-4 py-3 rounded-xl border border-slate-700 text-slate-200 cursor-pointer text-center hover:bg-slate-800">${tr('aiOpenFile', 'Open a text or Word file')}<input id="ai-office-file" type="file" accept=".txt,.md,.csv,.docx,text/plain,text/markdown,text/csv,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="hidden"></label>
         <button id="ai-example" class="px-4 py-3 rounded-xl border border-slate-700 text-slate-300 hover:bg-slate-800">${tr('aiExample', 'Load Example')}</button><button id="ai-clear" class="px-4 py-3 rounded-xl border border-slate-700 text-slate-300 hover:bg-slate-800">${tr('aiClear', 'Clear')}</button>
       </div>
-      <textarea id="ai-office-input" rows="16" class="w-full p-4 rounded-2xl bg-slate-950 border border-slate-700 text-slate-100 focus:outline-none focus:border-blue-500" placeholder="${tr('aiPlaceholder', 'Paste your AI conversation or any text here...')}\n\nExample:\nUser: Create a project plan\nAssistant: Here is the plan..."></textarea>
-      <div class="mt-2 flex justify-between text-xs text-slate-500"><span id="ai-count">0 characters</span><span id="ai-status">${tr('aiReady', 'Ready')}</span></div>
+      <textarea id="ai-office-input" rows="16" class="w-full p-4 rounded-2xl bg-slate-950 border border-slate-700 text-slate-100 focus:outline-none focus:border-blue-500" placeholder="${tr('aiPlaceholder', 'Paste your AI conversation or any text here...')}"></textarea>
+      <div class="mt-2 flex justify-between text-xs text-slate-500"><span id="ai-count">0 ${tr('aiCharacters', 'characters')}</span><span id="ai-status">${tr('aiReady', 'Ready')}</span></div>
       <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-3">
         <button id="ai-word" class="px-4 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold">${tr('aiWordDownload', 'Download Word file')}</button>
         <button id="ai-excel" class="px-4 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold">${tr('aiExcelDownload', 'Download Excel file')}</button>
