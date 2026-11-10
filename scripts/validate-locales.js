@@ -1,26 +1,27 @@
 #!/usr/bin/env node
 'use strict';
 
-// Static translation coverage check. This does not change the live language setting.
+// Static and runtime checks for the locale dictionary. Does not expose locale controls.
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 
 const root = path.resolve(__dirname, '..');
-const localeSource = fs.readFileSync(path.join(root, 'assets/js/i18n.js'), 'utf8');
+const locales = ['de', 'fr', 'es'];
+const source = fs.readFileSync(path.join(root, 'assets/js/i18n.js'), 'utf8');
 const windowStub = { dispatchEvent() {} };
 const context = {
   window: windowStub,
   document: { documentElement: { dataset: {}, lang: 'en', dir: 'ltr' } },
   location: { pathname: '/' },
   localStorage: { getItem() { return 'en'; }, setItem() {} },
+  Intl, Date,
   CustomEvent: class CustomEvent { constructor(type, init) { this.type = type; this.detail = init?.detail; } }
 };
-vm.runInNewContext(localeSource, context);
+vm.runInNewContext(source, context);
 const i18n = windowStub.QTI18n;
-if (!i18n) throw new Error('QTI18n could not be initialized in the QA environment.');
+if (!i18n) throw new Error('QTI18n could not be initialized.');
 
-const locales = ['de', 'fr', 'es'];
 const files = [];
 function walk(dir) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -30,46 +31,65 @@ function walk(dir) {
   }
 }
 walk(path.join(root, 'tools'));
-for (const file of ['assets/js/main.js', 'assets/js/router.js', 'assets/js/ai-office.js']) {
-  files.push(path.join(root, file));
-}
+for (const file of ['assets/js/main.js', 'assets/js/router.js', 'assets/js/ai-office.js']) files.push(path.join(root, file));
 
-const usage = new Map();
+const used = new Map();
 const patterns = [
-  /\b(?:this\.t|tr)\(\s*['"]([A-Za-z][A-Za-z0-9]+)['"]/g
+  /\b(?:this\.t|tr)\(\s*['"]([A-Za-z][A-Za-z0-9]+)['"]/g,
+  /\bt\(\s*['"]([A-Za-z][A-Za-z0-9]+)['"]/g
 ];
 for (const file of files) {
-  const source = fs.readFileSync(file, 'utf8');
+  const text = fs.readFileSync(file, 'utf8');
   for (const pattern of patterns) {
-    for (const match of source.matchAll(pattern)) {
+    for (const match of text.matchAll(pattern)) {
       const key = match[1];
-      if (!usage.has(key)) usage.set(key, new Set());
-      usage.get(key).add(path.relative(root, file));
+      if (!used.has(key)) used.set(key, new Set());
+      used.get(key).add(path.relative(root, file));
     }
   }
-}
-
-// The home page uses a local t() wrapper rather than this.t()/tr().
-const main = fs.readFileSync(path.join(root, 'assets/js/main.js'), 'utf8');
-for (const match of main.matchAll(/\bt\(\s*['"]([A-Za-z][A-Za-z0-9]+)['"]/g)) {
-  const key = match[1];
-  if (!usage.has(key)) usage.set(key, new Set());
-  usage.get(key).add('assets/js/main.js');
 }
 
 const missing = [];
-for (const [key, usedIn] of usage) {
+for (const [key, paths] of used) {
   for (const locale of locales) {
-    if (!i18n.hasTranslation(locale, key)) {
-      missing.push({ key, locale, files: [...usedIn] });
-    }
+    if (!i18n.hasTranslation(locale, key)) missing.push({ locale, key, paths: [...paths] });
   }
 }
 
-if (missing.length) {
-  console.error('Missing translations:');
-  for (const item of missing) console.error('- ' + item.locale + ' :: ' + item.key + ' :: ' + item.files.join(', '));
+const tools = JSON.parse(fs.readFileSync(path.join(root, 'tool-pages.json'), 'utf8'));
+const untranslatedToolMeta = [];
+for (const tool of tools) {
+  const enTitle = i18n.toolTitle(tool.id, tool.title);
+  const enDesc = i18n.toolDescription(tool.id, tool.description);
+  for (const locale of locales) {
+    i18n.setLocale(locale);
+    const title = i18n.toolTitle(tool.id, tool.title);
+    const desc = i18n.toolDescription(tool.id, tool.description);
+    if (!title || !desc || title === tool.id || desc === '') {
+      untranslatedToolMeta.push({ locale, id: tool.id, title, description: desc });
+    }
+  }
+  i18n.setLocale('en');
+  if (!enTitle || !enDesc) untranslatedToolMeta.push({ locale: 'en', id: tool.id, title: enTitle, description: enDesc });
+}
+
+if (missing.length || untranslatedToolMeta.length) {
+  if (missing.length) {
+    console.error('Missing UI message translations:');
+    for (const item of missing) console.error('- ' + item.locale + ' :: ' + item.key + ' :: ' + item.paths.join(', '));
+  }
+  if (untranslatedToolMeta.length) {
+    console.error('Missing tool title/description metadata:');
+    for (const item of untranslatedToolMeta) console.error('- ' + JSON.stringify(item));
+  }
   process.exitCode = 1;
 } else {
-  console.log('Translation coverage passed for ' + usage.size + ' message keys across ' + locales.join(', ') + '.');
+  i18n.setLocale('de');
+  const germanNumber = i18n.formatNumber(12345.6);
+  i18n.setLocale('fr');
+  const frenchNumber = i18n.formatNumber(12345.6);
+  i18n.setLocale('es');
+  const spanishNumber = i18n.formatNumber(12345.6);
+  console.log('Locale QA passed: ' + used.size + ' UI keys and ' + tools.length + ' tool metadata records checked for de/fr/es.');
+  console.log('Locale number formatting samples: de=' + germanNumber + ', fr=' + frenchNumber + ', es=' + spanishNumber);
 }
