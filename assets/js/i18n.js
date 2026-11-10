@@ -3402,8 +3402,13 @@
   }
 
   const pathLocale = localeFromPath();
-  let current = pathLocale || storedLocale();
-  if (pathLocale) { try { localStorage.setItem(STORAGE_KEY, pathLocale); } catch (_) {} }
+  const queryMatch = String(location.search || '').match(/[?&]locale=([a-z]{2})(?:&|$)/i);
+  const queryLocale = queryMatch && Object.prototype.hasOwnProperty.call(LOCALES, queryMatch[1].toLowerCase())
+    ? queryMatch[1].toLowerCase() : null;
+  let current = pathLocale || queryLocale || storedLocale();
+  if (pathLocale || queryLocale) {
+    try { localStorage.setItem(STORAGE_KEY, pathLocale || queryLocale); } catch (_) {}
+  }
 
   function applyDocumentLocale() {
     document.documentElement.lang = current;
