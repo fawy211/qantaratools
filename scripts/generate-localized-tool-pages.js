@@ -20,7 +20,7 @@ function render(tool, locale) {
  if (!r || !r.title || !r.desc || !r.intro || !Array.isArray(r.faq) || r.faq.length < 2) throw new Error('Incomplete '+locale+' SEO record: '+tool.id);
  const l=L[locale], cat=l.cat[tool.category] || tool.category;
  const url=site+'/'+locale+'/tools/'+tool.id+'/';
- const alternates=['en','de','fr','es'].map(code=>'<link rel="alternate" hreflang="'+code+'" href="'+site+(code==='en'?'':'/'+code)+'/tools/'+tool.id+'/">').join('\n');
+ const alternates=['en','de','fr','es'].map(code=>'<link rel="alternate" hreflang="'+code+'" href="'+site+(code==='en'?'':'/'+code)+'/tools/'+tool.id+'/">').join('\n')+'\n<link rel="alternate" hreflang="x-default" href="'+site+'/tools/'+tool.id+'/">';
  const graph={'@context':'https://schema.org','@graph':[
  {'@type':'WebApplication',name:r.title,url:url,description:r.desc,applicationCategory:'UtilitiesApplication',operatingSystem:'Any',inLanguage:locale,publisher:{'@type':'Organization',name:'QantaraTools',url:site+'/'}},
  {'@type':'FAQPage',mainEntity:r.faq.map(x=>({'@type':'Question',name:x[0],acceptedAnswer:{'@type':'Answer',text:x[1]}}))}
@@ -31,7 +31,7 @@ function render(tool, locale) {
  const steps=(l.steps[tool.category]||l.steps['Core & Dev']).map(x=>'<li>'+esc(x)+'</li>').join('');
  const faq=r.faq.map(x=>'<details><summary>'+esc(x[0])+'</summary><p>'+esc(x[1])+'</p></details>').join('');
  const title=esc(r.title+' | QantaraTools');
- const nav=[['English','/tools/'+tool.id+'/'],['Deutsch','/de/tools/'+tool.id+'/'],['Français','/fr/tools/'+tool.id+'/'],['Español','/es/tools/'+tool.id+'/']].map(x=>'<a href="'+x[1]+'">'+x[0]+'</a>').join('');
+ const nav=[['English','/tools/'+tool.id+'/','en'],['Deutsch','/de/tools/'+tool.id+'/','de'],['Français','/fr/tools/'+tool.id+'/','fr'],['Español','/es/tools/'+tool.id+'/','es'],['العربية','/tools/'+tool.id+'/','ar']].map(x=>'<a href="'+x[1]+'" data-locale-link="'+x[2]+'">'+x[0]+'</a>').join('');
  return '<!doctype html><html lang="'+locale+'" dir="ltr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'+
  '<title>'+title+'</title><meta name="description" content="'+esc(r.desc.slice(0,155))+'"><meta name="robots" content="index,follow">'+
  '<link rel="canonical" href="'+url+'">'+alternates+
@@ -49,9 +49,30 @@ function render(tool, locale) {
  '<script src="/assets/js/external-resources.js"></script><script src="/assets/js/consent.js"></script><script src="/assets/js/plugin-system.js"></script><script src="/assets/js/tool-feedback.js"></script><script src="/assets/js/i18n.js"></script><script src="/assets/js/router.js"></script><script src="/assets/js/accessibility.js"></script>'+
  '<script>window.addEventListener("DOMContentLoaded",function(){if(window.router)window.router.loadTool('+JSON.stringify(tool.category)+','+JSON.stringify(tool.title)+','+JSON.stringify(tool.id)+');});</script></body></html>';
 }
+
+function renderHome(locale) {
+ const l=L[locale], groups={};
+ tools.forEach(t=>(groups[t.category] ||= []).push(t));
+ const cards=Object.keys(groups).map(category=>{
+  const list=groups[category].map(t=>'<li><a href="/'+locale+'/tools/'+t.id+'/">'+esc(seo[locale][t.id].title)+'</a></li>').join('');
+  return '<section class="qt-loc-panel"><h2>'+esc(l.cat[category]||category)+'</h2><ul class="qt-loc-related">'+list+'</ul></section>';
+ }).join('');
+ const desc=locale==='de'?'Kostenlose Browser-Tools für Dokumente, Text, Bilder, Entwicklung und den Alltag.':locale==='fr'?'Des outils gratuits dans le navigateur pour les documents, le texte, les images, le développement et les tâches quotidiennes.':'Herramientas gratuitas en el navegador para documentos, texto, imágenes, desarrollo y tareas cotidianas.';
+ const title=locale==='de'?'Kostenlose Online-Tools | QantaraTools':locale==='fr'?'Outils en ligne gratuits | QantaraTools':'Herramientas online gratuitas | QantaraTools';
+ const alternates=['en','de','fr','es'].map(code=>'<link rel="alternate" hreflang="'+code+'" href="'+site+(code==='en'?'':'/'+code)+'/">').join('');
+ const languageNav=[['English','/','en'],['Deutsch','/de/','de'],['Français','/fr/','fr'],['Español','/es/','es'],['العربية','/','ar']].map(x=>'<a href="'+x[1]+'" data-locale-link="'+x[2]+'">'+x[0]+'</a>').join('');
+ return '<!doctype html><html lang="'+locale+'" dir="ltr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc(title)+'</title><meta name="description" content="'+esc(desc)+'"><link rel="canonical" href="'+site+'/'+locale+'/">'+alternates+'<link rel="alternate" hreflang="x-default" href="'+site+'/"><link rel="stylesheet" href="/assets/css/custom.css"><link rel="stylesheet" href="/assets/css/theme-light.css"><script src="/assets/js/theme.js"></script><style>body{font-family:Outfit,Arial,sans-serif}.qt-loc-head{padding:14px 5%;border-bottom:1px solid var(--qt-line);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}.qt-loc-head a{color:var(--qt-blue);font-weight:700;text-decoration:none}.qt-loc-main{max-width:1120px;width:94%;margin:28px auto 60px}.qt-loc-panel{padding:22px;margin:18px 0;border:1px solid var(--qt-line);border-radius:18px;background:var(--qt-panel)}h1,h2{color:var(--qt-text)}p,li{line-height:1.7;color:var(--qt-muted)}.qt-loc-related{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;padding:0;list-style:none}.qt-loc-related a{display:block;padding:10px;border:1px solid var(--qt-line);border-radius:10px}.qt-loc-footer{text-align:center;padding:20px;color:var(--qt-muted)}</style></head><body><header class="qt-loc-head"><a href="/'+locale+'/">QantaraTools</a><nav>'+languageNav+'</nav></header><main class="qt-loc-main"><section class="qt-loc-panel"><h1>'+esc(title)+'</h1><p>'+esc(desc)+'</p></section>'+cards+'</main><footer class="qt-loc-footer">© 2026 QantaraTools · <a href="/privacy.html">'+esc(l.privacy)+'</a> · <a href="/terms.html">'+esc(l.terms)+'</a></footer><script src="/assets/js/i18n.js"></script><script>document.querySelectorAll("[data-locale-link]").forEach(function(a){a.addEventListener("click",function(){try{localStorage.setItem("qantaratools_language_v1",a.dataset.localeLink);}catch(e){}});});</script></body></html>';
+}
+
 const sitemapPath=path.join(root,'sitemap.xml');
 let sitemap=fs.existsSync(sitemapPath)?fs.readFileSync(sitemapPath,'utf8'):'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>\n';
 const entries=[];
+for(const locale of locales){
+ const home=path.join(root,locale,'index.html');
+ fs.mkdirSync(path.dirname(home),{recursive:true});
+ fs.writeFileSync(home,renderHome(locale));
+ entries.push('<url><loc>'+site+'/'+locale+'/</loc></url>');
+}
 for(const locale of locales) for(const tool of tools){
  const out=path.join(root,locale,'tools',tool.id,'index.html');
  fs.mkdirSync(path.dirname(out),{recursive:true});
