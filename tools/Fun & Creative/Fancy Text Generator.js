@@ -151,11 +151,11 @@ export class FancyTextTool {
         list.innerHTML = '';
 
         if (!text) {
-            list.innerHTML = '<div class="lg:col-span-2 text-sm text-gray-500 text-center py-8">Type something above to see your styles.</div>';
+            list.innerHTML = `<div class="lg:col-span-2 text-sm text-gray-500 text-center py-8">${this.t('fancyType','Type something above to see your styles.')}</div>`;
             return;
         }
         if (!filtered.length) {
-            list.innerHTML = '<div class="lg:col-span-2 text-sm text-gray-500 text-center py-8">No styles match your search.</div>';
+            list.innerHTML = `<div class="lg:col-span-2 text-sm text-gray-500 text-center py-8">${this.t('fancyNoStyles','No styles match your search.')}</div>`;
             return;
         }
 
