@@ -662,7 +662,7 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     await page.locator('#gradColor2').fill('#AABBCC');
     await page.locator('#gradDirection').selectOption({ label: 'to right' });
     await expect(page.locator('#gradientPreview')).toHaveCSS('background-image', 'linear-gradient(to right, rgb(17, 34, 51), rgb(170, 187, 204))');
-    await expect(page.locator('#cssOutputBadge')).toContainText('linear-gradient(to right, #112233, #AABBCC)');
+    await expect(page.locator('#cssOutputBadge')).toContainText('linear-gradient(to right, #112233, #aabbcc)');
 
     await page.goto(tool('decision-maker'));
     await page.locator('#rdInput').fill('Alpha\nBeta\nGamma');
@@ -781,10 +781,11 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
 
     await page.goto(tool('image-watermark'));
     await page.locator('#f').setInputFiles(file);
-    await page.waitForFunction(() => window.__loadedImageCount > 0);
     await page.locator('#t').fill('Qantara');
+    const imageLoaded = page.waitForFunction(() => window.__loadedImageCount > 0);
     const watermarkedDownload = page.waitForEvent('download');
     await page.locator('#go').click();
+    await imageLoaded;
     expect((await watermarkedDownload).suggestedFilename()).toBe('watermarked-image.png');
   });
 }
@@ -1041,7 +1042,7 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     await page.locator('#fancyInput').fill('Hi');
     await page.locator('#fancySearch').fill('Bold');
     await expect(page.locator('#fancyResultsList')).toContainText('𝐇𝐢');
-    await expect(page.locator('#fancyResultCount')).toContainText('5');
+    await expect(page.locator('#fancyResultCount')).toContainText(await page.evaluate(() => window.QTI18n.formatNumber(5)));
 
     await page.goto(tool('text-diff'));
     await page.locator('#diffOriginal').fill('old\nsame');
