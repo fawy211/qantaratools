@@ -762,7 +762,7 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
 // Browser-only image editing tools: verify file input, canvas output and downloads.
 for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
   test('Image rotate, crop, format and watermark tools process files in ' + locale, async ({ page }) => {
-    const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAQAAAD8fJRsAAAADUlEQVR42mP8z8AAAAMBAQDJ/pLvAAAAAElFTkSuQmCC', 'base64');
+    const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAIAAAB7QOjdAAAAD0lEQVR4nGP8z8DAwMAAAAYIAQHLR3Z1AAAAAElFTkSuQmCC', 'base64');
     const file = { name: 'tiny.png', mimeType: 'image/png', buffer: png };
     const tool = slug => route.prefix + '/tools/' + slug + '/' + route.suffix;
 
