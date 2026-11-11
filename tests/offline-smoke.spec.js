@@ -92,10 +92,17 @@ test('offline smoke: Images to PDF uses the local jsPDF helper and downloads a P
     if (request.url().includes('/assets/vendor/jspdf/')) localHelperRequests.push(request.url());
   });
   await page.goto('/tools/images-pdf/', { waitUntil: 'domcontentloaded' });
+  const pngBase64 = await page.evaluate(() => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 2;
+    canvas.height = 2;
+    canvas.getContext('2d').fillRect(0, 0, 2, 2);
+    return canvas.toDataURL('image/png').split(',')[1];
+  });
   await page.locator('#imgs').setInputFiles({
     name: 'tiny.png',
     mimeType: 'image/png',
-    buffer: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAIAAAB7QOjdAAAAD0lEQVR4nGP8z8DAwMAAAAYIAQHLR3Z1AAAAAElFTkSuQmCC', 'base64')
+    buffer: Buffer.from(pngBase64, 'base64')
   });
   const downloadPromise = page.waitForEvent('download');
   await page.locator('#go').click();
