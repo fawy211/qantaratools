@@ -99,6 +99,7 @@ const page = tool => {
   <script src="/assets/js/tailwind-loader.js"></script>
   <link rel="stylesheet" href="/assets/css/custom.css">
   <link rel="stylesheet" href="/assets/css/theme-light.css">
+  <link rel="stylesheet" href="/assets/css/qt-redesign.css">
   <script src="/assets/js/theme.js"></script>
   <script src="/assets/js/language-switcher.js" defer></script>
   <script type="application/ld+json">${jsonLd}</script>
