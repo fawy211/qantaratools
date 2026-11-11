@@ -23,6 +23,12 @@ for (const locale of locales) {
         await page.goto(toolPath(locale, tool.id), { waitUntil: 'domcontentloaded' });
         await expect(page.locator('html')).toHaveAttribute('lang', locale);
         await expect(page.locator('html')).toHaveAttribute('dir', locale === 'ar' ? 'rtl' : 'ltr');
+        // Every one of the 250 localized tool routes must expose the language selector.
+        const languageSwitcher = page.locator('[data-qt-language-switcher]');
+        await expect(languageSwitcher).toBeVisible();
+        const languageSelect = languageSwitcher.locator('select.qt-language-select');
+        await expect(languageSelect.locator('option')).toHaveCount(5);
+        await expect(languageSelect).toHaveValue(locale);
 
         const toolBox = page.locator('#active-tool-box');
         await page.waitForFunction(() => {
