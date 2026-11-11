@@ -65,8 +65,11 @@ for (const tool of tools) {
     i18n.setLocale(locale);
     const title = i18n.toolTitle(tool.id, tool.title);
     const desc = i18n.toolDescription(tool.id, tool.description);
-    if (!title || !desc || title === tool.id || desc === '') {
-      untranslatedToolMeta.push({ locale, id: tool.id, title, description: desc });
+    // A non-empty fallback is not proof of translation: QTI18n intentionally
+    // falls back to English when a locale key is missing. Detect descriptions
+    // that silently remain English instead of treating them as complete.
+    if (!title || !desc || title === tool.id || desc === '' || desc === enDesc) {
+      untranslatedToolMeta.push({ locale, id: tool.id, title, description: desc, reason: desc === enDesc ? 'description still matches English' : 'missing metadata' });
     }
   }
   i18n.setLocale('en');
