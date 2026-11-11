@@ -126,3 +126,15 @@ test('offline smoke: Text to PDF opens a local print view with external network 
   await expect(popup.locator('body')).toContainText('This text stays on this device.');
   await expect(popup.locator('h1')).toHaveText('qantaratools-text');
 });
+
+test('offline smoke: Outfit and IBM Plex Sans Arabic load from local font assets', async ({ page }) => {
+  await blockExternalRequests(page);
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  const fonts = await page.evaluate(async () => {
+    const outfit = await document.fonts.load('16px Outfit');
+    const arabic = await document.fonts.load('16px "IBM Plex Sans Arabic"');
+    return { outfit: outfit.length, arabic: arabic.length };
+  });
+  expect(fonts.outfit).toBeGreaterThan(0);
+  expect(fonts.arabic).toBeGreaterThan(0);
+});
