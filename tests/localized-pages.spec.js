@@ -12,6 +12,16 @@ for (const locale of ['en', 'ar', 'de', 'fr', 'es']) {
     await expect(page.locator('#site-header')).toBeVisible();
     await expect(page.locator('#hero-title')).toBeVisible();
     await expect(page.locator('#hero-desc')).toBeVisible();
+    const localizedHeroTitles = {
+      en: 'Free Online Tools for Work, PDF, Text & Images',
+      ar: 'أدوات مجانية عبر الإنترنت للعمل وملفات PDF والنصوص والصور',
+      de: 'Kostenlose Online-Tools für Arbeit, PDF, Text und Bilder',
+      fr: 'Outils en ligne gratuits pour le travail, PDF, texte et images',
+      es: 'Herramientas online gratuitas para trabajo, PDF, texto e imágenes'
+    };
+    await expect(page.locator('#hero-title')).toHaveText(localizedHeroTitles[locale]);
+    const localizedAllTools = { en: 'All Tools', ar: 'كل الأدوات', de: 'Alle Tools', fr: 'Tous les outils', es: 'Todas las herramientas' };
+    await expect(page.locator('.category-filter[data-filter="all"]')).toContainText(localizedAllTools[locale]);
     await expect(page.locator('.qt-hero-metrics span')).toHaveCount(4);
     await expect(page.locator('#tool-search-input')).toBeVisible();
     await expect(page.locator('.category-nav .category-filter')).toHaveCount(7);
