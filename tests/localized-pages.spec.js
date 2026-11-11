@@ -33,6 +33,24 @@ for (const locale of ['en', 'ar', 'de', 'fr', 'es']) {
     }
   });
 
+  test(locale + ' homepage keeps theme and visual identity controls consistent', async ({ page }) => {
+    const homePath = locale === 'en' ? '/' : locale === 'ar' ? '/?locale=ar' : '/' + locale + '/';
+    await page.goto(homePath);
+    const themeButton = page.locator('[data-theme-toggle]');
+    await expect(themeButton).toBeVisible();
+    const before = await page.evaluate(() => localStorage.getItem('theme'));
+    await themeButton.click();
+    const after = await page.evaluate(() => localStorage.getItem('theme'));
+    expect(after).not.toBe(before);
+    await page.locator('[data-identity="violet"]').click();
+    await expect(page.locator('html')).toHaveAttribute('data-identity', 'violet');
+    await page.reload();
+    await expect(page.locator('html')).toHaveAttribute('data-identity', 'violet');
+    expect(await page.evaluate(() => localStorage.getItem('theme'))).toBe(after);
+    await expect(page.locator('[data-theme-toggle]')).toBeVisible();
+    await expect(page.locator('[data-identity="violet"]')).toHaveAttribute('aria-pressed', 'true');
+  });
+
   test(locale + ' localized Base64 page loads the working tool UI', async ({ page }) => {
     const toolPath = locale === 'en'
       ? '/tools/base64/'
