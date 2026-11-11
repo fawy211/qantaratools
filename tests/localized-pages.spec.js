@@ -93,9 +93,12 @@ for (const [locale, expected] of Object.entries(officeLocales)) {
     const wordXml = unzipStoredEntry(wordBuffer, 'word/document.xml');
     const wordStyles = unzipStoredEntry(wordBuffer, 'word/styles.xml');
     const wordRels = unzipStoredEntry(wordBuffer, 'word/_rels/document.xml.rels');
+    const wordTypes = unzipStoredEntry(wordBuffer, '[Content_Types].xml');
     expect(wordXml).toContain(expected.user);
     expect(wordXml).toContain(expected.assistant);
     expect(wordRels).toContain('relationships/styles');
+    expect(wordRels).toContain('Target="styles.xml"');
+    expect(wordTypes).toContain('PartName="/word/styles.xml"');
     if (locale === 'ar') { expect(wordXml).toContain('<w:bidi/>'); expect(wordStyles).toContain('<w:rtl/>'); }
     else expect(wordStyles).not.toContain('<w:rtl/>');
     if (locale === 'ar') { expect(wordXml).toContain('<w:bidiVisual/>'); expect(wordXml).toContain('<w:ind w:right="360" w:hanging="180"/>'); }
@@ -115,6 +118,11 @@ for (const [locale, expected] of Object.entries(officeLocales)) {
       stream.on('error', reject);
     }));
     const sheet = unzipStoredEntry(excelBuffer, 'xl/worksheets/sheet1.xml');
+    const workbook = unzipStoredEntry(excelBuffer, 'xl/workbook.xml');
+    const workbookRels = unzipStoredEntry(excelBuffer, 'xl/_rels/workbook.xml.rels');
+    expect(workbook).toContain('r:id="rId1"');
+    expect(workbookRels).toContain('Target="worksheets/sheet1.xml"');
+    expect(workbookRels).toContain('Target="styles.xml"');
     expect(sheet).toContain(expected.speaker);
     expect(sheet).toContain(expected.message);
     expect(sheet).toContain(expected.user);
