@@ -50,6 +50,18 @@ test('offline smoke: QR helper reports a clear message when its approved online 
   await expect(page.locator('#qrOut')).toContainText(/could not be loaded|internet connection|not available/i);
 });
 
+test('offline smoke: PDF tool reports its unavailable helper and remains responsive', async ({ page }) => {
+  await blockExternalRequests(page);
+  await page.goto('/tools/pdf-merge/', { waitUntil: 'domcontentloaded' });
+  await page.locator('[data-pdf-files]').setInputFiles([
+    { name: 'first.pdf', mimeType: 'application/pdf', buffer: Buffer.from('%PDF-1.4 offline fixture') },
+    { name: 'second.pdf', mimeType: 'application/pdf', buffer: Buffer.from('%PDF-1.4 offline fixture') }
+  ]);
+  await page.locator('#go').click();
+  await expect(page.locator('[data-pdf-msg]')).toContainText(/could not be loaded|internet connection|helper library/i);
+  await expect(page.locator('#go')).toBeEnabled();
+});
+
 test('offline smoke: EXIF helper fails gracefully rather than freezing the tool', async ({ page }) => {
   await blockExternalRequests(page);
   await page.goto('/tools/exif-viewer/', { waitUntil: 'domcontentloaded' });
