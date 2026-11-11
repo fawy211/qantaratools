@@ -66,16 +66,25 @@ export class ArabicFixerTool {
                         return;
                     }
                     try {
-                        // Convert common UTF-8 mojibake back to readable text.
-                        text = decodeURIComponent(escape(text));
+                        // Some Windows-1252 decoders display UTF-8 byte 0x85 as an ellipsis.
+                        // Map the Windows-1252 punctuation range back to its original byte first.
+                        const windows1252 = {
+                            '€': 0x80, '‚': 0x82, 'ƒ': 0x83, '„': 0x84, '…': 0x85,
+                            '†': 0x86, '‡': 0x87, 'ˆ': 0x88, '‰': 0x89, 'Š': 0x8A,
+                            '‹': 0x8B, 'Œ': 0x8C, 'Ž': 0x8E, '‘': 0x91, '’': 0x92,
+                            '“': 0x93, '”': 0x94, '•': 0x95, '–': 0x96, '—': 0x97,
+                            '˜': 0x98, '™': 0x99, 'š': 0x9A, '›': 0x9B, 'œ': 0x9C,
+                            'ž': 0x9E, 'Ÿ': 0x9F
+                        };
+                        const normalizedBytes = [...text].map(char => {
+                            const code = char.codePointAt(0);
+                            return code <= 0xFF ? String.fromCharCode(code)
+                                : Object.prototype.hasOwnProperty.call(windows1252, char)
+                                    ? String.fromCharCode(windows1252[char]) : char;
+                        }).join('');
+                        text = decodeURIComponent(escape(normalizedBytes));
                     } catch (e) {
-                        // لو النص مش بحاجة لإصلاح أو حصل خطأ، بنجرب الطريقة البديلة
-                        try {
-                            const bytes = Uint8Array.from(text, c => c.charCodeAt(0));
-                            text = new TextDecoder('utf-8').decode(bytes);
-                        } catch (err) {
-                            // لو فشل تماماً بنسخ النص الأصلي زي ما هو
-                        }
+                        // Keep the original input if it is not valid UTF-8 mojibake.
                     }
 
                     outputArea.value = text;
