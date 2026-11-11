@@ -947,3 +947,46 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     await expect(page.locator('#ccResultArea')).toBeVisible();
   });
 }
+
+
+// CSV cleaner and discount/markup calculator must preserve data and format values by locale.
+for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
+  test('CSV cleaner and discount calculator work in ' + locale, async ({ page }) => {
+    const tool = slug => route.prefix + '/tools/' + slug + '/' + route.suffix;
+    const fmt = value => page.evaluate(n => window.QTI18n.formatNumber(n, { minimumFractionDigits: 2, maximumFractionDigits: 2 }), value);
+
+    await page.goto(tool('csv-cleaner'));
+    await page.locator('#loadSampleCsvBtn').click();
+    await page.locator('#cleanCsvBtn').click();
+    await expect(page.locator('#csvPreview tr')).toHaveCount(4);
+    await expect(page.locator('#downloadCsvBtn')).toBeVisible();
+    const downloadPromise = page.waitForEvent('download');
+    await page.locator('#downloadCsvBtn').click();
+    const download = await downloadPromise;
+    expect(download.suggestedFilename()).toBe('cleaned-sample-data.csv');
+    const stream = await download.createReadStream();
+    const chunks = [];
+    for await (const chunk of stream) chunks.push(chunk);
+    const csv = Buffer.concat(chunks).toString('utf8');
+    expect(csv).toContain('Name,Email,Age');
+    expect(csv.match(/Alex,alex@example.com,31/g)).toHaveLength(1);
+    expect(csv).toContain('Omar,omar@example.com,34');
+
+    await page.goto(tool('discount-calculator'));
+    await page.locator('#dcPrice').fill('200');
+    await page.locator('#dcPercent').fill('25');
+    await page.locator('#dcGo').click();
+    await expect(page.locator('#dcMain')).toHaveText(await fmt(150));
+    await expect(page.locator('#dcSub')).toHaveText(await fmt(50));
+    await page.locator('input[name="dcMode"][value="markup"]').check();
+    await page.locator('#dcPercent').fill('25');
+    await page.locator('#dcGo').click();
+    await expect(page.locator('#dcMain')).toHaveText(await fmt(250));
+    await expect(page.locator('#dcSub')).toHaveText(await fmt(50));
+    await page.locator('input[name="dcMode"][value="discount"]').check();
+    await page.locator('#dcPercent').fill('150');
+    await page.locator('#dcGo').click();
+    await expect(page.locator('#dcError')).toBeVisible();
+    await expect(page.locator('#dcOut')).toBeVisible();
+  });
+}
