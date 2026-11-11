@@ -77,7 +77,7 @@ for (const [locale, expected] of Object.entries(officeLocales)) {
     await page.waitForFunction(() => window.QTI18n && typeof window.QTI18n.setLocale === 'function');
     await page.evaluate(localeCode => window.QTI18n.setLocale(localeCode), locale);
     await page.evaluate(() => window.loadAiToOfficeTool());
-    const source = 'User: Keep this exact text — Café & <tag> 123\nAssistant: Original answer stays unchanged: naïve & useful.';
+    const source = 'User: Keep this exact text — Café & <tag> 123\nAssistant: Original answer stays unchanged: naïve & useful.\n- Keep this bullet\nColumn A\tColumn B\nValue A\tValue B';
     const input = page.locator('#ai-office-input');
     await input.fill(source);
 
@@ -94,6 +94,7 @@ for (const [locale, expected] of Object.entries(officeLocales)) {
     expect(wordXml).toContain(expected.user);
     expect(wordXml).toContain(expected.assistant);
     if (locale === 'ar') { expect(wordXml).toContain('<w:bidi/>'); expect(wordXml).toContain('<w:rtl/>'); }
+    if (locale === 'ar') { expect(wordXml).toContain('<w:bidiVisual/>'); expect(wordXml).toContain('<w:ind w:right="360" w:hanging="180"/>'); }
     if (locale === 'ar') expect((wordXml.match(/<w:bidi\/>/g)||[]).length).toBeGreaterThan(2);
     else { expect(wordXml).not.toContain('<w:bidi/>'); }
     expect(wordXml).toContain('Keep this exact text');
