@@ -24,6 +24,7 @@ if(!fs.existsSync(englishHomePath)){
  if(!englishHome.includes('dir="ltr"')) errors.push('en/: wrong or missing text direction');
  if(!englishHome.includes('rel="canonical"')||!englishHome.includes('href="https://qantaratools.com/"')) errors.push('en/: wrong or missing canonical');
  validateHreflangs(englishHome,'en/');
+ if(!englishHome.includes('/assets/js/language-switcher.js')) errors.push('en/: shared language selector script missing');
 }
 for(const locale of locales){
  const home=path.join(root,locale,'index.html');
@@ -31,6 +32,7 @@ for(const locale of locales){
  const homeHtml=fs.readFileSync(home,'utf8');
  if(!homeHtml.includes('lang="'+locale+'"')||!homeHtml.includes('rel="canonical"')) errors.push(locale+': homepage language/canonical missing');
  if(!homeHtml.includes('hreflang="ar"')||!homeHtml.includes('href="https://qantaratools.com/?locale=ar"')) errors.push(locale+': Arabic homepage hreflang missing');
+ if(!homeHtml.includes('/assets/js/language-switcher.js')) errors.push(locale+': shared language selector script missing');
  validateHreflangs(homeHtml,locale+'/');
  for(const tool of tools){
   const file=path.join(root,locale,'tools',tool.id,'index.html');
@@ -44,8 +46,7 @@ for(const locale of locales){
    [html.includes('hreflang="x-default"'),'missing x-default'],
    [html.includes('application/ld+json')&&html.includes('"inLanguage":"'+locale+'"'),'missing localized structured data'],
    [html.includes('/assets/js/i18n.js')&&html.includes('/assets/js/router.js'),'tool runtime scripts missing'],
-   [html.includes('data-locale-link="en"')&&html.includes('data-locale-link="ar"'),'language navigation missing'],
-   [html.includes('qantaratools_language_v1'),'language persistence handler missing'],
+   [html.includes('/assets/js/language-switcher.js'),'shared language selector script missing'],
    [(html.match(/<details>/g)||[]).length>=2,'fewer than two FAQ entries']
   ];
   for(const [ok,message] of checks) if(!ok) errors.push(locale+'/'+tool.id+': '+message);
@@ -57,8 +58,7 @@ for(const tool of tools){
  const html=fs.readFileSync(file,'utf8');
  validateHreflangs(html,'en/'+tool.id);
  if(!html.includes('href="https://qantaratools.com/tools/'+tool.id+'/?locale=ar"')) errors.push('en/'+tool.id+': Arabic hreflang URL missing');
- if(!html.includes('data-locale-link="de"')||!html.includes('data-locale-link="ar"')) errors.push('en/'+tool.id+': language selector links missing');
- if(!html.includes('qantaratools_language_v1')) errors.push('en/'+tool.id+': language persistence handler missing');
+ if(!html.includes('/assets/js/language-switcher.js')) errors.push('en/'+tool.id+': shared language selector script missing');
 }
 const sitemap=fs.readFileSync(path.join(root,'sitemap.xml'),'utf8');
 if(!sitemap.includes('<loc>https://qantaratools.com/</loc>')) errors.push('en/: homepage absent from sitemap');
