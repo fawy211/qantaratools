@@ -606,9 +606,10 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
 
     await page.goto(tool('word-counter'));
     await page.locator('#wcInput').fill('One two.\n\nThree!');
-    await expect(page.locator('#wcWords')).toHaveText('3');
-    await expect(page.locator('#wcChars')).toHaveText('16');
-    await expect(page.locator('#wcParas')).toHaveText('2');
+    const localizedCount = n => page.evaluate(value => window.QTI18n.formatNumber(value), n);
+    await expect(page.locator('#wcWords')).toHaveText(await localizedCount(3));
+    await expect(page.locator('#wcChars')).toHaveText(await localizedCount(16));
+    await expect(page.locator('#wcParas')).toHaveText(await localizedCount(2));
 
     await page.goto(tool('text-sorter'));
     await page.locator('#sortIn').fill('pear\nApple\nbanana');
