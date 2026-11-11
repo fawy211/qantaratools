@@ -81,5 +81,17 @@ jobs:
           git add de fr es tools sitemap.xml assets/vendor assets/fonts
           if ! git diff --cached --quiet; then
             git commit -m "Generate localized SEO landing pages"
-            git push
+            git fetch origin "$GITHUB_REF_NAME"
+            git rebase "origin/$GITHUB_REF_NAME"
+            for attempt in 1 2 3; do
+              if git push origin "HEAD:$GITHUB_REF_NAME"; then
+                exit 0
+              fi
+              if [ "$attempt" -lt 3 ]; then
+                git fetch origin "$GITHUB_REF_NAME"
+                git rebase "origin/$GITHUB_REF_NAME"
+              fi
+            done
+            echo "Could not push generated pages after 3 safe attempts."
+            exit 1
           fi
