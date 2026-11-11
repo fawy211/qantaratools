@@ -58,6 +58,31 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Prepare pinned local helper assets
         run: node scripts/prepare-vendor-assets.js
+      - name: Verify prepared local vendor assets
+        run: |
+          test -s assets/vendor/fontawesome/6.4.0/css/all.min.css
+          test -s assets/vendor/fontawesome/6.4.0/LICENSE
+          test -n "$(find assets/vendor/fontawesome/6.4.0/webfonts -type f | grep -E '\.(woff2?|ttf|otf)      - name: Test all localized tool pages in small Chromium batches
+        run: npx playwright test tests/tool-load.spec.js --project=chromium --workers=2
+      - name: Test localized homepage and tool functionality
+        run: npx playwright test tests/localized-pages.spec.js --project=chromium --workers=2
+      - name: Test local-first tools with external network blocked
+        run: npx playwright test tests/offline-smoke.spec.js --project=chromium --workers=1
+      - name: Commit generated localized pages to feature branch
+        if: github.event_name == 'push' && github.ref == 'refs/heads/feature/complete-multilingual-support'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add de fr es tools sitemap.xml assets/vendor assets/fonts
+          if ! git diff --cached --quiet; then
+            git commit -m "Generate localized SEO landing pages"
+            git push
+          fi
+)"
+          test -s assets/vendor/pdf-lib/1.17.1/pdf-lib.min.js
+          test -s assets/vendor/jspdf/2.5.1/jspdf.umd.min.js
+          test -s assets/vendor/qrcodejs/1.0.0/qrcode.min.js
+          test -s assets/vendor/exif-js/2.3.0/exif.js
       - name: Test all localized tool pages in small Chromium batches
         run: npx playwright test tests/tool-load.spec.js --project=chromium --workers=2
       - name: Test localized homepage and tool functionality
