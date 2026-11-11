@@ -53,7 +53,7 @@ test('offline smoke: QR code is generated from the local helper', async ({ page 
   await page.locator('#qrGo').click();
   expect(await page.locator('#qrOut canvas, #qrOut img').count()).toBeGreaterThan(0);
   expect(localHelperRequests.some(url => url.endsWith('/qrcode.min.js'))).toBeTruthy();
-  expect(externalRequests.some(url => /cdnjs\\.cloudflare\\.com.*qrcode/i.test(url))).toBeFalsy();
+  expect(externalRequests.some(url => /cdnjs\.cloudflare\.com.*qrcode/i.test(url))).toBeFalsy();
 });
 
 test('offline smoke: PDF merge uses the local pdf-lib helper and downloads a merged PDF', async ({ page }) => {
