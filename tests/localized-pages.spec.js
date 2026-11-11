@@ -541,3 +541,50 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     await expect(page.locator('#dupOut')).toHaveValue('Apple\nBanana');
   });
 }
+
+
+// More localized functional coverage for conversion, regex, finance and image data.
+for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
+  test('JSON CSV, regex, discount and image Base64 tools work in ' + locale, async ({ page }) => {
+    const tool = slug => route.prefix + '/tools/' + slug + '/' + route.suffix;
+
+    await page.goto(tool('json-csv'));
+    await page.locator('#jcIn').fill('[{"name":"Ada","note":"hello, world"},{"name":"Lin","note":"quote: \\"yes\\""}]');
+    await page.locator('#jcJson').click();
+    await expect(page.locator('#jcOut')).toContainText('"name","note"');
+    await page.locator('#jcIn').fill('"name","age"\n"Ada","37"');
+    await page.locator('#jcCsv').click();
+    await expect(page.locator('#jcOut')).toContainText('"name": "Ada"');
+    await expect(page.locator('#jcOut')).toContainText('"age": "37"');
+
+    await page.goto(tool('regex-tester'));
+    await page.locator('#rxPat').fill('cat');
+    await page.locator('#rxFlags').fill('gi');
+    await page.locator('#rxText').fill('Cat and catalog; a CAT.');
+    await page.locator('#rxRun').click();
+    await expect(page.locator('#rxOut')).toContainText('Found 3');
+    await page.locator('#rxPat').fill('[');
+    await page.locator('#rxRun').click();
+    await expect(page.locator('#rxOut')).toContainText(/Invalid regular expression/i);
+
+    await page.goto(tool('discount-calculator'));
+    await page.locator('#dcPrice').fill('250');
+    await page.locator('#dcPercent').fill('20');
+    await page.locator('#dcGo').click();
+    const discountExpected = await page.evaluate(() => window.QTI18n.formatNumber(200, { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+    await expect(page.locator('#dcMain')).toHaveText(discountExpected);
+    await page.locator('input[name="dcMode"][value="markup"]').check();
+    await page.locator('#dcGo').click();
+    const markupExpected = await page.evaluate(() => window.QTI18n.formatNumber(300, { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+    await expect(page.locator('#dcMain')).toHaveText(markupExpected);
+
+    await page.goto(tool('image-base64'));
+    await page.locator('#b64FileInput').setInputFiles({
+      name: 'tiny.png',
+      mimeType: 'image/png',
+      buffer: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/l7sAAAAASUVORK5CYII=', 'base64')
+    });
+    await expect(page.locator('#b64ResultArea')).toBeVisible();
+    await expect(page.locator('#b64Output')).toHaveValue(/^data:image\/png;base64,/);
+  });
+}
