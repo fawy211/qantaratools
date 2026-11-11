@@ -96,7 +96,7 @@ const page = tool => {
   <meta property="og:image" content="${site}/assets/branding/og-image.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${esc(pageTitle)}"><meta name="twitter:description" content="${esc(desc)}"><meta name="twitter:image" content="${site}/assets/branding/og-image.png">
   <script src="/assets/js/fontawesome-loader.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script src="/assets/js/tailwind-loader.js"></script>
   <link rel="stylesheet" href="/assets/css/custom.css">
   <link rel="stylesheet" href="/assets/css/theme-light.css">
   <script src="/assets/js/theme.js"></script>
