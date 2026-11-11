@@ -105,6 +105,66 @@ test('offline smoke: Images to PDF uses the local jsPDF helper and downloads a P
   expect(localHelperRequests.some(url => url.endsWith('/jspdf.umd.min.js'))).toBeTruthy();
 });
 
+test('offline smoke: browser image editing tools process and export files without external network', async ({ page }) => {
+  await blockExternalRequests(page);
+  const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAIAAAB7QOjdAAAAD0lEQVR4nGP8z8DAwMAAAAYIAQHLR3Z1AAAAAElFTkSuQmCC', 'base64');
+  const file = { name: 'tiny.png', mimeType: 'image/png', buffer: png };
+
+  await page.goto('/tools/image-rotate-flip/', { waitUntil: 'domcontentloaded' });
+  await page.locator('#f').setInputFiles(file);
+  await page.waitForFunction(() => {
+    const input = document.querySelector('#f');
+    return !!input && !!document.querySelector('#m') && input.files.length === 1;
+  });
+  const rotated = page.waitForEvent('download');
+  await page.locator('#r90').click();
+  expect((await rotated).suggestedFilename()).toBe('edited-image.png');
+
+  await page.goto('/tools/image-cropper/', { waitUntil: 'domcontentloaded' });
+  await page.locator('#cropFile').setInputFiles(file);
+  await expect.poll(() => page.locator('#cropCanvas').evaluate(canvas => canvas.width)).toBeGreaterThan(0);
+  await page.locator('#cx').fill('0');
+  await page.locator('#cy').fill('0');
+  await page.locator('#cw').fill('1');
+  await page.locator('#ch').fill('1');
+  await page.locator('#cropRun').click();
+  await expect(page.locator('#cropCanvas')).toHaveJSProperty('width', 1);
+  await expect(page.locator('#cropDown')).toBeVisible();
+
+  await page.goto('/tools/image-format/', { waitUntil: 'domcontentloaded' });
+  await page.locator('#ifFile').setInputFiles(file);
+  await expect.poll(() => page.locator('#ifPreview').evaluate(img => img.naturalWidth)).toBeGreaterThan(0);
+  await page.locator('#ifRun').click();
+  await expect(page.locator('#ifDownload')).toBeVisible();
+  const converted = page.waitForEvent('download');
+  await page.locator('#ifDownload').click();
+  expect((await converted).suggestedFilename()).toBe('converted-image.png');
+
+  await page.goto('/tools/image-compressor/', { waitUntil: 'domcontentloaded' });
+  await page.locator('#imgFile').setInputFiles(file);
+  await page.locator('#imgWidth').fill('1');
+  await page.locator('#processImg').click();
+  await expect(page.locator('#downloadImg')).toBeVisible();
+  const compressed = page.waitForEvent('download');
+  await page.locator('#downloadImg').click();
+  expect((await compressed).suggestedFilename()).toBe('compressed-tiny.jpg');
+
+  await page.goto('/tools/image-batch/', { waitUntil: 'domcontentloaded' });
+  await page.locator('#f').setInputFiles([file, { ...file, name: 'tiny-2.png' }]);
+  const batchDownloads = [];
+  page.on('download', download => batchDownloads.push(download));
+  await page.locator('#go').click();
+  await expect.poll(() => batchDownloads.length).toBe(2);
+  expect(batchDownloads.map(download => download.suggestedFilename()).sort()).toEqual(['converted-1.png', 'converted-2.png']);
+
+  await page.goto('/tools/image-watermark/', { waitUntil: 'domcontentloaded' });
+  await page.locator('#f').setInputFiles(file);
+  await page.locator('#t').fill('Qantara');
+  const watermarked = page.waitForEvent('download');
+  await page.locator('#go').click();
+  expect((await watermarked).suggestedFilename()).toBe('watermarked-image.png');
+});
+
 test('offline smoke: EXIF viewer loads its local helper and handles an image', async ({ page }) => {
   await blockExternalRequests(page);
   const localHelperRequests = [];
