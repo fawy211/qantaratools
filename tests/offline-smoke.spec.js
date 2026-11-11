@@ -51,7 +51,7 @@ test('offline smoke: QR code is generated from the local helper', async ({ page 
   await page.goto('/tools/qr-generator/', { waitUntil: 'domcontentloaded' });
   await page.locator('#qrText').fill('https://qantaratools.com/');
   await page.locator('#qrGo').click();
-  expect(await page.locator('#qrOut canvas, #qrOut img').count()).toBeGreaterThan(0);
+  await expect.poll(() => page.evaluate(() => typeof window.QRCode)).toBe('function');\n  await expect.poll(() => page.locator('#qrOut canvas, #qrOut img').count()).toBeGreaterThan(0);
   expect(localHelperRequests.some(url => url.endsWith('/qrcode.min.js'))).toBeTruthy();
   expect(externalRequests.some(url => /cdnjs\.cloudflare\.com.*qrcode/i.test(url))).toBeFalsy();
 });
@@ -111,12 +111,10 @@ test('offline smoke: EXIF viewer loads its local helper and handles an image', a
     if (request.url().includes('/assets/vendor/exif-js/')) localHelperRequests.push(request.url());
   });
   await page.goto('/tools/exif-viewer/', { waitUntil: 'domcontentloaded' });
-  await page.locator('#exifFile').setInputFiles({
-    name: 'offline.jpg',
-    mimeType: 'image/jpeg',
-    buffer: Buffer.from('/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////2wBDAf//////////////////////////////////////////////////////////////////////////////////////wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAX/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIQAxAAAAH/AP/EABQQAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQEAAT8Af//EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQIBAT8Af//EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQMBAT8Af//Z', 'base64')
-  });
-  await expect.poll(() => page.evaluate(() => typeof window.EXIF)).toBe('object');
+  await page.locator('#exifFile').setInputFiles(
+    require('node:path').join(__dirname, '..', 'QA-Samples', 'images', 'sample.jpg')
+  );
+  await expect.poll(() => page.evaluate(() => typeof window.EXIF)).toBe('function');
   await expect(page.locator('#exifOut')).toBeVisible();
   expect(localHelperRequests.some(url => url.endsWith('/exif.js'))).toBeTruthy();
 });
