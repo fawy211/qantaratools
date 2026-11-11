@@ -66,6 +66,21 @@ function renderHome(locale) {
  return '<!doctype html><html lang="'+locale+'" dir="ltr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc(title)+'</title><meta name="description" content="'+esc(desc)+'"><link rel="canonical" href="'+site+'/'+locale+'/">'+alternates+'<link rel="alternate" hreflang="x-default" href="'+site+'/"><script src="/assets/js/tailwind-loader.js"></script><script src="/assets/js/fontawesome-loader.js"></script><link rel="stylesheet" href="/assets/css/custom.css"><link rel="stylesheet" href="/assets/css/theme-light.css"><script src="/assets/js/theme.js"></script><style>body{font-family:Outfit,Arial,sans-serif}.qt-loc-head{padding:14px 5%;border-bottom:1px solid var(--qt-line);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}.qt-loc-head a{color:var(--qt-blue);font-weight:700;text-decoration:none}.qt-loc-main{max-width:1120px;width:94%;margin:28px auto 60px}.qt-loc-panel{padding:22px;margin:18px 0;border:1px solid var(--qt-line);border-radius:18px;background:var(--qt-panel)}h1,h2{color:var(--qt-text)}p,li{line-height:1.7;color:var(--qt-muted)}.qt-loc-related{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;padding:0;list-style:none}.qt-loc-related a{display:block;padding:10px;border:1px solid var(--qt-line);border-radius:10px}.qt-loc-footer{text-align:center;padding:20px;color:var(--qt-muted)}.qt-featured-office button{padding:11px 18px;border-radius:10px;background:#2563eb;color:white;font-weight:700;border:0;cursor:pointer}.qt-featured-office span{font-size:12px;font-weight:700;color:var(--qt-blue)}.qt-featured-office h2{margin:8px 0}.qt-featured-office p{margin-bottom:14px}</style></head><body><header class="qt-loc-head"><a href="/'+locale+'/">QantaraTools</a><nav>'+languageNav+'</nav></header><main class="qt-loc-main"><section class="qt-loc-panel"><h1>'+esc(title)+'</h1><p>'+esc(desc)+'</p></section>'+feature+cards+'</main><footer class="qt-loc-footer">© 2026 QantaraTools · <a href="/privacy.html">'+esc(l.privacy)+'</a> · <a href="/terms.html">'+esc(l.terms)+'</a></footer><script src="/assets/js/i18n.js"></script><script src="/assets/js/ai-office.js"></script><script>document.querySelectorAll("[data-locale-link]").forEach(function(a){a.addEventListener("click",function(){try{localStorage.setItem("qantaratools_language_v1",a.dataset.localeLink);if(window.QTI18n&&window.QTI18n.setLocale)window.QTI18n.setLocale(a.dataset.localeLink);}catch(e){}});});</script></body></html>';
 }
 
+// Keep the default English homepage connected to every translated homepage for search engines.
+const englishHomePath=path.join(root,'index.html');
+if(!fs.existsSync(englishHomePath)) throw new Error('English homepage is missing: index.html');
+let englishHome=fs.readFileSync(englishHomePath,'utf8');
+const homeCanonical=/<link\\b(?=[^>]*\\brel=["']canonical["'])[^>]*>/i;
+if(!homeCanonical.test(englishHome)) throw new Error('English homepage is missing its canonical link.');
+const homeAlternates=[
+ ...['en','de','fr','es'].map(code=>'<link rel="alternate" hreflang="'+code+'" href="'+site+(code==='en'?'':'/'+code)+'/">'),
+ '<link rel="alternate" hreflang="ar" href="'+site+'/?locale=ar">',
+ '<link rel="alternate" hreflang="x-default" href="'+site+'/">'
+].join('\\n  ');
+const englishHomeWithoutAlternates=englishHome.replace(/[\\t ]*<link\\b(?=[^>]*\\brel=["']alternate["'])[^>]*>\\s*/gi,'\\n  ');
+const englishHomeWithAlternates=englishHomeWithoutAlternates.replace(homeCanonical,match=>match+'\\n  '+homeAlternates);
+if(englishHomeWithAlternates!==englishHome) fs.writeFileSync(englishHomePath,englishHomeWithAlternates);
+
 const sitemapPath=path.join(root,'sitemap.xml');
 let sitemap=fs.existsSync(sitemapPath)?fs.readFileSync(sitemapPath,'utf8'):'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>\n';
 const entries=[];
