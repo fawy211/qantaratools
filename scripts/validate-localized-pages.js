@@ -33,6 +33,27 @@ for(const locale of locales){
  if(!homeHtml.includes('lang="'+locale+'"')||!homeHtml.includes('rel="canonical"')) errors.push(locale+': homepage language/canonical missing');
  if(!homeHtml.includes('hreflang="ar"')||!homeHtml.includes('href="https://qantaratools.com/?locale=ar"')) errors.push(locale+': Arabic homepage hreflang missing');
  if(!homeHtml.includes('assets/js/language-switcher.js')) errors.push(locale+': shared language selector script missing');
+ // Localized homepages must be generated from the same complete product template.
+ const homeFeatures=[
+  ['id="site-header"','site header missing'],
+  ['id="hero-title"','hero title missing'],
+  ['id="hero-desc"','hero description missing'],
+  ['id="tool-search-input"','tool search missing'],
+  ['class="category-nav','category navigation missing'],
+  ['id="recent-tools-list"','recent tools missing'],
+  ['id="favorite-tools-list"','favorites missing'],
+  ['class="qt-featured-wrap"','featured Office tool missing'],
+  ['class="qt-identity-switcher"','visual identity controls missing'],
+  ['data-theme-toggle','theme control missing'],
+  ['id="request-modal"','tool request modal missing'],
+  ['id="site-footer"','site footer missing'],
+  ['assets/css/qt-redesign.css','shared redesign stylesheet missing'],
+  ['assets/css/theme-light.css','shared theme stylesheet missing']
+ ];
+ for(const [needle,message] of homeFeatures) if(!homeHtml.includes(needle)) errors.push(locale+': '+message);
+ const homeToolLinks=[...homeHtml.matchAll(/<a\\b[^>]*class=["'][^"']*qt-tool-permalink[^"']*["'][^>]*href=["']([^"']+)["']/gi)];
+ if(homeToolLinks.length!==tools.length) errors.push(locale+': expected '+tools.length+' homepage tool cards, found '+homeToolLinks.length);
+ for(const tool of tools) if(!homeHtml.includes('href="/'+locale+'/tools/'+tool.id+'/')) errors.push(locale+'/'+tool.id+': localized homepage tool link missing');
  validateHreflangs(homeHtml,locale+'/');
  for(const tool of tools){
   const file=path.join(root,locale,'tools',tool.id,'index.html');
