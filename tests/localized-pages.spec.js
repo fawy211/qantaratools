@@ -8,10 +8,29 @@ for (const locale of ['en', 'ar', 'de', 'fr', 'es']) {
     await expect(page.locator('html')).toHaveAttribute('dir', locale === 'ar' ? 'rtl' : 'ltr');
     await expect(page.locator('[data-qt-language-switcher]')).toBeVisible();
     if (locale === 'ar') await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'http://127.0.0.1:4173/?locale=ar');
-    const toolLinks = locale === 'en' || locale === 'ar'
-      ? page.locator('.tool-card a.qt-tool-permalink')
-      : page.locator('.qt-loc-related a');
+    // All five homepages must use the same complete site layout and feature set.
+    await expect(page.locator('#site-header')).toBeVisible();
+    await expect(page.locator('#hero-title')).toBeVisible();
+    await expect(page.locator('#hero-desc')).toBeVisible();
+    await expect(page.locator('.qt-hero-metrics span')).toHaveCount(4);
+    await expect(page.locator('#tool-search-input')).toBeVisible();
+    await expect(page.locator('.category-nav .category-filter')).toHaveCount(7);
+    await expect(page.locator('#recent-tools-list')).toBeAttached();
+    await expect(page.locator('#favorite-tools-list')).toBeAttached();
+    await expect(page.locator('.qt-featured-wrap')).toBeVisible();
+    await expect(page.locator('.qt-identity-switcher')).toBeVisible();
+    await expect(page.locator('[data-theme-toggle]')).toBeVisible();
+    await expect(page.locator('#request-modal')).toBeAttached();
+    await expect(page.locator('#site-footer')).toBeVisible();
+    await expect(page.locator('link[rel="stylesheet"][href*="qt-redesign.css"]')).toHaveCount(1);
+    await expect(page.locator('link[rel="stylesheet"][href*="theme-light.css"]')).toHaveCount(1);
+    const toolLinks = page.locator('.tool-card a.qt-tool-permalink');
     await expect(toolLinks).toHaveCount(50);
+    for (const link of await toolLinks.all()) {
+      await expect(link).toHaveAttribute('href', new RegExp(locale === 'en' || locale === 'ar'
+        ? '^/tools/'
+        : '^/' + locale + '/tools/'));
+    }
   });
 
   test(locale + ' localized Base64 page loads the working tool UI', async ({ page }) => {
