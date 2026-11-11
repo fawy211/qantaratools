@@ -1,7 +1,7 @@
 const tr=(key,fallback)=>window.QTI18n?.t(key,fallback)||fallback;
 const tf=(key,fallback,values={})=>Object.entries(values).reduce((out,[name,value])=>out.replaceAll('{'+name+'}',String(value)),tr(key,fallback));
-const PDF_LIB_URL = 'https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js';
-const JSPDF_URL = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+const PDF_LIB_URL = '/assets/vendor/pdf-lib/1.17.1/pdf-lib.min.js';
+const JSPDF_URL = '/assets/vendor/jspdf/2.5.1/jspdf.umd.min.js';
 
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
 function baseUI(title, desc){return `<div class="max-w-4xl mx-auto"><div class="mb-6"><h2 class="text-2xl font-bold text-slate-100">${title}</h2><p class="text-slate-400 mt-2">${desc}</p></div></div>`;}
