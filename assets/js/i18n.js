@@ -1629,7 +1629,7 @@
     "generate": "Generate",
     "passwordCopy": "Copy",
     "selectCharGroup": "Select at least one character group.",
-    "passwordLengthGroups": "Password length must be at least the number of selected character groups."
+    "passwordLengthGroups": "Password length must be at least the number of selected character groups.",
     "strong": "Strong",
     "good": "Good",
     "basic": "Basic",
@@ -1681,7 +1681,7 @@
     "generate": "إنشاء",
     "passwordCopy": "نسخ",
     "selectCharGroup": "اختر مجموعة أحرف واحدة على الأقل.",
-    "passwordLengthGroups": "يجب ألا يقل طول كلمة المرور عن عدد مجموعات الأحرف المحددة."
+    "passwordLengthGroups": "يجب ألا يقل طول كلمة المرور عن عدد مجموعات الأحرف المحددة.",
     "strong": "قوية",
     "good": "جيدة",
     "basic": "أساسية",
@@ -1733,7 +1733,7 @@
     "generate": "Erstellen",
     "passwordCopy": "Kopieren",
     "selectCharGroup": "Wähle mindestens eine Zeichengruppe aus.",
-    "passwordLengthGroups": "Die Passwortlänge muss mindestens der Anzahl der ausgewählten Zeichengruppen entsprechen."
+    "passwordLengthGroups": "Die Passwortlänge muss mindestens der Anzahl der ausgewählten Zeichengruppen entsprechen.",
     "strong": "Stark",
     "good": "Gut",
     "basic": "Einfach",
@@ -1785,7 +1785,7 @@
     "generate": "Générer",
     "passwordCopy": "Copier",
     "selectCharGroup": "Sélectionnez au moins un groupe de caractères.",
-    "passwordLengthGroups": "La longueur du mot de passe doit être au moins égale au nombre de groupes de caractères sélectionnés."
+    "passwordLengthGroups": "La longueur du mot de passe doit être au moins égale au nombre de groupes de caractères sélectionnés.",
     "strong": "Fort",
     "good": "Bon",
     "basic": "Simple",
@@ -1837,7 +1837,7 @@
     "generate": "Generar",
     "passwordCopy": "Copiar",
     "selectCharGroup": "Selecciona al menos un grupo de caracteres.",
-    "passwordLengthGroups": "La contraseña debe tener al menos tantos caracteres como grupos seleccionados."
+    "passwordLengthGroups": "La contraseña debe tener al menos tantos caracteres como grupos seleccionados.",
     "strong": "Segura",
     "good": "Buena",
     "basic": "Básica",
