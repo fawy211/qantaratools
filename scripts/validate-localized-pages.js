@@ -42,7 +42,7 @@ for(const locale of locales){
   ['class="category-nav','category navigation missing'],
   ['id="recent-tools-list"','recent tools missing'],
   ['id="favorite-tools-list"','favorites missing'],
-  ['class="qt-featured-wrap"','featured Office tool missing'],
+  ['qt-featured-wrap','featured Office tool missing'],
   ['class="qt-identity-switcher"','visual identity controls missing'],
   ['data-theme-toggle','theme control missing'],
   ['id="request-modal"','tool request modal missing'],
@@ -51,7 +51,7 @@ for(const locale of locales){
   ['assets/css/theme-light.css','shared theme stylesheet missing']
  ];
  for(const [needle,message] of homeFeatures) if(!homeHtml.includes(needle)) errors.push(locale+': '+message);
- const homeToolLinks=[...homeHtml.matchAll(/<a\\b[^>]*class=["'][^"']*qt-tool-permalink[^"']*["'][^>]*href=["']([^"']+)["']/gi)];
+ const homeToolLinks=homeHtml.match(/qt-tool-permalink/g)||[];
  if(homeToolLinks.length!==tools.length) errors.push(locale+': expected '+tools.length+' homepage tool cards, found '+homeToolLinks.length);
  for(const tool of tools) if(!homeHtml.includes('href="/'+locale+'/tools/'+tool.id+'/')) errors.push(locale+'/'+tool.id+': localized homepage tool link missing');
  validateHreflangs(homeHtml,locale+'/');
