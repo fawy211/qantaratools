@@ -667,3 +667,35 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     expect(html).toContain('<strong>Local first</strong>');
   });
 }
+
+
+// Creative tools also run locally and must preserve user input in all locales.
+for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
+  test('ASCII, gradient and random decision tools work in ' + locale, async ({ page }) => {
+    const tool = slug => route.prefix + '/tools/' + slug + '/' + route.suffix;
+
+    await page.goto(tool('ascii-art'));
+    await page.locator('#asciiInput').fill('A1');
+    const art = await page.locator('#asciiOut').inputValue();
+    expect(art.split('\\n')).toHaveLength(5);
+    expect(art).toContain('A');
+    expect(art).toContain('1');
+
+    await page.goto(tool('gradient-generator'));
+    await page.locator('#gradColor1').fill('#112233');
+    await page.locator('#gradColor2').fill('#AABBCC');
+    await page.locator('#gradDirection').selectOption({ label: 'to right' });
+    await expect(page.locator('#gradientPreview')).toHaveCSS('background-image', 'linear-gradient(to right, rgb(17, 34, 51), rgb(170, 187, 204))');
+    await expect(page.locator('#cssOutputBadge')).toContainText('linear-gradient(to right, #112233, #AABBCC)');
+
+    await page.goto(tool('decision-maker'));
+    await page.locator('#rdInput').fill('Alpha\\nBeta\\nGamma');
+    await page.locator('#rdGo').click();
+    await expect(page.locator('#rdOut')).toBeVisible();
+    await expect(page.locator('#rdChoice')).toHaveText(/^(Alpha|Beta|Gamma)$/);
+    await page.locator('#rdInput').fill('Only one');
+    await page.locator('#rdGo').click();
+    await expect(page.locator('#rdOut')).toBeHidden();
+    await expect(page.locator('#rdError')).not.toHaveClass(/hidden/);
+  });
+}
