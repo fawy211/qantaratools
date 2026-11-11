@@ -3,10 +3,12 @@ const fs = require('node:fs');
 const path = require('node:path');
 const localizedToolList = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'tool-pages.json'), 'utf8'));
 
-for (const locale of ['de', 'fr', 'es']) {
+for (const locale of ['en', 'ar', 'de', 'fr', 'es']) {
   test(locale + ' localized homepage lists all 50 tools', async ({ page }) => {
-    await page.goto('/' + locale + '/');
+    const homePath = locale === 'en' ? '/' : locale === 'ar' ? '/?locale=ar' : '/' + locale + '/';
+    await page.goto(homePath);
     await expect(page.locator('html')).toHaveAttribute('lang', locale);
+    await expect(page.locator('html')).toHaveAttribute('dir', locale === 'ar' ? 'rtl' : 'ltr');
     await expect(page.locator('.qt-loc-related a')).toHaveCount(50);
   });
 
@@ -119,12 +121,18 @@ for (const [locale, expected] of Object.entries(officeLocales)) {
 }
 
 
-for (const locale of ['de', 'fr', 'es']) {
-  test.setTimeout(180000);
+for (const locale of ['en', 'ar', 'de', 'fr', 'es']) {
+  test.setTimeout(240000);
   test(locale + ' all 50 localized tool pages load their actual tool modules', async ({ page }) => {
     for (const tool of localizedToolList) {
-      await page.goto('/' + locale + '/tools/' + tool.id + '/');
+      const toolPath = locale === 'en'
+        ? '/tools/' + tool.id + '/'
+        : locale === 'ar'
+          ? '/tools/' + tool.id + '/?locale=ar'
+          : '/' + locale + '/tools/' + tool.id + '/';
+      await page.goto(toolPath);
       await expect(page.locator('html')).toHaveAttribute('lang', locale);
+      await expect(page.locator('html')).toHaveAttribute('dir', locale === 'ar' ? 'rtl' : 'ltr');
       await page.waitForFunction(() => {
         const box = document.getElementById('active-tool-box');
         return !!box && box.children.length > 0 && !/Loading tool/i.test(box.textContent || '');
