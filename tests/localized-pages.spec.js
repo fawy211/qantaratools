@@ -111,7 +111,7 @@ test('language selector remains visible and usable on mobile homepage and tool p
   await expect(homeSelector).toBeVisible();
   await expect(page.locator('[data-qt-language-switcher]')).toBeInViewport();
   await homeSelector.selectOption('de');
-  await expect(page).toHaveURL(/\\/de\\/$/);
+  await expect(page).toHaveURL(/\/de\/$/);
   await expect(page.locator('html')).toHaveAttribute('lang', 'de');
 
   await page.goto('/tools/base64/');
@@ -119,7 +119,7 @@ test('language selector remains visible and usable on mobile homepage and tool p
   await expect(toolSelector).toBeVisible();
   await expect(page.locator('[data-qt-language-switcher]')).toBeInViewport();
   await toolSelector.selectOption('fr');
-  await expect(page).toHaveURL(/\\/fr\\/tools\\/base64\\/$/);
+  await expect(page).toHaveURL(/\/fr\/tools\/base64\/$/);
   await expect(page.locator('html')).toHaveAttribute('lang', 'fr');
 });
 
