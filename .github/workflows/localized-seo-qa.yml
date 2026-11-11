@@ -37,6 +37,7 @@ jobs:
           node --check scripts/generate-tool-pages.js
           node --check scripts/generate-localized-tool-pages.js
           node --check scripts/validate-localized-pages.js
+          node --check scripts/prepare-vendor-assets.js
       - name: Validate complete localized SEO records
         run: npm run i18n:seo:check
       - name: Regenerate English and localized tool pages
@@ -55,6 +56,8 @@ jobs:
         run: |
           npm install --no-package-lock --no-audit --no-fund
           npx playwright install --with-deps chromium
+      - name: Prepare pinned local helper assets
+        run: node scripts/prepare-vendor-assets.js
       - name: Test all localized tool pages in small Chromium batches
         run: npx playwright test tests/tool-load.spec.js --project=chromium --workers=2
       - name: Test localized homepage and tool functionality
@@ -66,7 +69,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add de fr es tools sitemap.xml
+          git add de fr es tools sitemap.xml assets/vendor
           if ! git diff --cached --quiet; then
             git commit -m "Generate localized SEO landing pages"
             git push
