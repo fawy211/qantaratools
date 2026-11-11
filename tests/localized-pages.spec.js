@@ -150,7 +150,7 @@ for (const [locale, expected] of Object.entries(officeLocales)) {
     const pdfBytes = await popup.pdf({ format: 'A4', printBackground: true });
     expect(pdfBytes.subarray(0, 5).toString('ascii')).toBe('%PDF-');
     expect(pdfBytes.length).toBeGreaterThan(1000);
-    const pdfPageCount = (pdfBytes.toString('latin1').match(/\\/Type\\s*\\/Page\\b/g) || []).length;
+    const pdfPageCount = (pdfBytes.toString('latin1').match(/\/Type\s*\/Page\b/g) || []).length;
     expect(pdfPageCount).toBeGreaterThan(0);
     await popup.close();
   });
