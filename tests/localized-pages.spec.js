@@ -632,7 +632,7 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     await page.locator('#liCount').fill('2');
     await page.locator('#liRun').click();
     const lorem = await page.locator('#liOut').inputValue();
-    expect(lorem.split(/\\n\\s*\\n/)).toHaveLength(2);
+    expect(lorem.split(/\n\s*\n/)).toHaveLength(2);
     expect(lorem.split(/\\s+/)).toHaveLength(90);
 
     await page.goto(tool('markdown-html'));
@@ -843,7 +843,7 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     await page.goto(tool('uuid-generator'));
     await page.locator('#uuidCount').fill('3');
     await page.locator('#uuidGo').click();
-    const uuids = (await page.locator('#uuidOut').inputValue()).trim().split('\\n');
+    const uuids = (await page.locator('#uuidOut').inputValue()).trim().split('\n');
     expect(uuids).toHaveLength(3);
     for (const value of uuids) expect(value).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i);
 
@@ -1015,7 +1015,7 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     const formatted = await page.locator('#cfOut').inputValue();
     expect(formatted).toContain('<div>');
     expect(formatted).toContain('<span>Hello</span>');
-    expect(formatted).toContain('\\n');
+    expect(formatted).toContain('\n');
 
     await page.goto(tool('svg-to-css'));
     await page.locator('#svgInput').fill('<svg xmlns="http://www.w3.org/2000/svg"><rect width="1" height="1"/></svg>');
