@@ -75,6 +75,8 @@ jobs:
           test -s assets/vendor/exif-js/2.3.0/exif.js
       - name: Test all localized tool pages in small Chromium batches
         run: npx playwright test tests/tool-load.spec.js --project=chromium --workers=2
+      - name: Test every tool interaction surface in all five locales
+        run: npx playwright test tests/tool-interaction-presence.spec.js --project=chromium --workers=2
       - name: Test localized homepage and tool functionality
         run: npx playwright test tests/localized-pages.spec.js --project=chromium --workers=2
       - name: Test local-first tools with external network blocked
