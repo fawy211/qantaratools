@@ -85,6 +85,26 @@ test('offline smoke: PDF merge uses the local pdf-lib helper and downloads a mer
   expect(localHelperRequests.some(url => url.endsWith('/pdf-lib.min.js'))).toBeTruthy();
 });
 
+test('offline smoke: Images to PDF uses the local jsPDF helper and downloads a PDF', async ({ page }) => {
+  await blockExternalRequests(page);
+  const localHelperRequests = [];
+  page.on('request', request => {
+    if (request.url().includes('/assets/vendor/jspdf/')) localHelperRequests.push(request.url());
+  });
+  await page.goto('/tools/images-to-pdf/', { waitUntil: 'domcontentloaded' });
+  await page.locator('#imgs').setInputFiles({
+    name: 'tiny.png',
+    mimeType: 'image/png',
+    buffer: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAIAAAB7QOjdAAAAD0lEQVR4nGP8z8DAwMAAAAYIAQHLR3Z1AAAAAElFTkSuQmCC', 'base64')
+  });
+  const downloadPromise = page.waitForEvent('download');
+  await page.locator('#go').click();
+  const download = await downloadPromise;
+  expect(download.suggestedFilename()).toBe('images.pdf');
+  await expect(page.locator('[data-pdf-msg]')).toContainText(/Created a PDF/i);
+  expect(localHelperRequests.some(url => url.endsWith('/jspdf.umd.min.js'))).toBeTruthy();
+});
+
 test('offline smoke: EXIF viewer loads its local helper and handles an image', async ({ page }) => {
   await blockExternalRequests(page);
   const localHelperRequests = [];
