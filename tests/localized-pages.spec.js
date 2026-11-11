@@ -50,6 +50,14 @@ test('language selector remains visible and usable on mobile homepage and tool p
   await expect(page.locator('html')).toHaveAttribute('lang', 'fr');
 });
 
+test('saved language is reflected by the selector on the default homepage after reload', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('qantaratools_language_v1', 'fr'));
+  await page.goto('/');
+  await expect(page.locator('html')).toHaveAttribute('lang', 'fr');
+  await expect(page.locator('.qt-language-select')).toHaveValue('fr');
+  await expect(page.locator('[data-qt-language-switcher]')).toBeVisible();
+});
+
 test('language choice persists when switching from German to English and Arabic', async ({ page }) => {
   await page.goto('/de/tools/base64/');
   await expect(page.locator('html')).toHaveAttribute('lang', 'de');
