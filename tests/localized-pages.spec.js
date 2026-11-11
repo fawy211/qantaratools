@@ -431,3 +431,63 @@ for (const [locale, mergePath] of Object.entries(pdfFunctionalPaths)) {
     await printPage.close();
   });
 }
+
+
+// Functional regression coverage for additional everyday tools in every locale.
+const extraFunctionalPaths = {
+  en: { prefix: '', suffix: '' },
+  ar: { prefix: '', suffix: '?locale=ar' },
+  de: { prefix: '/de', suffix: '' },
+  fr: { prefix: '/fr', suffix: '' },
+  es: { prefix: '/es', suffix: '' }
+};
+
+for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
+  test('URL, UUID, hash, VAT and timestamp tools work in ' + locale, async ({ page }) => {
+    const tool = slug => route.prefix + '/tools/' + slug + '/' + route.suffix;
+
+    // URL encoding and decoding must preserve Unicode and reserved characters.
+    await page.goto(tool('url-encoder'));
+    await page.locator('#urlText').fill('Café & tea');
+    await page.locator('#urlEnc').click();
+    expect(await page.locator('#urlOut').inputValue()).toBe(encodeURIComponent('Café & tea'));
+    await page.locator('#urlText').fill(encodeURIComponent('Café & tea'));
+    await page.locator('#urlDec').click();
+    expect(await page.locator('#urlOut').inputValue()).toBe('Café & tea');
+
+    // UUID generator must honor requested count and emit valid v4 UUIDs.
+    await page.goto(tool('uuid-generator'));
+    await page.locator('#uuidCount').fill('3');
+    await page.locator('#uuidGo').click();
+    const uuids = (await page.locator('#uuidOut').inputValue()).trim().split(/\\r?\\n/);
+    expect(uuids).toHaveLength(3);
+    for (const uuid of uuids) expect(uuid).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i);
+
+    // SHA-256 result is checked against a known published test vector.
+    await page.goto(tool('hash-generator'));
+    await page.locator('#hashIn').fill('abc');
+    await page.locator('#hashAlg').selectOption('SHA-256');
+    await page.locator('#hashRun').click();
+    await expect(page.locator('#hashOut')).toHaveValue('ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad');
+
+    // VAT arithmetic and localized number formatting.
+    await page.goto(tool('vat-calculator'));
+    await page.locator('#vatAmount').fill('1000');
+    await page.locator('#vatRate').fill('14');
+    await page.locator('#vatGo').click();
+    const vatExpected = await page.evaluate(() => ({
+      net: window.QTI18n.formatNumber(1000, { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+      tax: window.QTI18n.formatNumber(140, { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+      total: window.QTI18n.formatNumber(1140, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+    }));
+    await expect(page.locator('#vatNet')).toHaveText(vatExpected.net);
+    await expect(page.locator('#vatTax')).toHaveText(vatExpected.tax);
+    await expect(page.locator('#vatTotal')).toHaveText(vatExpected.total);
+
+    // Timestamp conversion must handle Unix epoch zero without locale drift.
+    await page.goto(tool('timestamp-converter'));
+    await page.locator('#tsIn').fill('0');
+    await page.locator('#tsToDate').click();
+    await expect(page.locator('#tsOut')).toContainText('1970-01-01T00:00:00.000Z');
+  });
+}
