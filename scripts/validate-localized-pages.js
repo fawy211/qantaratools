@@ -8,7 +8,7 @@ const locales=['de','fr','es'];
 const errors=[];
 const expectedHreflangs=['en','de','fr','es','ar','x-default'];
 function validateHreflangs(html,label){
- const found=[...html.matchAll(/<link\\b(?=[^>]*\\brel=["']alternate["'])[^>]*\\bhreflang=["']([^"']+)["'][^>]*>/gi)].map(m=>m[1].toLowerCase());
+ const found=[...html.matchAll(/<link\b(?=[^>]*\brel=["']alternate["'])[^>]*\bhreflang=["']([^"']+)["'][^>]*>/gi)].map(m=>m[1].toLowerCase());
  for(const code of expectedHreflangs){
   const count=found.filter(value=>value===code).length;
   if(count!==1) errors.push(label+': expected exactly one hreflang="'+code+'", found '+count);
