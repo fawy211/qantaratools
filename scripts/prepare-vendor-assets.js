@@ -102,4 +102,24 @@ for (const [source, destination] of fontFiles) {
   process.stdout.write('Prepared font asset: ' + destination + '\\n');
 }
 
+// Prepare the pinned Font Awesome Free distribution, including its relative webfont files.
+const iconPackage = '@fortawesome/fontawesome-free';
+const iconVersion = '6.4.0';
+const iconInstall = spawnSync(npm, ['install', '--no-save', '--no-package-lock', '--ignore-scripts', '--no-audit', '--no-fund', iconPackage + '@' + iconVersion], { cwd: root, stdio: 'inherit', shell: process.platform === 'win32' });
+if (iconInstall.status !== 0) throw new Error('Pinned Font Awesome installation failed.');
+const iconDir = path.join(root, 'node_modules', iconPackage);
+const iconMetadata = JSON.parse(fs.readFileSync(path.join(iconDir, 'package.json'), 'utf8'));
+if (iconMetadata.version !== iconVersion) throw new Error('Font Awesome version mismatch: expected ' + iconVersion + ', received ' + iconMetadata.version);
+const iconDestination = path.join(root, 'assets', 'vendor', 'fontawesome', iconVersion);
+fs.mkdirSync(path.join(iconDestination, 'css'), { recursive: true });
+fs.mkdirSync(path.join(iconDestination, 'webfonts'), { recursive: true });
+fs.copyFileSync(firstExisting(iconDir, ['css/all.min.css'], 'Font Awesome CSS'), path.join(iconDestination, 'css', 'all.min.css'));
+fs.copyFileSync(firstExisting(iconDir, ['LICENSE.txt', 'LICENSE'], 'Font Awesome license'), path.join(iconDestination, 'LICENSE'));
+const iconWebfonts = path.join(iconDir, 'webfonts');
+for (const file of fs.readdirSync(iconWebfonts)) {
+  const source = path.join(iconWebfonts, file);
+  if (fs.statSync(source).isFile()) fs.copyFileSync(source, path.join(iconDestination, 'webfonts', file));
+}
+process.stdout.write('Prepared Font Awesome Free ' + iconVersion + ' with license and webfonts.\\n');
+
 process.stdout.write('Vendor preparation complete. Runtime URLs were not changed.\\n');
