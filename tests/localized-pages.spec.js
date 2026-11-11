@@ -981,14 +981,14 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     await expect(page.locator('#caseOutput')).toHaveValue('HELLO WORLD 2026');
 
     await page.goto(tool('duplicate-remover'));
-    await page.locator('#dupInput').fill('Apple\\napple\\nBanana\\n\\nApple');
+    await page.locator('#dupInput').fill('Apple\napple\nBanana\n\nApple');
     await page.locator('#dupCase').check();
     await page.locator('#dupGo').click();
-    await expect(page.locator('#dupOut')).toHaveValue('Apple\\nBanana');
+    await expect(page.locator('#dupOut')).toHaveValue('Apple\nBanana');
     await expect(page.locator('#dupStats')).toContainText(await page.evaluate(() => window.QTI18n.formatNumber(5)));
 
     await page.goto(tool('rtl-cleaner'));
-    await page.locator('#unicodeInput').fill('A\\u200Bب\\u200F C');
+    await page.locator('#unicodeInput').fill('A\u200Bب\u200F C');
     await page.locator('#cleanUnicodeBtn').click();
     await expect(page.locator('#unicodeOutput')).toHaveValue('Aب C');
 
@@ -1042,8 +1042,8 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     await expect(page.locator('#fancyResultCount')).toContainText('1');
 
     await page.goto(tool('text-diff'));
-    await page.locator('#diffOriginal').fill('old\\nsame');
-    await page.locator('#diffModified').fill('new\\nsame');
+    await page.locator('#diffOriginal').fill('old\nsame');
+    await page.locator('#diffModified').fill('new\nsame');
     await page.locator('#compareBtn').click();
     await expect(page.locator('#diffOutput')).toContainText('- old');
     await expect(page.locator('#diffOutput')).toContainText('+ new');
