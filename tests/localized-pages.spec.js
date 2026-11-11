@@ -627,3 +627,43 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     expect(sql).toContain('ORDER BY');
   });
 }
+
+
+// Financial, color and content-generation tools: deterministic browser checks in every locale.
+for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
+  test('Color, loan, Lorem Ipsum and Markdown tools work in ' + locale, async ({ page }) => {
+    const tool = slug => route.prefix + '/tools/' + slug + '/' + route.suffix;
+
+    await page.goto(tool('color-converter'));
+    await page.locator('#ccHex').fill('FF0000');
+    await expect(page.locator('#ccOut')).toContainText('#FF0000');
+    await expect(page.locator('#ccOut')).toContainText('rgb(255, 0, 0)');
+    await expect(page.locator('#ccOut')).toContainText('hsl(0, 100%, 50%)');
+    await page.locator('#ccHex').fill('not-a-color');
+    await expect(page.locator('#ccOut')).toContainText(/invalid/i);
+
+    await page.goto(tool('loan-calculator'));
+    await page.locator('#loanAmount').fill('12000');
+    await page.locator('#loanRate').fill('0');
+    await page.locator('#loanYears').fill('1');
+    await page.locator('#loanGo').click();
+    const monthly = await page.evaluate(() => window.QTI18n.formatNumber(1000, { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+    await expect(page.locator('#loanPay')).toHaveText(monthly);
+    await expect(page.locator('#loanInterest')).toHaveText(await page.evaluate(() => window.QTI18n.formatNumber(0, { minimumFractionDigits: 2, maximumFractionDigits: 2 })));
+    await expect(page.locator('#loanBody tr')).toHaveCount(12);
+
+    await page.goto(tool('lorem-ipsum'));
+    await page.locator('#liCount').fill('2');
+    await page.locator('#liRun').click();
+    const lorem = await page.locator('#liOut').inputValue();
+    expect(lorem.split(/\\n\\s*\\n/)).toHaveLength(2);
+    expect(lorem.split(/\\s+/)).toHaveLength(90);
+
+    await page.goto(tool('markdown-html'));
+    await page.locator('#mdIn').fill('# Qantara\\n\\n**Local first**');
+    await page.locator('#mdRun').click();
+    const html = await page.locator('#mdOut').inputValue();
+    expect(html).toContain('<h1>Qantara</h1>');
+    expect(html).toContain('<strong>Local first</strong>');
+  });
+}
