@@ -31,6 +31,25 @@ for (const locale of ['en', 'ar', 'de', 'fr', 'es']) {
   });
 }
 
+test('language selector remains visible and usable on mobile homepage and tool pages', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto('/');
+  const homeSelector = page.locator('.qt-language-select');
+  await expect(homeSelector).toBeVisible();
+  await expect(page.locator('[data-qt-language-switcher]')).toBeInViewport();
+  await homeSelector.selectOption('de');
+  await expect(page).toHaveURL(/\\/de\\/$/);
+  await expect(page.locator('html')).toHaveAttribute('lang', 'de');
+
+  await page.goto('/tools/base64/');
+  const toolSelector = page.locator('.qt-language-select');
+  await expect(toolSelector).toBeVisible();
+  await expect(page.locator('[data-qt-language-switcher]')).toBeInViewport();
+  await toolSelector.selectOption('fr');
+  await expect(page).toHaveURL(/\\/fr\\/tools\\/base64\\/$/);
+  await expect(page.locator('html')).toHaveAttribute('lang', 'fr');
+});
+
 test('language choice persists when switching from German to English and Arabic', async ({ page }) => {
   await page.goto('/de/tools/base64/');
   await expect(page.locator('html')).toHaveAttribute('lang', 'de');
