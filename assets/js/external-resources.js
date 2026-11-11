@@ -18,7 +18,8 @@ window.QTExternal = window.QTExternal || {
     exifJs: () => Boolean(window.EXIF)
   },
   loadScript(key, options = {}) {
-    const src = this.urls[key] || key;
+    const requestedSrc = this.urls[key] || key;
+    const src = new URL(requestedSrc, document.baseURI).href;
     const isReady = this.globals[key];
     if (isReady && isReady()) return Promise.resolve();
     if (this.loaded[src]) return this.loaded[src];
