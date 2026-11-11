@@ -92,8 +92,10 @@ for (const [locale, expected] of Object.entries(officeLocales)) {
     }));
     const wordXml = unzipStoredEntry(wordBuffer, 'word/document.xml');
     const wordStyles = unzipStoredEntry(wordBuffer, 'word/styles.xml');
+    const wordRels = unzipStoredEntry(wordBuffer, 'word/_rels/document.xml.rels');
     expect(wordXml).toContain(expected.user);
     expect(wordXml).toContain(expected.assistant);
+    expect(wordRels).toContain('relationships/styles');
     if (locale === 'ar') { expect(wordXml).toContain('<w:bidi/>'); expect(wordStyles).toContain('<w:rtl/>'); }
     else expect(wordStyles).not.toContain('<w:rtl/>');
     if (locale === 'ar') { expect(wordXml).toContain('<w:bidiVisual/>'); expect(wordXml).toContain('<w:ind w:right="360" w:hanging="180"/>'); }
