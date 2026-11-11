@@ -38,6 +38,7 @@ jobs:
           node --check scripts/generate-localized-tool-pages.js
           node --check scripts/validate-localized-pages.js
           node --check scripts/prepare-vendor-assets.js
+          node --check tests/localized-error-handling.spec.js
       - name: Validate complete localized SEO records
         run: npm run i18n:seo:check
       - name: Regenerate English and localized tool pages
@@ -79,6 +80,8 @@ jobs:
         run: npx playwright test tests/tool-interaction-presence.spec.js --project=chromium --workers=2
       - name: Test localized homepage and tool functionality
         run: npx playwright test tests/localized-pages.spec.js --project=chromium --workers=2
+      - name: Test localized invalid-input and error handling
+        run: npx playwright test tests/localized-error-handling.spec.js --project=chromium --workers=1
       - name: Test local-first tools with external network blocked
         run: npx playwright test tests/offline-smoke.spec.js --project=chromium --workers=1
       - name: Commit generated localized pages to feature branch
