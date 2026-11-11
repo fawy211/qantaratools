@@ -207,7 +207,10 @@ async function loadTool(category, title, toolName) {
     const localizedTitle = window.QTI18n?.toolTitle(toolName, title || config.title) || title || config.title;
     if (titleEl) titleEl.textContent = localizedTitle;
     const pageLink = [...document.querySelectorAll('a[data-tool-link]')].find(link => link.dataset.toolId === toolName);
-    const toolUrl = pageLink?.href || `https://qantaratools.com/tools/${encodeURIComponent(toolName)}/`;
+    const currentLocale = window.QTI18n?.locale || 'en';
+    const homepageUrl = window.location.origin + window.location.pathname + (currentLocale === 'ar' ? '?locale=ar' : '');
+    const baseToolUrl = pageLink?.href || `https://qantaratools.com/tools/${encodeURIComponent(toolName)}/`;
+    const toolUrl = toolName === 'ai-office' ? homepageUrl : (currentLocale === 'ar' ? baseToolUrl + (baseToolUrl.includes('?') ? '&' : '?') + 'locale=ar' : baseToolUrl);
     const toolDescription = window.QTI18n?.toolDescription(toolName, pageLink?.dataset.toolDescription || `${title || config.title}, a free browser-based tool from QantaraTools.`) || pageLink?.dataset.toolDescription || `${title || config.title}, a free browser-based tool from QantaraTools.`;
     // Standalone /tools/<id>/ pages ship their own optimized title, description and canonical:
     // never overwrite them. Only the home page (single-page mode) updates these tags.
