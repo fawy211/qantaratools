@@ -91,7 +91,7 @@ test('offline smoke: Images to PDF uses the local jsPDF helper and downloads a P
   page.on('request', request => {
     if (request.url().includes('/assets/vendor/jspdf/')) localHelperRequests.push(request.url());
   });
-  await page.goto('/tools/images-to-pdf/', { waitUntil: 'domcontentloaded' });
+  await page.goto('/tools/images-pdf/', { waitUntil: 'domcontentloaded' });
   await page.locator('#imgs').setInputFiles({
     name: 'tiny.png',
     mimeType: 'image/png',
