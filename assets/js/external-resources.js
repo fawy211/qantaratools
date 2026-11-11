@@ -11,25 +11,49 @@ window.QTExternal = window.QTExternal || {
     exifJs: 'https://cdn.jsdelivr.net/npm/exif-js@2.3.0/exif.js'
   },
   loaded: Object.create(null),
+  globals: {
+    pdfLib: () => Boolean(window.PDFLib),
+    jsPdf: () => Boolean(window.jspdf),
+    qrCode: () => Boolean(window.QRCode),
+    exifJs: () => Boolean(window.EXIF)
+  },
   loadScript(key, options = {}) {
     const src = this.urls[key] || key;
+    const isReady = this.globals[key];
+    if (isReady && isReady()) return Promise.resolve();
     if (this.loaded[src]) return this.loaded[src];
-    this.loaded[src] = new Promise((resolve, reject) => {
-      const existing = [...document.scripts].find(s => s.src === src);
+
+    const promise = new Promise((resolve, reject) => {
+      const fail = () => reject(new Error(options.error || 'The helper library could not be loaded. Please check your internet connection.'));
+      const existing = [...document.scripts].find(script => script.src === src);
+
       if (existing) {
-        existing.addEventListener('load', () => resolve());
-        existing.addEventListener('error', () => reject(new Error(options.error || 'The helper library could not be loaded.')));
+        if (existing.dataset.qtLoaded === 'true' || (isReady && isReady())) {
+          resolve();
+          return;
+        }
+        existing.addEventListener('load', resolve, { once: true });
+        existing.addEventListener('error', fail, { once: true });
         return;
       }
+
       const script = document.createElement('script');
       script.src = src;
       script.async = true;
       script.crossOrigin = 'anonymous';
-      script.onload = () => resolve();
-      script.onerror = () => reject(new Error(options.error || 'The helper library could not be loaded. Please check your internet connection.'));
+      script.onload = () => {
+        script.dataset.qtLoaded = 'true';
+        resolve();
+      };
+      script.onerror = fail;
       document.head.appendChild(script);
     });
-    return this.loaded[src];
+
+    this.loaded[src] = promise;
+    promise.catch(() => {
+      if (this.loaded[src] === promise) delete this.loaded[src];
+    });
+    return promise;
   },
   async checkConnection() {
     return navigator.onLine !== false;
