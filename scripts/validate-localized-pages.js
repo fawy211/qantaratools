@@ -62,6 +62,8 @@ for(const tool of tools){
 }
 const sitemap=fs.readFileSync(path.join(root,'sitemap.xml'),'utf8');
 if(!sitemap.includes('<loc>https://qantaratools.com/</loc>')) errors.push('en/: homepage absent from sitemap');
+if(!sitemap.includes('<loc>https://qantaratools.com/?locale=ar</loc>')) errors.push('ar/: homepage absent from sitemap');
+for(const tool of tools) if(!sitemap.includes('<loc>https://qantaratools.com/tools/'+tool.id+'/?locale=ar</loc>')) errors.push('ar/'+tool.id+': Arabic URL absent from sitemap');
 for(const locale of locales){
  if(!sitemap.includes('https://qantaratools.com/'+locale+'/')) errors.push(locale+': homepage absent from sitemap');
  for(const tool of tools) if(!sitemap.includes('https://qantaratools.com/'+locale+'/tools/'+tool.id+'/')) errors.push(locale+'/'+tool.id+': sitemap URL missing');
