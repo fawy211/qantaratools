@@ -2,7 +2,6 @@
    QantaraTools redesign: "Tools-first"
    Load AFTER custom.css and theme-light.css
    ========================================================== */
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Outfit:wght@500;600;700&display=swap");
 
 /* ---------- Tokens ---------- */
 :root {
