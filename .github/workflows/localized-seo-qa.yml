@@ -34,7 +34,8 @@ jobs:
       - name: Validate complete localized SEO records
         run: npm run i18n:seo:check
       - name: Generate localized tool pages
-        run: node scripts/generate-localized-tool-pages.js
+        run: |
+          node scripts/generate-localized-tool-pages.js
           node scripts/validate-localized-pages.js
       - name: Verify localized page output
         run: |
