@@ -57,7 +57,7 @@ export class ImageCompressorTool {
       meta.classList.add('hidden');
       stats.textContent = '';
       if (!file) return;
-      if (!file.type.startsWith('image/') || !file.size) {
+      if ((file.type && !file.type.startsWith('image/')) || !file.size) {
         this.file = null;
         error('imageInvalidFile');
         return;
