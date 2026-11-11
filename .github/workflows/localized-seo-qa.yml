@@ -69,7 +69,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add de fr es tools sitemap.xml assets/vendor
+          git add de fr es tools sitemap.xml assets/vendor assets/fonts
           if ! git diff --cached --quiet; then
             git commit -m "Generate localized SEO landing pages"
             git push
