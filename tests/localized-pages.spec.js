@@ -145,6 +145,13 @@ for (const [locale, expected] of Object.entries(officeLocales)) {
     await expect(popup.locator('li')).toContainText('Keep this bullet');
     expect(await popup.locator('.msg').first().evaluate(el => getComputedStyle(el).direction)).toBe(expected.dir);
     expect(await popup.locator('.role').first().evaluate(el => getComputedStyle(el).direction)).toBe(expected.dir);
+
+    // Generate an actual PDF in headless Chromium, not only a preview DOM, and verify its file structure.
+    const pdfBytes = await popup.pdf({ format: 'A4', printBackground: true });
+    expect(pdfBytes.subarray(0, 5).toString('ascii')).toBe('%PDF-');
+    expect(pdfBytes.length).toBeGreaterThan(1000);
+    const pdfPageCount = (pdfBytes.toString('latin1').match(/\\/Type\\s*\\/Page\\b/g) || []).length;
+    expect(pdfPageCount).toBeGreaterThan(0);
     await popup.close();
   });
 }
