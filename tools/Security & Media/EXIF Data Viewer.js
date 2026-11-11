@@ -25,25 +25,44 @@ export class ExifViewerTool {
     async read(file) {
         const out = this.container.querySelector('#exifOut');
         if (!file) return;
+        const t = this.t;
         try {
             if (!window.EXIF && window.QTExternal) {
-                await window.QTExternal.loadScript('exifJs', { error: this.t('exifHelperError','The metadata helper could not be loaded. Please check your internet connection and try again.') });
+                await window.QTExternal.loadScript('exifJs', { error: t('exifHelperError','The metadata helper could not be loaded. Please check your internet connection and try again.') });
             }
-            if (!window.EXIF) throw new Error(this.t('exifUnavailable','The metadata helper is not available right now.'));
-            
+            if (!window.EXIF) throw new Error(t('exifUnavailable','The metadata helper is not available right now.'));
+
             EXIF.getData(file, function() {
-                const data = EXIF.getAllTags(this);
+                const data = EXIF.getAllTags(this) || {};
                 const keys = Object.keys(data);
                 out.classList.remove('hidden');
+                out.replaceChildren();
                 if (!keys.length) {
-                    out.innerHTML = `<div class="p-4 text-gray-400">${this.t('exifNone','No readable EXIF metadata was found.')}</div>`;
+                    out.textContent = t('exifNone','No readable EXIF metadata was found.');
                     return;
                 }
-                out.innerHTML = '<table class="w-full text-xs"><tbody>' + keys.map(k => `<tr class="border-b border-gray-800"><td class="p-2 text-gray-400">${k}</td><td class="p-2 text-gray-100 break-all">${String(data[k])}</td></tr>`).join('') + '</tbody></table>';
+                const table = document.createElement('table');
+                table.className = 'w-full text-xs';
+                const tbody = document.createElement('tbody');
+                for (const key of keys) {
+                    const row = document.createElement('tr');
+                    row.className = 'border-b border-gray-800';
+                    const name = document.createElement('td');
+                    name.className = 'p-2 text-gray-400';
+                    name.textContent = key;
+                    const value = document.createElement('td');
+                    value.className = 'p-2 text-gray-100 break-all';
+                    const raw = data[key];
+                    value.textContent = raw && typeof raw === 'object' ? JSON.stringify(raw) : String(raw);
+                    row.append(name, value);
+                    tbody.appendChild(row);
+                }
+                table.appendChild(tbody);
+                out.appendChild(table);
             });
         } catch (e) {
             out.classList.remove('hidden');
-            out.innerHTML = '<div class="p-4 text-amber-300">' + String(e.message || e) + '</div>';
+            out.textContent = String(e.message || e);
         }
     }
 }
