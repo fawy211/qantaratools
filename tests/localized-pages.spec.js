@@ -141,6 +141,10 @@ for (const [locale, expected] of Object.entries(officeLocales)) {
     await expect(popup.locator('body')).toContainText(expected.assistant);
     await expect(popup.locator('body')).toContainText('Keep this exact text');
     await expect(popup.locator('body')).toContainText('Café & <tag> 123');
+    await expect(popup.locator('.msg')).toHaveCount(2);
+    await expect(popup.locator('li')).toContainText('Keep this bullet');
+    expect(await popup.locator('.msg').first().evaluate(el => getComputedStyle(el).direction)).toBe(expected.dir);
+    expect(await popup.locator('.role').first().evaluate(el => getComputedStyle(el).direction)).toBe(expected.dir);
     await popup.close();
   });
 }
