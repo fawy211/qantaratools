@@ -176,7 +176,7 @@ for (const [locale, expected] of Object.entries(errorLocales)) {
         buffer: Buffer.from('not an image')
       });
       if (slug === 'image-rotate-flip') {
-        await page.locator('#r90').click();
+        // This tool validates the file immediately on selection.
       } else {
         if (slug === 'image-watermark') await page.locator('#t').fill('Qantara');
         await page.locator('#go').click();
