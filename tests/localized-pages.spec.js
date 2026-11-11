@@ -595,7 +595,7 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
   test('HTML entities, word count, sorting and SQL formatting work in ' + locale, async ({ page }) => {
     const tool = slug => route.prefix + '/tools/' + slug + '/' + route.suffix;
 
-    await page.goto(tool('html-entity-encoder'));
+    await page.goto(tool('html-entity'));
     await page.locator('#heInput').fill('<Qantara & Tools>');
     await page.locator('#heGo').click();
     await expect(page.locator('#heOutput')).toHaveValue('&lt;Qantara &amp; Tools&gt;');
@@ -607,7 +607,7 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     await page.goto(tool('word-counter'));
     await page.locator('#wcInput').fill('One two.\n\nThree!');
     await expect(page.locator('#wcWords')).toHaveText('3');
-    await expect(page.locator('#wcChars')).toHaveText('17');
+    await expect(page.locator('#wcChars')).toHaveText('16');
     await expect(page.locator('#wcParas')).toHaveText('2');
 
     await page.goto(tool('text-sorter'));
