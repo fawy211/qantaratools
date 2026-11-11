@@ -4,11 +4,11 @@
  */
 window.QTExternal = window.QTExternal || {
   urls: {
-    pdfLib: 'https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js',
-    jsPdf: 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js',
+    pdfLib: '/assets/vendor/pdf-lib/1.17.1/pdf-lib.min.js',
+    jsPdf: '/assets/vendor/jspdf/2.5.1/jspdf.umd.min.js',
     pdfJs: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs',
-    qrCode: 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js',
-    exifJs: 'https://cdn.jsdelivr.net/npm/exif-js@2.3.0/exif.js'
+    qrCode: '/assets/vendor/qrcodejs/1.0.0/qrcode.min.js',
+    exifJs: '/assets/vendor/exif-js/2.3.0/exif.js'
   },
   loaded: Object.create(null),
   globals: {
