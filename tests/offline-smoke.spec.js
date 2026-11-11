@@ -42,44 +42,77 @@ test('offline smoke: Chat to Office creates a Word file without external service
   expect(download.suggestedFilename()).toMatch(/\.docx$/i);
 });
 
-test('offline smoke: QR helper reports a clear message when its approved online dependency is unavailable', async ({ page }) => {
-  await blockExternalRequests(page);
+test('offline smoke: QR code is generated from the local helper', async ({ page }) => {
+  const externalRequests = await blockExternalRequests(page);
+  const localHelperRequests = [];
+  page.on('request', request => {
+    if (request.url().includes('/assets/vendor/qrcodejs/')) localHelperRequests.push(request.url());
+  });
   await page.goto('/tools/qr-generator/', { waitUntil: 'domcontentloaded' });
   await page.locator('#qrText').fill('https://qantaratools.com/');
   await page.locator('#qrGo').click();
-  await expect(page.locator('#qrOut')).toContainText(/could not be loaded|internet connection|not available/i);
+  await expect(page.locator('#qrOut canvas, #qrOut img')).toHaveCount(1);
+  expect(localHelperRequests.some(url => url.endsWith('/qrcode.min.js'))).toBeTruthy();
+  expect(externalRequests.every(url => new URL(url).hostname === '127.0.0.1' || new URL(url).hostname === 'localhost')).toBeTruthy();
 });
 
-test('offline smoke: PDF tool reports its unavailable helper and remains responsive', async ({ page }) => {
+test('offline smoke: PDF merge uses the local pdf-lib helper and downloads a merged PDF', async ({ page }) => {
   await blockExternalRequests(page);
+  const localHelperRequests = [];
+  page.on('request', request => {
+    if (request.url().includes('/assets/vendor/pdf-lib/')) localHelperRequests.push(request.url());
+  });
   await page.goto('/tools/pdf-merge/', { waitUntil: 'domcontentloaded' });
-  await page.locator('[data-pdf-files]').setInputFiles([
-    { name: 'first.pdf', mimeType: 'application/pdf', buffer: Buffer.from('%PDF-1.4 offline fixture') },
-    { name: 'second.pdf', mimeType: 'application/pdf', buffer: Buffer.from('%PDF-1.4 offline fixture') }
-  ]);
+  const fixtures = await page.evaluate(async () => {
+    const first = await PDFLib.PDFDocument.create();
+    first.addPage([200, 200]);
+    const second = await PDFLib.PDFDocument.create();
+    second.addPage([200, 200]);
+    return Promise.all([first.save(), second.save()].then ? [] : []);
+  }).catch(() => null);
+  const pdfBuffers = await page.evaluate(async () => {
+    const a = await PDFLib.PDFDocument.create();
+    a.addPage([200, 200]);
+    const b = await PDFLib.PDFDocument.create();
+    b.addPage([200, 200]);
+    const [one, two] = await Promise.all([a.save(), b.save()]);
+    return [Array.from(one), Array.from(two)];
+  });
+  await page.locator('[data-pdf-files]').setInputFiles(pdfBuffers.map((buffer, index) => ({
+    name: 'part-' + (index + 1) + '.pdf',
+    mimeType: 'application/pdf',
+    buffer: Buffer.from(buffer)
+  })));
+  const downloadPromise = page.waitForEvent('download');
   await page.locator('#go').click();
-  await expect(page.locator('[data-pdf-msg]')).toContainText(/could not be loaded|internet connection|helper library/i);
-  await expect(page.locator('#go')).toBeEnabled();
+  const download = await downloadPromise;
+  expect(download.suggestedFilename()).toBe('merged.pdf');
+  await expect(page.locator('[data-pdf-msg]')).toContainText(/PDFs merged into one/i);
+  expect(localHelperRequests.some(url => url.endsWith('/pdf-lib.min.js'))).toBeTruthy();
 });
 
-test('offline smoke: EXIF helper fails gracefully rather than freezing the tool', async ({ page }) => {
+test('offline smoke: EXIF viewer loads its local helper and handles an image', async ({ page }) => {
   await blockExternalRequests(page);
+  const localHelperRequests = [];
+  page.on('request', request => {
+    if (request.url().includes('/assets/vendor/exif-js/')) localHelperRequests.push(request.url());
+  });
   await page.goto('/tools/exif-viewer/', { waitUntil: 'domcontentloaded' });
   await page.locator('#exifFile').setInputFiles({
     name: 'offline.jpg',
     mimeType: 'image/jpeg',
-    buffer: Buffer.from([0xff, 0xd8, 0xff, 0xd9])
+    buffer: Buffer.from('/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////2wBDAf//////////////////////////////////////////////////////////////////////////////////////wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAX/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIQAxAAAAH/AP/EABQQAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQEAAT8Af//EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQIBAT8Af//EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQMBAT8Af//Z', 'base64')
   });
+  await expect.poll(() => page.evaluate(() => typeof window.EXIF)).toBe('object');
   await expect(page.locator('#exifOut')).toBeVisible();
-  await expect(page.locator('#exifOut')).toContainText(/could not be loaded|internet connection|not available/i);
+  expect(localHelperRequests.some(url => url.endsWith('/exif.js'))).toBeTruthy();
 });
-
 
 test('external helper loader clears failed requests and allows a later retry', async ({ page }) => {
   await page.goto('/', { waitUntil: 'domcontentloaded' });
   await page.addScriptTag({ path: require.resolve('../assets/js/external-resources.js') });
   let attempts = 0;
-  await page.route('https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js', async route => {
+  await page.route('**/assets/vendor/qrcodejs/1.0.0/qrcode.min.js', async route => {
     attempts += 1;
     if (attempts === 1) {
       await route.abort('internetdisconnected');
