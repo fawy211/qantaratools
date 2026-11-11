@@ -94,6 +94,7 @@ for (const [locale, expected] of Object.entries(officeLocales)) {
     expect(wordXml).toContain(expected.user);
     expect(wordXml).toContain(expected.assistant);
     if (locale === 'ar') { expect(wordXml).toContain('<w:bidi/>'); expect(wordXml).toContain('<w:rtl/>'); }
+    if (locale === 'ar') expect((wordXml.match(/<w:bidi\/>/g)||[]).length).toBeGreaterThan(2);
     else { expect(wordXml).not.toContain('<w:bidi/>'); }
     expect(wordXml).toContain('Keep this exact text');
     expect(wordXml).toContain('Café &amp; &lt;tag&gt; 123');
