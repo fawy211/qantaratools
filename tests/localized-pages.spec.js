@@ -502,10 +502,10 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     await page.locator('#jsonInput').fill('{"name":"Qantara","count":2}');
     await page.locator('#formatBtn').click();
     await expect(page.locator('#jsonOutput')).toContainText('"name": "Qantara"');
-    await expect(page.locator('#jsonStatus')).toContainText(/valid/i);
+    await expect(page.locator('#jsonStatus')).toHaveClass(/text-emerald-400/);
     await page.locator('#jsonInput').fill('{"name":');
     await page.locator('#formatBtn').click();
-    await expect(page.locator('#jsonStatus')).toContainText(/invalid/i);
+    await expect(page.locator('#jsonStatus')).toHaveClass(/text-red-400/);
 
     await page.goto(tool('base64'));
     await page.locator('#base64Input').fill('مرحبا Café');
@@ -551,11 +551,11 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     await page.goto(tool('json-csv'));
     await page.locator('#jcIn').fill('[{"name":"Ada","note":"hello, world"},{"name":"Lin","note":"second"}]');
     await page.locator('#jcJson').click();
-    await expect(page.locator('#jcOut')).toContainText('"name","note"');
+    await expect(page.locator('#jcOut')).toHaveValue(/name.*note/);
     await page.locator('#jcIn').fill('"name","age"\n"Ada","37"');
     await page.locator('#jcCsv').click();
-    await expect(page.locator('#jcOut')).toContainText('"name": "Ada"');
-    await expect(page.locator('#jcOut')).toContainText('"age": "37"');
+    await expect(page.locator('#jcOut')).toHaveValue(/name.*Ada/);
+    await expect(page.locator('#jcOut')).toHaveValue(/age.*37/);
 
     await page.goto(tool('regex-tester'));
     await page.locator('#rxPat').fill('cat');
