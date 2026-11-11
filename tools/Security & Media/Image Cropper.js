@@ -38,7 +38,7 @@ export class ImageCropperTool {
       status.textContent = '';
       if (sourceUrl) URL.revokeObjectURL(sourceUrl);
       if (!file) return;
-      if (!file.type.startsWith('image/') || !file.size) {
+      if ((file.type && !file.type.startsWith('image/')) || !file.size) {
         file = null;
         error('imageInvalidFile');
         return;
