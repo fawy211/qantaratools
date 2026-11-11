@@ -53,8 +53,10 @@ jobs:
         run: |
           npm install --no-package-lock --no-audit --no-fund
           npx playwright install --with-deps chromium
-      - name: Test localized pages in Chromium
-        run: npx playwright test tests/localized-pages.spec.js --project=chromium
+      - name: Test all localized tool pages in small Chromium batches
+        run: npx playwright test tests/tool-load.spec.js --project=chromium --workers=2
+      - name: Test localized homepage and tool functionality
+        run: npx playwright test tests/localized-pages.spec.js --project=chromium --workers=2
       - name: Commit generated localized pages to feature branch
         if: github.event_name == 'push' && github.ref == 'refs/heads/feature/complete-multilingual-support'
         run: |
