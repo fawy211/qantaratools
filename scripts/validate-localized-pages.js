@@ -20,7 +20,7 @@ if(!fs.existsSync(englishHomePath)){
  errors.push('en/: missing English homepage');
 }else{
  const englishHome=fs.readFileSync(englishHomePath,'utf8');
- if(!englishHome.includes('<html lang="en"')&&!englishHome.includes('<html lang="en" ')) errors.push('en/: wrong or missing lang');
+ if(!/<html\\b[^>]*\\blang="en"/i.test(englishHome)) errors.push('en/: wrong or missing lang');
  if(!englishHome.includes('dir="ltr"')) errors.push('en/: wrong or missing text direction');
  if(!englishHome.includes('rel="canonical"')||!englishHome.includes('href="https://qantaratools.com/"')) errors.push('en/: wrong or missing canonical');
  validateHreflangs(englishHome,'en/');
