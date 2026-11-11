@@ -165,6 +165,8 @@ for (const [locale, homePath] of Object.entries(homeOfficePaths)) {
     const featured = page.locator('#qt-featured-office, .qt-featured-wrap');
     await expect(featured).toBeVisible();
     await featured.click();
+    const expectedCanonical = 'http://127.0.0.1:4173' + homePath.replace(/\/$/, '') + (locale === 'ar' ? '?locale=ar' : (homePath.endsWith('/') ? '/' : ''));
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', expectedCanonical);
     await expect(page.locator('#ai-office-input')).toBeVisible();
     await expect(page.locator('#ai-word')).toBeVisible();
     await expect(page.locator('#ai-excel')).toBeVisible();
