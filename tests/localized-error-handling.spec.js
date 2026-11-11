@@ -56,6 +56,18 @@ const errorLocales = {
 for (const [locale, expected] of Object.entries(errorLocales)) {
   test('invalid input errors are visible and localized for ' + locale, async ({ page }) => {
     test.setTimeout(60000);
+
+    // Keep the unrelated analytics-consent overlay from intercepting tool clicks.
+    // Consent behavior is covered separately; this suite focuses on tool validation.
+    await page.addInitScript(() => {
+      const hideConsent = () => {
+        const banner = document.getElementById('qt-consent-banner');
+        if (banner) banner.style.setProperty('display', 'none', 'important');
+      };
+      new MutationObserver(hideConsent).observe(document, { childList: true, subtree: true });
+      hideConsent();
+    });
+
     const tool = slug => expected.prefix + '/tools/' + slug + '/' + expected.suffix;
 
     // Invalid JSON must show the localized error prefix, not a success state.
