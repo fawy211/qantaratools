@@ -64,18 +64,11 @@ test('offline smoke: PDF merge uses the local pdf-lib helper and downloads a mer
   });
   await page.goto('/tools/pdf-merge/', { waitUntil: 'domcontentloaded' });
   await page.addScriptTag({ url: '/assets/vendor/pdf-lib/1.17.1/pdf-lib.min.js' });
-  const pdfBuffers = await page.evaluate(async () => {
-    const a = await PDFLib.PDFDocument.create();
-    a.addPage([200, 200]);
-    const b = await PDFLib.PDFDocument.create();
-    b.addPage([200, 200]);
-    const [one, two] = await Promise.all([a.save(), b.save()]);
-    return [Array.from(one), Array.from(two)];
-  });
-  await page.locator('[data-pdf-files]').setInputFiles(pdfBuffers.map((buffer, index) => ({
-    name: 'part-' + (index + 1) + '.pdf',
+  const pdfFixture = require('node:fs').readFileSync(require('node:path').join(__dirname, '..', 'QA-Samples', 'pdf', 'sample.pdf'));
+  await page.locator('[data-pdf-files]').setInputFiles([1, 2].map(index => ({
+    name: 'part-' + index + '.pdf',
     mimeType: 'application/pdf',
-    buffer: Buffer.from(buffer)
+    buffer: pdfFixture
   })));
   const downloadPromise = page.waitForEvent('download');
   await page.locator('#go').click();
