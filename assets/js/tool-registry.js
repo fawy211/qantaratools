@@ -370,7 +370,7 @@ export const TOOL_REGISTRY_META = {
     "version": "1.0.0",
     "web": true,
     "desktop": "planned",
-    "offline": "requires-external-library"
+    "offline": true
   },
   "gradient-generator": {
     "title": "Background & Gradient Generator",
