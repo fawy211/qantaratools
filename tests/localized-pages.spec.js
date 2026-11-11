@@ -700,3 +700,26 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     await expect(page.locator('#rdError')).not.toHaveClass(/hidden/);
   });
 }
+
+
+// EXIF viewer: callback translations remain available and metadata is rendered as text, not HTML.
+for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
+  test('EXIF metadata is safely displayed in ' + locale, async ({ page }) => {
+    await page.addInitScript(() => {
+      window.EXIF = {
+        getData(file, callback) { callback.call(file); },
+        getAllTags() { return { Make: 'Qantara Camera', Comment: '<img src=x onerror=alert(1)>' }; }
+      };
+    });
+    await page.goto(route.prefix + '/tools/exif-viewer/' + route.suffix);
+    await page.locator('#exifFile').setInputFiles({
+      name: 'sample.jpg',
+      mimeType: 'image/jpeg',
+      buffer: Buffer.from([0xff, 0xd8, 0xff, 0xd9])
+    });
+    await expect(page.locator('#exifOut')).toBeVisible();
+    await expect(page.locator('#exifOut')).toContainText('Qantara Camera');
+    await expect(page.locator('#exifOut')).toContainText('<img src=x onerror=alert(1)>');
+    await expect(page.locator('#exifOut img')).toHaveCount(0);
+  });
+}
