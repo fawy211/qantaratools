@@ -70,6 +70,8 @@ for (const locale of ['en', 'ar', 'de', 'fr', 'es']) {
     await page.goto(toolPath);
     await expect(page.locator('html')).toHaveAttribute('lang', locale);
     await expect(page.locator('[data-qt-language-switcher]')).toBeVisible();
+    await expect(page.locator('link[rel="stylesheet"][href*="theme-light.css"]')).toHaveCount(1);
+    await expect(page.locator('link[rel="stylesheet"][href*="qt-redesign.css"]')).toHaveCount(1);
     if (locale === 'ar') await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'http://127.0.0.1:4173/tools/base64/?locale=ar');
     await expect(page.locator('h1').first()).toBeVisible();
     const input = page.locator('#active-tool-box textarea').first();
