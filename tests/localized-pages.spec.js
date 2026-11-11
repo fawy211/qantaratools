@@ -588,3 +588,42 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     await expect(page.locator('#b64Output')).toHaveValue(/^data:image\/png;base64,/);
   });
 }
+
+
+// Further local processing checks for text utilities in all supported locales.
+for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
+  test('HTML entities, word count, sorting and SQL formatting work in ' + locale, async ({ page }) => {
+    const tool = slug => route.prefix + '/tools/' + slug + '/' + route.suffix;
+
+    await page.goto(tool('html-entity-encoder'));
+    await page.locator('#heInput').fill('<Qantara & Tools>');
+    await page.locator('#heGo').click();
+    await expect(page.locator('#heOutput')).toHaveValue('&lt;Qantara &amp; Tools&gt;');
+    await page.locator('input[name="heMode"][value="decode"]').check();
+    await page.locator('#heInput').fill('&lt;Qantara &amp; Tools&gt;');
+    await page.locator('#heGo').click();
+    await expect(page.locator('#heOutput')).toHaveValue('<Qantara & Tools>');
+
+    await page.goto(tool('word-counter'));
+    await page.locator('#wcInput').fill('One two.\n\nThree!');
+    await expect(page.locator('#wcWords')).toHaveText('3');
+    await expect(page.locator('#wcChars')).toHaveText('17');
+    await expect(page.locator('#wcParas')).toHaveText('2');
+
+    await page.goto(tool('text-sorter'));
+    await page.locator('#sortIn').fill('pear\nApple\nbanana');
+    await page.locator('#sortAZ').click();
+    await expect(page.locator('#sortOut')).toHaveValue('Apple\nbanana\npear');
+    await page.locator('#sortZA').click();
+    await expect(page.locator('#sortOut')).toHaveValue('pear\nbanana\nApple');
+
+    await page.goto(tool('sql-formatter'));
+    await page.locator('#sqlIn').fill('select id, name from users where active = 1 order by name;');
+    await page.locator('#sqlRun').click();
+    const sql = await page.locator('#sqlOut').inputValue();
+    expect(sql).toContain('SELECT');
+    expect(sql).toContain('FROM');
+    expect(sql).toContain('WHERE');
+    expect(sql).toContain('ORDER BY');
+  });
+}
