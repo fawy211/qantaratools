@@ -723,3 +723,37 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     await expect(page.locator('#exifOut img')).toHaveCount(0);
   });
 }
+
+
+// QR generator UI integration: verify the lazy-loaded helper receives user settings.
+for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
+  test('QR generator invokes its helper with localized page settings in ' + locale, async ({ page }) => {
+    await page.addInitScript(() => {
+      window.QTExternal = {
+        async loadScript() {
+          window.QRCode = class {
+            static CorrectLevel = { L: 1, M: 0, Q: 3, H: 2 };
+            constructor(target, options) {
+              window.__qrOptions = options;
+              const image = document.createElement('img');
+              image.alt = 'Generated QR preview';
+              image.src = 'data:image/png;base64,aGVsbG8=';
+              target.appendChild(image);
+            }
+          };
+        }
+      };
+    });
+    await page.goto(route.prefix + '/tools/qr-generator/' + route.suffix);
+    await page.locator('#qrText').fill('https://qantaratools.com/');
+    await page.locator('#qrSize').selectOption('400');
+    await page.locator('#qrEc').selectOption('H');
+    await page.locator('#qrGo').click();
+    await expect(page.locator('#qrOut img')).toBeVisible();
+    const options = await page.evaluate(() => window.__qrOptions);
+    expect(options.text).toBe('https://qantaratools.com/');
+    expect(options.width).toBe(400);
+    expect(options.height).toBe(400);
+    expect(options.correctLevel).toBe(2);
+  });
+}
