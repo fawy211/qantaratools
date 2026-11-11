@@ -11,6 +11,7 @@ for(const locale of locales){
  if(!fs.existsSync(home)){errors.push(locale+': missing localized homepage');continue;}
  const homeHtml=fs.readFileSync(home,'utf8');
  if(!homeHtml.includes('lang="'+locale+'"')||!homeHtml.includes('rel="canonical"')) errors.push(locale+': homepage language/canonical missing');
+ if(!homeHtml.includes('hreflang="ar"')||!homeHtml.includes('href="https://qantaratools.com/?locale=ar"')) errors.push(locale+': Arabic homepage hreflang missing');
  for(const tool of tools){
   const file=path.join(root,locale,'tools',tool.id,'index.html');
   if(!fs.existsSync(file)){errors.push(locale+'/'+tool.id+': page missing');continue;}
@@ -18,7 +19,7 @@ for(const locale of locales){
   const checks=[
    [html.includes('lang="'+locale+'"'),'wrong or missing lang'],
    [html.includes('rel="canonical" href="https://qantaratools.com/'+locale+'/tools/'+tool.id+'/"'),'wrong or missing canonical'],
-   [html.includes('hreflang="en"')&&html.includes('hreflang="de"')&&html.includes('hreflang="fr"')&&html.includes('hreflang="es"'),'missing hreflang alternate'],
+   [html.includes('hreflang="en"')&&html.includes('hreflang="de"')&&html.includes('hreflang="fr"')&&html.includes('hreflang="es"')&&html.includes('hreflang="ar"')&&html.includes('href="https://qantaratools.com/tools/'+tool.id+'/?locale=ar"'),'missing hreflang alternate'],
    [html.includes('hreflang="x-default"'),'missing x-default'],
    [html.includes('application/ld+json')&&html.includes('"inLanguage":"'+locale+'"'),'missing localized structured data'],
    [html.includes('/assets/js/i18n.js')&&html.includes('/assets/js/router.js'),'tool runtime scripts missing'],
@@ -33,7 +34,7 @@ for(const tool of tools){
  const file=path.join(root,'tools',tool.id,'index.html');
  if(!fs.existsSync(file)){errors.push('en/'+tool.id+': page missing');continue;}
  const html=fs.readFileSync(file,'utf8');
- if(!html.includes('hreflang="de"')||!html.includes('hreflang="fr"')||!html.includes('hreflang="es"')) errors.push('en/'+tool.id+': localized hreflang links missing');
+ if(!html.includes('hreflang="de"')||!html.includes('hreflang="fr"')||!html.includes('hreflang="es"')||!html.includes('hreflang="ar"')||!html.includes('href="https://qantaratools.com/tools/'+tool.id+'/?locale=ar"')) errors.push('en/'+tool.id+': localized hreflang links missing');
  if(!html.includes('data-locale-link="de"')||!html.includes('data-locale-link="ar"')) errors.push('en/'+tool.id+': language selector links missing');
  if(!html.includes('qantaratools_language_v1')) errors.push('en/'+tool.id+': language persistence handler missing');
 }
