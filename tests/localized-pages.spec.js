@@ -848,3 +848,69 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     expect(downloads.map(item => item.suggestedFilename()).sort()).toEqual(['converted-1.png', 'converted-2.png']);
   });
 }
+
+
+// Core developer and finance utilities: deterministic functional checks in all five locales.
+for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
+  test('URL, UUID, JWT, regex, timestamp, hash, VAT and password tools work in ' + locale, async ({ page }) => {
+    const tool = slug => route.prefix + '/tools/' + slug + '/' + route.suffix;
+
+    await page.goto(tool('url-encoder'));
+    await page.locator('#urlText').fill('hello world & Qantara');
+    await page.locator('#urlEnc').click();
+    await expect(page.locator('#urlOut')).toHaveValue('hello%20world%20%26%20Qantara');
+    await page.locator('#urlText').fill('hello%20world%20%26%20Qantara');
+    await page.locator('#urlDec').click();
+    await expect(page.locator('#urlOut')).toHaveValue('hello world & Qantara');
+
+    await page.goto(tool('uuid-generator'));
+    await page.locator('#uuidCount').fill('3');
+    await page.locator('#uuidGo').click();
+    const uuids = (await page.locator('#uuidOut').inputValue()).trim().split('\\n');
+    expect(uuids).toHaveLength(3);
+    for (const value of uuids) expect(value).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i);
+
+    await page.goto(tool('jwt-decoder'));
+    const b64 = value => Buffer.from(JSON.stringify(value)).toString('base64url');
+    await page.locator('#jwtIn').fill(b64({alg:'none',typ:'JWT'}) + '.' + b64({sub:'qantara',role:'tester'}) + '.signature');
+    await page.locator('#jwtRun').click();
+    await expect(page.locator('#jwtHead')).toContainText('"alg": "none"');
+    await expect(page.locator('#jwtPay')).toContainText('"sub": "qantara"');
+    await expect(page.locator('#jwtStatus')).toHaveClass(/text-amber-400/);
+
+    await page.goto(tool('regex-tester'));
+    await page.locator('#rxPat').fill('cat');
+    await page.locator('#rxFlags').fill('gi');
+    await page.locator('#rxText').fill('cat CAT dog');
+    await page.locator('#rxRun').click();
+    await expect(page.locator('#rxOut')).toContainText('Found 2');
+
+    await page.goto(tool('timestamp-converter'));
+    await page.locator('#tsIn').fill('0');
+    await page.locator('#tsToDate').click();
+    await expect(page.locator('#tsOut')).toContainText('1970');
+
+    await page.goto(tool('hash-generator'));
+    await page.locator('#hashIn').fill('abc');
+    await page.locator('#hashAlg').selectOption('SHA-256');
+    await page.locator('#hashRun').click();
+    await expect(page.locator('#hashOut')).toHaveValue('ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad');
+
+    await page.goto(tool('vat-calculator'));
+    await page.locator('#vatAmount').fill('100');
+    await page.locator('#vatRate').fill('10');
+    await page.locator('#vatGo').click();
+    await expect(page.locator('#vatNet')).toHaveText(await page.evaluate(() => window.QTI18n.formatNumber(100,{minimumFractionDigits:2,maximumFractionDigits:2})));
+    await expect(page.locator('#vatTax')).toHaveText(await page.evaluate(() => window.QTI18n.formatNumber(10,{minimumFractionDigits:2,maximumFractionDigits:2})));
+    await expect(page.locator('#vatTotal')).toHaveText(await page.evaluate(() => window.QTI18n.formatNumber(110,{minimumFractionDigits:2,maximumFractionDigits:2})));
+
+    await page.goto(tool('password-generator'));
+    await page.locator('#pgLen').fill('24');
+    await page.locator('#pgGo').click();
+    const password = await page.locator('#pgOut').inputValue();
+    expect(password).toHaveLength(24);
+    expect(password).toMatch(/[A-Z]/);
+    expect(password).toMatch(/[a-z]/);
+    expect(password).toMatch(/[0-9]/);
+  });
+}
