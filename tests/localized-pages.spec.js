@@ -94,6 +94,9 @@ function unzipStoredEntry(buffer, wanted) {
 
 for (const [locale, expected] of Object.entries(officeLocales)) {
   test('Chat to Office preserves source text and localizes Word, Excel and PDF for ' + locale, async ({ page }) => {
+    // Prevent the print dialog from opening during the automated PDF byte-level check.
+    // The test still creates a real PDF with Chromium's page.pdf() below.
+    await page.addInitScript(() => { window.print = () => {}; });
     await page.goto(expected.path);
     await page.waitForFunction(() => window.QTI18n && typeof window.QTI18n.setLocale === 'function');
     await page.evaluate(localeCode => window.QTI18n.setLocale(localeCode), locale);
