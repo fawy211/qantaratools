@@ -58,6 +58,8 @@ jobs:
         run: npx playwright test tests/tool-load.spec.js --project=chromium --workers=2
       - name: Test localized homepage and tool functionality
         run: npx playwright test tests/localized-pages.spec.js --project=chromium --workers=2
+      - name: Test local-first tools with external network blocked
+        run: npx playwright test tests/offline-smoke.spec.js --project=chromium --workers=1
       - name: Commit generated localized pages to feature branch
         if: github.event_name == 'push' && github.ref == 'refs/heads/feature/complete-multilingual-support'
         run: |
