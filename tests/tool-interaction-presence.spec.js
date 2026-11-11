@@ -17,8 +17,8 @@ function toolPath(locale, id) {
 for (const locale of locales) {
   for (let offset = 0; offset < tools.length; offset += 10) {
     const batch = tools.slice(offset, offset + 10);
-    test.setTimeout(120000);
     test(locale + ' tool interaction surfaces ' + (offset + 1) + '-' + (offset + batch.length), async ({ page }) => {
+      test.setTimeout(120000);
       for (const tool of batch) {
         await page.goto(toolPath(locale, tool.id), { waitUntil: 'domcontentloaded' });
         await expect(page.locator('html')).toHaveAttribute('lang', locale);
