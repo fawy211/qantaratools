@@ -113,3 +113,34 @@ html[data-theme="light"] .qt-hero-metrics strong {
   -webkit-text-fill-color: #17151f !important;
   opacity: 1 !important;
 }
+
+/* Multilingual layout polish: RTL alignment and complete mobile identity controls. */
+html[dir="rtl"] #tools-grid-container > .mb-10:first-child {
+  text-align: right !important;
+}
+html[dir="rtl"] #tools-grid-container > .mb-10:first-child::after {
+  right: auto;
+  left: 28px;
+}
+html[dir="rtl"] .tool-card::before {
+  left: auto;
+  right: 0;
+  border-radius: 6px 0 0 6px;
+}
+html[dir="rtl"] .qt-hero-metrics span + span::before {
+  margin-right: 0;
+  margin-left: 10px;
+}
+html[dir="rtl"] .skip-link {
+  left: auto !important;
+  right: 12px !important;
+}
+@media (max-width: 640px) {
+  .qt-identity-switcher button:nth-child(2) {
+    display: inline-flex !important;
+  }
+  .qt-identity-switcher button {
+    padding: 5px 7px;
+    font-size: 9px;
+  }
+}
