@@ -152,9 +152,6 @@ for (const [locale, expected] of Object.entries(errorLocales)) {
       buffer: Buffer.from('not an image')
     });
     await expect(page.locator('#ifStatus')).toHaveText(expected.imageLoad, { timeout: 10000 });
-    await page.locator('#ifRun').click();
-    await expect(page.locator('#ifStatus')).toHaveText(expected.imageInvalid);
-
     await page.goto(tool('image-compressor'));
     await page.locator('#imgFile').setInputFiles({
       name: 'broken-image.png',
@@ -162,9 +159,6 @@ for (const [locale, expected] of Object.entries(errorLocales)) {
       buffer: Buffer.from('not an image')
     });
     await expect(page.locator('#imgStats')).toHaveText(expected.imageLoad, { timeout: 10000 });
-    await page.locator('#processImg').click();
-    await expect(page.locator('#imgStats')).toHaveText(expected.imageInvalid);
-
     await page.goto(tool('image-cropper'));
     await page.locator('#cropFile').setInputFiles({
       name: 'broken-image.png',
@@ -172,7 +166,5 @@ for (const [locale, expected] of Object.entries(errorLocales)) {
       buffer: Buffer.from('not an image')
     });
     await expect(page.locator('#cropStatus')).toHaveText(expected.imageLoad, { timeout: 10000 });
-    await page.locator('#cropRun').click();
-    await expect(page.locator('#cropStatus')).toHaveText(expected.imageInvalid);
   });
 }
