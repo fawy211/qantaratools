@@ -31,7 +31,7 @@ for (const locale of locales) {
         }, { timeout: 15000 });
 
         await expect(toolBox).not.toContainText(/Could not load this tool|This tool is not available yet|Loading tool/i);
-        const controls = toolBox.locator('input:not([type="hidden"]), textarea, select, button, [role="button"], canvas');
+        const controls = toolBox.locator('input:not([type="hidden"]):visible, textarea:visible, select:visible, button:visible, [role="button"]:visible, canvas:visible, label:has(input[type="file"]):visible');
         await expect(controls.first(), tool.id + ' should expose an interactive control in ' + locale).toBeVisible();
         await expect(controls).not.toHaveCount(0);
       }
