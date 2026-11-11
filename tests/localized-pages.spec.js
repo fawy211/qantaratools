@@ -459,7 +459,7 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     await page.goto(tool('uuid-generator'));
     await page.locator('#uuidCount').fill('3');
     await page.locator('#uuidGo').click();
-    const uuids = (await page.locator('#uuidOut').inputValue()).trim().split(/\\r?\\n/);
+    const uuids = (await page.locator('#uuidOut').inputValue()).trim().split(/\r?\n/);
     expect(uuids).toHaveLength(3);
     for (const uuid of uuids) expect(uuid).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i);
 
