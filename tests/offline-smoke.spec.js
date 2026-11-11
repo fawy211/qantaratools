@@ -107,21 +107,29 @@ test('offline smoke: Images to PDF uses the local jsPDF helper and downloads a P
 
 test('offline smoke: browser image editing tools process and export files without external network', async ({ page }) => {
   await blockExternalRequests(page);
+  await page.addInitScript(() => {
+    const NativeImage = window.Image;
+    window.__offlineLoadedImageCount = 0;
+    window.Image = function(...args) {
+      const image = new NativeImage(...args);
+      image.addEventListener('load', () => window.__offlineLoadedImageCount++);
+      return image;
+    };
+    window.Image.prototype = NativeImage.prototype;
+  });
   const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAIAAAB7QOjdAAAAD0lEQVR4nGP8z8DAwMAAAAYIAQHLR3Z1AAAAAElFTkSuQmCC', 'base64');
   const file = { name: 'tiny.png', mimeType: 'image/png', buffer: png };
 
   await page.goto('/tools/image-rotate-flip/', { waitUntil: 'domcontentloaded' });
   await page.locator('#f').setInputFiles(file);
-  await page.waitForFunction(() => {
-    const input = document.querySelector('#f');
-    return !!input && !!document.querySelector('#m') && input.files.length === 1;
-  });
+  await page.waitForFunction(() => window.__offlineLoadedImageCount > 0);
   const rotated = page.waitForEvent('download');
   await page.locator('#r90').click();
   expect((await rotated).suggestedFilename()).toBe('edited-image.png');
 
   await page.goto('/tools/image-cropper/', { waitUntil: 'domcontentloaded' });
   await page.locator('#cropFile').setInputFiles(file);
+  await page.waitForFunction(() => window.__offlineLoadedImageCount > 0);
   await expect.poll(() => page.locator('#cropCanvas').evaluate(canvas => canvas.width)).toBeGreaterThan(0);
   await page.locator('#cx').fill('0');
   await page.locator('#cy').fill('0');
@@ -142,6 +150,7 @@ test('offline smoke: browser image editing tools process and export files withou
 
   await page.goto('/tools/image-compressor/', { waitUntil: 'domcontentloaded' });
   await page.locator('#imgFile').setInputFiles(file);
+  await page.waitForFunction(() => window.__offlineLoadedImageCount > 0);
   await page.locator('#imgWidth').fill('1');
   await page.locator('#processImg').click();
   await expect(page.locator('#downloadImg')).toBeVisible();
