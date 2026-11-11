@@ -28,7 +28,7 @@ window.QTExternal = window.QTExternal || {
       const existing = [...document.scripts].find(script => script.src === src);
 
       if (existing) {
-        if (existing.dataset.qtLoaded === 'true' || (isReady && isReady())) {
+        if (existing.dataset.qtLoaded === 'true' || (isReady && isReady()) || performance.getEntriesByName(src).length > 0) {
           resolve();
           return;
         }
