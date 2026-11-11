@@ -121,11 +121,11 @@ for (const file of fs.readdirSync(iconWebfonts)) {
   if (fs.statSync(source).isFile()) fs.copyFileSync(source, path.join(iconDestination, 'webfonts', file));
 }
 const copiedIconCss = fs.readFileSync(path.join(iconDestination, 'css', 'all.min.css'), 'utf8');
-const copiedWebfonts = fs.readdirSync(path.join(iconDestination, 'webfonts')).filter(file => /\\.(woff2?|ttf|otf)$/i.test(file));
+const copiedWebfonts = fs.readdirSync(path.join(iconDestination, 'webfonts')).filter(file => /\.(woff2?|ttf|otf)$/i.test(file));
 if (!copiedWebfonts.length) throw new Error('Font Awesome webfont files were not copied.');
-if (!/url\\([^)]*\\.woff2?/i.test(copiedIconCss)) throw new Error('Font Awesome CSS does not reference its expected local webfonts.');
+if (!/url\([^)]*\.woff2?/i.test(copiedIconCss)) throw new Error('Font Awesome CSS does not reference its expected local webfonts.');
 if (!fs.existsSync(path.join(iconDestination, 'LICENSE'))) throw new Error('Font Awesome license file is missing.');
-for (const match of copiedIconCss.matchAll(/url\\((['"]?)([^)'"]+\\.woff2?)(?:\\?[^)'"]*)?\\1\\)/gi)) {
+for (const match of copiedIconCss.matchAll(/url\((['"]?)([^)'" ]+\.woff2?)(?:\?[^)'" ]*)?\1\)/gi)) {
   const referencedFont = path.resolve(iconDestination, 'css', match[2]);
   if (!referencedFont.startsWith(path.resolve(iconDestination, 'webfonts') + path.sep) || !fs.existsSync(referencedFont)) {
     throw new Error('Font Awesome CSS references a missing or unexpected webfont: ' + match[2]);
