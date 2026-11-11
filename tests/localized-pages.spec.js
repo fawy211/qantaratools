@@ -1053,3 +1053,40 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     await expect(page.locator('#b64Output')).toHaveValue(/^data:image/);
   });
 }
+
+
+// Remaining interactive text and productivity tools: verify actual transformed output and timer state.
+for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
+  test('Fancy text, text diff and Pomodoro timer work in ' + locale, async ({ page }) => {
+    const tool = slug => route.prefix + '/tools/' + slug + '/' + route.suffix;
+
+    await page.goto(tool('fancy-text'));
+    await page.locator('#fancyInput').fill('Hi');
+    await page.locator('#fancySearch').fill('Bold');
+    await expect(page.locator('#fancyResultsList')).toContainText('𝐇𝐢');
+    await expect(page.locator('#fancyResultCount')).toContainText('1');
+
+    await page.goto(tool('text-diff'));
+    await page.locator('#diffOriginal').fill('old\\nsame');
+    await page.locator('#diffModified').fill('new\\nsame');
+    await page.locator('#compareBtn').click();
+    await expect(page.locator('#diffOutput')).toContainText('- old');
+    await expect(page.locator('#diffOutput')).toContainText('+ new');
+    await expect(page.locator('#diffOutput')).toContainText('same');
+    const changedCount = await page.evaluate(() => window.QTI18n.formatNumber(2));
+    await expect(page.locator('#diffStats')).toContainText(changedCount);
+
+    await page.clock.install();
+    await page.goto(tool('pomodoro-timer'));
+    await expect(page.locator('#timerDisplay')).toHaveText('25:00');
+    await page.locator('#stopwatchModeTab').click();
+    await expect(page.locator('#timerDisplay')).toHaveText('00:00');
+    await page.locator('#startPauseBtn').click();
+    await page.clock.fastForward(2500);
+    await expect(page.locator('#timerDisplay')).toHaveText('00:02');
+    await page.locator('#resetBtn').click();
+    await expect(page.locator('#timerDisplay')).toHaveText('00:00');
+    await page.locator('#pomoModeTab').click();
+    await expect(page.locator('#timerDisplay')).toHaveText('25:00');
+  });
+}
