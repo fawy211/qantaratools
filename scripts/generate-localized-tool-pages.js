@@ -59,18 +59,18 @@ function renderHome(locale) {
   es:{title:'Herramientas online gratuitas para PDF, texto, imágenes y trabajo | QantaraTools',desc:'Herramientas gratuitas en el navegador para PDF, texto, imágenes, desarrollo y tareas cotidianas. Rápidas y con procesamiento local en tu dispositivo.',og:'es_ES'}
  }[locale];
  if(!meta) throw new Error('Unsupported homepage locale: '+locale);
- html=html.replace(/<html\\b[^>]*>/i,'<html dir="ltr" lang="'+locale+'">');
- html=html.replace(/<title>[^<]*<\\/title>/i,'<title>'+esc(meta.title)+'</title>');
- html=html.replace(/<meta\\b(?=[^>]*\\bname=["']description["'])[^>]*>/i,'<meta name="description" content="'+esc(meta.desc)+'"/>');
- html=html.replace(/<meta\\b(?=[^>]*\\bproperty=["']og:title["'])[^>]*>/i,'<meta property="og:title" content="'+esc(meta.title)+'"/>');
- html=html.replace(/<meta\\b(?=[^>]*\\bproperty=["']og:description["'])[^>]*>/i,'<meta property="og:description" content="'+esc(meta.desc)+'"/>');
- html=html.replace(/<meta\\b(?=[^>]*\\bproperty=["']og:locale["'])[^>]*>/i,'<meta property="og:locale" content="'+meta.og+'"/>');
- html=html.replace(/<meta\\b(?=[^>]*\\bproperty=["']og:url["'])[^>]*>/i,'<meta property="og:url" content="'+site+'/'+locale+'/" />');
- html=html.replace(/<link\\b(?=[^>]*\\brel=["']canonical["'])[^>]*>/i,'<link rel="canonical" href="'+site+'/'+locale+'/"/>');
+ html=html.replace(/<html\b[^>]*>/i,'<html dir="ltr" lang="'+locale+'">');
+ html=html.replace(/<title>[^<]*<\/title>/i,'<title>'+esc(meta.title)+'</title>');
+ html=html.replace(/<meta\b(?=[^>]*\bname=["']description["'])[^>]*>/i,'<meta name="description" content="'+esc(meta.desc)+'"/>');
+ html=html.replace(/<meta\b(?=[^>]*\bproperty=["']og:title["'])[^>]*>/i,'<meta property="og:title" content="'+esc(meta.title)+'"/>');
+ html=html.replace(/<meta\b(?=[^>]*\bproperty=["']og:description["'])[^>]*>/i,'<meta property="og:description" content="'+esc(meta.desc)+'"/>');
+ html=html.replace(/<meta\b(?=[^>]*\bproperty=["']og:locale["'])[^>]*>/i,'<meta property="og:locale" content="'+meta.og+'"/>');
+ html=html.replace(/<meta\b(?=[^>]*\bproperty=["']og:url["'])[^>]*>/i,'<meta property="og:url" content="'+site+'/'+locale+'/" />');
+ html=html.replace(/<link\b(?=[^>]*\brel=["']canonical["'])[^>]*>/i,'<link rel="canonical" href="'+site+'/'+locale+'/"/>');
  // Preserve the exact English homepage structure, features, cards, controls and footer.
  // Only route tool links and static asset paths into their root-safe localized locations.
- html=html.replace(/(href=["'])\\/tools\\//g,'$1/'+locale+'/tools/');
- html=html.replace(/((?:src|href)=["'])assets\\//g,'$1/assets/');
+ html=html.replace(/(href=["'])\/tools\//g,'$1/'+locale+'/tools/');
+ html=html.replace(/((?:src|href)=["'])assets\//g,'$1/assets/');
  return html;
 }
 
