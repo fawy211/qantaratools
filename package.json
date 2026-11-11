@@ -8,12 +8,15 @@
     "qa:report": "playwright show-report",
     "generate:tool-pages": "node scripts/generate-tool-pages.js && node scripts/generate-localized-tool-pages.js",
     "i18n:check": "node scripts/validate-locales.js",
-    "i18n:seo:check": "node scripts/validate-localized-seo.js"
+    "i18n:seo:check": "node scripts/validate-localized-seo.js",
+    "build:css": "tailwindcss -i assets/css/tailwind.input.css -o assets/css/tailwind-local.css --minify"
   },
   "dependencies": {
     "express": "^4.21.2"
   },
   "devDependencies": {
-    "@playwright/test": "^1.56.0"
+    "@playwright/test": "^1.56.0",
+    "@tailwindcss/cli": "4.1.17",
+    "tailwindcss": "4.1.17"
   }
 }
