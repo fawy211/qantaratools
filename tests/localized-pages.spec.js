@@ -616,7 +616,7 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     await expect(page.locator('#ccOut')).toContainText('rgb(255, 0, 0)');
     await expect(page.locator('#ccOut')).toContainText('hsl(0, 100%, 50%)');
     await page.locator('#ccHex').fill('not-a-color');
-    await expect(page.locator('#ccOut')).toHaveClass(/text-red-400/);
+    await expect(page.locator('#ccOut > div').first()).toHaveClass(/text-red-400/);
 
     await page.goto(tool('loan-calculator'));
     await page.locator('#loanAmount').fill('12000');
@@ -636,7 +636,7 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     expect(lorem.split(/\\s+/)).toHaveLength(90);
 
     await page.goto(tool('markdown-html'));
-    await page.locator('#mdIn').fill('# Qantara\\n\\n**Local first**');
+    await page.locator('#mdIn').fill('# Qantara\n\n**Local first**');
     await page.locator('#mdRun').click();
     const html = await page.locator('#mdOut').inputValue();
     expect(html).toContain('<h1>Qantara</h1>');
@@ -653,7 +653,7 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     await page.goto(tool('ascii-art'));
     await page.locator('#asciiInput').fill('A1');
     const art = await page.locator('#asciiOut').inputValue();
-    expect(art.split('\\n')).toHaveLength(5);
+    expect(art.split('\n')).toHaveLength(5);
     expect(art).toContain('A');
     expect(art).toContain('1');
 
@@ -665,7 +665,7 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     await expect(page.locator('#cssOutputBadge')).toContainText('linear-gradient(to right, #112233, #AABBCC)');
 
     await page.goto(tool('decision-maker'));
-    await page.locator('#rdInput').fill('Alpha\\nBeta\\nGamma');
+    await page.locator('#rdInput').fill('Alpha\nBeta\nGamma');
     await page.locator('#rdGo').click();
     await expect(page.locator('#rdOut')).toBeVisible();
     await expect(page.locator('#rdChoice')).toHaveText(/^(Alpha|Beta|Gamma)$/);
@@ -773,8 +773,10 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     await page.goto(tool('image-format'));
     await page.locator('#ifFile').setInputFiles(file);
     await expect.poll(() => page.locator('#ifPreview').evaluate(img => img.naturalWidth)).toBeGreaterThan(0);
-    const convertedDownload = page.waitForEvent('download');
     await page.locator('#ifRun').click();
+    await expect(page.locator('#ifDownload')).toBeVisible();
+    const convertedDownload = page.waitForEvent('download');
+    await page.locator('#ifDownload').click();
     expect((await convertedDownload).suggestedFilename()).toBe('converted-image.png');
 
     await page.goto(tool('image-watermark'));
@@ -1039,7 +1041,7 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     await page.locator('#fancyInput').fill('Hi');
     await page.locator('#fancySearch').fill('Bold');
     await expect(page.locator('#fancyResultsList')).toContainText('𝐇𝐢');
-    await expect(page.locator('#fancyResultCount')).toContainText('1');
+    await expect(page.locator('#fancyResultCount')).toContainText('5');
 
     await page.goto(tool('text-diff'));
     await page.locator('#diffOriginal').fill('old\nsame');
