@@ -100,6 +100,7 @@ const page = tool => {
   <link rel="stylesheet" href="/assets/css/custom.css">
   <link rel="stylesheet" href="/assets/css/theme-light.css">
   <script src="/assets/js/theme.js"></script>
+  <script src="/assets/js/language-switcher.js" defer></script>
   <script type="application/ld+json">${jsonLd}</script>
   <script>try{document.documentElement.classList.toggle('dark',localStorage.getItem('theme')!=='light');document.documentElement.dataset.identity=localStorage.getItem('visual_identity')||'electric';}catch(e){document.documentElement.classList.add('dark');}</script>
   <style>${css}</style>
