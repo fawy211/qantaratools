@@ -640,7 +640,7 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     await expect(page.locator('#ccOut')).toContainText('rgb(255, 0, 0)');
     await expect(page.locator('#ccOut')).toContainText('hsl(0, 100%, 50%)');
     await page.locator('#ccHex').fill('not-a-color');
-    await expect(page.locator('#ccOut')).toContainText(/invalid/i);
+    await expect(page.locator('#ccOut')).toHaveClass(/text-red-400/);
 
     await page.goto(tool('loan-calculator'));
     await page.locator('#loanAmount').fill('12000');
