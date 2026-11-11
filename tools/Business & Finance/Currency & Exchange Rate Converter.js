@@ -143,7 +143,7 @@ export class CurrencyConverterTool {
             "CHF", "CNY", "HKD", "SGD", "NZD", "SEK", "NOK", "DKK", "ZAR", "TRY", "INR"
         ];
 
-        const codes = Object.keys(this.rates).filter(code => /^[A-Z]{3}>/.test(code));
+        const codes = Object.keys(this.rates).filter(code => /^[A-Z]{3}$/.test(code));
         const ordered = [
             ...preferred.filter(code => codes.includes(code)),
             ...codes.filter(code => !preferred.includes(code)).sort()
