@@ -166,5 +166,22 @@ for (const [locale, expected] of Object.entries(errorLocales)) {
       buffer: Buffer.from('not an image')
     });
     await expect(page.locator('#cropStatus')).toHaveText(expected.imageLoad, { timeout: 10000 });
+
+    // Advanced image tools must surface corrupt-file failures instead of leaving rejected promises.
+    for (const slug of ['image-rotate-flip', 'image-batch', 'image-watermark']) {
+      await page.goto(tool(slug));
+      await page.locator('#f').setInputFiles({
+        name: 'broken-image.png',
+        mimeType: 'image/png',
+        buffer: Buffer.from('not an image')
+      });
+      if (slug === 'image-rotate-flip') {
+        await page.locator('#r90').click();
+      } else {
+        if (slug === 'image-watermark') await page.locator('#t').fill('Qantara');
+        await page.locator('#go').click();
+      }
+      await expect(page.locator('#m')).toHaveText(expected.imageLoad, { timeout: 10000 });
+    }
   });
 }
