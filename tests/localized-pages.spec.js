@@ -6,6 +6,7 @@ for (const locale of ['en', 'ar', 'de', 'fr', 'es']) {
     await page.goto(homePath);
     await expect(page.locator('html')).toHaveAttribute('lang', locale);
     await expect(page.locator('html')).toHaveAttribute('dir', locale === 'ar' ? 'rtl' : 'ltr');
+    await expect(page.locator('[data-qt-language-switcher]')).toBeVisible();
     if (locale === 'ar') await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'http://127.0.0.1:4173/?locale=ar');
     const toolLinks = locale === 'en' || locale === 'ar'
       ? page.locator('.tool-card a.qt-tool-permalink')
@@ -21,6 +22,7 @@ for (const locale of ['en', 'ar', 'de', 'fr', 'es']) {
         : '/' + locale + '/tools/base64/';
     await page.goto(toolPath);
     await expect(page.locator('html')).toHaveAttribute('lang', locale);
+    await expect(page.locator('[data-qt-language-switcher]')).toBeVisible();
     if (locale === 'ar') await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'http://127.0.0.1:4173/tools/base64/?locale=ar');
     await expect(page.locator('h1').first()).toBeVisible();
     const input = page.locator('#active-tool-box textarea').first();
@@ -32,12 +34,12 @@ for (const locale of ['en', 'ar', 'de', 'fr', 'es']) {
 test('language choice persists when switching from German to English and Arabic', async ({ page }) => {
   await page.goto('/de/tools/base64/');
   await expect(page.locator('html')).toHaveAttribute('lang', 'de');
-  await page.locator('[data-locale-link="en"]').click();
+  await page.locator('.qt-language-select').selectOption('en');
   await expect(page).toHaveURL(/\/tools\/base64\/$/);
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
   expect(await page.evaluate(() => localStorage.getItem('qantaratools_language_v1'))).toBe('en');
 
-  await page.locator('[data-locale-link="ar"]').click();
+  await page.locator('.qt-language-select').selectOption('ar');
   await expect(page).toHaveURL(/\/tools\/base64\/\?locale=ar$/);
   await expect(page.locator('html')).toHaveAttribute('lang', 'ar');
   await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
