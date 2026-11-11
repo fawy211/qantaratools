@@ -15,6 +15,16 @@ function validateHreflangs(html,label){
  }
  for(const code of found) if(!expectedHreflangs.includes(code)) errors.push(label+': unexpected hreflang="'+code+'"');
 }
+const englishHomePath=path.join(root,'index.html');
+if(!fs.existsSync(englishHomePath)){
+ errors.push('en/: missing English homepage');
+}else{
+ const englishHome=fs.readFileSync(englishHomePath,'utf8');
+ if(!englishHome.includes('<html lang="en"')&&!englishHome.includes('<html lang="en" ')) errors.push('en/: wrong or missing lang');
+ if(!englishHome.includes('dir="ltr"')) errors.push('en/: wrong or missing text direction');
+ if(!englishHome.includes('rel="canonical"')||!englishHome.includes('href="https://qantaratools.com/"')) errors.push('en/: wrong or missing canonical');
+ validateHreflangs(englishHome,'en/');
+}
 for(const locale of locales){
  const home=path.join(root,locale,'index.html');
  if(!fs.existsSync(home)){errors.push(locale+': missing localized homepage');continue;}
@@ -51,6 +61,7 @@ for(const tool of tools){
  if(!html.includes('qantaratools_language_v1')) errors.push('en/'+tool.id+': language persistence handler missing');
 }
 const sitemap=fs.readFileSync(path.join(root,'sitemap.xml'),'utf8');
+if(!sitemap.includes('<loc>https://qantaratools.com/</loc>')) errors.push('en/: homepage absent from sitemap');
 for(const locale of locales){
  if(!sitemap.includes('https://qantaratools.com/'+locale+'/')) errors.push(locale+': homepage absent from sitemap');
  for(const tool of tools) if(!sitemap.includes('https://qantaratools.com/'+locale+'/tools/'+tool.id+'/')) errors.push(locale+'/'+tool.id+': sitemap URL missing');
