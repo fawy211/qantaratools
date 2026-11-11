@@ -883,7 +883,8 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     await page.locator('#rxFlags').fill('gi');
     await page.locator('#rxText').fill('cat CAT dog');
     await page.locator('#rxRun').click();
-    await expect(page.locator('#rxOut')).toContainText('Found 2');
+    const foundMessage = await page.evaluate(() => window.QTI18n.t('regexFound').replace('{count}', window.QTI18n.formatNumber(2)));
+    await expect(page.locator('#rxOut')).toContainText(foundMessage);
 
     await page.goto(tool('timestamp-converter'));
     await page.locator('#tsIn').fill('0');
@@ -1009,7 +1010,7 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     await page.locator('#dupCase').check();
     await page.locator('#dupGo').click();
     await expect(page.locator('#dupOut')).toHaveValue('Apple\\nBanana');
-    await expect(page.locator('#dupStats')).toContainText('5');
+    await expect(page.locator('#dupStats')).toContainText(await page.evaluate(() => window.QTI18n.formatNumber(5)));
 
     await page.goto(tool('rtl-cleaner'));
     await page.locator('#unicodeInput').fill('A\\u200Bب\\u200F C');
