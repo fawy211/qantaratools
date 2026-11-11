@@ -56,7 +56,7 @@ jobs:
         run: |
           npm install --no-package-lock --no-audit --no-fund
           npx playwright install --with-deps chromium
-      - name: Prepare pinned local helper assets
+      - name: Build local Tailwind CSS\n        run: npm run build:css\n      - name: Verify compiled Tailwind stylesheet\n        run: test -s assets/css/tailwind-local.css\n      - name: Prepare pinned local helper assets
         run: node scripts/prepare-vendor-assets.js
       - name: Verify prepared local vendor assets
         run: |
