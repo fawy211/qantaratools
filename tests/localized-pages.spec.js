@@ -764,16 +764,28 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
   test('Image rotate, crop, format and watermark tools process files in ' + locale, async ({ page }) => {
     const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAIAAAB7QOjdAAAAD0lEQVR4nGP8z8DAwMAAAAYIAQHLR3Z1AAAAAElFTkSuQmCC', 'base64');
     const file = { name: 'tiny.png', mimeType: 'image/png', buffer: png };
+    await page.addInitScript(() => {
+      const NativeImage = window.Image;
+      window.__loadedImageCount = 0;
+      window.Image = function(...args) {
+        const image = new NativeImage(...args);
+        image.addEventListener('load', () => window.__loadedImageCount++);
+        return image;
+      };
+      window.Image.prototype = NativeImage.prototype;
+    });
     const tool = slug => route.prefix + '/tools/' + slug + '/' + route.suffix;
 
     await page.goto(tool('image-rotate-flip'));
     await page.locator('#f').setInputFiles(file);
+    await page.waitForFunction(() => window.__loadedImageCount > 0);
     const rotatedDownload = page.waitForEvent('download');
     await page.locator('#r90').click();
     expect((await rotatedDownload).suggestedFilename()).toBe('edited-image.png');
 
     await page.goto(tool('image-cropper'));
     await page.locator('#cropFile').setInputFiles(file);
+    await page.waitForFunction(() => window.__loadedImageCount > 0);
     await page.locator('#cx').fill('0');
     await page.locator('#cy').fill('0');
     await page.locator('#cw').fill('1');
@@ -785,12 +797,14 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
 
     await page.goto(tool('image-format'));
     await page.locator('#ifFile').setInputFiles(file);
+    await expect.poll(() => page.locator('#ifPreview').evaluate(img => img.naturalWidth)).toBeGreaterThan(0);
     const convertedDownload = page.waitForEvent('download');
     await page.locator('#ifRun').click();
     expect((await convertedDownload).suggestedFilename()).toBe('converted-image.png');
 
     await page.goto(tool('image-watermark'));
     await page.locator('#f').setInputFiles(file);
+    await page.waitForFunction(() => window.__loadedImageCount > 0);
     await page.locator('#t').fill('Qantara');
     const watermarkedDownload = page.waitForEvent('download');
     await page.locator('#go').click();
