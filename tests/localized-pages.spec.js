@@ -491,3 +491,53 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     await expect(page.locator('#tsOut')).toContainText('1970-01-01T00:00:00.000Z');
   });
 }
+
+
+// Additional functional regression coverage: JSON, Base64, passwords and text cleanup.
+for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
+  test('JSON, Base64, password and text cleanup tools work in ' + locale, async ({ page }) => {
+    const tool = slug => route.prefix + '/tools/' + slug + '/' + route.suffix;
+
+    await page.goto(tool('json-formatter'));
+    await page.locator('#jsonInput').fill('{"name":"Qantara","count":2}');
+    await page.locator('#formatBtn').click();
+    await expect(page.locator('#jsonOutput')).toContainText('"name": "Qantara"');
+    await expect(page.locator('#jsonStatus')).toContainText(/valid/i);
+    await page.locator('#jsonInput').fill('{"name":');
+    await page.locator('#formatBtn').click();
+    await expect(page.locator('#jsonStatus')).toContainText(/invalid/i);
+
+    await page.goto(tool('base64'));
+    await page.locator('#base64Input').fill('مرحبا Café');
+    await page.locator('#encodeBtn').click();
+    const encoded = await page.locator('#base64Output').textContent();
+    expect(encoded).toBe('2YXYsdit2KjYpyBDYWbDqQ==');
+    await page.locator('#base64Input').fill(encoded);
+    await page.locator('#decodeBtn').click();
+    await expect(page.locator('#base64Output')).toHaveText('مرحبا Café');
+
+    await page.goto(tool('password-generator'));
+    await page.locator('#pgLen').fill('24');
+    await page.locator('#pgUpper').uncheck();
+    await page.locator('#pgLower').uncheck();
+    await page.locator('#pgNums').check();
+    await page.locator('#pgSymbols').uncheck();
+    await page.locator('#pgGo').click();
+    const password = await page.locator('#pgOut').inputValue();
+    expect(password).toMatch(/^[0-9]{24}$/);
+    await expect(page.locator('#pgStrength')).toContainText('24');
+
+    await page.goto(tool('text-case'));
+    await page.locator('#caseInput').fill('hello qantara tools');
+    await page.locator('#btnUpper').click();
+    await expect(page.locator('#caseOutput')).toHaveValue('HELLO QANTARA TOOLS');
+    await page.locator('#btnSnake').click();
+    await expect(page.locator('#caseOutput')).toHaveValue('hello_qantara_tools');
+
+    await page.goto(tool('duplicate-remover'));
+    await page.locator('#dupInput').fill('Apple\napple\nBanana\nApple\n');
+    await page.locator('#dupCase').check();
+    await page.locator('#dupGo').click();
+    await expect(page.locator('#dupOut')).toHaveValue('Apple\nBanana');
+  });
+}
