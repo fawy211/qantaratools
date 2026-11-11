@@ -63,13 +63,7 @@ test('offline smoke: PDF merge uses the local pdf-lib helper and downloads a mer
     if (request.url().includes('/assets/vendor/pdf-lib/')) localHelperRequests.push(request.url());
   });
   await page.goto('/tools/pdf-merge/', { waitUntil: 'domcontentloaded' });
-  const fixtures = await page.evaluate(async () => {
-    const first = await PDFLib.PDFDocument.create();
-    first.addPage([200, 200]);
-    const second = await PDFLib.PDFDocument.create();
-    second.addPage([200, 200]);
-    return Promise.all([first.save(), second.save()].then ? [] : []);
-  }).catch(() => null);
+  await page.addScriptTag({ url: '/assets/vendor/pdf-lib/1.17.1/pdf-lib.min.js' });
   const pdfBuffers = await page.evaluate(async () => {
     const a = await PDFLib.PDFDocument.create();
     a.addPage([200, 200]);
