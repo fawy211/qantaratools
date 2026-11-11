@@ -123,7 +123,7 @@
       const size = heading[0].startsWith('# ') ? '30' : heading[0].startsWith('## ') ? '26' : '23';
       runs = '<w:r><w:rPr><w:b/><w:sz w:val="' + size + '"/></w:rPr><w:t xml:space="preserve">' + xmlEsc(heading[1]) + '</w:t></w:r>';
     } else if (bullet) {
-      ppr = '<w:pPr><w:ind w:left="360" w:hanging="180"/></w:pPr>';
+      ppr = window.QTI18n?.locale === 'ar' ? '<w:pPr><w:ind w:right="360" w:hanging="180"/></w:pPr>' : '<w:pPr><w:ind w:left="360" w:hanging="180"/></w:pPr>';
       runs = docxRunXml('• ' + bullet[1]);
     } else {
       runs = inlineDocxRuns(s);
@@ -135,7 +135,7 @@
 
   function docxTable(rows) {
     const cols = Math.max(...rows.map(r => r.length));
-    let xml = '<w:tbl><w:tblPr><w:tblBorders><w:top w:val="single" w:sz="4" w:color="CBD5E1"/><w:left w:val="single" w:sz="4" w:color="CBD5E1"/><w:bottom w:val="single" w:sz="4" w:color="CBD5E1"/><w:right w:val="single" w:sz="4" w:color="CBD5E1"/><w:insideH w:val="single" w:sz="4" w:color="CBD5E1"/><w:insideV w:val="single" w:sz="4" w:color="CBD5E1"/></w:tblBorders></w:tblPr>';
+    let xml = '<w:tbl><w:tblPr>' + (window.QTI18n?.locale === 'ar' ? '<w:bidiVisual/>' : '') + '<w:tblBorders><w:top w:val="single" w:sz="4" w:color="CBD5E1"/><w:left w:val="single" w:sz="4" w:color="CBD5E1"/><w:bottom w:val="single" w:sz="4" w:color="CBD5E1"/><w:right w:val="single" w:sz="4" w:color="CBD5E1"/><w:insideH w:val="single" w:sz="4" w:color="CBD5E1"/><w:insideV w:val="single" w:sz="4" w:color="CBD5E1"/></w:tblBorders></w:tblPr>';
     for (let ri=0; ri<rows.length; ri++) {
       xml += '<w:tr>';
       for (let ci=0; ci<cols; ci++) {
