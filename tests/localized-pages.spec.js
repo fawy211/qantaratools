@@ -6,6 +6,7 @@ for (const locale of ['en', 'ar', 'de', 'fr', 'es']) {
     await page.goto(homePath);
     await expect(page.locator('html')).toHaveAttribute('lang', locale);
     await expect(page.locator('html')).toHaveAttribute('dir', locale === 'ar' ? 'rtl' : 'ltr');
+    if (locale === 'ar') await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'http://127.0.0.1:4173/?locale=ar');
     const toolLinks = locale === 'en' || locale === 'ar'
       ? page.locator('.tool-card a.qt-tool-permalink')
       : page.locator('.qt-loc-related a');
@@ -20,6 +21,7 @@ for (const locale of ['en', 'ar', 'de', 'fr', 'es']) {
         : '/' + locale + '/tools/base64/';
     await page.goto(toolPath);
     await expect(page.locator('html')).toHaveAttribute('lang', locale);
+    if (locale === 'ar') await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'http://127.0.0.1:4173/tools/base64/?locale=ar');
     await expect(page.locator('h1').first()).toBeVisible();
     const input = page.locator('#active-tool-box textarea').first();
     await expect(input).toBeVisible({ timeout: 15000 });
