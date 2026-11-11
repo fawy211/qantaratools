@@ -84,6 +84,7 @@ if(englishHomeWithAlternates!==englishHome) fs.writeFileSync(englishHomePath,eng
 const sitemapPath=path.join(root,'sitemap.xml');
 let sitemap=fs.existsSync(sitemapPath)?fs.readFileSync(sitemapPath,'utf8'):'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>\n';
 const entries=[];
+const arabicEntries=['<url><loc>'+site+'/?locale=ar</loc></url>',...tools.map(tool=>'<url><loc>'+site+'/tools/'+tool.id+'/?locale=ar</loc></url>')];
 for(const locale of locales){
  const home=path.join(root,locale,'index.html');
  fs.mkdirSync(path.dirname(home),{recursive:true});
@@ -121,6 +122,8 @@ for(const tool of tools){
  if(withAlternates!==html){html=withAlternates;changed=true;}
  if(changed) fs.writeFileSync(p,html);
 }
-if(!sitemap.includes('/de/tools/')) sitemap=sitemap.replace('</urlset>',entries.join('\n')+'\n</urlset>');
+const allEntries=[...entries,...arabicEntries];
+const missingEntries=allEntries.filter(entry=>{const match=entry.match(/<loc>(.*?)<\/loc>/);return match&&!sitemap.includes('<loc>'+match[1]+'</loc>');});
+if(missingEntries.length) sitemap=sitemap.replace('</urlset>',missingEntries.join('\n')+'\n</urlset>');
 fs.writeFileSync(sitemapPath,sitemap);
 console.log('Generated '+(tools.length*locales.length)+' localized tool pages and updated hreflang/sitemap entries.');
