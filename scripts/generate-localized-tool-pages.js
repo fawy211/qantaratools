@@ -101,7 +101,7 @@ for(const tool of tools){
   changed=true;
  }
  const alternateTags=['en','de','fr','es'].map(code=>'<link rel="alternate" hreflang="'+code+'" href="'+site+(code==='en'?'':'/'+code)+'/tools/'+tool.id+'/">').join('\n  ')+'\n  <link rel="alternate" hreflang="ar" href="'+site+'/tools/'+tool.id+'/?locale=ar">\n  <link rel="alternate" hreflang="x-default" href="'+site+'/tools/'+tool.id+'/">';
- const normalizedAlternates=html.replace(/[\\t ]*<link\\b(?=[^>]*\\brel=["']alternate["'])[^>]*>\\s*/gi,'\n  ');
+ const normalizedAlternates=html.replace(/[\t ]*<link\b(?=[^>]*\brel=["']alternate["'])[^>]*>\s*/gi,'\n  ');
  const withAlternates=normalizedAlternates.replace(/(<link rel="canonical" href="[^"]+">)/,m=>m+'\n  '+alternateTags);
  if(withAlternates!==html){html=withAlternates;changed=true;}
  if(changed) fs.writeFileSync(p,html);
