@@ -9,11 +9,19 @@ for (const locale of ['en', 'ar', 'de', 'fr', 'es']) {
     await page.goto(homePath);
     await expect(page.locator('html')).toHaveAttribute('lang', locale);
     await expect(page.locator('html')).toHaveAttribute('dir', locale === 'ar' ? 'rtl' : 'ltr');
-    await expect(page.locator('.qt-loc-related a')).toHaveCount(50);
+    const toolLinks = locale === 'en' || locale === 'ar'
+      ? page.locator('.tool-card a.qt-tool-permalink')
+      : page.locator('.qt-loc-related a');
+    await expect(toolLinks).toHaveCount(50);
   });
 
   test(locale + ' localized Base64 page loads the working tool UI', async ({ page }) => {
-    await page.goto('/' + locale + '/tools/base64/');
+    const toolPath = locale === 'en'
+      ? '/tools/base64/'
+      : locale === 'ar'
+        ? '/tools/base64/?locale=ar'
+        : '/' + locale + '/tools/base64/';
+    await page.goto(toolPath);
     await expect(page.locator('html')).toHaveAttribute('lang', locale);
     await expect(page.locator('h1').first()).toBeVisible();
     const input = page.locator('#active-tool-box textarea').first();
