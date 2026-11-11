@@ -14,7 +14,7 @@ permissions:
 
 concurrency:
   group: localized-seo-qa-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   localized-seo:
