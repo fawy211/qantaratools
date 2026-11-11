@@ -39,7 +39,7 @@ No local WOFF/WOFF2/TTF/OTF files, `vendor` directory, or third-party license bu
 
 The registry contains 50 tools:
 - 41 marked as offline-capable.
-- 8 marked as requiring an external helper library: PDF Merge, PDF Split, PDF Optimizer, PDF Page Rotator, PDF Page Reorder, Images to PDF, Quick QR Code Generator and EXIF Data Viewer.
+- 8 marked as requiring an external helper library: five PDF document operations (Merge, Split, Optimize, Rotate and Reorder), Images to PDF, Quick QR Code Generator and EXIF Data Viewer.
 - 1 marked as requiring a daily network update: Currency & Exchange Rate Converter.
 
 Recently confirmed native tools:
