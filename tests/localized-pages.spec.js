@@ -914,3 +914,36 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     expect(password).toMatch(/[0-9]/);
   });
 }
+
+
+// Currency converter regression: currency codes must populate and conversions use the selected locale.
+for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
+  test('Currency converter lists currencies and calculates localized results in ' + locale, async ({ page }) => {
+    await page.addInitScript(() => {
+      localStorage.removeItem('qantaratools_currency_daily_rates_v2');
+      const nativeFetch = window.fetch.bind(window);
+      window.fetch = async (input, init) => {
+        if (String(input).includes('open.er-api.com/v6/latest/USD')) {
+          return new Response(JSON.stringify({
+            result: 'success',
+            time_last_update_utc: 'Wed, 11 Nov 2026 00:00:01 +0000',
+            rates: { USD: 1, EUR: 0.9, EGP: 50, GBP: 0.8, JPY: 150 }
+          }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+        }
+        return nativeFetch(input, init);
+      };
+    });
+    await page.goto(route.prefix + '/tools/currency-converter/' + route.suffix);
+    await expect(page.locator('#ccFrom option')).toHaveCount(5);
+    await expect(page.locator('#ccFrom')).toHaveValue('EGP');
+    await expect(page.locator('#ccTo')).toHaveValue('USD');
+    await page.locator('#ccAmount').fill('10');
+    await page.locator('#ccFrom').selectOption('USD');
+    await page.locator('#ccTo').selectOption('EUR');
+    await page.locator('#ccConvertBtn').click();
+    const expected = await page.evaluate(() => window.QTI18n.formatNumber(9, { minimumFractionDigits: 4, maximumFractionDigits: 4 }));
+    await expect(page.locator('#ccResultText')).toHaveText(expected + ' EUR');
+    await expect(page.locator('#ccRateInfo')).toContainText('1 USD');
+    await expect(page.locator('#ccResultArea')).toBeVisible();
+  });
+}
