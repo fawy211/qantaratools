@@ -9,7 +9,9 @@ const errorLocales = {
     prefix: '', suffix: '',
     json: 'Invalid JSON: ',
     discount: 'A discount cannot be greater than 100%.',
-    pdf: 'This does not look like a valid PDF file.'
+    pdf: 'This does not look like a valid PDF file.
+    imageLoad: "The image could not be loaded. Choose a valid image file.",
+    imageInvalid: "Please choose a valid image file.",'
   },
   ar: {
     loan: "أدخل بيانات قرض صحيحة.",
@@ -19,7 +21,9 @@ const errorLocales = {
     prefix: '', suffix: '?locale=ar',
     json: 'JSON غير صالح: ',
     discount: 'لا يمكن أن يتجاوز الخصم 100%.',
-    pdf: 'هذا الملف لا يبدو أنه ملف PDF صالح.'
+    pdf: 'هذا الملف لا يبدو أنه ملف PDF صالح.
+    imageLoad: "تعذر تحميل الصورة. اختر ملف صورة صالحًا.",
+    imageInvalid: "يرجى اختيار ملف صورة صالح.",'
   },
   de: {
     loan: "Bitte gib gültige Kreditdaten ein.",
@@ -29,7 +33,9 @@ const errorLocales = {
     prefix: '/de', suffix: '',
     json: 'Ungültiges JSON: ',
     discount: 'Ein Rabatt darf nicht höher als 100 % sein.',
-    pdf: 'Dies scheint keine gültige PDF-Datei zu sein.'
+    pdf: 'Dies scheint keine gültige PDF-Datei zu sein.
+    imageLoad: "Das Bild konnte nicht geladen werden. Wähle eine gültige Bilddatei aus.",
+    imageInvalid: "Bitte wähle eine gültige Bilddatei aus.",'
   },
   fr: {
     loan: "Veuillez saisir des informations de prêt valides.",
@@ -39,7 +45,9 @@ const errorLocales = {
     prefix: '/fr', suffix: '',
     json: 'JSON invalide : ',
     discount: 'Une remise ne peut pas dépasser 100 %.',
-    pdf: 'Ce fichier ne semble pas être un PDF valide.'
+    pdf: 'Ce fichier ne semble pas être un PDF valide.
+    imageLoad: "Impossible de charger l’image. Choisissez un fichier image valide.",
+    imageInvalid: "Veuillez choisir un fichier image valide.",'
   },
   es: {
     loan: "Introduce datos válidos del préstamo.",
@@ -50,6 +58,8 @@ const errorLocales = {
     json: 'JSON no válido: ',
     discount: 'El descuento no puede superar el 100 %.',
     pdf: 'El archivo no parece ser un PDF válido.'
+    imageLoad: "No se pudo cargar la imagen. Selecciona un archivo de imagen válido.",
+    imageInvalid: "Selecciona un archivo de imagen válido.",
   }
 };
 
@@ -133,5 +143,36 @@ for (const [locale, expected] of Object.entries(errorLocales)) {
     await page.locator('#jcJson').click();
     await expect(page.locator('#jcStatus')).toHaveText(expected.jc);
     await expect(page.locator('#jcOut')).toHaveValue('');
+
+    // Corrupt image files must be rejected with localized errors in all three image tools.
+    await page.goto(tool('image-format'));
+    await page.locator('#ifFile').setInputFiles({
+      name: 'broken-image.png',
+      mimeType: 'image/png',
+      buffer: Buffer.from('not an image')
+    });
+    await expect(page.locator('#ifStatus')).toHaveText(expected.imageLoad, { timeout: 10000 });
+    await page.locator('#ifRun').click();
+    await expect(page.locator('#ifStatus')).toHaveText(expected.imageInvalid);
+
+    await page.goto(tool('image-compressor'));
+    await page.locator('#imgFile').setInputFiles({
+      name: 'broken-image.png',
+      mimeType: 'image/png',
+      buffer: Buffer.from('not an image')
+    });
+    await expect(page.locator('#imgStats')).toHaveText(expected.imageLoad, { timeout: 10000 });
+    await page.locator('#processImg').click();
+    await expect(page.locator('#imgStats')).toHaveText(expected.imageInvalid);
+
+    await page.goto(tool('image-cropper'));
+    await page.locator('#cropFile').setInputFiles({
+      name: 'broken-image.png',
+      mimeType: 'image/png',
+      buffer: Buffer.from('not an image')
+    });
+    await expect(page.locator('#cropStatus')).toHaveText(expected.imageLoad, { timeout: 10000 });
+    await page.locator('#cropRun').click();
+    await expect(page.locator('#cropStatus')).toHaveText(expected.imageInvalid);
   });
 }
