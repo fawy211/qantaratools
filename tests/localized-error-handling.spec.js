@@ -187,3 +187,16 @@ for (const [locale, expected] of Object.entries(errorLocales)) {
     }
   });
 }
+
+
+test('changing language on an open tool preserves the tool and updates its validation messages', async ({ page }) => {
+  await page.goto('/tools/json-formatter/');
+  await expect(page.locator('#jsonInput')).toBeVisible();
+  await page.locator('.qt-language-select').selectOption('de');
+  await expect(page).toHaveURL(/\/de\/tools\/json-formatter\/$/);
+  await expect(page.locator('html')).toHaveAttribute('lang', 'de');
+  await expect(page.locator('#jsonInput')).toBeVisible();
+  await page.locator('#jsonInput').fill('{"name":');
+  await page.locator('#formatBtn').click();
+  await expect(page.locator('#jsonStatus')).toContainText('Ungültiges JSON: ');
+});
