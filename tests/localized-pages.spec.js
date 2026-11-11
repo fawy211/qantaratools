@@ -93,6 +93,8 @@ for (const [locale, expected] of Object.entries(officeLocales)) {
     const wordXml = unzipStoredEntry(wordBuffer, 'word/document.xml');
     expect(wordXml).toContain(expected.user);
     expect(wordXml).toContain(expected.assistant);
+    if (locale === 'ar') { expect(wordXml).toContain('<w:bidi/>'); expect(wordXml).toContain('<w:rtl/>'); }
+    else { expect(wordXml).not.toContain('<w:bidi/>'); }
     expect(wordXml).toContain('Keep this exact text');
     expect(wordXml).toContain('Café &amp; &lt;tag&gt; 123');
     expect(wordXml).toContain('naïve &amp; useful.');
@@ -111,6 +113,8 @@ for (const [locale, expected] of Object.entries(officeLocales)) {
     expect(sheet).toContain(expected.message);
     expect(sheet).toContain(expected.user);
     expect(sheet).toContain(expected.assistant);
+    if (locale === 'ar') expect(sheet).toContain('rightToLeft="1"');
+    else expect(sheet).not.toContain('rightToLeft="1"');
     expect(sheet).toContain('Keep this exact text');
     expect(sheet).toContain('Café &amp; &lt;tag&gt; 123');
 
