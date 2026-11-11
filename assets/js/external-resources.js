@@ -24,7 +24,11 @@ window.QTExternal = window.QTExternal || {
     if (this.loaded[src]) return this.loaded[src];
 
     const promise = new Promise((resolve, reject) => {
-      const fail = () => reject(new Error(options.error || 'The helper library could not be loaded. Please check your internet connection.'));
+      const fail = () => {
+        const failedScript = [...document.scripts].find(script => script.src === src);
+        if (failedScript && failedScript.dataset.qtLoaded !== 'true') failedScript.remove();
+        reject(new Error(options.error || 'The helper library could not be loaded. Please check your internet connection.'));
+      };
       const existing = [...document.scripts].find(script => script.src === src);
 
       if (existing) {
