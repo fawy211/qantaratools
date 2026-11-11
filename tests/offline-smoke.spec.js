@@ -136,6 +136,7 @@ test('external helper loader clears failed requests and allows a later retry', a
       body: 'window.QRCode = function QRCode() {}; window.QRCode.CorrectLevel = { H: 2 };'
     });
   });
+  await page.route('https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js', route => route.abort('internetdisconnected'));
 
   const firstError = await page.evaluate(async () => {
     try {
@@ -150,6 +151,21 @@ test('external helper loader clears failed requests and allows a later retry', a
   await page.evaluate(() => window.QTExternal.loadScript('qrCode'));
   expect(attempts).toBe(2);
   expect(await page.evaluate(() => typeof window.QRCode)).toBe('function');
+});
+
+
+test('external helper loader falls back to the CDN when the local copy fails', async ({ page }) => {
+  await page.route('**/assets/vendor/qrcodejs/1.0.0/qrcode.min.js', route => route.abort('failed'));
+  await page.route('https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js', route => route.fulfill({
+    status: 200,
+    contentType: 'application/javascript',
+    body: 'window.QRCode = function QRCode() {}; window.QRCode.CorrectLevel = { H: 2 };'
+  }));
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  await page.addScriptTag({ path: require.resolve('../assets/js/external-resources.js') });
+  await page.evaluate(() => window.QTExternal.loadScript('qrCode'));
+  expect(await page.evaluate(() => typeof window.QRCode)).toBe('function');
+  expect(page.url()).toContain('/');
 });
 
 test('offline smoke: ASCII Art generates text locally with external network blocked', async ({ page }) => {
