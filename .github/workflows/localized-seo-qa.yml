@@ -1,6 +1,7 @@
 name: Localized SEO QA
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - feature/complete-multilingual-support
