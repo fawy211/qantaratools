@@ -1,61 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://qantaratools.com/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/base64/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/color-converter/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/csv-cleaner/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/html-entity/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/json-formatter/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/uuid-generator/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/url-encoder/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/jwt-decoder/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/regex-tester/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/timestamp-converter/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/hash-generator/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/json-csv/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/sql-formatter/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/code-formatter/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/currency-converter/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/discount-calculator/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/loan-calculator/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/qr-generator/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/vat-calculator/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/pdf-merge/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/pdf-split/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/pdf-compress/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/pdf-rotate/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/pdf-reorder/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/images-pdf/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/text-pdf/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/exif-viewer/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/image-compressor/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/image-base64/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/password-generator/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/svg-to-css/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/image-format/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/image-cropper/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/image-rotate-flip/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/image-batch/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/image-watermark/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/text-case/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/word-counter/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/text-diff/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/arabic-fixer/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/duplicate-remover/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/rtl-cleaner/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/text-sorter/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/lorem-ipsum/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/markdown-html/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/ascii-art/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/gradient-generator/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/fancy-text/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/decision-maker/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://qantaratools.com/tools/pomodoro-timer/</loc><lastmod>2026-11-04</lastmod></url>
+  <url><loc>https://qantaratools.com/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/base64/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/color-converter/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/csv-cleaner/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/html-entity/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/json-formatter/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/uuid-generator/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/url-encoder/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/jwt-decoder/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/regex-tester/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/timestamp-converter/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/hash-generator/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/json-csv/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/sql-formatter/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/code-formatter/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/currency-converter/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/discount-calculator/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/loan-calculator/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/qr-generator/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/vat-calculator/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/pdf-merge/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/pdf-split/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/pdf-compress/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/pdf-rotate/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/pdf-reorder/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/images-pdf/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/text-pdf/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/exif-viewer/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/image-compressor/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/image-base64/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/password-generator/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/svg-to-css/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/image-format/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/image-cropper/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/image-rotate-flip/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/image-batch/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/image-watermark/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/text-case/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/word-counter/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/text-diff/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/arabic-fixer/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/duplicate-remover/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/rtl-cleaner/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/text-sorter/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/lorem-ipsum/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/markdown-html/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/ascii-art/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/gradient-generator/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/fancy-text/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/decision-maker/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://qantaratools.com/tools/pomodoro-timer/</loc><lastmod>2026-11-11</lastmod></url>
   <url><loc>https://qantaratools.com/about-us.html</loc></url>
   <url><loc>https://qantaratools.com/faq.html</loc></url>
   <url><loc>https://qantaratools.com/contact.html</loc></url>
   <url><loc>https://qantaratools.com/privacy.html</loc></url>
   <url><loc>https://qantaratools.com/terms.html</loc></url>
+<url><loc>https://qantaratools.com/de/</loc></url>
+<url><loc>https://qantaratools.com/fr/</loc></url>
+<url><loc>https://qantaratools.com/es/</loc></url>
 <url><loc>https://qantaratools.com/de/tools/base64/</loc></url>
 <url><loc>https://qantaratools.com/de/tools/color-converter/</loc></url>
 <url><loc>https://qantaratools.com/de/tools/csv-cleaner/</loc></url>
