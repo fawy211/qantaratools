@@ -51,7 +51,8 @@ test('offline smoke: QR code is generated from the local helper', async ({ page 
   await page.goto('/tools/qr-generator/', { waitUntil: 'domcontentloaded' });
   await page.locator('#qrText').fill('https://qantaratools.com/');
   await page.locator('#qrGo').click();
-  await expect.poll(() => page.evaluate(() => typeof window.QRCode)).toBe('function');\n  await expect.poll(() => page.locator('#qrOut canvas, #qrOut img').count()).toBeGreaterThan(0);
+  await expect.poll(() => page.evaluate(() => typeof window.QRCode)).toBe('function');
+  await expect.poll(() => page.locator('#qrOut canvas, #qrOut img').count()).toBeGreaterThan(0);
   expect(localHelperRequests.some(url => url.endsWith('/qrcode.min.js'))).toBeTruthy();
   expect(externalRequests.some(url => /cdnjs\.cloudflare\.com.*qrcode/i.test(url))).toBeFalsy();
 });
