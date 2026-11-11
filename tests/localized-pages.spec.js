@@ -757,3 +757,43 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     expect(options.correctLevel).toBe(2);
   });
 }
+
+
+// Browser-only image editing tools: verify file input, canvas output and downloads.
+for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
+  test('Image rotate, crop, format and watermark tools process files in ' + locale, async ({ page }) => {
+    const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAQAAAD8fJRsAAAADUlEQVR42mP8z8AAAAMBAQDJ/pLvAAAAAElFTkSuQmCC', 'base64');
+    const file = { name: 'tiny.png', mimeType: 'image/png', buffer: png };
+    const tool = slug => route.prefix + '/tools/' + slug + '/' + route.suffix;
+
+    await page.goto(tool('image-rotate-flip'));
+    await page.locator('#f').setInputFiles(file);
+    const rotatedDownload = page.waitForEvent('download');
+    await page.locator('#r90').click();
+    expect((await rotatedDownload).suggestedFilename()).toBe('edited-image.png');
+
+    await page.goto(tool('image-cropper'));
+    await page.locator('#cropFile').setInputFiles(file);
+    await page.locator('#cx').fill('0');
+    await page.locator('#cy').fill('0');
+    await page.locator('#cw').fill('1');
+    await page.locator('#ch').fill('1');
+    await page.locator('#cropRun').click();
+    await expect(page.locator('#cropCanvas')).toHaveJSProperty('width', 1);
+    await expect(page.locator('#cropCanvas')).toHaveJSProperty('height', 1);
+    await expect(page.locator('#cropDown')).toBeVisible();
+
+    await page.goto(tool('image-format'));
+    await page.locator('#ifFile').setInputFiles(file);
+    const convertedDownload = page.waitForEvent('download');
+    await page.locator('#ifRun').click();
+    expect((await convertedDownload).suggestedFilename()).toBe('converted-image.png');
+
+    await page.goto(tool('image-watermark'));
+    await page.locator('#f').setInputFiles(file);
+    await page.locator('#t').fill('Qantara');
+    const watermarkedDownload = page.waitForEvent('download');
+    await page.locator('#go').click();
+    expect((await watermarkedDownload).suggestedFilename()).toBe('watermarked-image.png');
+  });
+}
