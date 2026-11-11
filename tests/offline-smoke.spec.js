@@ -106,3 +106,23 @@ test('external helper loader clears failed requests and allows a later retry', a
   expect(attempts).toBe(2);
   expect(await page.evaluate(() => typeof window.QRCode)).toBe('function');
 });
+
+test('offline smoke: ASCII Art generates text locally with external network blocked', async ({ page }) => {
+  await blockExternalRequests(page);
+  await page.goto('/tools/ascii-art/', { waitUntil: 'domcontentloaded' });
+  await page.locator('#asciiInput').fill('HI');
+  await expect(page.locator('#asciiOut')).toHaveValue(/\S/);
+  const output = await page.locator('#asciiOut').inputValue();
+  expect(output.split('\\n')).toHaveLength(5);
+});
+
+test('offline smoke: Text to PDF opens a local print view with external network blocked', async ({ page }) => {
+  await blockExternalRequests(page);
+  await page.goto('/tools/text-pdf/', { waitUntil: 'domcontentloaded' });
+  await page.locator('#txt').fill('This text stays on this device.');
+  const popupPromise = page.waitForEvent('popup');
+  await page.locator('#go').click();
+  const popup = await popupPromise;
+  await expect(popup.locator('body')).toContainText('This text stays on this device.');
+  await expect(popup.locator('h1')).toHaveText('qantaratools-text');
+});
