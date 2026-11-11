@@ -15,7 +15,10 @@
 
     var path = window.location.pathname || '/';
     var prefix = path.match(/^\/(de|fr|es)(?=\/|$)/);
-    var current = prefix ? prefix[1] : (new URLSearchParams(window.location.search).get('locale') === 'ar' ? 'ar' : 'en');
+    var queryLocale = new URLSearchParams(window.location.search).get('locale');
+    var storedLocale = '';
+    try { storedLocale = localStorage.getItem('qantaratools_language_v1') || ''; } catch (_) {}
+    var current = prefix ? prefix[1] : (queryLocale === 'ar' ? 'ar' : (Object.prototype.hasOwnProperty.call(locales, storedLocale) ? storedLocale : 'en'));
     var basePath = prefix ? (path.slice(prefix[0].length) || '/') : path;
     if (!basePath.startsWith('/')) basePath = '/' + basePath;
 
