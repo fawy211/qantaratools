@@ -818,10 +818,10 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
 
     await page.goto(route.prefix + '/tools/image-batch/' + route.suffix);
     await page.locator('#f').setInputFiles([file, { ...file, name: 'tiny-2.png' }]);
-    const firstDownload = page.waitForEvent('download');
-    const secondDownload = page.waitForEvent('download');
+    const downloads = [];
+    page.on('download', download => downloads.push(download));
     await page.locator('#go').click();
-    const downloads = await Promise.all([firstDownload, secondDownload]);
+    await expect.poll(() => downloads.length).toBe(2);
     expect(downloads.map(item => item.suggestedFilename()).sort()).toEqual(['converted-1.png', 'converted-2.png']);
   });
 }
