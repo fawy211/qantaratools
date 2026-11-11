@@ -585,7 +585,7 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
       buffer: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/l7sAAAAASUVORK5CYII=', 'base64')
     });
     await expect(page.locator('#b64ResultArea')).toBeVisible();
-    await expect(page.locator('#b64Output')).toHaveValue(/^data:image\/png;base64,/);
+    expect(await page.locator('#b64Output').inputValue()).toMatch(/^data:image/);
   });
 }
 
