@@ -78,6 +78,22 @@ for (const locale of ['en', 'ar', 'de', 'fr', 'es']) {
   });
 }
 
+test('all localized homepages retain mobile controls and correct RTL alignment', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  for (const locale of ['en', 'ar', 'de', 'fr', 'es']) {
+    const homePath = locale === 'en' ? '/' : locale === 'ar' ? '/?locale=ar' : '/' + locale + '/';
+    await page.goto(homePath);
+    await expect(page.locator('.qt-language-select')).toBeVisible();
+    await expect(page.locator('[data-theme-toggle]')).toBeVisible();
+    for (const identity of ['electric', 'citrus', 'violet']) {
+      await expect(page.locator('[data-identity="' + identity + '"]')).toBeVisible();
+    }
+    const alignment = await page.locator('#tools-grid-container > div:first-child').evaluate(el => getComputedStyle(el).textAlign);
+    expect(alignment).toBe(locale === 'ar' ? 'right' : 'left');
+    await expect(page.locator('.tool-card a.qt-tool-permalink')).toHaveCount(50);
+  }
+});
+
 test('language selector remains visible and usable on mobile homepage and tool pages', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 });
   await page.goto('/');
