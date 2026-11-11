@@ -93,7 +93,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add de fr es tools sitemap.xml assets/vendor assets/fonts assets/css/tailwind-local.css
+          git add index.html de fr es tools sitemap.xml assets/vendor assets/fonts assets/css/tailwind-local.css
           if ! git diff --cached --quiet; then
             git commit -m "Generate localized SEO landing pages"
             git fetch origin "$GITHUB_REF_NAME"
