@@ -55,7 +55,7 @@ jobs:
       - name: Install browser test dependencies
         run: |
           npm install --no-package-lock --no-audit --no-fund
-          npx playwright install --with-deps chromium
+          npx playwright install chromium
       - name: Build local Tailwind CSS
         run: npm run build:css
       - name: Verify compiled Tailwind stylesheet
