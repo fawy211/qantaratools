@@ -1,5 +1,5 @@
 /* QantaraTools localization foundation.
- * The language selector stays unpublished until every page and tool is translated and reviewed.
+ * The shared language selector is provided by language-switcher.js and uses these locale definitions.
  */
 (function () {
   'use strict';
