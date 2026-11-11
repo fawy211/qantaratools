@@ -39,6 +39,10 @@ jobs:
           node --check scripts/validate-localized-pages.js
           node --check scripts/prepare-vendor-assets.js
           node --check tests/localized-error-handling.spec.js
+          node --check 'tools/Security & Media/Image Format Converter.js'
+          node --check 'tools/Security & Media/Image Compressor & Resizer.js'
+          node --check 'tools/Security & Media/Image Cropper.js'
+          node --check tools/image-advanced.js
       - name: Validate complete localized SEO records
         run: npm run i18n:seo:check
       - name: Regenerate English and localized tool pages
