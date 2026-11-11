@@ -633,7 +633,7 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     await page.locator('#liRun').click();
     const lorem = await page.locator('#liOut').inputValue();
     expect(lorem.split(/\n\s*\n/)).toHaveLength(2);
-    expect(lorem.split(/\\s+/)).toHaveLength(90);
+    expect(lorem.trim().split(/\s+/)).toHaveLength(90);
 
     await page.goto(tool('markdown-html'));
     await page.locator('#mdIn').fill('# Qantara\n\n**Local first**');
