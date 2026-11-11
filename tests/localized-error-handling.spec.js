@@ -118,19 +118,21 @@ for (const [locale, expected] of Object.entries(errorLocales)) {
     await page.goto(tool('loan-calculator'));
     await page.locator('#loanAmount').fill('0');
     const loanDialogPromise = page.waitForEvent('dialog');
-    await page.locator('#loanGo').click();
+    const loanClickPromise = page.locator('#loanGo').click();
     const loanDialog = await loanDialogPromise;
     expect(loanDialog.message()).toBe(expected.loan);
     await loanDialog.accept();
+    await loanClickPromise;
 
     // VAT calculator must reject a negative amount with a localized alert.
     await page.goto(tool('vat-calculator'));
     await page.locator('#vatAmount').fill('-1');
     const vatDialogPromise = page.waitForEvent('dialog');
-    await page.locator('#vatGo').click();
+    const vatClickPromise = page.locator('#vatGo').click();
     const vatDialog = await vatDialogPromise;
     expect(vatDialog.message()).toBe(expected.vat);
     await vatDialog.accept();
+    await vatClickPromise;
 
     // CSV cleaner must explain that a file is required before processing.
     await page.goto(tool('csv-cleaner'));
