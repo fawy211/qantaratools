@@ -1022,3 +1022,33 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     await expect(page.locator('#arabicOutput')).toHaveValue('مرحبا');
   });
 }
+
+
+// Code and media encoders should preserve input and create valid data-URI output locally.
+for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
+  test('Code formatter, SVG encoder and image Base64 converter work in ' + locale, async ({ page }) => {
+    const tool = slug => route.prefix + '/tools/' + slug + '/' + route.suffix;
+    const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAIAAAB7QOjdAAAAD0lEQVR4nGP8z8DAwMAAAAYIAQHLR3Z1AAAAAElFTkSuQmCC', 'base64');
+
+    await page.goto(tool('code-formatter'));
+    await page.locator('#cfType').selectOption({ label: 'HTML' });
+    await page.locator('#cfIn').fill('<div><span>Hello</span></div>');
+    await page.locator('#cfRun').click();
+    const formatted = await page.locator('#cfOut').inputValue();
+    expect(formatted).toContain('<div>');
+    expect(formatted).toContain('<span>Hello</span>');
+    expect(formatted).toContain('\\n');
+
+    await page.goto(tool('svg-to-css'));
+    await page.locator('#svgInput').fill('<svg xmlns="http://www.w3.org/2000/svg"><rect width="1" height="1"/></svg>');
+    await page.locator('#convertSvgBtn').click();
+    const css = await page.locator('#svgCssOutput').inputValue();
+    expect(css).toContain('background-image: url("data:image/svg+xml');
+    expect(css).toContain('%3Csvg');
+
+    await page.goto(tool('image-base64'));
+    await page.locator('#b64FileInput').setInputFiles({ name: 'tiny.png', mimeType: 'image/png', buffer: png });
+    await expect(page.locator('#b64ResultArea')).toBeVisible();
+    await expect(page.locator('#b64Output')).toHaveValue(/^data:image\\/png;base64,/);
+  });
+}
