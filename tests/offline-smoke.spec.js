@@ -188,6 +188,45 @@ test('offline smoke: Text to PDF opens a local print view with external network 
   await expect(popup.locator('h1')).toHaveText('qantaratools-text');
 });
 
+
+test('Font Awesome prefers the local stylesheet and does not request the CDN', async ({ page }) => {
+  const requests = [];
+  await page.route('**/assets/vendor/fontawesome/6.4.0/css/all.min.css', async route => {
+    requests.push('local');
+    await route.fulfill({ status: 200, contentType: 'text/css', body: '.fa-test{display:inline-block}' });
+  });
+  await page.route('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css', async route => {
+    requests.push('cdn');
+    await route.abort('internetdisconnected');
+  });
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  await expect.poll(() => page.evaluate(() => !!document.querySelector('link[data-qt-fontawesome="local"]'))).toBeTruthy();
+  await expect.poll(() => page.evaluate(() => {
+    const link = document.querySelector('link[data-qt-fontawesome="local"]');
+    return link && link.sheet ? 'loaded' : 'pending';
+  })).toBe('loaded');
+  expect(requests).toEqual(['local']);
+});
+
+test('Font Awesome falls back to CDN when its local stylesheet fails', async ({ page }) => {
+  const requests = [];
+  await page.route('**/assets/vendor/fontawesome/6.4.0/css/all.min.css', async route => {
+    requests.push('local');
+    await route.abort('failed');
+  });
+  await page.route('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css', async route => {
+    requests.push('cdn');
+    await route.fulfill({ status: 200, contentType: 'text/css', body: '.fa-test{display:inline-block}' });
+  });
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  await expect.poll(() => page.evaluate(() => !!document.querySelector('link[data-qt-fontawesome="cdn-fallback"]'))).toBeTruthy();
+  await expect.poll(() => page.evaluate(() => {
+    const link = document.querySelector('link[data-qt-fontawesome="cdn-fallback"]');
+    return link && link.sheet ? 'loaded' : 'pending';
+  })).toBe('loaded');
+  expect(requests).toEqual(['local', 'cdn']);
+});
+
 test('offline smoke: Outfit and IBM Plex Sans Arabic load from local font assets', async ({ page }) => {
   await blockExternalRequests(page);
   await page.goto('/', { waitUntil: 'domcontentloaded' });
