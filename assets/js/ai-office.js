@@ -129,6 +129,7 @@
       runs = inlineDocxRuns(s);
     }
     if (opts.spaceBefore) ppr = '<w:pPr><w:spacing w:before="' + opts.spaceBefore + '"/></w:pPr>';
+    if (window.QTI18n?.locale === 'ar') ppr = ppr ? ppr.replace('<w:pPr>', '<w:pPr><w:bidi/>') : '<w:pPr><w:bidi/></w:pPr>';
     return '<w:p>' + ppr + runs + '</w:p>';
   }
 
@@ -140,7 +141,7 @@
       for (let ci=0; ci<cols; ci++) {
         const value = rows[ri][ci] ?? '';
         xml += '<w:tc><w:tcPr><w:tcW w:w="2400" w:type="dxa"/></w:tcPr>';
-        xml += '<w:p>' + (ri === 0 ? '<w:r><w:rPr><w:b/></w:rPr><w:t xml:space="preserve">' + xmlEsc(value || ' ') + '</w:t></w:r>' : inlineDocxRuns(value)) + '</w:p></w:tc>';
+        xml += '<w:p>' + (window.QTI18n?.locale === 'ar' ? '<w:pPr><w:bidi/></w:pPr>' : '') + (ri === 0 ? '<w:r><w:rPr><w:b/></w:rPr><w:t xml:space="preserve">' + xmlEsc(value || ' ') + '</w:t></w:r>' : inlineDocxRuns(value)) + '</w:p></w:tc>';
       }
       xml += '</w:tr>';
     }
@@ -171,7 +172,7 @@
     let body = '<w:p><w:pPr><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="34"/></w:rPr><w:t>' + xmlEsc(title) + '</w:t></w:r></w:p>';
     body += '<w:p><w:pPr><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:color w:val="64748B"/></w:rPr><w:t>' + xmlEsc(tr('aiCreatedLocally', 'Created locally on your device')) + '</w:t></w:r></w:p>';
     for (const m of arr) {
-      body += '<w:p><w:pPr><w:spacing w:before="260" w:after="100"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="24"/><w:color w:val="2563EB"/></w:rPr><w:t>' + xmlEsc(localizedRole(m.role)) + '</w:t></w:r></w:p>';
+      body += '<w:p><w:pPr>' + (window.QTI18n?.locale === 'ar' ? '<w:bidi/><w:jc w:val="right"/>' : '') + '<w:spacing w:before="260" w:after="100"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="24"/><w:color w:val="2563EB"/></w:rPr><w:t>' + xmlEsc(localizedRole(m.role)) + '</w:t></w:r></w:p>';
       body += contentXml(m.content);
     }
     return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>' + body + '<w:sectPr><w:pgSz w:w="12240" w:h="15840"/><w:pgMar w:top="900" w:right="1080" w:bottom="900" w:left="1080"/></w:sectPr></w:body></w:document>';
