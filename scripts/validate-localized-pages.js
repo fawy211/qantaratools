@@ -69,4 +69,4 @@ for(const locale of locales){
  for(const tool of tools) if(!sitemap.includes('https://qantaratools.com/'+locale+'/tools/'+tool.id+'/')) errors.push(locale+'/'+tool.id+': sitemap URL missing');
 }
 if(errors.length){console.error('Localized page validation failed:\n'+errors.slice(0,50).map(x=>'- '+x).join('\n'));process.exitCode=1;}
-else console.log('Localized page validation passed: 3 homepages, '+(tools.length*3)+' translated tool pages, '+tools.length+' English hreflang sets, and sitemap entries.');
+else console.log('Localized page validation passed: English and Arabic homepages, 3 translated homepages, '+(tools.length*3)+' translated tool pages, '+tools.length+' English hreflang sets, and Arabic sitemap entries.');
