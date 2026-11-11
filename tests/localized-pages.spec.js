@@ -811,3 +811,40 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     expect((await watermarkedDownload).suggestedFilename()).toBe('watermarked-image.png');
   });
 }
+
+
+// Image compression and batch conversion must produce downloadable local results.
+for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
+  test('Image compressor and batch converter work in ' + locale, async ({ page }) => {
+    const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAIAAAB7QOjdAAAAD0lEQVR4nGP8z8DAwMAAAAYIAQHLR3Z1AAAAAElFTkSuQmCC', 'base64');
+    const file = { name: 'tiny.png', mimeType: 'image/png', buffer: png };
+    await page.addInitScript(() => {
+      const NativeImage = window.Image;
+      window.__loadedImageCount = 0;
+      window.Image = function(...args) {
+        const image = new NativeImage(...args);
+        image.addEventListener('load', () => window.__loadedImageCount++);
+        return image;
+      };
+      window.Image.prototype = NativeImage.prototype;
+    });
+
+    await page.goto(route.prefix + '/tools/image-compressor/' + route.suffix);
+    await page.locator('#imgFile').setInputFiles(file);
+    await page.waitForFunction(() => window.__loadedImageCount > 0);
+    await page.locator('#imgWidth').fill('1');
+    await page.locator('#processImg').click();
+    await expect(page.locator('#downloadImg')).toBeVisible();
+    const compressedDownload = page.waitForEvent('download');
+    await page.locator('#downloadImg').click();
+    expect((await compressedDownload).suggestedFilename()).toBe('compressed-tiny.jpg');
+
+    await page.goto(route.prefix + '/tools/image-batch/' + route.suffix);
+    await page.locator('#f').setInputFiles([file, { ...file, name: 'tiny-2.png' }]);
+    const firstDownload = page.waitForEvent('download');
+    const secondDownload = page.waitForEvent('download');
+    await page.locator('#go').click();
+    const downloads = await Promise.all([firstDownload, secondDownload]);
+    expect(downloads.map(item => item.suggestedFilename()).sort()).toEqual(['converted-1.png', 'converted-2.png']);
+  });
+}
