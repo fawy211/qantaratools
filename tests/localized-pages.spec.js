@@ -990,3 +990,35 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     await expect(page.locator('#dcOut')).toBeVisible();
   });
 }
+
+
+// Text normalization tools must preserve meaningful content and remove only selected characters.
+for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
+  test('Text case, duplicate, RTL cleaner and Arabic fixer work in ' + locale, async ({ page }) => {
+    const tool = slug => route.prefix + '/tools/' + slug + '/' + route.suffix;
+
+    await page.goto(tool('text-case'));
+    await page.locator('#caseInput').fill('Hello World 2026');
+    await page.locator('#btnKebab').click();
+    await expect(page.locator('#caseOutput')).toHaveValue('hello-world-2026');
+    await page.locator('#btnUpper').click();
+    await expect(page.locator('#caseOutput')).toHaveValue('HELLO WORLD 2026');
+
+    await page.goto(tool('duplicate-remover'));
+    await page.locator('#dupInput').fill('Apple\\napple\\nBanana\\n\\nApple');
+    await page.locator('#dupCase').check();
+    await page.locator('#dupGo').click();
+    await expect(page.locator('#dupOut')).toHaveValue('Apple\\nBanana');
+    await expect(page.locator('#dupStats')).toContainText('5');
+
+    await page.goto(tool('rtl-cleaner'));
+    await page.locator('#unicodeInput').fill('A\\u200Bب\\u200F C');
+    await page.locator('#cleanUnicodeBtn').click();
+    await expect(page.locator('#unicodeOutput')).toHaveValue('Aب C');
+
+    await page.goto(tool('arabic-fixer'));
+    await page.locator('#arabicInput').fill('Ù…Ø±Ø­Ø¨Ø§');
+    await page.locator('#fixArabicBtn').click();
+    await expect(page.locator('#arabicOutput')).toHaveValue('مرحبا');
+  });
+}
