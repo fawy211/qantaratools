@@ -73,3 +73,36 @@ test('offline smoke: EXIF helper fails gracefully rather than freezing the tool'
   await expect(page.locator('#exifOut')).toBeVisible();
   await expect(page.locator('#exifOut')).toContainText(/could not be loaded|internet connection|not available/i);
 });
+
+
+test('external helper loader clears failed requests and allows a later retry', async ({ page }) => {
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  await page.addScriptTag({ path: require.resolve('../assets/js/external-resources.js') });
+  let attempts = 0;
+  await page.route('https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js', async route => {
+    attempts += 1;
+    if (attempts === 1) {
+      await route.abort('internetdisconnected');
+      return;
+    }
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/javascript',
+      body: 'window.QRCode = function QRCode() {}; window.QRCode.CorrectLevel = { H: 2 };'
+    });
+  });
+
+  const firstError = await page.evaluate(async () => {
+    try {
+      await window.QTExternal.loadScript('qrCode', { error: 'Offline test: helper unavailable.' });
+      return '';
+    } catch (error) {
+      return error.message;
+    }
+  });
+  expect(firstError).toBe('Offline test: helper unavailable.');
+
+  await page.evaluate(() => window.QTExternal.loadScript('qrCode'));
+  expect(attempts).toBe(2);
+  expect(await page.evaluate(() => typeof window.QRCode)).toBe('function');
+});
