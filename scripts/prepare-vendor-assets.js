@@ -80,4 +80,26 @@ for (const item of packages) {
   process.stdout.write('Prepared ' + item.name + '@' + item.version + ': ' + relativeAsset + ' (license: ' + relativeLicense + ')\\n');
 }
 
+const googleFontsCommit = '5bb28733cec313b63fbd415b574b5ae35c8aa8b8';
+const fontFiles = [
+  ['ofl/outfit/Outfit[wght].ttf', 'assets/fonts/outfit/Outfit-Variable.ttf'],
+  ['ofl/outfit/OFL.txt', 'assets/fonts/outfit/OFL.txt'],
+  ['ofl/ibmplexsansarabic/IBMPlexSansArabic-Regular.ttf', 'assets/fonts/ibm-plex-sans-arabic/IBMPlexSansArabic-Regular.ttf'],
+  ['ofl/ibmplexsansarabic/IBMPlexSansArabic-Medium.ttf', 'assets/fonts/ibm-plex-sans-arabic/IBMPlexSansArabic-Medium.ttf'],
+  ['ofl/ibmplexsansarabic/IBMPlexSansArabic-SemiBold.ttf', 'assets/fonts/ibm-plex-sans-arabic/IBMPlexSansArabic-SemiBold.ttf'],
+  ['ofl/ibmplexsansarabic/IBMPlexSansArabic-Bold.ttf', 'assets/fonts/ibm-plex-sans-arabic/IBMPlexSansArabic-Bold.ttf'],
+  ['ofl/ibmplexsansarabic/OFL.txt', 'assets/fonts/ibm-plex-sans-arabic/OFL.txt']
+];
+
+for (const [source, destination] of fontFiles) {
+  const output = path.join(root, destination);
+  fs.mkdirSync(path.dirname(output), { recursive: true });
+  const url = 'https://raw.githubusercontent.com/google/fonts/' + googleFontsCommit + '/' + encodeURI(source);
+  const download = spawnSync('curl', ['--location', '--fail', '--silent', '--show-error', url, '--output', output], { cwd: root, stdio: 'inherit' });
+  if (download.status !== 0 || !fs.existsSync(output) || fs.statSync(output).size < 100) {
+    throw new Error('Could not download pinned font asset: ' + source);
+  }
+  process.stdout.write('Prepared font asset: ' + destination + '\\n');
+}
+
 process.stdout.write('Vendor preparation complete. Runtime URLs were not changed.\\n');
