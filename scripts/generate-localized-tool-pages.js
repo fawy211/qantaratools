@@ -70,15 +70,15 @@ function renderHome(locale) {
 const englishHomePath=path.join(root,'index.html');
 if(!fs.existsSync(englishHomePath)) throw new Error('English homepage is missing: index.html');
 let englishHome=fs.readFileSync(englishHomePath,'utf8');
-const homeCanonical=/<link\\b(?=[^>]*\\brel=["']canonical["'])[^>]*>/i;
+const homeCanonical=/<link\b(?=[^>]*\brel=["']canonical["'])[^>]*>/i;
 if(!homeCanonical.test(englishHome)) throw new Error('English homepage is missing its canonical link.');
 const homeAlternates=[
  ...['en','de','fr','es'].map(code=>'<link rel="alternate" hreflang="'+code+'" href="'+site+(code==='en'?'':'/'+code)+'/">'),
  '<link rel="alternate" hreflang="ar" href="'+site+'/?locale=ar">',
  '<link rel="alternate" hreflang="x-default" href="'+site+'/">'
-].join('\\n  ');
-const englishHomeWithoutAlternates=englishHome.replace(/[\\t ]*<link\\b(?=[^>]*\\brel=["']alternate["'])[^>]*>\\s*/gi,'\\n  ');
-const englishHomeWithAlternates=englishHomeWithoutAlternates.replace(homeCanonical,match=>match+'\\n  '+homeAlternates);
+].join('\n  ');
+const englishHomeWithoutAlternates=englishHome.replace(/[\t ]*<link\b(?=[^>]*\brel=["']alternate["'])[^>]*>\s*/gi,'\n  ');
+const englishHomeWithAlternates=englishHomeWithoutAlternates.replace(homeCanonical,match=>match+'\n  '+homeAlternates);
 if(englishHomeWithAlternates!==englishHome) fs.writeFileSync(englishHomePath,englishHomeWithAlternates);
 
 const sitemapPath=path.join(root,'sitemap.xml');
