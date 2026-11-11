@@ -113,7 +113,7 @@ test('offline smoke: ASCII Art generates text locally with external network bloc
   await page.locator('#asciiInput').fill('HI');
   await expect(page.locator('#asciiOut')).toHaveValue(/\S/);
   const output = await page.locator('#asciiOut').inputValue();
-  expect(output.split('\\n')).toHaveLength(5);
+  expect(output.split('\n')).toHaveLength(5);
 });
 
 test('offline smoke: Text to PDF opens a local print view with external network blocked', async ({ page }) => {
