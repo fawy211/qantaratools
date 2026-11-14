@@ -94,3 +94,56 @@ test('localized legal and information pages remain usable on a narrow mobile vie
     }
   }
 });
+
+test('all information and legal pages have working canonical routes and localized navigation', async ({ page }) => {
+  const expectedTitles = {
+    en: ['About Us', 'Contact Us', 'Frequently Asked Questions', 'Privacy Policy', 'Terms of Service'],
+    ar: ['من نحن', 'اتصل بنا', 'الأسئلة الشائعة', 'سياسة الخصوصية', 'شروط الاستخدام'],
+    de: ['Über QantaraTools', 'Kontakt', 'Häufig gestellte Fragen', 'Datenschutzerklärung', 'Nutzungsbedingungen'],
+    fr: ['À propos de QantaraTools', 'Contact', 'Foire aux questions', 'Politique de confidentialité', 'Conditions d’utilisation'],
+    es: ['Acerca de QantaraTools', 'Contacto', 'Preguntas frecuentes', 'Política de privacidad', 'Términos del servicio']
+  };
+  for (const locale of locales) {
+    for (let i = 0; i < slugs.length; i++) {
+      const response = await page.goto(pagePath(locale, slugs[i]));
+      expect(response && response.status(), locale + '/' + slugs[i] + ' HTTP response').toBe(200);
+      await expect(page.locator('h1').first()).toBeVisible();
+      await expect(page.locator('body')).toContainText(expectedTitles[locale][i]);
+      const canonical = await page.locator('link[rel="canonical"]').getAttribute('href');
+      if (locale === 'de' || locale === 'fr' || locale === 'es') {
+        expect(canonical).toBe('https://www.qantaratools.com/' + locale + '/' + slugs[i] + '/');
+      } else if (locale === 'en') {
+        expect(canonical).toBe('https://www.qantaratools.com/' + slugs[i] + '.html');
+      }
+      const links = page.locator('header a');
+      await expect(links.filter({ hasText: /FAQ|الأسئلة الشائعة|Häufig gestellte Fragen|Foire aux questions|Preguntas frecuentes/ }).first()).toBeVisible();
+      await expect(links.filter({ hasText: /Contact|اتصل بنا|Kontakt|Contacto/ }).first()).toBeVisible();
+    }
+  }
+});
+
+test('language switching works in both directions for every static page', async ({ page }) => {
+  for (const slug of slugs) {
+    await page.goto('/' + slug + '.html');
+    await page.locator('.qt-language-select').selectOption('de');
+    await expect(page).toHaveURL(new RegExp('/de/' + slug + '/$'));
+    await expect(page.locator('html')).toHaveAttribute('lang', 'de');
+
+    await page.locator('.qt-language-select').selectOption('fr');
+    await expect(page).toHaveURL(new RegExp('/fr/' + slug + '/$'));
+    await expect(page.locator('html')).toHaveAttribute('lang', 'fr');
+
+    await page.locator('.qt-language-select').selectOption('es');
+    await expect(page).toHaveURL(new RegExp('/es/' + slug + '/$'));
+    await expect(page.locator('html')).toHaveAttribute('lang', 'es');
+
+    await page.locator('.qt-language-select').selectOption('ar');
+    await expect(page).toHaveURL(new RegExp('/' + slug + '\\.html\\?locale=ar$'));
+    await expect(page.locator('html')).toHaveAttribute('lang', 'ar');
+    await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
+
+    await page.locator('.qt-language-select').selectOption('en');
+    await expect(page).toHaveURL(new RegExp('/' + slug + '\\.html$'));
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+  }
+});
