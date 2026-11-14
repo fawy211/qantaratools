@@ -22,6 +22,14 @@ for (const locale of locales) {
 
       const theme = page.locator('[data-theme-toggle]').first();
       await expect(theme).toBeVisible();
+      const themeLabels = {
+        en: ['Switch to light mode', 'Switch to dark mode'],
+        ar: ['التبديل إلى الوضع الفاتح', 'التبديل إلى الوضع الداكن'],
+        de: ['Zum hellen Modus wechseln', 'Zum dunklen Modus wechseln'],
+        fr: ['Passer au mode clair', 'Passer au mode sombre'],
+        es: ['Cambiar al modo claro', 'Cambiar al modo oscuro']
+      };
+      await expect(theme).toHaveAttribute('aria-label', new RegExp(themeLabels[locale].join('|')));
       await expect(page.locator('h1').first()).toBeVisible();
       await expect(page.locator('main').first()).toBeVisible();
       await expect(page.locator('link[rel="stylesheet"][href*="theme-light.css"]')).toHaveCount(1);
