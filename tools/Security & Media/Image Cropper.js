@@ -1,87 +1,49 @@
 export class ImageCropperTool {
   constructor(id) {
-    this.c = document.getElementById(id);
-    this.t = (key, fallback) => window.QTI18n?.t(key, fallback) || fallback;
+    this.root = document.getElementById(id);
+    this.locale = window.QTI18n?.locale || document.documentElement.lang || 'en';
+    this.messages = {
+      en:{title:'Image Cropper',intro:'Choose an image from your device. Adjust the crop directly on the preview, then download the result.',upload:'Choose image',hint:'Your image stays on your device. It is not uploaded.',aspect:'Aspect ratio',free:'Free',square:'Square · 1:1',four:'4:3',sixteen:'16:9',three:'3:2',rotate:'Rotate 90°',out:'Zoom out',in:'Zoom in',reset:'Reset crop',crop:'Crop image',preview:'Cropped preview',format:'Output format',download:'Download cropped image',empty:'Choose an image to start cropping.',ready:'Image ready. Drag inside the frame to move it, or drag a corner to resize.',invalid:'Please choose a valid image file.',loadError:'This image could not be opened. Try another file.',selectError:'Select a crop area inside the image first.',success:'Crop ready to download.',processing:'Preparing your cropped image…',instructions:'Drag on the image to draw a crop area. Drag inside it to move; drag the bottom-right handle to resize.',resetDone:'Crop selection reset.'},
+      ar:{title:'قص الصور',intro:'اختر صورة من جهازك. حدّد منطقة القص مباشرة فوق المعاينة، ثم نزّل النتيجة.',upload:'اختيار صورة',hint:'تظل صورتك على جهازك ولا يتم رفعها إلى الموقع.',aspect:'نسبة الأبعاد',free:'حر',square:'مربع · 1:1',four:'4:3',sixteen:'16:9',three:'3:2',rotate:'تدوير 90°',out:'تصغير',in:'تكبير',reset:'إعادة ضبط القص',crop:'قص الصورة',preview:'معاينة الصورة بعد القص',format:'صيغة الملف',download:'تنزيل الصورة بعد القص',empty:'اختر صورة لبدء القص.',ready:'الصورة جاهزة. اسحب داخل الإطار لتحريكه، أو اسحب إحدى الزوايا لتغيير حجمه.',invalid:'يرجى اختيار ملف صورة صالح.',loadError:'تعذر فتح هذه الصورة. جرّب صورة أخرى.',selectError:'حدد منطقة قص داخل الصورة أولًا.',success:'الصورة المقصوصة جاهزة للتنزيل.',processing:'جارٍ تجهيز الصورة المقصوصة…',instructions:'اسحب فوق الصورة لتحديد منطقة القص. اسحب داخلها لتحريكها، أو اسحب مقبض الزاوية لتغيير حجمها.',resetDone:'تمت إعادة ضبط منطقة القص.'},
+      de:{title:'Bild zuschneiden',intro:'Wähle ein Bild von deinem Gerät. Passe den Ausschnitt direkt in der Vorschau an und lade das Ergebnis herunter.',upload:'Bild auswählen',hint:'Dein Bild bleibt auf deinem Gerät und wird nicht hochgeladen.',aspect:'Seitenverhältnis',free:'Frei',square:'Quadrat · 1:1',four:'4:3',sixteen:'16:9',three:'3:2',rotate:'90° drehen',out:'Verkleinern',in:'Vergrößern',reset:'Zuschnitt zurücksetzen',crop:'Bild zuschneiden',preview:'Zuschnitt-Vorschau',format:'Ausgabeformat',download:'Zugeschnittenes Bild herunterladen',empty:'Wähle ein Bild, um zu beginnen.',ready:'Bild bereit. Ziehe im Rahmen, um ihn zu verschieben, oder ziehe an einer Ecke, um ihn zu ändern.',invalid:'Bitte wähle eine gültige Bilddatei aus.',loadError:'Dieses Bild konnte nicht geöffnet werden. Versuche eine andere Datei.',selectError:'Wähle zuerst einen Zuschnittbereich innerhalb des Bildes aus.',success:'Der Zuschnitt kann heruntergeladen werden.',processing:'Der Bildausschnitt wird vorbereitet…',instructions:'Ziehe auf dem Bild, um einen Ausschnitt zu zeichnen. Ziehe innen zum Verschieben oder an der Ecke zum Ändern der Größe.',resetDone:'Der Zuschnitt wurde zurückgesetzt.'},
+      fr:{title:'Rogner une image',intro:'Choisissez une image sur votre appareil. Ajustez le cadre directement sur l’aperçu, puis téléchargez le résultat.',upload:'Choisir une image',hint:'Votre image reste sur votre appareil. Elle n’est pas envoyée sur un serveur.',aspect:'比例 des dimensions',free:'Libre',square:'Carré · 1:1',four:'4:3',sixteen:'16:9',three:'3:2',rotate:'Pivoter de 90°',out:'Zoom arrière',in:'Zoom avant',reset:'Réinitialiser le cadrage',crop:'Rogner l’image',preview:'Aperçu de l’image rognée',format:'Format de sortie',download:'Télécharger l’image rognée',empty:'Choisissez une image pour commencer.',ready:'Image prête. Faites glisser dans le cadre pour le déplacer ou sur un coin pour le redimensionner.',invalid:'Veuillez choisir un fichier image valide.',loadError:'Impossible d’ouvrir cette image. Essayez un autre fichier.',selectError:'Sélectionnez d’abord une zone de rognage dans l’image.',success:'L’image rognée est prête à être téléchargée.',processing:'Préparation de l’image rognée…',instructions:'Faites glisser sur l’image pour tracer la zone. Faites glisser à l’intérieur pour la déplacer ou sur la poignée d’angle pour la redimensionner.',resetDone:'Le cadrage a été réinitialisé.'},
+      es:{title:'Recortar imagen',intro:'Elige una imagen de tu dispositivo. Ajusta el recorte directamente en la vista previa y descarga el resultado.',upload:'Elegir imagen',hint:'La imagen permanece en tu dispositivo. No se sube a ningún servidor.',aspect:'Relación de aspecto',free:'Libre',square:'Cuadrado · 1:1',four:'4:3',sixteen:'16:9',three:'3:2',rotate:'Girar 90°',out:'Alejar',in:'Acercar',reset:'Restablecer recorte',crop:'Recortar imagen',preview:'Vista previa recortada',format:'Formato de salida',download:'Descargar imagen recortada',empty:'Elige una imagen para empezar.',ready:'Imagen lista. Arrastra dentro del marco para moverlo o desde una esquina para cambiar su tamaño.',invalid:'Elige un archivo de imagen válido.',loadError:'No se pudo abrir esta imagen. Prueba con otro archivo.',selectError:'Primero selecciona un área de recorte dentro de la imagen.',success:'La imagen recortada está lista para descargar.',processing:'Preparando la imagen recortada…',instructions:'Arrastra sobre la imagen para dibujar el área. Arrastra dentro para moverla o desde la esquina para cambiar su tamaño.',resetDone:'Se ha restablecido el área de recorte.'}
+    };
+    this.m = this.messages[this.locale] || this.messages.en;
+    this.source = null; this.selection = null; this.aspect = null; this.zoom = 1; this.fit = 1; this.drag = null; this.outputUrl = null;
     this.init();
   }
-
-  init() {
-    this.c.innerHTML = `<div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 space-y-4">
-      <h2 class="text-lg font-semibold text-white">${this.t('cropTitle','Image Cropper')}</h2>
-      <p class="text-xs text-gray-400">${this.t('cropDesc','Crop an image using a simple local canvas editor.')}</p>
-      <input id="cropFile" type="file" accept="image/*" class="w-full text-sm text-gray-300">
-      <div class="grid md:grid-cols-4 gap-2">
-        <input id="cx" type="number" min="0" value="0" placeholder="X" class="bg-gray-950 border border-gray-800 rounded-lg p-2 text-gray-100">
-        <input id="cy" type="number" min="0" value="0" placeholder="Y" class="bg-gray-950 border border-gray-800 rounded-lg p-2 text-gray-100">
-        <input id="cw" type="number" min="1" value="300" placeholder="${this.t('width','Width')}" class="bg-gray-950 border border-gray-800 rounded-lg p-2 text-gray-100">
-        <input id="ch" type="number" min="1" value="300" placeholder="${this.t('height','Height')}" class="bg-gray-950 border border-gray-800 rounded-lg p-2 text-gray-100">
-      </div>
-      <button id="cropRun" class="bg-indigo-600 text-white px-4 py-2 rounded-lg">${this.t('cropPreview','Crop & Preview')}</button>
-      <canvas id="cropCanvas" class="max-w-full rounded-xl border border-gray-800"></canvas>
-      <a id="cropDown" class="hidden bg-gray-800 text-gray-200 px-4 py-2 rounded-lg inline-block">${this.t('downloadCropped','Download cropped image')}</a>
-      <div id="cropStatus" class="text-xs text-gray-400" role="status" aria-live="polite"></div>
-    </div>`;
-
-    const fileInput = document.getElementById('cropFile');
-    const canvas = document.getElementById('cropCanvas');
-    const download = document.getElementById('cropDown');
-    const status = document.getElementById('cropStatus');
-    let file = null;
-    let image = new Image();
-    let sourceUrl = null;
-    const error = key => { status.textContent = this.t(key, key); download.classList.add('hidden'); };
-
-    fileInput.onchange = event => {
-      file = event.target.files?.[0] || null;
-      image = new Image();
-      download.classList.add('hidden');
-      status.textContent = '';
-      if (sourceUrl) URL.revokeObjectURL(sourceUrl);
-      if (!file) return;
-      if ((file.type && !file.type.startsWith('image/')) || !file.size) {
-        file = null;
-        error('imageInvalidFile');
-        return;
-      }
-      image.onerror = () => error('imageLoadFailed');
-      image.onload = () => { status.textContent = ''; };
-      sourceUrl = URL.createObjectURL(file);
-      image.src = sourceUrl;
-    };
-
-    document.getElementById('cropRun').onclick = () => {
-      if (!file) { error('imageInvalidFile'); return; }
-      if (!image.complete || !image.naturalWidth || !image.naturalHeight) { error('imageLoadFailed'); return; }
-      const x = Number(document.getElementById('cx').value);
-      const y = Number(document.getElementById('cy').value);
-      const requestedWidth = Number(document.getElementById('cw').value);
-      const requestedHeight = Number(document.getElementById('ch').value);
-      if (![x, y, requestedWidth, requestedHeight].every(Number.isFinite) || x < 0 || y < 0 || requestedWidth <= 0 || requestedHeight <= 0 || x >= image.naturalWidth || y >= image.naturalHeight) {
-        error('imageCropInvalid');
-        return;
-      }
-      const width = Math.min(requestedWidth, image.naturalWidth - x);
-      const height = Math.min(requestedHeight, image.naturalHeight - y);
-      if (width <= 0 || height <= 0) { error('imageCropInvalid'); return; }
-      try {
-        canvas.width = width;
-        canvas.height = height;
-        const context = canvas.getContext('2d');
-        if (!context) { error('imageProcessFailed'); return; }
-        context.drawImage(image, x, y, width, height, 0, 0, width, height);
-        canvas.toBlob(blob => {
-          if (!blob) { error('imageProcessFailed'); return; }
-          if (download.dataset.objectUrl) URL.revokeObjectURL(download.dataset.objectUrl);
-          const outputUrl = URL.createObjectURL(blob);
-          download.dataset.objectUrl = outputUrl;
-          download.href = outputUrl;
-          download.download = 'cropped-image.png';
-          download.classList.remove('hidden');
-          status.textContent = '';
-        }, 'image/png');
-      } catch {
-        error('imageProcessFailed');
-      }
-    };
+  t(k){return this.m[k] || this.messages.en[k] || k;}
+  init(){
+    const style = document.createElement('style');
+    style.textContent = '.qt-cropper{--cp:var(--qt-panel,#fff);--ct:var(--qt-text,#172033);--cm:var(--qt-muted,#64748b);--cl:var(--qt-line,#dbe2ea);color:var(--ct);display:grid;gap:15px}.qt-cropper *{box-sizing:border-box}.qt-cropper h3{font-size:1.15rem;font-weight:850;margin:0 0 5px;color:var(--ct)}.qt-cropper p{margin:0}.qt-crop-intro,.qt-crop-hint{font-size:.84rem;line-height:1.6;color:var(--cm)}.qt-crop-upload{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:14px;border:1px dashed var(--cl);border-radius:14px;background:var(--cp)}.qt-crop-upload input{position:absolute;width:1px;height:1px;opacity:0}.qt-crop-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1px solid var(--cl);border-radius:10px;padding:9px 13px;font-size:.84rem;font-weight:750;cursor:pointer;background:var(--cp);color:var(--ct);text-decoration:none}.qt-crop-btn.primary{background:#5b55e7;color:#fff;border-color:#5b55e7}.qt-crop-btn:disabled{opacity:.45;cursor:not-allowed}.qt-crop-toolbar{display:flex;gap:8px;align-items:end;flex-wrap:wrap}.qt-crop-field{display:grid;gap:5px;min-width:145px}.qt-crop-field label,.qt-crop-format{font-size:.75rem;font-weight:800;color:var(--cm)}.qt-crop-field select,.qt-crop-format select{padding:9px;border:1px solid var(--cl);border-radius:9px;background:var(--cp);color:var(--ct);font:inherit}.qt-crop-stage-wrap{border:1px solid var(--cl);border-radius:14px;padding:10px;background:var(--cp);overflow:auto;max-height:70vh;min-height:130px;display:flex;justify-content:center;align-items:flex-start}.qt-crop-stage{display:block;max-width:none;touch-action:none;cursor:crosshair;border-radius:5px}.qt-crop-empty{display:grid;place-items:center;min-height:110px;text-align:center;color:var(--cm);font-size:.88rem;padding:20px}.qt-crop-status{font-size:.8rem;color:var(--cm);min-height:1.2em}.qt-crop-result{display:grid;gap:10px;padding:14px;border:1px solid var(--cl);border-radius:14px;background:var(--cp)}.qt-crop-result[hidden],.qt-crop-stage[hidden],.qt-crop-empty[hidden]{display:none}.qt-crop-result canvas{display:block;max-width:100%;max-height:360px;width:auto;height:auto;border-radius:8px}.qt-crop-result-head{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}.qt-crop-result-head h4{font-weight:850;margin:0}.qt-crop-format{display:flex;align-items:center;gap:8px}.qt-crop-format select{padding:7px 9px}@media(max-width:600px){.qt-crop-field{flex:1 1 100%}.qt-crop-stage-wrap{justify-content:flex-start}.qt-crop-result canvas{max-height:260px}}';
+    this.root.innerHTML = '<section class="qt-cropper" dir="'+(document.documentElement.dir==='rtl'?'rtl':'ltr')+'"><header><h3>'+this.t('title')+'</h3><p class="qt-crop-intro">'+this.t('intro')+'</p></header><div class="qt-crop-upload"><label class="qt-crop-btn primary">＋ '+this.t('upload')+'<input class="qt-crop-file" type="file" accept="image/*"></label><span class="qt-crop-hint">'+this.t('hint')+'</span></div><div class="qt-crop-toolbar"><div class="qt-crop-field"><label>'+this.t('aspect')+'</label><select class="qt-crop-aspect"><option value="">'+this.t('free')+'</option><option value="1">'+this.t('square')+'</option><option value="1.333333">'+this.t('four')+'</option><option value="1.777778">'+this.t('sixteen')+'</option><option value="1.5">'+this.t('three')+'</option></select></div><button type="button" class="qt-crop-btn qt-rotate" disabled>↻ '+this.t('rotate')+'</button><button type="button" class="qt-crop-btn qt-zoom-out" disabled>− '+this.t('out')+'</button><button type="button" class="qt-crop-btn qt-zoom-in" disabled>＋ '+this.t('in')+'</button><button type="button" class="qt-crop-btn qt-reset" disabled>'+this.t('reset')+'</button></div><div class="qt-crop-stage-wrap"><div class="qt-crop-empty">'+this.t('empty')+'</div><canvas class="qt-crop-stage" hidden aria-label="'+this.t('instructions')+'"></canvas></div><p class="qt-crop-hint">'+this.t('instructions')+'</p><button type="button" class="qt-crop-btn primary qt-run" disabled>'+this.t('crop')+'</button><p class="qt-crop-status" role="status" aria-live="polite">'+this.t('empty')+'</p><section class="qt-crop-result" hidden><div class="qt-crop-result-head"><h4>'+this.t('preview')+'</h4><label class="qt-crop-format">'+this.t('format')+' <select class="qt-format"><option value="image/png">PNG</option><option value="image/jpeg">JPG</option><option value="image/webp">WebP</option></select></label></div><canvas class="qt-crop-output"></canvas><a class="qt-crop-btn primary qt-download" download="qantaratools-cropped-image.png">'+this.t('download')+'</a></section></section>';
+    this.root.querySelector('.qt-cropper').prepend(style);
+    const q=s=>this.root.querySelector(s);
+    this.file=q('.qt-crop-file');this.canvas=q('.qt-crop-stage');this.ctx=this.canvas.getContext('2d');this.empty=q('.qt-crop-empty');this.status=q('.qt-crop-status');this.run=q('.qt-run');this.result=q('.qt-crop-result');this.output=q('.qt-crop-output');this.format=q('.qt-format');this.download=q('.qt-download');this.aspectSelect=q('.qt-crop-aspect');
+    this.rotateBtn=q('.qt-rotate');this.zoomOut=q('.qt-zoom-out');this.zoomIn=q('.qt-zoom-in');this.resetBtn=q('.qt-reset');
+    this.file.addEventListener('change',e=>this.load(e.target.files?.[0]));
+    this.aspectSelect.addEventListener('change',()=>{this.aspect=Number(this.aspectSelect.value)||null;if(this.selection&&this.aspect)this.fitAspect();this.render();});
+    this.rotateBtn.addEventListener('click',()=>this.rotate());this.zoomOut.addEventListener('click',()=>this.setZoom(this.zoom/1.2));this.zoomIn.addEventListener('click',()=>this.setZoom(this.zoom*1.2));this.resetBtn.addEventListener('click',()=>this.reset());this.run.addEventListener('click',()=>this.crop());this.format.addEventListener('change',()=>{if(this.selection)this.crop();});
+    this.canvas.addEventListener('pointerdown',e=>this.pointerDown(e));this.canvas.addEventListener('pointermove',e=>this.pointerMove(e));this.canvas.addEventListener('pointerup',()=>this.pointerUp());this.canvas.addEventListener('pointercancel',()=>this.pointerUp());
   }
+  load(file){
+    if(!file)return;if(!file.type?.startsWith('image/')||!file.size){this.status.textContent=this.t('invalid');this.file.value='';return;}
+    const url=URL.createObjectURL(file),img=new Image();
+    img.onload=()=>{URL.revokeObjectURL(url);this.source=document.createElement('canvas');this.source.width=img.naturalWidth;this.source.height=img.naturalHeight;this.source.getContext('2d').drawImage(img,0,0);this.fit=Math.min(1000/this.source.width,620/this.source.height,1);this.zoom=1;this.canvas.hidden=false;this.empty.hidden=true;[this.rotateBtn,this.zoomOut,this.zoomIn,this.resetBtn,this.run].forEach(b=>b.disabled=false);this.selection=this.defaultSelection();this.render();this.status.textContent=this.t('ready');this.result.hidden=true;};
+    img.onerror=()=>{URL.revokeObjectURL(url);this.status.textContent=this.t('loadError');};img.src=url;
+  }
+  size(){const s=this.fit*this.zoom;return{w:Math.max(1,Math.round(this.source.width*s)),h:Math.max(1,Math.round(this.source.height*s))};}
+  defaultSelection(){const w=this.canvas.width||this.size().w,h=this.canvas.height||this.size().h;let sw=w*.82,sh=h*.82;if(this.aspect){if(sw/sh>this.aspect)sw=sh*this.aspect;else sh=sw/this.aspect;}return{x:(w-sw)/2,y:(h-sh)/2,w:sw,h:sh};}
+  render(){if(!this.source)return;const s=this.size();this.canvas.width=s.w;this.canvas.height=s.h;this.canvas.style.width=s.w+'px';this.canvas.style.height=s.h+'px';this.ctx.drawImage(this.source,0,0,s.w,s.h);if(!this.selection)return;const r=this.selection;this.ctx.save();this.ctx.fillStyle='rgba(5,10,25,.6)';this.ctx.beginPath();this.ctx.rect(0,0,s.w,s.h);this.ctx.rect(r.x,r.y,r.w,r.h);this.ctx.fill('evenodd');this.ctx.strokeStyle='#fff';this.ctx.lineWidth=2;this.ctx.setLineDash([7,4]);this.ctx.strokeRect(r.x,r.y,r.w,r.h);this.ctx.setLineDash([]);this.ctx.strokeStyle='rgba(255,255,255,.65)';this.ctx.lineWidth=1;for(let i=1;i<=2;i++){let x=r.x+r.w*i/3,y=r.y+r.h*i/3;this.ctx.beginPath();this.ctx.moveTo(x,r.y);this.ctx.lineTo(x,r.y+r.h);this.ctx.stroke();this.ctx.beginPath();this.ctx.moveTo(r.x,y);this.ctx.lineTo(r.x+r.w,y);this.ctx.stroke();}this.ctx.fillStyle='#fff';[[r.x,r.y],[r.x+r.w,r.y],[r.x,r.y+r.h],[r.x+r.w,r.y+r.h]].forEach(([x,y])=>this.ctx.fillRect(x-4,y-4,8,8));this.ctx.restore();}
+  point(e){const b=this.canvas.getBoundingClientRect();return{x:(e.clientX-b.left)*this.canvas.width/b.width,y:(e.clientY-b.top)*this.canvas.height/b.height};}
+  pointerDown(e){if(!this.source)return;const p=this.point(e),r=this.selection,corner=Math.hypot(p.x-r.x-r.w,p.y-r.y-r.h)<22,inside=p.x>=r.x&&p.x<=r.x+r.w&&p.y>=r.y&&p.y<=r.y+r.h;this.drag={start:p,original:{...r},mode:corner?'resize':inside?'move':'draw'};if(this.drag.mode==='draw')this.selection={x:p.x,y:p.y,w:1,h:1};this.canvas.setPointerCapture(e.pointerId);this.result.hidden=true;this.render();}
+  pointerMove(e){if(!this.drag||!this.source)return;const p=this.point(e),d=this.drag,m=this.canvas.width,h=this.canvas.height;if(d.mode==='move'){const x=Math.max(0,Math.min(m-d.original.w,d.original.x+p.x-d.start.x)),y=Math.max(0,Math.min(h-d.original.h,d.original.y+p.y-d.start.y));this.selection={...d.original,x,y};}else{let w,h2;if(d.mode==='resize'){w=Math.max(20,Math.min(m-d.original.x,d.original.w+p.x-d.start.x));h2=Math.max(20,Math.min(h-d.original.y,d.original.h+p.y-d.start.y));if(this.aspect){if(w/h2>this.aspect)w=h2*this.aspect;else h2=w/this.aspect;}this.selection={...d.original,w,h:h2};}else{w=Math.max(20,Math.min(m-d.start.x,p.x-d.start.x));h2=Math.max(20,Math.min(h-d.start.y,p.y-d.start.y));if(this.aspect){if(w/h2>this.aspect)w=h2*this.aspect;else h2=w/this.aspect;}this.selection={x:d.start.x,y:d.start.y,w,h:h2};}}this.render();}
+  pointerUp(){this.drag=null;}
+  fitAspect(){const r=this.selection,a=this.aspect;let w=r.w,h=r.h;if(w/h>a)w=h*a;else h=w/a;this.selection={...r,x:r.x+(r.w-w)/2,y:r.y+(r.h-h)/2,w,h};}
+  setZoom(v){if(!this.source)return;const oldSize=this.size(),r=this.selection,n={x:r.x/oldSize.w,y:r.y/oldSize.h,w:r.w/oldSize.w,h:r.h/oldSize.h};this.zoom=Math.max(.5,Math.min(2.5,v));const s=this.size();this.selection={x:n.x*s.w,y:n.y*s.h,w:n.w*s.w,h:n.h*s.h};this.render();}
+  rotate(){if(!this.source)return;const c=document.createElement('canvas');c.width=this.source.height;c.height=this.source.width;const x=c.getContext('2d');x.translate(c.width/2,c.height/2);x.rotate(Math.PI/2);x.drawImage(this.source,-this.source.width/2,-this.source.height/2);this.source=c;this.fit=Math.min(1000/c.width,620/c.height,1);this.zoom=1;this.selection=this.defaultSelection();this.result.hidden=true;this.render();}
+  reset(){if(!this.source)return;this.zoom=1;this.selection=this.defaultSelection();this.result.hidden=true;this.render();this.status.textContent=this.t('resetDone');}
+  crop(){if(!this.source||!this.selection||this.selection.w<2||this.selection.h<2){this.status.textContent=this.t('selectError');return;}this.status.textContent=this.t('processing');const sxScale=this.source.width/this.canvas.width,syScale=this.source.height/this.canvas.height,r=this.selection,sx=Math.max(0,Math.floor(r.x*sxScale)),sy=Math.max(0,Math.floor(r.y*syScale)),w=Math.min(this.source.width-sx,Math.max(1,Math.round(r.w*sxScale))),h=Math.min(this.source.height-sy,Math.max(1,Math.round(r.h*syScale))),mime=this.format.value;this.output.width=w;this.output.height=h;const c=this.output.getContext('2d');if(mime==='image/jpeg'){c.fillStyle='#fff';c.fillRect(0,0,w,h);}c.drawImage(this.source,sx,sy,w,h,0,0,w,h);this.output.toBlob(blob=>{if(!blob){this.status.textContent=this.t('loadError');return;}if(this.outputUrl)URL.revokeObjectURL(this.outputUrl);this.outputUrl=URL.createObjectURL(blob);const ext=mime==='image/jpeg'?'jpg':mime==='image/webp'?'webp':'png';this.download.href=this.outputUrl;this.download.download='qantaratools-cropped-image.'+ext;this.result.hidden=false;this.status.textContent=this.t('success');},mime,.92);}
+  destroy(){if(this.outputUrl)URL.revokeObjectURL(this.outputUrl);this.source=null;}
 }
