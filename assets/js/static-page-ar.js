@@ -70,6 +70,20 @@
   }
   walk(document.body);
   if(dict[document.title]) document.title=dict[document.title];
+  // Keep internal information-page navigation in Arabic instead of falling back to English.
+  document.querySelectorAll('a[href]').forEach(function(anchor){
+    var href=anchor.getAttribute('href');
+    if(!href || href.charAt(0)==='#' || /^(mailto:|tel:|javascript:)/i.test(href)) return;
+    try {
+      var target=new URL(href,location.href);
+      if(target.origin!==location.origin) return;
+      if(target.pathname==='/index.html') target.pathname='/';
+      if(target.pathname==='/' || /^\\/(about-us|contact|faq|privacy|terms)\\.html$/.test(target.pathname)){
+        target.searchParams.set('locale','ar');
+        anchor.setAttribute('href',target.pathname+'?'+target.searchParams.toString()+target.hash);
+      }
+    } catch (_) {}
+  });
   document.documentElement.lang='ar';document.documentElement.dir='rtl';
   document.querySelectorAll('[aria-label]').forEach(function(el){var v=el.getAttribute('aria-label');if(dict[v])el.setAttribute('aria-label',dict[v]);});
   document.querySelectorAll('[title]').forEach(function(el){var v=el.getAttribute('title');if(dict[v])el.setAttribute('title',dict[v]);});
