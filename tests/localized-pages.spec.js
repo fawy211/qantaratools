@@ -31,6 +31,18 @@ for (const locale of ['en', 'ar', 'de', 'fr', 'es']) {
     const localizedAllTools = { en: 'All Tools', ar: 'كل الأدوات', de: 'Alle Tools', fr: 'Tous les outils', es: 'Todas las herramientas' };
     await expect(page.locator('.category-filter[data-filter="all"]')).toContainText(localizedAllTools[locale]);
     await expect(page.locator('.qt-hero-metrics span')).toHaveCount(4);
+    await expect(page.locator('.qt-hero-metrics span').nth(2)).toContainText('50+');
+    const metricCountLabel = {
+      en: 'focused tools', ar: 'أداة متخصصة', de: 'spezialisierte Tools',
+      fr: 'outils spécialisés', es: 'herramientas especializadas'
+    };
+    await expect(page.locator('.qt-hero-metrics span').nth(2)).toContainText(metricCountLabel[locale]);
+    const localizedSearchPlaceholders = {
+      en: 'Find a tool in seconds...', ar: 'اعثر على الأداة خلال ثوانٍ...',
+      de: 'Finde ein Tool in Sekunden…', fr: 'Trouvez un outil en quelques secondes…',
+      es: 'Encuentra una herramienta en segundos…'
+    };
+    await expect(page.locator('#tool-search-input')).toHaveAttribute('placeholder', localizedSearchPlaceholders[locale]);
     await expect(page.locator('#tool-search-input')).toBeVisible();
     await expect(page.locator('.category-nav .category-filter')).toHaveCount(7);
     await expect(page.locator('#recent-tools-list')).toBeAttached();
