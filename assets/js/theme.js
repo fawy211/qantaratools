@@ -13,8 +13,10 @@
     document.querySelectorAll('meta[name="theme-color"]').forEach(function (meta) { meta.setAttribute('content', COLORS[mode]); });
     document.querySelectorAll('[data-theme-toggle]').forEach(function (button) {
       var next = mode === 'dark' ? 'light' : 'dark';
-      button.setAttribute('aria-label', 'Switch to ' + next + ' mode');
-      button.title = 'Switch to ' + next + ' mode';
+      var i18n = window.QTI18n;
+      var label = i18n ? i18n.t(next === 'light' ? 'themeLight' : 'themeDark', 'Switch to ' + next + ' mode') : 'Switch to ' + next + ' mode';
+      button.setAttribute('aria-label', label);
+      button.title = label;
       var icon = button.querySelector('i');
       if (icon) icon.className = 'fa-solid ' + (mode === 'dark' ? 'fa-sun' : 'fa-moon');
     });
