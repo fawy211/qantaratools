@@ -1,4 +1,9 @@
 /* QantaraTools — Electric Creative UI. Built to sit on top of the existing Tailwind utilities. */
+@font-face{font-family:"Outfit";src:url("../fonts/outfit/Outfit-Variable.ttf") format("truetype");font-style:normal;font-weight:100 900;font-display:swap}
+@font-face{font-family:"IBM Plex Sans Arabic";src:url("../fonts/ibm-plex-sans-arabic/IBMPlexSansArabic-Regular.ttf") format("truetype");font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:"IBM Plex Sans Arabic";src:url("../fonts/ibm-plex-sans-arabic/IBMPlexSansArabic-Medium.ttf") format("truetype");font-style:normal;font-weight:500;font-display:swap}
+@font-face{font-family:"IBM Plex Sans Arabic";src:url("../fonts/ibm-plex-sans-arabic/IBMPlexSansArabic-SemiBold.ttf") format("truetype");font-style:normal;font-weight:600;font-display:swap}
+@font-face{font-family:"IBM Plex Sans Arabic";src:url("../fonts/ibm-plex-sans-arabic/IBMPlexSansArabic-Bold.ttf") format("truetype");font-style:normal;font-weight:700;font-display:swap}
 :root{--qt-blue:#246bff;--qt-cyan:#20d8d2;--qt-lime:#c7f36b;--qt-orange:#ff8059;--qt-bg:#f4f7fc;--qt-panel:#fff;--qt-text:#14213d;--qt-muted:#61718a;--qt-line:#dfe7f2;--qt-sidebar:248px}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{background:var(--qt-bg)!important;color:var(--qt-text);background-image:radial-gradient(circle at 75% 10%,rgba(36,107,255,.07),transparent 27%),radial-gradient(circle at 45% 45%,rgba(32,216,210,.045),transparent 24%)!important}
 #site-header{background:rgba(255,255,255,.88)!important;border-bottom:1px solid var(--qt-line)!important;box-shadow:0 5px 24px rgba(20,33,61,.045);backdrop-filter:blur(18px)}#site-header>div{max-width:none!important;padding-inline:22px}.qt-brand{display:flex;align-items:center;gap:10px}.qt-brand-mark{width:40px;height:40px;object-fit:contain}.qt-brand-copy{display:flex;flex-direction:column;gap:1px}.qt-brand-name-main{color:#14213d}.qt-brand-name-accent{color:var(--qt-blue)}#brand-title{font-size:21px;line-height:1;font-weight:900;letter-spacing:-.045em}.qt-brand-tagline{font-size:10px;font-weight:700;letter-spacing:.055em;color:#77869d;text-transform:uppercase}
@@ -108,3 +113,95 @@ html[data-theme="light"] .qt-hero-metrics strong {
   -webkit-text-fill-color: #17151f !important;
   opacity: 1 !important;
 }
+
+/* Multilingual layout polish: RTL alignment and complete mobile identity controls. */
+html[dir="rtl"] #tools-grid-container > .mb-10:first-child {
+  text-align: right !important;
+}
+html[dir="rtl"] #tools-grid-container > .mb-10:first-child::after {
+  right: auto;
+  left: 28px;
+}
+html[dir="rtl"] .tool-card::before {
+  left: auto;
+  right: 0;
+  border-radius: 6px 0 0 6px;
+}
+html[dir="rtl"] .qt-hero-metrics span + span::before {
+  margin-right: 0;
+  margin-left: 10px;
+}
+html[dir="rtl"] .skip-link {
+  left: auto !important;
+  right: 12px !important;
+}
+@media (max-width: 640px) {
+  .qt-identity-switcher button:nth-child(2) {
+    display: inline-flex !important;
+  }
+  .qt-identity-switcher button {
+    padding: 5px 7px;
+    font-size: 9px;
+  }
+}
+
+
+/* Unified visual system for all informational and legal pages. */
+.qt-about-header-inner{
+  max-width:none!important;
+  padding:16px clamp(16px,4vw,48px)!important;
+  background:color-mix(in srgb,var(--qt-bg) 86%,transparent);
+}
+#site-header:has(.qt-about-header-inner){
+  background:color-mix(in srgb,var(--qt-bg) 86%,transparent)!important;
+  border-bottom:1px solid var(--qt-line)!important;
+  box-shadow:none!important;
+}
+.qt-about-brand-name{color:var(--qt-text)!important;letter-spacing:-.04em!important}
+.qt-about-brand-name span{color:var(--qt-blue)!important}
+.qt-about-tagline{color:var(--qt-muted)!important}
+.qt-about-nav a{color:var(--qt-muted)!important}
+.qt-about-nav a:hover,.qt-about-nav a[aria-current="page"]{color:var(--qt-blue)!important}
+.qt-about-theme{border-color:var(--qt-line)!important;background:var(--qt-panel)!important;color:var(--qt-text)!important}
+.qt-about-main{width:min(920px,calc(100% - 28px))!important;max-width:920px!important;padding:52px 0 70px!important}
+.qt-about-hero{
+  border:1px solid var(--qt-line)!important;
+  border-radius:26px!important;
+  background:var(--qt-panel)!important;
+  box-shadow:0 14px 42px rgba(20,33,61,.07)!important;
+}
+.qt-about-kicker{color:var(--qt-blue)!important;letter-spacing:.12em!important}
+.qt-about-kicker i,.qt-about-card h2 i{color:var(--qt-blue)!important}
+.qt-about-hero h1{color:var(--qt-text)!important;letter-spacing:-.045em!important}
+.qt-about-hero p{color:var(--qt-muted)!important}
+.qt-about-card{
+  border:1px solid var(--qt-line)!important;
+  border-radius:20px!important;
+  background:var(--qt-panel)!important;
+  box-shadow:none!important;
+}
+.qt-about-card h2{color:var(--qt-text)!important}
+.qt-about-card p,.qt-about-card li{color:var(--qt-muted)!important}
+.qt-about-cta{border:1px solid var(--qt-line)!important;border-radius:20px!important;background:var(--qt-surface-2,var(--qt-panel))!important;color:var(--qt-text)!important}
+.qt-about-cta p{color:var(--qt-muted)!important}
+.qt-about-cta a{background:var(--qt-accent)!important;color:var(--qt-accent-ink)!important}
+html[dir="rtl"] .qt-about-header-inner{direction:rtl}
+html[dir="rtl"] .qt-about-main{text-align:right}
+html[dir="rtl"] .qt-about-card h2{flex-direction:row}
+@media(max-width:680px){
+ .qt-about-header-inner{align-items:flex-start!important;flex-direction:column!important;gap:12px!important}
+ .qt-about-nav{gap:7px 12px!important;flex-wrap:wrap}
+ .qt-about-main{padding:28px 0 48px!important}
+}
+
+/* Responsive legal and informational page header; prevent mobile horizontal overflow. */
+@media(max-width:680px){
+ .qt-policy-header{align-items:flex-start!important;flex-direction:column!important;gap:12px!important}
+ .qt-policy-actions{width:100%;display:flex;flex-wrap:wrap;gap:8px 12px!important;min-width:0}
+ .qt-policy-actions a,.qt-policy-actions button{max-width:100%;white-space:normal}
+ .qt-policy-main,.qt-static-page{box-sizing:border-box;max-width:100%;min-width:0}
+ .qt-policy-card,.qt-static-card{box-sizing:border-box;max-width:100%;overflow-wrap:anywhere}
+}
+html[dir="rtl"] .qt-policy-header{direction:rtl}
+html[dir="rtl"] .qt-policy-main,html[dir="rtl"] .qt-static-page{text-align:right}
+html[dir="rtl"] .qt-policy-actions{direction:rtl;flex-wrap:wrap}

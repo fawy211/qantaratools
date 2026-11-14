@@ -7,6 +7,8 @@ export class CurrencyConverterTool {
         this.rates = {};
         this.rateDate = "";
         this.currencyNames = {};
+        this.t = (key, fallback) => window.QTI18n?.t(key, fallback) || fallback;
+        this.formatNumber = (value, decimals) => window.QTI18n?.formatNumber(value, { minimumFractionDigits: decimals, maximumFractionDigits: decimals }) || Number(value).toFixed(decimals);
         this.init();
     }
 
@@ -17,36 +19,36 @@ export class CurrencyConverterTool {
             <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 shadow-xl space-y-4">
                 <div class="flex items-center justify-between pb-4 border-b border-gray-800">
                     <div>
-                        <h2 class="text-lg font-semibold text-white">Currency & Exchange Rate Converter</h2>
-                        <p class="text-xs text-gray-400 mt-0.5">Convert currencies using a daily reference rate. Rates are not live.</p>
+                        <h2 class="text-lg font-semibold text-white">${this.t('currencyTitle','Currency & Exchange Rate Converter')}</h2>
+                        <p class="text-xs text-gray-400 mt-0.5">${this.t('currencyIntro','Convert currencies using a daily reference rate. Rates are not live.')}</p>
                     </div>
-                    <span class="flex items-center gap-2"><span class="cc-currency-count bg-indigo-500/10 text-indigo-400 text-xs px-2.5 py-1 rounded-md border border-indigo-500/20">Currencies</span><span class="bg-slate-700/50 text-slate-300 text-xs px-2.5 py-1 rounded-md border border-slate-700">Daily Rate</span></span>
+                    <span class="flex items-center gap-2"><span class="cc-currency-count bg-indigo-500/10 text-indigo-400 text-xs px-2.5 py-1 rounded-md border border-indigo-500/20">${this.t('currencies','Currencies')}</span><span class="bg-slate-700/50 text-slate-300 text-xs px-2.5 py-1 rounded-md border border-slate-700">${this.t('dailyRate','Daily Rate')}</span></span>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
                     <div class="space-y-1">
-                        <label class="block text-xs font-medium text-gray-400">Amount</label>
+                        <label class="block text-xs font-medium text-gray-400">${this.t('amount','Amount')}</label>
                         <input type="number" id="ccAmount" value="1" min="0" step="any" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-3 text-gray-100 text-sm font-mono focus:outline-none focus:border-indigo-500">
                     </div>
 
                     <div class="space-y-1">
-                        <label class="block text-xs font-medium text-gray-400">From</label>
+                        <label class="block text-xs font-medium text-gray-400">${this.t('from','From')}</label>
                         <select id="ccFrom" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-3 text-gray-100 text-sm font-mono focus:outline-none focus:border-indigo-500"></select>
                     </div>
 
                     <div class="space-y-1">
-                        <label class="block text-xs font-medium text-gray-400">To</label>
+                        <label class="block text-xs font-medium text-gray-400">${this.t('to','To')}</label>
                         <select id="ccTo" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-3 text-gray-100 text-sm font-mono focus:outline-none focus:border-indigo-500"></select>
                     </div>
                 </div>
 
                 <div class="flex flex-wrap gap-2 pt-2">
-                    <button id="ccConvertBtn" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs px-5 py-2.5 rounded-lg font-medium transition cursor-pointer">Convert Currency</button>
-                    <button id="ccSwapBtn" class="bg-gray-800 hover:bg-gray-700 text-gray-300 text-xs px-4 py-2.5 rounded-lg font-medium transition cursor-pointer">Swap Currencies</button>
+                    <button id="ccConvertBtn" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs px-5 py-2.5 rounded-lg font-medium transition cursor-pointer">${this.t('convertCurrency','Convert Currency')}</button>
+                    <button id="ccSwapBtn" class="bg-gray-800 hover:bg-gray-700 text-gray-300 text-xs px-4 py-2.5 rounded-lg font-medium transition cursor-pointer">${this.t('swapCurrencies','Swap Currencies')}</button>
                 </div>
 
                 <div id="ccResultArea" class="hidden mt-4 p-4 bg-gray-950 rounded-xl border border-gray-800 space-y-1">
-                    <label class="block text-xs font-medium text-gray-400">Converted Result</label>
+                    <label class="block text-xs font-medium text-gray-400">${this.t('convertedResult','Converted Result')}</label>
                     <div class="flex items-baseline justify-between gap-3">
                         <span id="ccResultText" class="text-xl font-bold text-emerald-400 font-mono">0.00</span>
                         <span id="ccRateInfo" class="text-xs text-gray-500 font-mono text-right"></span>
@@ -120,7 +122,7 @@ export class CurrencyConverterTool {
         if (this.currencyNames[code]) return this.currencyNames[code];
         try {
             if (typeof Intl !== "undefined" && Intl.DisplayNames) {
-                const displayNames = new Intl.DisplayNames(["en"], { type: "currency" });
+                const displayNames = new Intl.DisplayNames([window.QTI18n?.locale || 'en'], { type: "currency" });
                 const name = displayNames.of(code);
                 if (name && name !== code) {
                     this.currencyNames[code] = name;
@@ -159,7 +161,7 @@ export class CurrencyConverterTool {
 
         const count = ordered.length;
         const rateBadge = this.container.querySelector(".cc-currency-count");
-        if (rateBadge) rateBadge.textContent = `${count} currencies`;
+        if (rateBadge) rateBadge.textContent = `${window.QTI18n?.formatNumber(count) || count} ${this.t('currencyCount','currencies')}`;
     }
 
     escapeHtml(value) {
@@ -184,8 +186,8 @@ export class CurrencyConverterTool {
 
         if (!this.rates[from] || !this.rates[to]) {
             resultArea.classList.remove("hidden");
-            resultText.textContent = "Daily rate unavailable";
-            rateInfo.textContent = "Connect to the internet and try again.";
+            resultText.textContent = this.t('dailyRateUnavailable','Daily rate unavailable');
+            rateInfo.textContent = this.t('connectTryAgain','Connect to the internet and try again.');
             return;
         }
 
@@ -194,8 +196,8 @@ export class CurrencyConverterTool {
         const singleRate = Number(this.rates[to]) / Number(this.rates[from]);
         const decimals = to === "JPY" || to === "KRW" || to === "CLP" ? 0 : 4;
 
-        resultText.textContent = `${finalAmount.toFixed(decimals)} ${to}`;
-        rateInfo.textContent = `1 ${from} = ${singleRate.toFixed(decimals)} ${to} • Daily reference • ${String(this.rateDate).replace(" GMT", "")}`;
+        resultText.textContent = `${this.formatNumber(finalAmount, decimals)} ${to}`;
+        rateInfo.textContent = `1 ${from} = ${this.formatNumber(singleRate, decimals)} ${to} • ${this.t('dailyReference','Daily reference')} • ${this.rateDate && !Number.isNaN(Date.parse(this.rateDate)) ? (window.QTI18n?.formatDate(new Date(this.rateDate), { dateStyle: 'medium' }) || this.rateDate) : this.rateDate}`;
         resultArea.classList.remove("hidden");
     }
 

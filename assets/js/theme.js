@@ -13,8 +13,19 @@
     document.querySelectorAll('meta[name="theme-color"]').forEach(function (meta) { meta.setAttribute('content', COLORS[mode]); });
     document.querySelectorAll('[data-theme-toggle]').forEach(function (button) {
       var next = mode === 'dark' ? 'light' : 'dark';
-      button.setAttribute('aria-label', 'Switch to ' + next + ' mode');
-      button.title = 'Switch to ' + next + ' mode';
+      var i18n = window.QTI18n;
+      var locale = document.documentElement.lang || 'en';
+      var labels = {
+        en: { light: 'Switch to light mode', dark: 'Switch to dark mode' },
+        ar: { light: 'التبديل إلى الوضع الفاتح', dark: 'التبديل إلى الوضع الداكن' },
+        de: { light: 'Zum hellen Modus wechseln', dark: 'Zum dunklen Modus wechseln' },
+        fr: { light: 'Passer au mode clair', dark: 'Passer au mode sombre' },
+        es: { light: 'Cambiar al modo claro', dark: 'Cambiar al modo oscuro' }
+      };
+      var fallbackLabel = (labels[locale] || labels.en)[next];
+      var label = i18n ? i18n.t(next === 'light' ? 'themeLight' : 'themeDark', fallbackLabel) : fallbackLabel;
+      button.setAttribute('aria-label', label);
+      button.title = label;
       var icon = button.querySelector('i');
       if (icon) icon.className = 'fa-solid ' + (mode === 'dark' ? 'fa-sun' : 'fa-moon');
     });

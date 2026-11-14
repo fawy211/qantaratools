@@ -1,0 +1,9 @@
+@import "tailwindcss" source(none);
+
+/* Scan the complete static site and all browser-side tool templates. */
+@source "../../index.html";
+@source "../../tools";
+@source "../../assets/js";
+@source "../../de";
+@source "../../fr";
+@source "../../es";

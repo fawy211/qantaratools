@@ -194,8 +194,9 @@ async function loadTool(category, title, toolName) {
     activeToolInstance = null;
 
     const config = TOOL_REGISTRY[toolName];
+    window.QTActiveToolId = toolName;
     if (!config) {
-        box.innerHTML = `<div class="p-6 rounded-xl border border-red-500/30 bg-red-500/10 text-red-300">Tool <b>${toolName}</b> is not registered yet.</div>`;
+        box.innerHTML = `<div class="p-6 rounded-xl border border-red-500/30 bg-red-500/10 text-red-300">${window.QTI18n?.t('notRegistered', 'This tool is not available yet.') || 'This tool is not available yet.'}</div>`;
         if (grid) grid.classList.add('hidden');
         if (view) view.classList.remove('hidden');
         return;
@@ -203,10 +204,14 @@ async function loadTool(category, title, toolName) {
 
     if (grid) grid.classList.add('hidden');
     if (view) view.classList.remove('hidden');
-    if (titleEl) titleEl.textContent = title || config.title;
+    const localizedTitle = window.QTI18n?.toolTitle(toolName, title || config.title) || title || config.title;
+    if (titleEl) titleEl.textContent = localizedTitle;
     const pageLink = [...document.querySelectorAll('a[data-tool-link]')].find(link => link.dataset.toolId === toolName);
-    const toolUrl = pageLink?.href || `https://qantaratools.com/tools/${encodeURIComponent(toolName)}/`;
-    const toolDescription = pageLink?.dataset.toolDescription || `${title || config.title}, a free browser-based tool from QantaraTools.`;
+    const currentLocale = window.QTI18n?.locale || 'en';
+    const homepageUrl = window.location.origin + window.location.pathname + (currentLocale === 'ar' ? '?locale=ar' : '');
+    const baseToolUrl = pageLink?.href || `https://qantaratools.com/tools/${encodeURIComponent(toolName)}/`;
+    const toolUrl = toolName === 'ai-office' ? homepageUrl : (currentLocale === 'ar' ? baseToolUrl + (baseToolUrl.includes('?') ? '&' : '?') + 'locale=ar' : baseToolUrl);
+    const toolDescription = window.QTI18n?.toolDescription(toolName, pageLink?.dataset.toolDescription || `${title || config.title}, a free browser-based tool from QantaraTools.`) || pageLink?.dataset.toolDescription || `${title || config.title}, a free browser-based tool from QantaraTools.`;
     // Standalone /tools/<id>/ pages ship their own optimized title, description and canonical:
     // never overwrite them. Only the home page (single-page mode) updates these tags.
     if (!isToolPage) {
@@ -217,7 +222,7 @@ async function loadTool(category, title, toolName) {
         document.querySelector('meta[property="og:description"]')?.setAttribute('content', toolDescription);
         document.querySelector('meta[property="og:url"]')?.setAttribute('content', toolUrl);
     }
-    box.innerHTML = '<div class="py-12 text-center text-slate-400" role="status" aria-live="polite">Loading tool…</div>';
+    box.innerHTML = `<div class="py-12 text-center text-slate-400" role="status" aria-live="polite">${window.QTI18n?.t('loading', 'Loading tool…') || 'Loading tool…'}</div>`;
     if (!isToolPage) window.scrollTo({ top: 0, behavior: 'smooth' });
 
     try {
@@ -234,20 +239,28 @@ async function loadTool(category, title, toolName) {
         requestAnimationFrame(() => {
             const heading = box.querySelector('h1, h2, h3');
             if (heading) { heading.setAttribute('tabindex', '-1'); heading.focus({ preventScroll: true }); }
-            window.QTToolFeedback?.add(toolName, title || config.title);
+            window.QTToolFeedback?.add(toolName, localizedTitle);
         });
         if (typeof window.applySmartExample === 'function') window.applySmartExample(toolName);
-        if (typeof window.recordRecentTool === 'function') window.recordRecentTool(toolName, title || config.title);
+        if (typeof window.recordRecentTool === 'function') window.recordRecentTool(toolName, localizedTitle);
     } catch (error) {
         console.error(`Failed to load tool: ${toolName}`, error);
         box.innerHTML = `
             <div class="p-6 rounded-2xl border border-red-500/30 bg-red-500/10">
-                <h3 class="text-lg font-semibold text-red-300 mb-2">Could not load this tool</h3>
+                <h3 class="text-lg font-semibold text-red-300 mb-2">${window.QTI18n?.t('loadError', 'Could not load this tool') || 'Could not load this tool'}</h3>
                 <p class="text-sm text-red-200/80 mb-3">${error.message}</p>
-                <p class="text-xs text-slate-400">Open the browser console (F12) if you need the technical details.</p>
+                <p class="text-xs text-slate-400">${window.QTI18n?.t('technicalDetails', 'Open the browser console (F12) if you need the technical details.') || 'Open the browser console (F12) if you need the technical details.'}</p>
             </div>`;
     }
 }
+
+
+window.addEventListener('qt:localechange', () => {
+    if (!document.body.classList.contains('qt-tool-page') || !window.QTActiveToolId) return;
+    const id = window.QTActiveToolId;
+    const config = TOOL_REGISTRY[id];
+    if (config) loadTool(null, window.QTI18n?.toolTitle(id, config.title) || config.title, id);
+});
 
 window.router = { loadTool, registry: TOOL_REGISTRY };
 

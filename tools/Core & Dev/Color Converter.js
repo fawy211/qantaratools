@@ -1,6 +1,7 @@
 export class ColorConverterTool {
   constructor(id) {
     this.container = document.getElementById(id);
+    this.t=(k,f)=>window.QTI18n?.t(k,f)||f;
     this.init();
   }
 
@@ -12,8 +13,8 @@ export class ColorConverterTool {
         <!-- Main Tool Card -->
         <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 shadow-xl space-y-5">
           <div class="pb-4 border-b border-gray-800/80">
-            <h1 class="text-xl font-bold text-white tracking-tight">Color Converter (HEX, RGB, HSL)</h1>
-            <p class="text-xs text-gray-400 mt-1">Convert HEX color codes instantly to RGB, HSL, and CSS formats locally.</p>
+            <h1 class="text-xl font-bold text-white tracking-tight">${this.t('colorTitle','Color Converter (HEX, RGB, HSL)')}</h1>
+            <p class="text-xs text-gray-400 mt-1">${this.t('colorDesc','Convert HEX color codes instantly to RGB, HSL, and CSS formats locally.')}</p>
           </div>
 
           <div class="flex flex-wrap gap-3 items-center">
@@ -27,7 +28,7 @@ export class ColorConverterTool {
               <input id="ccHex" value="4f46e5" placeholder="4f46e5" maxlength="6" class="w-full bg-gray-950 border border-gray-800 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl py-3 pl-8 pr-4 text-gray-100 font-mono text-sm uppercase transition-all outline-none">
             </div>
 
-            <button id="ccCopy" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium px-5 py-3 rounded-xl transition-all shadow-lg shadow-indigo-600/20">Copy CSS</button>
+            <button id="ccCopy" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium px-5 py-3 rounded-xl transition-all shadow-lg shadow-indigo-600/20">${this.t('copyCss','Copy CSS')}</button>
           </div>
 
           <div id="ccOut" class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2"></div>
@@ -37,7 +38,7 @@ export class ColorConverterTool {
 
         <!-- SEO Content & Guide Section -->
         <section class="bg-gray-900/40 border border-gray-800/60 rounded-2xl p-6 text-gray-400 text-xs space-y-3">
-          <h2 class="text-sm font-semibold text-gray-300">About Online Color Format Converter</h2>
+          <h2 class="text-sm font-semibold text-gray-300">${this.t('aboutColor','About Online Color Format Converter')}</h2>
           <p>
             Web developers and designers often need to translate color codes between different formats like HEX, RGB, and HSL. 
             **QantaraTools Color Converter** performs these conversions instantly in your browser with zero latency and absolute privacy. 
@@ -77,7 +78,7 @@ export class ColorConverterTool {
       let h = hex.value.trim().replace('#', '');
       if (h.length === 3) h = h.split('').map(x => x + x).join('');
       if (!/^[0-9a-fA-F]{6}$/.test(h)) {
-        status.textContent = 'Please enter a valid HEX code first.';
+        status.textContent = this.t('validHexFirst','Please enter a valid HEX code first.');
         return;
       }
       const r = parseInt(h.slice(0, 2), 16);
@@ -86,7 +87,7 @@ export class ColorConverterTool {
       const cssString = `background-color: #${h.toUpperCase()}; /* rgb(${r}, ${g}, ${b}) */`;
       
       navigator.clipboard?.writeText(cssString);
-      status.textContent = 'Copied CSS format to clipboard!';
+      status.textContent = this.t('copiedCss','Copied CSS format to clipboard!');
       setTimeout(() => { status.textContent = ''; }, 2000);
     };
   }
@@ -99,11 +100,11 @@ export class ColorConverterTool {
     const status = this.container.querySelector('#ccStatus');
 
     if (!/^[0-9a-fA-F]{6}$/.test(h)) {
-      out.innerHTML = `<div class="col-span-full text-center py-4 text-xs text-red-400 bg-gray-950 border border-gray-800 rounded-xl">Invalid HEX code. Please enter 3 or 6 valid hex characters (e.g., 4F46E5).</div>`;
+      out.innerHTML = `<div class="col-span-full text-center py-4 text-xs text-red-400 bg-gray-950 border border-gray-800 rounded-xl">${this.t('invalidHex','Invalid HEX code. Please enter 3 or 6 valid hex characters (e.g., 4F46E5).')}</div>`;
       return;
     }
 
-    if (status.textContent.includes('Invalid')) status.textContent = '';
+    status.textContent = '';
 
     const r = parseInt(h.slice(0, 2), 16);
     const g = parseInt(h.slice(2, 4), 16);

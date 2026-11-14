@@ -3,6 +3,7 @@
 export class TextCaseSlugTool {
     constructor(containerId) {
         this.container = document.getElementById(containerId);
+        this.t=(k,f)=>window.QTI18n?.t(k,f)||f;
         this.init();
     }
 
@@ -13,35 +14,35 @@ export class TextCaseSlugTool {
             <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 shadow-xl space-y-4">
                 <div class="flex items-center justify-between pb-4 border-b border-gray-800">
                     <div>
-                        <h2 class="text-lg font-semibold text-white">Text Case & Slug Converter</h2>
-                        <p class="text-xs text-gray-400 mt-0.5">Transform text cases (UPPER, lower, camel, snake) and generate clean URL slugs.</p>
+                        <h2 class="text-lg font-semibold text-white">${this.t('caseTitle','Text Case & Slug Converter')}</h2>
+                        <p class="text-xs text-gray-400 mt-0.5">${this.t('caseDesc','Transform text cases (UPPER, lower, camel, snake) and generate clean URL slugs.')}</p>
                     </div>
-                    <span class="bg-indigo-500/10 text-indigo-400 text-xs px-2.5 py-1 rounded-md border border-indigo-500/20">Dev Tool</span>
+                    <span class="bg-indigo-500/10 text-indigo-400 text-xs px-2.5 py-1 rounded-md border border-indigo-500/20">${this.t('devTool','Dev Tool')}</span>
                 </div>
 
                 <!-- Input Text Area -->
                 <div class="space-y-1">
-                    <label class="block text-xs font-medium text-gray-400">Input Text</label>
-                    <textarea id="caseInput" rows="3" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-3 text-gray-100 text-xs font-mono focus:outline-none focus:border-indigo-500" placeholder="Type or paste your text here..."></textarea>
+                    <label class="block text-xs font-medium text-gray-400">${this.t('inputText','Input Text')}</label>
+                    <textarea id="caseInput" rows="3" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-3 text-gray-100 text-xs font-mono focus:outline-none focus:border-indigo-500" placeholder="${this.t('casePlaceholder','Type or paste your text here...')}"></textarea>
                 </div>
 
                 <!-- Action Buttons / Cases -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-2 pt-1">
-                    <button id="btnUpper" class="bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs py-2 px-3 rounded-lg font-medium transition cursor-pointer">UPPERCASE</button>
-                    <button id="btnLower" class="bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs py-2 px-3 rounded-lg font-medium transition cursor-pointer">lowercase</button>
-                    <button id="btnTitle" class="bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs py-2 px-3 rounded-lg font-medium transition cursor-pointer">Title Case</button>
-                    <button id="btnSentence" class="bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs py-2 px-3 rounded-lg font-medium transition cursor-pointer">Sentence case</button>
+                    <button id="btnUpper" class="bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs py-2 px-3 rounded-lg font-medium transition cursor-pointer">${this.t('uppercase','UPPERCASE')}</button>
+                    <button id="btnLower" class="bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs py-2 px-3 rounded-lg font-medium transition cursor-pointer">${this.t('lowercase','lowercase')}</button>
+                    <button id="btnTitle" class="bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs py-2 px-3 rounded-lg font-medium transition cursor-pointer">${this.t('titleCase','Title Case')}</button>
+                    <button id="btnSentence" class="bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs py-2 px-3 rounded-lg font-medium transition cursor-pointer">${this.t('sentenceCase','Sentence case')}</button>
                     <button id="btnCamel" class="bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs py-2 px-3 rounded-lg font-medium transition cursor-pointer">camelCase</button>
                     <button id="btnSnake" class="bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs py-2 px-3 rounded-lg font-medium transition cursor-pointer">snake_case</button>
-                    <button id="btnKebab" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs py-2 px-3 rounded-lg font-medium transition cursor-pointer">kebab-slug</button>
-                    <button id="btnClearCase" class="bg-gray-800 hover:bg-gray-700 text-gray-400 text-xs py-2 px-3 rounded-lg font-medium transition cursor-pointer">Clear</button>
+                    <button id="btnKebab" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs py-2 px-3 rounded-lg font-medium transition cursor-pointer">${this.t('kebabSlug','kebab-slug')}</button>
+                    <button id="btnClearCase" class="bg-gray-800 hover:bg-gray-700 text-gray-400 text-xs py-2 px-3 rounded-lg font-medium transition cursor-pointer">${this.t('clear','Clear')}</button>
                 </div>
 
                 <!-- Output Area -->
                 <div id="caseResultArea" class="hidden space-y-2 pt-2">
                     <div class="flex items-center justify-between">
-                        <label class="block text-xs font-medium text-gray-400">Converted Output</label>
-                        <button id="copyCaseBtn" class="bg-gray-800 hover:bg-gray-700 text-gray-300 text-xs px-3 py-1 rounded border border-gray-700 transition cursor-pointer">Copy Output</button>
+                        <label class="block text-xs font-medium text-gray-400">${this.t('convertedOutput','Converted Output')}</label>
+                        <button id="copyCaseBtn" class="bg-gray-800 hover:bg-gray-700 text-gray-300 text-xs px-3 py-1 rounded border border-gray-700 transition cursor-pointer">${this.t('copyOutput','Copy Output')}</button>
                     </div>
                     <textarea id="caseOutput" rows="3" readonly class="w-full bg-gray-950 border border-gray-800 rounded-xl p-3 text-indigo-300 text-xs font-mono focus:outline-none"></textarea>
                 </div>
@@ -61,7 +62,7 @@ export class TextCaseSlugTool {
         const input = inputEl.value;
 
         if (!input) {
-            alert('Please enter some text first.');
+            alert(this.t('caseEnter','Please enter some text first.'));
             return;
         }
 
@@ -142,8 +143,8 @@ export class TextCaseSlugTool {
                 const text = outputArea.value;
                 if (!text) return;
                 navigator.clipboard.writeText(text).then(() => {
-                    copyBtn.textContent = 'Copied!';
-                    setTimeout(() => { copyBtn.textContent = 'Copy Output'; }, 2000);
+                    copyBtn.textContent = this.t('copied','Copied!');
+                    setTimeout(() => { copyBtn.textContent = this.t('copyOutput','Copy Output'); }, 2000);
                 });
             });
         }

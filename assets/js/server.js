@@ -1,22 +1,13 @@
 const express = require('express');
-const cors = require('cors');
+const path = require('node:path');
 const app = express();
 
-// تفعيل CORS واستقبال بيانات JSON
-app.use(cors());
-app.use(express.json());
+// This server only serves the static website. assets/js/router.js is a
+// browser-only tool loader and must never be required by Node/Express.
+const projectRoot = path.resolve(__dirname, '..', '..');
+app.use(express.static(projectRoot, { extensions: ['html'] }));
 
-// استيراد ملف الراوتر
-const mainRouter = require('./router');
-
-// ربط الراوتر بالسيرفر تحت المسار /api
-app.use('/api', mainRouter);
-
-// تقديم الملفات الثابتة للموقع (HTML, CSS, JS) إذا كانت في نفس المجلد
-app.use(express.static(__dirname));
-
-// تشغيل السيرفر
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`السيرفر يعمل الآن بكفاءة على المنفذ: ${PORT}`);
+  console.log(`QantaraTools static server listening on port ${PORT}`);
 });

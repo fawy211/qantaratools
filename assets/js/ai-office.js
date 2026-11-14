@@ -6,6 +6,9 @@
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const xmlEsc = s => String(s ?? '').replace(/[<>&'\"]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;',"'":'&apos;','"':'&quot;'}[c]));
   const text = s => String(s ?? '').replace(/\r\n?/g, '\n');
+  const tr = (key, fallback) => window.QTI18n?.t(key, fallback) || fallback;
+  const localizedRole = role => role === 'Assistant' ? tr('aiAssistant', 'Assistant') : role === 'User' ? tr('aiUser', 'User') : tr('aiText', 'Text');
+
 
   function parseConversation(raw) {
     raw = text(raw).trim();
@@ -13,21 +16,21 @@
     const lines = raw.split('\n');
     const out = [];
     let current = null;
-    const colonStart = /^(user|you|me|assistant|ai|chatgpt|claude|gemini|copilot)\s*[:：]\s*(.*)$/i;
-    const bareStart = /^(user|you|me|assistant|ai|chatgpt|claude|gemini|copilot)\s*$/i;
+    const colonStart = /^(user|you|me|usuario|utilisateur|nutzer|المستخدم|المستخدمه|assistant|asistente|assistent|المساعد|ai|chatgpt|claude|gemini|copilot)\s*[:：]\s*(.*)$/i;
+    const bareStart = /^(user|you|me|usuario|utilisateur|nutzer|المستخدم|المستخدمه|assistant|asistente|assistent|المساعد|ai|chatgpt|claude|gemini|copilot)\s*$/i;
     const push = () => { if (current && current.content.trim()) out.push({ ...current, content: current.content.trim() }); };
     for (const line of lines) {
       let m = line.match(colonStart);
       if (m) {
         push();
-        const role = /^(assistant|ai|chatgpt|claude|gemini|copilot)$/i.test(m[1]) ? 'Assistant' : 'User';
+        const role = /^(assistant|asistente|assistent|المساعد|ai|chatgpt|claude|gemini|copilot)$/i.test(m[1]) ? 'Assistant' : 'User';
         current = { role, content: m[2] };
         continue;
       }
       m = line.match(bareStart);
       if (m) {
         push();
-        const role = /^(assistant|ai|chatgpt|claude|gemini|copilot)$/i.test(m[1]) ? 'Assistant' : 'User';
+        const role = /^(assistant|asistente|assistent|المساعد|ai|chatgpt|claude|gemini|copilot)$/i.test(m[1]) ? 'Assistant' : 'User';
         current = { role, content: '' };
         continue;
       }
@@ -59,7 +62,7 @@
   function makeHtml(raw, title) {
     const msgs = parseConversation(raw);
     const source = msgs.length ? msgs : [{ role: 'Text', content: raw }];
-    return '<!doctype html><html><head><meta charset="utf-8"><title>' + esc(title) + '</title><style>@page{margin:18mm}body{font-family:Arial,sans-serif;line-height:1.55;margin:0;color:#111}h1{font-size:24px;margin:0 0 20px}h2{font-size:19px;margin-top:24px}.msg{border:1px solid #ddd;border-radius:10px;padding:14px;margin:12px 0;break-inside:avoid}.role{font-weight:bold;margin-bottom:8px;color:#315adf}pre{background:#f5f5f5;padding:12px;overflow:auto;white-space:pre-wrap}code{background:#f3f3f3;padding:2px 4px}a{color:#174ea6}ul{margin-top:6px}</style></head><body><h1>' + esc(title) + '</h1>' + source.map(m => '<section class="msg"><div class="role">' + esc(m.role) + '</div>' + markdownToHtml(m.content) + '</section>').join('') + '</body></html>';
+    return '<!doctype html><html lang="' + (window.QTI18n?.locale || 'en') + '" dir="' + (window.QTI18n?.direction || 'ltr') + '"><head><meta charset="utf-8"><title>' + esc(title) + '</title><style>@page{margin:18mm}body{font-family:Arial,sans-serif;line-height:1.55;margin:0;color:#111}h1{font-size:24px;margin:0 0 20px}h2{font-size:19px;margin-top:24px}.msg{border:1px solid #ddd;border-radius:10px;padding:14px;margin:12px 0;break-inside:avoid}.role{font-weight:bold;margin-bottom:8px;color:#315adf}pre{background:#f5f5f5;padding:12px;overflow:auto;white-space:pre-wrap}code{background:#f3f3f3;padding:2px 4px}a{color:#174ea6}ul{margin-top:6px}</style></head><body><h1>' + esc(title) + '</h1>' + source.map(m => '<section class="msg"><div class="role">' + esc(localizedRole(m.role)) + '</div>' + markdownToHtml(m.content) + '</section>').join('') + '</body></html>';
   }
 
   function crc32(bytes) {
@@ -120,24 +123,25 @@
       const size = heading[0].startsWith('# ') ? '30' : heading[0].startsWith('## ') ? '26' : '23';
       runs = '<w:r><w:rPr><w:b/><w:sz w:val="' + size + '"/></w:rPr><w:t xml:space="preserve">' + xmlEsc(heading[1]) + '</w:t></w:r>';
     } else if (bullet) {
-      ppr = '<w:pPr><w:ind w:left="360" w:hanging="180"/></w:pPr>';
+      ppr = window.QTI18n?.locale === 'ar' ? '<w:pPr><w:ind w:right="360" w:hanging="180"/></w:pPr>' : '<w:pPr><w:ind w:left="360" w:hanging="180"/></w:pPr>';
       runs = docxRunXml('• ' + bullet[1]);
     } else {
       runs = inlineDocxRuns(s);
     }
     if (opts.spaceBefore) ppr = '<w:pPr><w:spacing w:before="' + opts.spaceBefore + '"/></w:pPr>';
+    if (window.QTI18n?.locale === 'ar') ppr = ppr ? ppr.replace('<w:pPr>', '<w:pPr><w:bidi/>') : '<w:pPr><w:bidi/></w:pPr>';
     return '<w:p>' + ppr + runs + '</w:p>';
   }
 
   function docxTable(rows) {
     const cols = Math.max(...rows.map(r => r.length));
-    let xml = '<w:tbl><w:tblPr><w:tblBorders><w:top w:val="single" w:sz="4" w:color="CBD5E1"/><w:left w:val="single" w:sz="4" w:color="CBD5E1"/><w:bottom w:val="single" w:sz="4" w:color="CBD5E1"/><w:right w:val="single" w:sz="4" w:color="CBD5E1"/><w:insideH w:val="single" w:sz="4" w:color="CBD5E1"/><w:insideV w:val="single" w:sz="4" w:color="CBD5E1"/></w:tblBorders></w:tblPr>';
+    let xml = '<w:tbl><w:tblPr>' + (window.QTI18n?.locale === 'ar' ? '<w:bidiVisual/>' : '') + '<w:tblBorders><w:top w:val="single" w:sz="4" w:color="CBD5E1"/><w:left w:val="single" w:sz="4" w:color="CBD5E1"/><w:bottom w:val="single" w:sz="4" w:color="CBD5E1"/><w:right w:val="single" w:sz="4" w:color="CBD5E1"/><w:insideH w:val="single" w:sz="4" w:color="CBD5E1"/><w:insideV w:val="single" w:sz="4" w:color="CBD5E1"/></w:tblBorders></w:tblPr>';
     for (let ri=0; ri<rows.length; ri++) {
       xml += '<w:tr>';
       for (let ci=0; ci<cols; ci++) {
         const value = rows[ri][ci] ?? '';
         xml += '<w:tc><w:tcPr><w:tcW w:w="2400" w:type="dxa"/></w:tcPr>';
-        xml += '<w:p>' + (ri === 0 ? '<w:r><w:rPr><w:b/></w:rPr><w:t xml:space="preserve">' + xmlEsc(value || ' ') + '</w:t></w:r>' : inlineDocxRuns(value)) + '</w:p></w:tc>';
+        xml += '<w:p>' + (window.QTI18n?.locale === 'ar' ? '<w:pPr><w:bidi/></w:pPr>' : '') + (ri === 0 ? '<w:r><w:rPr><w:b/></w:rPr><w:t xml:space="preserve">' + xmlEsc(value || ' ') + '</w:t></w:r>' : inlineDocxRuns(value)) + '</w:p></w:tc>';
       }
       xml += '</w:tr>';
     }
@@ -166,9 +170,9 @@
   function docxXml(raw, title) {
     const msgs = parseConversation(raw), arr = msgs.length ? msgs : [{ role: 'Text', content: raw }];
     let body = '<w:p><w:pPr><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="34"/></w:rPr><w:t>' + xmlEsc(title) + '</w:t></w:r></w:p>';
-    body += '<w:p><w:pPr><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:color w:val="64748B"/></w:rPr><w:t>Created locally on your device</w:t></w:r></w:p>';
+    body += '<w:p><w:pPr><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:color w:val="64748B"/></w:rPr><w:t>' + xmlEsc(tr('aiCreatedLocally', 'Created locally on your device')) + '</w:t></w:r></w:p>';
     for (const m of arr) {
-      body += '<w:p><w:pPr><w:spacing w:before="260" w:after="100"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="24"/><w:color w:val="2563EB"/></w:rPr><w:t>' + xmlEsc(m.role) + '</w:t></w:r></w:p>';
+      body += '<w:p><w:pPr>' + (window.QTI18n?.locale === 'ar' ? '<w:bidi/><w:jc w:val="right"/>' : '') + '<w:spacing w:before="260" w:after="100"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="24"/><w:color w:val="2563EB"/></w:rPr><w:t>' + xmlEsc(localizedRole(m.role)) + '</w:t></w:r></w:p>';
       body += contentXml(m.content);
     }
     return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>' + body + '<w:sectPr><w:pgSz w:w="12240" w:h="15840"/><w:pgMar w:top="900" w:right="1080" w:bottom="900" w:left="1080"/></w:sectPr></w:body></w:document>';
@@ -179,7 +183,8 @@
       '[Content_Types].xml':'<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/><Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/><Override PartName="/docProps/app.xml" ContentType="application/vnd.openxmlformats-officedocument.extended-properties+xml"/></Types>',
       '_rels/.rels':'<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/><Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties" Target="docProps/app.xml"/></Relationships>',
       'word/document.xml':docxXml(raw,title),
-      'word/styles.xml':'<?xml version="1.0" encoding="UTF-8"?><w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="Arial" w:hAnsi="Arial"/><w:sz w:val="22"/></w:rPr></w:rPrDefault></w:docDefaults></w:styles>',
+      'word/_rels/document.xml.rels':'<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rIdStyles" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>',
+      'word/styles.xml':'<?xml version="1.0" encoding="UTF-8"?><w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:docDefaults>'+(window.QTI18n?.locale === 'ar'?'<w:pPrDefault><w:pPr><w:bidi/></w:pPr></w:pPrDefault><w:rPrDefault><w:rPr><w:rtl/><w:rFonts w:ascii="Arial" w:hAnsi="Arial"/><w:sz w:val="22"/></w:rPr></w:rPrDefault>':'<w:rPrDefault><w:rPr><w:rFonts w:ascii="Arial" w:hAnsi="Arial"/><w:sz w:val="22"/></w:rPr></w:rPrDefault>')+'</w:docDefaults></w:styles>',
       'word/settings.xml':'<?xml version="1.0" encoding="UTF-8"?><w:settings xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:zoom w:percent="100"/></w:settings>',
       'docProps/core.xml':'<?xml version="1.0" encoding="UTF-8"?><cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/"><dc:title>'+xmlEsc(title)+'</dc:title><dc:creator>QantaraTools</dc:creator><cp:lastModifiedBy>QantaraTools</cp:lastModifiedBy></cp:coreProperties>',
       'docProps/app.xml':'<?xml version="1.0" encoding="UTF-8"?><Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties"><Application>QantaraTools</Application></Properties>'
@@ -200,7 +205,8 @@
     const maxCols=Math.max(1,...rows.map(x=>x.length));
     const maxRows=Math.max(1,rows.length);
     let r='<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">';
-    r+='<sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/><selection pane="bottomLeft" activeCell="A2" sqref="A2"/></sheetView></sheetViews>';
+    const rtl = window.QTI18n?.locale === 'ar';
+    r+='<sheetViews><sheetView workbookViewId="0"'+(rtl?' rightToLeft="1"':'')+'><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/><selection pane="bottomLeft" activeCell="A2" sqref="A2"/></sheetView></sheetViews>';
     r+='<sheetFormatPr defaultRowHeight="18"/>';
     r+='<cols>';
     for(let i=0;i<maxCols;i++){
@@ -227,13 +233,13 @@
   function makeXlsx(raw) {
     const msgs=parseConversation(raw);
     let rows;
-    if(msgs.length) rows=[['Speaker','Message'],...msgs.map(m=>[m.role,m.content])];
+    if(msgs.length) rows=[[tr('aiSpeaker','Speaker'),tr('aiMessage','Message')],...msgs.map(m=>[localizedRole(m.role),m.content])];
     else rows=csvMatrix(raw);
-    if(!rows.length) rows=[['Text','']];
+    if(!rows.length) rows=[[tr('aiText','Text'),'']];
     return zipStore({
       '[Content_Types].xml':'<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/></Types>',
       '_rels/.rels':'<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>',
-      'xl/workbook.xml':'<?xml version="1.0" encoding="UTF-8"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="Conversation" sheetId="1" r:id="rId1"/></sheets></workbook>',
+      'xl/workbook.xml':'<?xml version="1.0" encoding="UTF-8"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="' + xmlEsc(tr('aiSheetName', 'Conversation').slice(0,31)) + '" sheetId="1" r:id="rId1"/></sheets></workbook>',
       'xl/styles.xml':'<?xml version="1.0" encoding="UTF-8"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><fonts count="2"><font><sz val="11"/><name val="Arial"/></font><font><b/><sz val="11"/><name val="Arial"/></font></fonts><fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="solid"><fgColor rgb="E2E8F0"/><bgColor indexed="64"/></patternFill></fill></fills><borders count="2"><border/><border><left style="thin"><color rgb="CBD5E1"/></left><right style="thin"><color rgb="CBD5E1"/></right><top style="thin"><color rgb="CBD5E1"/></top><bottom style="thin"><color rgb="CBD5E1"/></bottom></border></borders><cellXfs count="3"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/><xf numFmtId="0" fontId="1" fillId="1" borderId="1" applyFont="1" applyFill="1" applyBorder="1"/><xf numFmtId="0" fontId="0" fillId="0" borderId="1" applyBorder="1" applyAlignment="1"><alignment vertical="top" wrapText="1"/></xf></cellXfs></styleSheet>',
       'xl/_rels/workbook.xml.rels':'<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>',
       'xl/worksheets/sheet1.xml':sheetXml(rows)
@@ -252,7 +258,7 @@
     for (let p = bytes.length - 22; p >= min; p--) {
       if (u32at(p) === 0x06054b50) { eocd = p; break; }
     }
-    if (eocd < 0) throw new Error('This Word file is not a valid ZIP-based document.');
+    if (eocd < 0) throw new Error(tr('aiDocxInvalidZip', 'This Word file is not a valid ZIP-based document.'));
     const entries = u16at(eocd + 10);
     const cdOffset = u32at(eocd + 16);
     let p = cdOffset;
@@ -266,7 +272,7 @@
       const localOffset = u32at(p + 42);
       const name = dec.decode(bytes.slice(p + 46, p + 46 + nameLen));
       if (name === wantedName) {
-        if (u32at(localOffset) !== 0x04034b50) throw new Error('The Word document has an invalid file entry.');
+        if (u32at(localOffset) !== 0x04034b50) throw new Error(tr('aiDocxInvalidEntry', 'The Word document has an invalid file entry.'));
         const localNameLen = u16at(localOffset + 26);
         const localExtraLen = u16at(localOffset + 28);
         const dataStart = localOffset + 30 + localNameLen + localExtraLen;
@@ -276,22 +282,22 @@
           const stream = new Blob([raw]).stream().pipeThrough(new DecompressionStream('deflate-raw'));
           return new Uint8Array(await new Response(stream).arrayBuffer());
         }
-        throw new Error('This Word file uses compression your browser cannot read locally.');
+        throw new Error(tr('aiDocxCompression', 'This Word file uses compression your browser cannot read locally.'));
       }
       p += 46 + nameLen + extraLen + commentLen;
     }
-    throw new Error('The Word file does not contain a readable document.');
+    throw new Error(tr('aiDocxUnreadable', 'The Word file does not contain a readable document.'));
   }
 
   function docxXmlToText(xml) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(xml, 'application/xml');
-    if (doc.querySelector('parsererror')) throw new Error('The Word document could not be read.');
+    if (doc.querySelector('parsererror')) throw new Error(tr('aiDocxXmlError', 'The Word document could not be read.'));
     const ns = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main';
     const textOf = node => [...node.getElementsByTagNameNS(ns, 't')].map(n => n.textContent || '').join('');
     const paragraphs = [];
     const body = doc.getElementsByTagNameNS(ns, 'body')[0];
-    if (!body) throw new Error('The Word document has no readable body.');
+    if (!body) throw new Error(tr('aiDocxNoBody', 'The Word document has no readable body.'));
     for (const child of body.children) {
       if (child.localName === 'p') {
         let value = textOf(child);
@@ -321,38 +327,39 @@
     return (v||'conversation').slice(0,80);
   }
   function download(blob,name) { const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1000); }
-  function openPdfPrint(raw,title) { const w=window.open('','_blank'); if(!w){alert('Please allow pop-ups for the PDF preview.');return;} w.document.open();w.document.write(makeHtml(raw,title));w.document.close();w.focus();setTimeout(()=>w.print(),450); }
+  function openPdfPrint(raw,title) { const w=window.open('','_blank'); if(!w){alert(tr('aiPopup', 'Please allow pop-ups for the PDF preview.'));return;} w.document.open();w.document.write(makeHtml(raw,title));w.document.close();w.focus();setTimeout(()=>w.print(),450); }
 
   window.loadAiToOfficeTool=function(){
+    window.QTActiveToolId='ai-office';
     const box=document.getElementById('active-tool-box'),grid=document.getElementById('tools-grid-container'),view=document.getElementById('tool-view-container');
     if(grid)grid.classList.add('hidden');if(view)view.classList.remove('hidden');
     box.innerHTML=`<div dir="auto">
-      <div class="mb-6"><h2 class="text-2xl font-bold text-slate-100 mb-2">Chat to Office File Converter</h2><p class="text-slate-400">Turn a copied AI conversation, text file, or Word document into a clean Word, Excel, or PDF file. Everything is processed on your device.</p></div>
+      <div class="mb-6"><h2 class="text-2xl font-bold text-slate-100 mb-2">${tr('aiTitle', 'Chat to Office File Converter')}</h2><p class="text-slate-400">${tr('aiIntro', 'Turn a copied AI conversation, text file, or Word document into a clean Word, Excel, or PDF file. Everything is processed on your device.')}</p></div>
       <div class="mb-4 flex flex-col sm:flex-row gap-3 items-stretch sm:items-end">
-        <label class="flex-1 text-sm text-slate-400">File name<input id="ai-office-name" class="mt-1 w-full p-3 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" value="conversation" maxlength="80"></label>
-        <label class="px-4 py-3 rounded-xl border border-slate-700 text-slate-200 cursor-pointer text-center hover:bg-slate-800">Open a text or Word file<input id="ai-office-file" type="file" accept=".txt,.md,.csv,.docx,text/plain,text/markdown,text/csv,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="hidden"></label>
-        <button id="ai-example" class="px-4 py-3 rounded-xl border border-slate-700 text-slate-300 hover:bg-slate-800">Load Example</button><button id="ai-clear" class="px-4 py-3 rounded-xl border border-slate-700 text-slate-300 hover:bg-slate-800">Clear</button>
+        <label class="flex-1 text-sm text-slate-400">${tr('aiFileName', 'File name')}<input id="ai-office-name" class="mt-1 w-full p-3 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" value="${tr('aiDefaultFilename', 'conversation')}" maxlength="80"></label>
+        <label class="px-4 py-3 rounded-xl border border-slate-700 text-slate-200 cursor-pointer text-center hover:bg-slate-800">${tr('aiOpenFile', 'Open a text or Word file')}<input id="ai-office-file" type="file" accept=".txt,.md,.csv,.docx,text/plain,text/markdown,text/csv,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="hidden"></label>
+        <button id="ai-example" class="px-4 py-3 rounded-xl border border-slate-700 text-slate-300 hover:bg-slate-800">${tr('aiExample', 'Load Example')}</button><button id="ai-clear" class="px-4 py-3 rounded-xl border border-slate-700 text-slate-300 hover:bg-slate-800">${tr('aiClear', 'Clear')}</button>
       </div>
-      <textarea id="ai-office-input" rows="16" class="w-full p-4 rounded-2xl bg-slate-950 border border-slate-700 text-slate-100 focus:outline-none focus:border-blue-500" placeholder="Paste your AI conversation or any text here...\n\nExample:\nUser: Create a project plan\nAssistant: Here is the plan..."></textarea>
-      <div class="mt-2 flex justify-between text-xs text-slate-500"><span id="ai-count">0 characters</span><span id="ai-status">Ready</span></div>
+      <textarea id="ai-office-input" rows="16" class="w-full p-4 rounded-2xl bg-slate-950 border border-slate-700 text-slate-100 focus:outline-none focus:border-blue-500" placeholder="${tr('aiPlaceholder', 'Paste your AI conversation or any text here...')}"></textarea>
+      <div class="mt-2 flex justify-between text-xs text-slate-500"><span id="ai-count">0 ${tr('aiCharacters', 'characters')}</span><span id="ai-status">${tr('aiReady', 'Ready')}</span></div>
       <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-3">
-        <button id="ai-word" class="px-4 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold">Download Word file</button>
-        <button id="ai-excel" class="px-4 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold">Download Excel file</button>
-        <button id="ai-pdf" class="px-4 py-3 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-semibold">Create PDF file</button>
+        <button id="ai-word" class="px-4 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold">${tr('aiWordDownload', 'Download Word file')}</button>
+        <button id="ai-excel" class="px-4 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold">${tr('aiExcelDownload', 'Download Excel file')}</button>
+        <button id="ai-pdf" class="px-4 py-3 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-semibold">${tr('aiCreatePdf', 'Create PDF file')}</button>
       </div>
-      <div class="mt-4 p-4 rounded-xl bg-slate-900 border border-slate-800 text-sm text-slate-400"><strong class="text-slate-300">How it works:</strong> Word keeps each speaker and message easy to read. Excel creates a readable Speaker / Message table for conversations, with wrapped text, filters, and a frozen header. For tabular CSV-style text, it keeps the rows and columns. PDF opens a clean print view so you can choose Save as PDF. Your text is not uploaded.</div>
+      <div class="mt-4 p-4 rounded-xl bg-slate-900 border border-slate-800 text-sm text-slate-400"><strong class="text-slate-300">${tr('aiHow', 'How it works:')}</strong> ${tr('aiWordExplain', 'Word keeps each speaker and message easy to read.')} ${tr('aiExcelExplain', 'Excel creates a readable Speaker / Message table for conversations, with wrapped text, filters, and a frozen header. For CSV-style text, it keeps the rows and columns.')} ${tr('aiPdfExplain', 'PDF opens a clean print view so you can choose Save as PDF.')} ${tr('aiPrivacy', 'Your text is not uploaded.')}</div>
     </div>`;
 
     const input=document.getElementById('ai-office-input'), count=document.getElementById('ai-count'), status=document.getElementById('ai-status'), name=document.getElementById('ai-office-name');
-    const update=()=>{const n=input.value.length;count.textContent=n.toLocaleString()+' character'+(n===1?'':'s');const msgs=parseConversation(input.value);status.textContent=input.value.trim()?(msgs.length>1?msgs.length+' messages detected':'Ready to convert'):'Waiting for text';};
+    const update=()=>{const n=input.value.length;count.textContent=(window.QTI18n?.formatNumber(n) || n.toLocaleString())+' '+(n===1?tr('aiCharacter','character'):tr('aiCharacters','characters'));const msgs=parseConversation(input.value);status.textContent=input.value.trim()?(msgs.length>1?(window.QTI18n?.formatNumber(msgs.length) || msgs.length)+' '+tr('aiMessagesDetected','messages detected'):tr('aiReadyConvert','Ready to convert')):tr('aiWaiting','Waiting for text');};
     input.addEventListener('input',update);
-    document.getElementById('ai-example').onclick=()=>{input.value='User: Create a short project plan\nAssistant: Here is a clear plan.\n\nUser: Include a simple table.\nAssistant: Name\tStatus\nWebsite\tReady\nTesting\tIn progress';name.value='qantaratools-example';update();status.textContent='Example loaded';};
+    document.getElementById('ai-example').onclick=()=>{input.value=tr('aiExampleText', 'User: Create a short project plan\\nAssistant: Here is a clear plan.');name.value=tr('aiDefaultFilename', 'conversation')+'-example';update();status.textContent=tr('aiExampleLoaded','Example loaded');};
     document.getElementById('ai-clear').onclick=()=>{input.value='';update();input.focus();};
-    document.getElementById('ai-office-file').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{const isDocx=/\.docx$/i.test(file.name)||file.type==='application/vnd.openxmlformats-officedocument.wordprocessingml.document';input.value=isDocx?await readDocxFile(file):await file.text();name.value=safeFileName(file.name.replace(/\.[^.]+$/,''));update();status.textContent=isDocx?'Word document loaded locally':'Text loaded locally';}catch(err){status.textContent='Could not open the selected file';alert(err?.message||'The selected file could not be opened locally.');}e.target.value='';};
-    const ensure=()=>{if(!input.value.trim()){alert('Please paste or open some text first.');return false;}return true;};
-    document.getElementById('ai-word').onclick=()=>{if(!ensure())return;download(makeDocx(input.value,name.value.trim() || 'Conversation'),safeFileName(name.value)+'.docx');status.textContent='Word file created locally';};
-    document.getElementById('ai-excel').onclick=()=>{if(!ensure())return;download(makeXlsx(input.value),safeFileName(name.value)+'.xlsx');status.textContent='Excel file created locally';};
-    document.getElementById('ai-pdf').onclick=()=>{if(!ensure())return;openPdfPrint(input.value,name.value.trim() || 'Conversation');status.textContent='PDF print view opened locally — choose Save as PDF';};
+    document.getElementById('ai-office-file').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{const isDocx=/\.docx$/i.test(file.name)||file.type==='application/vnd.openxmlformats-officedocument.wordprocessingml.document';input.value=isDocx?await readDocxFile(file):await file.text();name.value=safeFileName(file.name.replace(/\.[^.]+$/,''));update();status.textContent=isDocx?tr('aiWordLoaded','Word document loaded locally'):tr('aiTextLoaded','Text loaded locally');}catch(err){status.textContent=tr('aiFileError','Could not open the selected file');alert(err?.message||tr('aiFileErrorDetail','The selected file could not be opened locally.'));}e.target.value='';};
+    const ensure=()=>{if(!input.value.trim()){alert(tr('aiPasteFirst','Please paste or open some text first.'));return false;}return true;};
+    document.getElementById('ai-word').onclick=()=>{if(!ensure())return;download(makeDocx(input.value,name.value.trim() || tr('aiDefaultFilename', 'conversation')),safeFileName(name.value)+'.docx');status.textContent=tr('aiWordCreated','Word file created locally');};
+    document.getElementById('ai-excel').onclick=()=>{if(!ensure())return;download(makeXlsx(input.value),safeFileName(name.value)+'.xlsx');status.textContent=tr('aiExcelCreated','Excel file created locally');};
+    document.getElementById('ai-pdf').onclick=()=>{if(!ensure())return;openPdfPrint(input.value,name.value.trim() || tr('aiDefaultFilename', 'conversation'));status.textContent=tr('aiPdfOpened','PDF print view opened locally — choose Save as PDF');};
     update();
     requestAnimationFrame(() => window.QTToolFeedback?.add('ai-office', 'AI Chat & Content to Office Converter'));
   };

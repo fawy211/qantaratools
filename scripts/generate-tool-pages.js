@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const root = path.resolve(__dirname, '..');
-const site = 'https://qantaratools.com';
+const site = 'https://www.qantaratools.com';
 const today = new Date().toISOString().slice(0, 10);
 const tools = JSON.parse(fs.readFileSync(path.join(root, 'tool-pages.json'), 'utf8'));
 const seo = require('./seo-content.js');
@@ -95,13 +95,13 @@ const page = tool => {
   <meta property="og:title" content="${esc(pageTitle)}"><meta property="og:description" content="${esc(desc)}"><meta property="og:url" content="${esc(url)}">
   <meta property="og:image" content="${site}/assets/branding/og-image.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${esc(pageTitle)}"><meta name="twitter:description" content="${esc(desc)}"><meta name="twitter:image" content="${site}/assets/branding/og-image.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script src="/assets/js/fontawesome-loader.js"></script>
+  <script src="/assets/js/tailwind-loader.js"></script>
   <link rel="stylesheet" href="/assets/css/custom.css">
   <link rel="stylesheet" href="/assets/css/theme-light.css">
+  <link rel="stylesheet" href="/assets/css/qt-redesign.css">
   <script src="/assets/js/theme.js"></script>
+  <script src="/assets/js/language-switcher.js" defer></script>
   <script type="application/ld+json">${jsonLd}</script>
   <script>try{document.documentElement.classList.toggle('dark',localStorage.getItem('theme')!=='light');document.documentElement.dataset.identity=localStorage.getItem('visual_identity')||'electric';}catch(e){document.documentElement.classList.add('dark');}</script>
   <style>${css}</style>
@@ -141,6 +141,7 @@ const page = tool => {
   <script src="/assets/js/consent.js"></script>
   <script src="/assets/js/plugin-system.js"></script>
   <script src="/assets/js/tool-feedback.js"></script>
+  <script src="/assets/js/i18n.js"></script>
   <script src="/assets/js/router.js"></script>
   <script src="/assets/js/accessibility.js"></script>
   <script>window.addEventListener('DOMContentLoaded',()=>{if(window.router)window.router.loadTool(${JSON.stringify(tool.category)},${JSON.stringify(tool.title)},${JSON.stringify(tool.id)});});</script>

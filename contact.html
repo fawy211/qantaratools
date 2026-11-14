@@ -6,9 +6,9 @@
 <meta name="theme-color" content="#17151f">
 <meta name="robots" content="index, follow">
 <link rel="icon" type="image/svg+xml" href="assets/branding/favicon.svg">
-<link rel="canonical" href="https://qantaratools.com/contact.html">
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="canonical" href="https://www.qantaratools.com/contact.html">
+<script src="/assets/js/tailwind-loader.js"></script>
+<script src="/assets/js/fontawesome-loader.js"></script>
 <link rel="stylesheet" href="assets/css/custom.css">
 <link rel="stylesheet" href="assets/css/theme-light.css">
 <script src="assets/js/theme.js"></script>
@@ -19,6 +19,17 @@
 
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6378843738233809" crossorigin="anonymous"></script>
+<script>
+(function(){
+  var params=new URLSearchParams(location.search);
+  var match=location.pathname.match(/^\/(de|fr|es)(?:\/|$)/);
+  var locale=match?match[1]:(params.get('locale')==='ar'?'ar':'en');
+  document.documentElement.lang=locale;
+  document.documentElement.dir=locale==='ar'?'rtl':'ltr';
+  document.documentElement.dataset.locale=locale;
+  try{localStorage.setItem('qantaratools_language_v1',locale);}catch(_){}
+})();
+</script>
 </head>
 <body class="qt-policy-page">
 <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -30,5 +41,7 @@
 <section class="qt-static-card"><h2>Before You Contact Us</h2><ul><li>Refresh the page and try the tool again.</li><li>Use a current browser.</li><li>For file tools, try a smaller sample file.</li><li>Tell us exactly which step failed and what you expected to happen.</li></ul></section>
 </main>
 <footer class="qt-policy-footer">© 2026 QantaraTools · <a href="about-us.html">About</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="contact.html">Contact</a></footer>
+<script src="assets/js/language-switcher.js" defer></script>
+<script src="assets/js/static-page-ar.js" defer></script>
 </body>
 </html>

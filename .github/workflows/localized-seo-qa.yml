@@ -1,0 +1,269 @@
+name: Localized SEO QA
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feature/complete-multilingual-support
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+concurrency:
+  group: localized-seo-qa-v5-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  localized-seo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Validate JavaScript syntax
+        run: |
+          node --check scripts/seo-locales.js
+          node --check scripts/validate-localized-seo.js
+          node --check scripts/generate-tool-pages.js
+          node --check scripts/generate-localized-tool-pages.js
+          node --check scripts/generate-localized-static-pages.js
+          node --check scripts/legal-page-translations.js
+          node --check assets/js/static-page-ar.js
+          node --check scripts/validate-localized-pages.js
+          node --check scripts/prepare-vendor-assets.js
+          node --check tests/localized-error-handling.spec.js
+          node --check 'tools/Security & Media/Image Format Converter.js'
+          node --check 'tools/Security & Media/Image Compressor & Resizer.js'
+          node --check 'tools/Security & Media/Image Cropper.js'
+          node --check tools/image-advanced.js
+      - name: Validate complete localized SEO records
+        run: npm run i18n:seo:check
+      - name: Regenerate English and localized tool pages
+        run: |
+          node scripts/generate-tool-pages.js
+          node scripts/generate-localized-tool-pages.js
+          node scripts/generate-localized-static-pages.js
+          node scripts/validate-localized-pages.js
+      - name: Verify localized page output
+        run: |
+          test "$(find de/tools -name index.html | wc -l)" -eq 50
+          test "$(find fr/tools -name index.html | wc -l)" -eq 50
+          test "$(find es/tools -name index.html | wc -l)" -eq 50
+          grep -q 'hreflang="de"' tools/base64/index.html
+          grep -q '/de/tools/base64/' sitemap.xml
+          grep -q '/de/about-us/' sitemap.xml
+          grep -q '/fr/contact/' sitemap.xml
+          grep -q '/es/about-us/' sitemap.xml
+          grep -q '/de/faq/' sitemap.xml
+          grep -q '/fr/faq/' sitemap.xml
+          grep -q '/es/faq/' sitemap.xml
+          test -s de/about-us/index.html
+          test -s fr/about-us/index.html
+          test -s es/about-us/index.html
+          test -s de/contact/index.html
+          test -s fr/contact/index.html
+          test -s es/contact/index.html
+          test -s de/faq/index.html
+          test -s fr/faq/index.html
+          test -s es/faq/index.html
+          test -s de/privacy/index.html
+          test -s fr/privacy/index.html
+          test -s es/privacy/index.html
+          test -s de/terms/index.html
+          test -s fr/terms/index.html
+          test -s es/terms/index.html
+          # The selector is injected at runtime by the shared language-switcher script.
+          grep -q 'assets/js/language-switcher.js' de/tools/base64/index.html
+          grep -q 'assets/js/language-switcher.js' fr/tools/base64/index.html
+          grep -q 'assets/js/language-switcher.js' es/tools/base64/index.html
+          grep -q "de: { name: 'Deutsch', label: 'Sprache' }" assets/js/language-switcher.js
+          grep -q "fr: { name: 'Français', label: 'Langue' }" assets/js/language-switcher.js
+          grep -q "es: { name: 'Español', label: 'Idioma' }" assets/js/language-switcher.js
+          grep -q 'data-theme-toggle' de/tools/base64/index.html
+          grep -q 'data-theme-toggle' fr/tools/base64/index.html
+          grep -q 'data-theme-toggle' es/tools/base64/index.html
+          grep -q '/de/privacy/' de/tools/base64/index.html
+          grep -q '/fr/terms/' fr/tools/base64/index.html
+          grep -q '/es/privacy/' es/tools/base64/index.html
+          grep -q 'Datenschutzerklärung' de/privacy/index.html
+          grep -q 'Politique de confidentialité' fr/privacy/index.html
+          grep -q 'Política de privacidad' es/privacy/index.html
+          grep -q 'Nutzungsbedingungen' de/terms/index.html
+          grep -q 'Conditions d’utilisation' fr/terms/index.html
+          grep -q 'Términos del servicio' es/terms/index.html
+          # Catch partial replacements where a short label was translated before a longer phrase.
+          ! grep -q 'Kontakt Us\|Datenschutz Policy\|Nutzungsbedingungen of Service' de/contact/index.html de/privacy/index.html de/terms/index.html
+          ! grep -q 'Confidentialité Policy\|Conditions of Service' fr/privacy/index.html fr/terms/index.html
+          ! grep -q 'Privacidad Policy\|Términos del servicio of Service' es/privacy/index.html es/terms/index.html
+          grep -q 'QANTARATOOLS / DATENSCHUTZ' de/privacy/index.html
+          grep -q 'QANTARATOOLS / CONFIDENTIALITÉ' fr/privacy/index.html
+          grep -q 'QANTARATOOLS / PRIVACIDAD' es/privacy/index.html
+          grep -q 'Navigation principale' fr/contact/index.html
+          grep -q 'Navegación principal' es/contact/index.html
+          grep -q 'Hauptnavigation' de/contact/index.html
+          grep -q 'Changer de thème' fr/contact/index.html
+          grep -q 'Assistance QantaraTools' fr/contact/index.html
+          grep -q 'Soporte de QantaraTools' es/contact/index.html
+          grep -q 'QantaraTools-Support' de/contact/index.html
+          grep -q 'Nous contacter' fr/contact/index.html
+          grep -q 'Contacto' es/contact/index.html
+          grep -q 'Kontaktieren Sie uns' de/contact/index.html
+          ! grep -q 'Contact Us\|Main navigation\|Toggle theme' de/contact/index.html fr/contact/index.html es/contact/index.html
+          grep -q '/de/privacy/' sitemap.xml
+          grep -q '/fr/terms/' sitemap.xml
+          # Arabic static-page translations are loaded for ?locale=ar and must ship with generated pages.
+          test -s assets/js/static-page-ar.js
+          for page in about-us contact faq privacy terms; do
+            grep -q 'static-page-ar.js' "$page.html"
+          done
+          grep -q 'سياسة الخصوصية' assets/js/static-page-ar.js
+          grep -q 'شروط الاستخدام' assets/js/static-page-ar.js
+          grep -q 'الأسئلة الشائعة' assets/js/static-page-ar.js
+          # Static information/legal pages must expose the language selector and reciprocal SEO metadata.
+          for locale in de fr es; do
+            for slug in about-us contact faq privacy terms; do
+              file="$locale/$slug/index.html"
+              test -s "$file"
+              grep -q 'assets/js/language-switcher.js' "$file"
+              grep -q "<html lang=\"$locale\"" "$file"
+              grep -q "https://www.qantaratools.com/$locale/$slug/" "$file"
+              grep -q 'hreflang="en"' "$file"
+              grep -q 'hreflang="de"' "$file"
+              grep -q 'hreflang="fr"' "$file"
+              grep -q 'hreflang="es"' "$file"
+              grep -q 'hreflang="x-default"' "$file"
+            done
+          done
+          # Language switcher must map all five static page routes in both directions.
+          for slug in about-us contact faq privacy terms; do
+            grep -q "'/$slug.html'" assets/js/language-switcher.js
+            grep -q "'/$slug/'" assets/js/language-switcher.js
+          done
+          grep -q 'Über QantaraTools' de/about-us/index.html
+          grep -q 'À propos de QantaraTools' fr/about-us/index.html
+          grep -q 'Acerca de QantaraTools' es/about-us/index.html
+          grep -q 'Häufig gestellte Fragen' de/faq/index.html
+          grep -q 'Foire aux questions' fr/faq/index.html
+          grep -q 'Preguntas frecuentes' es/faq/index.html
+          grep -q 'Häufige Fragen und Hilfe zur Fehlerbehebung' de/faq/index.html
+          grep -q 'Questions fréquentes et aide au dépannage' fr/faq/index.html
+          grep -q 'Preguntas frecuentes y ayuda para solucionar problemas' es/faq/index.html
+          ! grep -q 'Use the Kontakt Us page\|Use the Nous contacter page\|Use the Contacto Us page' de/faq/index.html fr/faq/index.html es/faq/index.html
+          ! grep -q 'No blanket guarantee should be assumed' de/faq/index.html fr/faq/index.html es/faq/index.html
+      - name: Install browser test dependencies
+        run: |
+          npm install --no-package-lock --no-audit --no-fund
+          npx playwright install chromium
+      - name: Smoke test Express static routes for all localized legal pages
+        run: |
+          PORT=4174 node assets/js/server.js > /tmp/qantaratools-server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          ready=0
+          for attempt in $(seq 1 15); do
+            if ! kill -0 "$SERVER_PID" 2>/dev/null; then
+              cat /tmp/qantaratools-server.log
+              exit 1
+            fi
+            if curl --max-time 2 -fsS http://127.0.0.1:4174/index.html >/dev/null; then ready=1; break; fi
+            sleep 1
+          done
+          if [ "$ready" -ne 1 ]; then
+            cat /tmp/qantaratools-server.log
+            exit 1
+          fi
+          for locale in de fr es; do
+            for slug in about-us faq contact privacy terms; do
+              curl --max-time 5 -fsS "http://127.0.0.1:4174/$locale/$slug/" >/dev/null
+            done
+          done
+          for slug in about-us faq contact privacy terms; do
+            curl --max-time 5 -fsS "http://127.0.0.1:4174/$slug.html" >/dev/null
+          done
+      - name: Build local Tailwind CSS
+        run: npm run build:css
+      - name: Verify compiled Tailwind stylesheet
+        run: test -s assets/css/tailwind-local.css
+      - name: Test local-first Tailwind and CDN fallback
+        run: npx playwright test tests/tailwind-local.spec.js --project=chromium --workers=1
+      - name: Prepare pinned local helper assets
+        run: node scripts/prepare-vendor-assets.js
+      - name: Verify prepared local vendor assets
+        run: |
+          test -s assets/vendor/fontawesome/6.4.0/css/all.min.css
+          test -s assets/vendor/fontawesome/6.4.0/LICENSE
+          test -n "$(find assets/vendor/fontawesome/6.4.0/webfonts -type f | grep -E '\.(woff2?|ttf|otf)$')"
+          test -s assets/vendor/pdf-lib/1.17.1/pdf-lib.min.js
+          test -s assets/vendor/jspdf/2.5.1/jspdf.umd.min.js
+          test -s assets/vendor/qrcodejs/1.0.0/qrcode.min.js
+          test -s assets/vendor/exif-js/2.3.0/exif.js
+      # Upload the runnable copy before the longer browser suites so it remains available
+      # even if a later functional test finds a defect. The run result still determines QA status.
+      - name: Package VS Code test copy
+        run: |
+          package_dir="$RUNNER_TEMP/qantaratools-vscode-package"
+          rm -rf "$package_dir"
+          mkdir -p "$package_dir" dist
+          rsync -a ./ "$package_dir/" \
+            --exclude='.git/' \
+            --exclude='node_modules/' \
+            --exclude='test-results/' \
+            --exclude='playwright-report/' \
+            --exclude='dist/' \
+            --exclude='.github/' \
+            --exclude='*.log'
+          (cd "$package_dir" && zip -qr "$GITHUB_WORKSPACE/dist/QantaraTools-VSCode-Test.zip" .)
+          unzip -t dist/QantaraTools-VSCode-Test.zip
+      - name: Upload VS Code test copy
+        uses: actions/upload-artifact@v4
+        with:
+          name: QantaraTools-VSCode-Test
+          path: |
+            dist/QantaraTools-VSCode-Test.zip
+            VSCODE-TESTING.md
+          if-no-files-found: error
+          retention-days: 14
+      - name: Test localized static and legal page controls
+        run: npx playwright test tests/static-pages-controls.spec.js --project=chromium --workers=1
+      - name: Test all localized tool pages in small Chromium batches
+        run: npx playwright test tests/tool-load.spec.js --project=chromium --workers=2
+      - name: Test every tool interaction surface in all five locales
+        run: npx playwright test tests/tool-interaction-presence.spec.js --project=chromium --workers=2
+      - name: Test localized homepage and tool functionality
+        run: npx playwright test tests/localized-pages.spec.js --project=chromium --workers=2
+      - name: Test localized invalid-input and error handling
+        run: npx playwright test tests/localized-error-handling.spec.js --project=chromium --workers=1
+      - name: Test local-first tools with external network blocked
+        run: npx playwright test tests/offline-smoke.spec.js --project=chromium --workers=1
+      - name: Commit generated localized pages to feature branch
+        if: github.event_name == 'push' && github.ref == 'refs/heads/feature/complete-multilingual-support'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html de fr es tools sitemap.xml assets/vendor assets/fonts assets/css/tailwind-local.css
+          if ! git diff --cached --quiet; then
+            git commit -m "Generate localized SEO landing pages"
+            git fetch origin "$GITHUB_REF_NAME"
+            git rebase "origin/$GITHUB_REF_NAME"
+            for attempt in 1 2 3; do
+              if git push origin "HEAD:$GITHUB_REF_NAME"; then
+                exit 0
+              fi
+              if [ "$attempt" -lt 3 ]; then
+                git fetch origin "$GITHUB_REF_NAME"
+                git rebase "origin/$GITHUB_REF_NAME"
+              fi
+            done
+            echo "Could not push generated pages after 3 safe attempts."
+            exit 1
+          fi
