@@ -5,7 +5,8 @@ const path=require('node:path');
 const root=path.resolve(__dirname,'..');
 const site='https://qantaratools.com';
 const locales=['de','fr','es'];
-const pages=['about-us.html','contact.html','faq.html'];
+const pages=['about-us.html','contact.html','faq.html','privacy.html','terms.html'];
+const legalTranslations=require('./legal-page-translations.js');
 const dict={
 de:{
 'Skip to main content':'Zum Hauptinhalt springen','Home':'Startseite','About Us':'Über uns','About':'Über uns','FAQ':'FAQ','Contact':'Kontakt','Privacy':'Datenschutz','Terms':'Nutzungsbedingungen',
@@ -174,22 +175,24 @@ es:{
 }};
 function replaceText(html,map){for(const [a,b] of Object.entries(map)){html=html.split(a).join(b);}return html;}
 for(const locale of locales){
+ Object.assign(dict[locale], legalTranslations[locale] || {});
  const dir=path.join(root,locale);fs.mkdirSync(dir,{recursive:true});
  for(const page of pages){
   let html=fs.readFileSync(path.join(root,page),'utf8');
   html=replaceText(html,dict[locale]);
   html=html.replace(/<html lang="en" dir="ltr">/,'<html lang="'+locale+'" dir="ltr">');
-  const routeSlug=page==='about-us.html'?'about-us':(page==='contact.html'?'contact':'faq');
+  const routeSlug=({'about-us.html':'about-us','contact.html':'contact','faq.html':'faq','privacy.html':'privacy','terms.html':'terms'})[page];
   html=html.replace(/<link rel="canonical" href="https:\/\/qantaratools\.com\/[^"]*">/,'<link rel="canonical" href="https://qantaratools.com/'+locale+'/'+routeSlug+'/">');
   const pageTitles={
-   de:{'about-us.html':'Über QantaraTools','contact.html':'Kontakt | QantaraTools','faq.html':'Häufig gestellte Fragen | QantaraTools'},
-   fr:{'about-us.html':'À propos de QantaraTools','contact.html':'Contact | QantaraTools','faq.html':'Foire aux questions | QantaraTools'},
-   es:{'about-us.html':'Acerca de QantaraTools','contact.html':'Contacto | QantaraTools','faq.html':'Preguntas frecuentes | QantaraTools'}
+   de:{'about-us.html':'Über QantaraTools','contact.html':'Kontakt | QantaraTools','faq.html':'Häufig gestellte Fragen | QantaraTools','privacy.html':'Datenschutzerklärung | QantaraTools','terms.html':'Nutzungsbedingungen | QantaraTools'},
+   fr:{'about-us.html':'À propos de QantaraTools','contact.html':'Contact | QantaraTools','faq.html':'Foire aux questions | QantaraTools','privacy.html':'Politique de confidentialité | QantaraTools','terms.html':'Conditions d’utilisation | QantaraTools'},
+   es:{'about-us.html':'Acerca de QantaraTools','contact.html':'Contacto | QantaraTools','faq.html':'Preguntas frecuentes | QantaraTools','privacy.html':'Política de privacidad | QantaraTools','terms.html':'Términos del servicio | QantaraTools'}
   };
   html=html.replace(/<title>[^<]*<\/title>/,'<title>'+pageTitles[locale][page]+'</title>');
   html=html.replace(/href="index\.html"/g,'href="/'+locale+'/"');
   for(const p of pages.concat(['faq.html','privacy.html','terms.html','contact.html'])){
-   const target=p==='about-us.html'?'/'+locale+'/about-us/':(p==='contact.html'?'/'+locale+'/contact/':(p==='faq.html'?'/'+locale+'/faq/':'/'+p));
+   const slug=({'about-us.html':'about-us','contact.html':'contact','faq.html':'faq','privacy.html':'privacy','terms.html':'terms'})[p];
+   const target='/'+locale+'/'+slug+'/';
    html=html.replace(new RegExp('href="'+p.replace('.','\\.')+'"','g'),'href="'+target+'"');
   }
   html=html.replace(/(?:src|href)="assets\//g,'$&'.replace('assets/','/assets/'));
@@ -207,7 +210,7 @@ if(fs.existsSync(sitemapPath)){
  let sitemap=fs.readFileSync(sitemapPath,'utf8');
  const urls=[];
  for(const locale of locales){
-  for(const slug of ['about-us','contact','faq']){
+  for(const slug of ['about-us','contact','faq','privacy','terms']){
    const url=site+'/'+locale+'/'+slug+'/';
    if(!sitemap.includes('<loc>'+url+'</loc>')) urls.push('  <url><loc>'+url+'</loc></url>');
   }
@@ -216,4 +219,4 @@ if(fs.existsSync(sitemapPath)){
  fs.writeFileSync(sitemapPath,sitemap);
 }
 
-process.stdout.write('Generated localized About, Contact, and FAQ pages for de, fr, es.\\n');
+process.stdout.write('Generated localized About, Contact, FAQ, Privacy, and Terms pages for de, fr, es.\\n');
