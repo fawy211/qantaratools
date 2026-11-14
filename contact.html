@@ -22,7 +22,7 @@
 <script>
 (function(){
   var params=new URLSearchParams(location.search);
-  var match=location.pathname.match(/^\/(de|fr|es)(?:\/|$)/);
+  var match=location.pathname.match(/^\/(de|fr|es|ru|tr|hi|zh-CN)(?:\/|$)/);
   var locale=match?match[1]:(params.get('locale')==='ar'?'ar':'en');
   document.documentElement.lang=locale;
   document.documentElement.dir=locale==='ar'?'rtl':'ltr';
