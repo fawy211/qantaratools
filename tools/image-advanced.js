@@ -10,7 +10,7 @@ export class ImageWatermarkTool {
     this.root=document.getElementById(id);
     this.image=null; this.logo=null;
     this.textPos={x:.5,y:.5}; this.logoPos={x:.5,y:.5};
-    this.activeLayer='text'; this.dragging=false;
+    this.activeLayer='text'; this.dragging=false; this.selectedPosition='center';
     const locale=(window.QTI18n?.locale||'en').toLowerCase().slice(0,2);
     const c={
       en:{desc:'Add a text watermark, a logo image, or both. Position and customize each layer separately. Everything stays on your device.',upload:'Base image',text:'Text watermark',placeholder:'Enter watermark text',size:'Text size',opacity:'Text opacity',color:'Text color',logo:'Logo image (optional)',logoSize:'Logo size',logoOpacity:'Logo opacity',layer:'Select layer to move',textLayer:'Text watermark',logoLayer:'Logo image',position:'Quick position',center:'Center',tl:'Top left',tr:'Top right',bl:'Bottom left',br:'Bottom right',format:'Download format',apply:'Download watermarked image',hint:'Drag the selected layer on the preview to position it.',choose:'Choose a base image first.',ready:'Image ready. Select a layer and drag it to position.',downloaded:'Watermarked image downloaded.',error:'Could not process this image. Please try another file.',loading:'Loading preview…',removeLogo:'Remove logo',logoReady:'Logo loaded. Adjust its size, opacity and position.'},
@@ -51,16 +51,25 @@ export class ImageWatermarkTool {
       catch(_){this.logo=null;this.message(t.error);}
     });
     this.root.querySelector('#wm-remove-logo').addEventListener('click',()=>{this.logo=null;this.root.querySelector('#wm-logo').value='';this.root.querySelector('#wm-remove-logo').classList.add('hidden');this.root.querySelector('#wm-layer').value='text';this.activeLayer='text';this.render();});
-    this.root.querySelector('#wm-layer').addEventListener('change',e=>{this.activeLayer=e.target.value;});
+    this.root.querySelector('#wm-layer').addEventListener('change',e=>{this.activeLayer=e.target.value;this.updatePositionButtons();});
     [['wm-size','wm-size-out','%'],['wm-opacity','wm-opacity-out','%'],['wm-logo-size','wm-logo-size-out','%'],['wm-logo-opacity','wm-logo-opacity-out','%']].forEach(([id,out,suffix])=>this.root.querySelector('#'+id).addEventListener('input',()=>{this.root.querySelector('#'+out).textContent=this.root.querySelector('#'+id).value+suffix;this.render();}));
     ['wm-text','wm-color'].forEach(id=>this.root.querySelector('#'+id).addEventListener('input',()=>this.render()));
     this.root.querySelectorAll('[data-pos]').forEach(btn=>btn.addEventListener('click',()=>{
       const p={tl:[.08,.12],tr:[.92,.12],center:[.5,.5],bl:[.08,.88],br:[.92,.88]}[btn.dataset.pos];
-      const target=this.activeLayer==='logo'?this.logoPos:this.textPos;target.x=p[0];target.y=p[1];this.render();
+      if(!p)return;
+      // Always read the current selector value so the preset controls the visible layer.
+      this.activeLayer=this.root.querySelector('#wm-layer').value;
+      if(this.activeLayer==='logo'&&!this.logo){
+        this.activeLayer='text';this.root.querySelector('#wm-layer').value='text';
+      }
+      const target=this.activeLayer==='logo'?this.logoPos:this.textPos;
+      target.x=p[0];target.y=p[1];this.selectedPosition=btn.dataset.pos;
+      this.updatePositionButtons();this.render();
     }));
+    this.updatePositionButtons();
     const point=e=>{const r=this.canvas.getBoundingClientRect();return{x:Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)),y:Math.max(0,Math.min(1,(e.clientY-r.top)/r.height))};};
     this.canvas.addEventListener('pointerdown',e=>{if(!this.image)return;if(this.activeLayer==='logo'&&!this.logo)return;this.dragging=true;this.canvas.setPointerCapture(e.pointerId);const p=point(e);const target=this.activeLayer==='logo'?this.logoPos:this.textPos;target.x=p.x;target.y=p.y;this.canvas.style.cursor='grabbing';this.render();});
-    this.canvas.addEventListener('pointermove',e=>{if(!this.dragging)return;const p=point(e);const target=this.activeLayer==='logo'?this.logoPos:this.textPos;target.x=p.x;target.y=p.y;this.render();});
+    this.canvas.addEventListener('pointermove',e=>{if(!this.dragging)return;const p=point(e);const target=this.activeLayer==='logo'?this.logoPos:this.textPos;target.x=p.x;target.y=p.y;this.selectedPosition=null;this.updatePositionButtons();this.render();});
     const stop=()=>{this.dragging=false;this.canvas.style.cursor='grab';};
     this.canvas.addEventListener('pointerup',stop);this.canvas.addEventListener('pointercancel',stop);
     this.root.querySelector('#wm-download').addEventListener('click',async()=>{
@@ -70,6 +79,15 @@ export class ImageWatermarkTool {
     });
   }
   message(value){const el=this.root.querySelector('#wm-message');if(el)el.textContent=value;}
+  updatePositionButtons(){
+    if(!this.root)return;
+    this.root.querySelectorAll('[data-pos]').forEach(btn=>{
+      const active=btn.dataset.pos===this.selectedPosition;
+      btn.classList.toggle('bg-blue-600',active);
+      btn.classList.toggle('bg-slate-700',!active);
+      btn.setAttribute('aria-pressed',active?'true':'false');
+    });
+  }
   draw(ctx){
     if(!this.image)return;
     const w=this.canvas.width,h=this.canvas.height;
@@ -79,14 +97,19 @@ export class ImageWatermarkTool {
       const size=Math.max(12,Math.round(w*Number(this.root.querySelector('#wm-size').value)/100));
       ctx.save();ctx.globalAlpha=Number(this.root.querySelector('#wm-opacity').value)/100;ctx.fillStyle=this.root.querySelector('#wm-color').value;
       ctx.font='600 '+size+'px Arial, sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.shadowColor='rgba(0,0,0,.45)';ctx.shadowBlur=Math.max(1,size*.08);
-      ctx.fillText(text,this.textPos.x*w,this.textPos.y*h,w*.92);ctx.restore();
+      const maxTextWidth=w*.92, measured=Math.min(maxTextWidth,ctx.measureText(text).width);
+      const tx=Math.max(measured/2+8,Math.min(w-measured/2-8,this.textPos.x*w));
+      const ty=Math.max(size/2+8,Math.min(h-size/2-8,this.textPos.y*h));
+      ctx.fillText(text,tx,ty,maxTextWidth);ctx.restore();
     }
     if(this.logo){
       const maxW=w*Number(this.root.querySelector('#wm-logo-size').value)/100;
       const ratio=Math.min(1,maxW/this.logo.width);
       const dw=this.logo.width*ratio,dh=this.logo.height*ratio;
       ctx.save();ctx.globalAlpha=Number(this.root.querySelector('#wm-logo-opacity').value)/100;
-      ctx.drawImage(this.logo,this.logoPos.x*w-dw/2,this.logoPos.y*h-dh/2,dw,dh);ctx.restore();
+      const lx=Math.max(dw/2+8,Math.min(w-dw/2-8,this.logoPos.x*w));
+      const ly=Math.max(dh/2+8,Math.min(h-dh/2-8,this.logoPos.y*h));
+      ctx.drawImage(this.logo,lx-dw/2,ly-dh/2,dw,dh);ctx.restore();
     }
   }
   render(){if(this.image&&this.ctx)this.draw(this.ctx);}
