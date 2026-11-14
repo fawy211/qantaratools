@@ -52,13 +52,13 @@ for (const locale of ['en', 'ar', 'de', 'fr', 'es']) {
     await themeButton.click();
     const after = await page.evaluate(() => localStorage.getItem('theme'));
     expect(after).not.toBe(before);
-    await page.locator('[data-identity="violet"]').click();
+    await page.locator('[data-identity="violet"]:visible').first().click();
     await expect(page.locator('html')).toHaveAttribute('data-identity', 'violet');
     await page.reload();
     await expect(page.locator('html')).toHaveAttribute('data-identity', 'violet');
     expect(await page.evaluate(() => localStorage.getItem('theme'))).toBe(after);
     await expect(page.locator('[data-theme-toggle]')).toBeVisible();
-    await expect(page.locator('[data-identity="violet"]')).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('[data-identity="violet"]:visible').first()).toHaveAttribute('aria-pressed', 'true');
     await page.evaluate(() => window.QTTheme.apply('light'));
     const lightText = await page.locator('#hero-title').evaluate(el => getComputedStyle(el).color);
     const lightRgb = lightText.match(/\\d+/g).slice(0, 3).map(Number);
@@ -96,7 +96,7 @@ test('all localized homepages retain mobile controls and correct RTL alignment',
     await expect(page.locator('.qt-language-select')).toBeVisible();
     await expect(page.locator('[data-theme-toggle]')).toBeVisible();
     for (const identity of ['electric', 'citrus', 'violet']) {
-      await expect(page.locator('[data-identity="' + identity + '"]')).toBeVisible();
+      await expect(page.locator('[data-identity="' + identity + '"]:visible').first()).toBeVisible();
     }
     const alignment = await page.locator('#tools-grid-container > div:first-child').evaluate(el => getComputedStyle(el).textAlign);
     expect(alignment).toBe(locale === 'ar' ? 'right' : 'left');
