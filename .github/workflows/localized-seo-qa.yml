@@ -62,15 +62,24 @@ jobs:
           grep -q '/de/about-us/' sitemap.xml
           grep -q '/fr/contact/' sitemap.xml
           grep -q '/es/about-us/' sitemap.xml
+          grep -q '/de/faq/' sitemap.xml
+          grep -q '/fr/faq/' sitemap.xml
+          grep -q '/es/faq/' sitemap.xml
           test -s de/about-us/index.html
           test -s fr/about-us/index.html
           test -s es/about-us/index.html
           test -s de/contact/index.html
           test -s fr/contact/index.html
           test -s es/contact/index.html
+          test -s de/faq/index.html
+          test -s fr/faq/index.html
+          test -s es/faq/index.html
           grep -q 'Über QantaraTools' de/about-us/index.html
           grep -q 'À propos de QantaraTools' fr/about-us/index.html
           grep -q 'Acerca de QantaraTools' es/about-us/index.html
+          grep -q 'Häufig gestellte Fragen' de/faq/index.html
+          grep -q 'Foire aux questions' fr/faq/index.html
+          grep -q 'Preguntas frecuentes' es/faq/index.html
       - name: Install browser test dependencies
         run: |
           npm install --no-package-lock --no-audit --no-fund
