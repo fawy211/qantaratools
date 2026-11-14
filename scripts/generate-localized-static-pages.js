@@ -176,7 +176,8 @@ es:{
 function replaceText(html,map){
  const keys=Object.keys(map).sort((a,b)=>b.length-a.length);
  if(!keys.length) return html;
- const escaped=keys.map(key=>key.replace(/[.*+?^${}()|[\\]\\\\]/g,'\\\\function replaceText(html,map){const entries=Object.entries(map).sort((a,b)=>b[0].length-a[0].length);for(const [a,b] of entries){html=html.split(a).join(b);}return html;}'));
+ const special='\\\\^$.*+?()[]{}|';
+ const escaped=keys.map(key=>Array.from(key,ch=>special.includes(ch)?'\\\\'+ch:ch).join(''));
  const matcher=new RegExp(escaped.join('|'),'g');
  return html.replace(matcher,match=>map[match]);
 }
