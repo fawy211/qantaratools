@@ -103,12 +103,25 @@ test('all information and legal pages have working canonical routes and localize
     fr: ['À propos de QantaraTools', 'Contact', 'Foire aux questions', 'Politique de confidentialité', 'Conditions d’utilisation'],
     es: ['Acerca de QantaraTools', 'Contacto', 'Preguntas frecuentes', 'Política de privacidad', 'Términos del servicio']
   };
+  const exactHeadings = {
+    en: { contact: 'Contact Us', faq: 'Frequently Asked Questions', privacy: 'Privacy Policy', terms: 'Terms of Service' },
+    ar: { contact: 'اتصل بنا', faq: 'الأسئلة الشائعة', privacy: 'سياسة الخصوصية', terms: 'شروط الاستخدام' },
+    de: { contact: 'Kontaktieren Sie uns', faq: 'Häufig gestellte Fragen', privacy: 'Datenschutzerklärung', terms: 'Nutzungsbedingungen' },
+    fr: { contact: 'Nous contacter', faq: 'Foire aux questions', privacy: 'Politique de confidentialité', terms: 'Conditions d’utilisation' },
+    es: { contact: 'Contacto', faq: 'Preguntas frecuentes', privacy: 'Política de privacidad', terms: 'Términos del servicio' }
+  };
   for (const locale of locales) {
     for (let i = 0; i < slugs.length; i++) {
       const response = await page.goto(pagePath(locale, slugs[i]));
       expect(response && response.status(), locale + '/' + slugs[i] + ' HTTP response').toBe(200);
       await expect(page.locator('h1').first()).toBeVisible();
       await expect(page.locator('body')).toContainText(expectedTitles[locale][i]);
+      if (i > 0) await expect(page.locator('h1').first()).toHaveText(exactHeadings[locale][slugs[i]]);
+      if (locale !== 'en' && locale !== 'ar') {
+        const visibleText = await page.locator('body').innerText();
+        expect(visibleText).not.toContain('Contactoo');
+        expect(visibleText).not.toContain('Do not email passwords, private keys, or confidential files.');
+      }
       const canonical = await page.locator('link[rel="canonical"]').getAttribute('href');
       if (locale === 'de' || locale === 'fr' || locale === 'es') {
         expect(canonical).toBe('https://www.qantaratools.com/' + locale + '/' + slugs[i] + '/');
