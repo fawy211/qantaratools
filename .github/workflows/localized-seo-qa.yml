@@ -193,6 +193,20 @@ jobs:
         run: npx playwright test tests/localized-error-handling.spec.js --project=chromium --workers=1
       - name: Test local-first tools with external network blocked
         run: npx playwright test tests/offline-smoke.spec.js --project=chromium --workers=1
+      - name: Package VS Code test copy
+        run: |
+          mkdir -p dist
+          zip -qr dist/QantaraTools-VSCode-Test.zip . \
+            -x ".git/*" "node_modules/*" "test-results/*" "playwright-report/*" "dist/*" ".github/*"
+      - name: Upload VS Code test copy
+        uses: actions/upload-artifact@v4
+        with:
+          name: QantaraTools-VSCode-Test
+          path: |
+            dist/QantaraTools-VSCode-Test.zip
+            VSCODE-TESTING.md
+          if-no-files-found: error
+          retention-days: 14
       - name: Commit generated localized pages to feature branch
         if: github.event_name == 'push' && github.ref == 'refs/heads/feature/complete-multilingual-support'
         run: |
