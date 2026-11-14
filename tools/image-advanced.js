@@ -83,8 +83,13 @@ export class ImageWatermarkTool {
     if(!this.root)return;
     this.root.querySelectorAll('[data-pos]').forEach(btn=>{
       const active=btn.dataset.pos===this.selectedPosition;
-      btn.classList.toggle('bg-blue-600',active);
-      btn.classList.toggle('bg-slate-700',!active);
+      // Inline styles make the selected state reliable even if site CSS overrides utility classes.
+      btn.style.backgroundColor=active?'#2563eb':'#334155';
+      btn.style.color='#ffffff';
+      btn.style.border=active?'2px solid #93c5fd':'2px solid transparent';
+      btn.style.boxShadow=active?'0 0 0 2px rgba(37,99,235,.22)':'none';
+      btn.style.transform=active?'translateY(-1px)':'none';
+      btn.style.fontWeight=active?'700':'500';
       btn.setAttribute('aria-pressed',active?'true':'false');
     });
   }
