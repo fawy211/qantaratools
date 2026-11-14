@@ -179,8 +179,14 @@ for(const locale of locales){
   let html=fs.readFileSync(path.join(root,page),'utf8');
   html=replaceText(html,dict[locale]);
   html=html.replace(/<html lang="en" dir="ltr">/,'<html lang="'+locale+'" dir="ltr">');
-  html=html.replace(/<link rel="canonical" href="https:\/\/qantaratools\.com\/[^"]*">/,'<link rel="canonical" href="https://qantaratools.com/'+locale+'/'+page+'">');
-  html=html.replace(/<title>[^<]*<\/title>/,'<title>'+({de:page==='about-us.html'?'Über QantaraTools': 'Kontakt | QantaraTools',fr:page==='about-us.html'?'À propos de QantaraTools':'Contact | QantaraTools',es:page==='about-us.html'?'Acerca de QantaraTools':'Contacto | QantaraTools'}[locale])+'</title>');
+  const routeSlug=page==='about-us.html'?'about-us':(page==='contact.html'?'contact':'faq');
+  html=html.replace(/<link rel="canonical" href="https:\/\/qantaratools\.com\/[^"]*">/,'<link rel="canonical" href="https://qantaratools.com/'+locale+'/'+routeSlug+'/">');
+  const pageTitles={
+   de:{'about-us.html':'Über QantaraTools','contact.html':'Kontakt | QantaraTools','faq.html':'Häufig gestellte Fragen | QantaraTools'},
+   fr:{'about-us.html':'À propos de QantaraTools','contact.html':'Contact | QantaraTools','faq.html':'Foire aux questions | QantaraTools'},
+   es:{'about-us.html':'Acerca de QantaraTools','contact.html':'Contacto | QantaraTools','faq.html':'Preguntas frecuentes | QantaraTools'}
+  };
+  html=html.replace(/<title>[^<]*<\/title>/,'<title>'+pageTitles[locale][page]+'</title>');
   html=html.replace(/href="index\.html"/g,'href="/'+locale+'/"');
   for(const p of pages.concat(['faq.html','privacy.html','terms.html','contact.html'])){
    const target=p==='about-us.html'?'/'+locale+'/about-us/':(p==='contact.html'?'/'+locale+'/contact/':(p==='faq.html'?'/'+locale+'/faq/':'/'+p));
@@ -190,7 +196,7 @@ for(const locale of locales){
   html=html.replace(/src="assets\//g,'src="/assets/').replace(/href="assets\//g,'href="/assets/');
   html=html.replace(/src="\/assets\/js\/language-switcher\.js"/g,'src="/assets/js/language-switcher.js"');
   const slug=page==='about-us.html'?'about-us':(page==='contact.html'?'contact':'faq');
-  const alternates=['en','de','fr','es'].map(l=>'<link rel="alternate" hreflang="'+l+'" href="https://qantaratools.com/'+(l==='en'?'':l+'/')+(l==='en'?page.replace('.html','/'):slug+'/')+'">').join('\n');
+  const alternates=['en','de','fr','es'].map(l=>'<link rel="alternate" hreflang="'+l+'" href="https://qantaratools.com/'+(l==='en'?'':l+'/')+(l==='en'?page:slug+'/')+'">').join('\n');
   html=html.replace('</head>',alternates+'\n<link rel="alternate" hreflang="x-default" href="https://qantaratools.com/'+page+'">\n</head>');
   const outputDir=path.join(dir,slug);fs.mkdirSync(outputDir,{recursive:true});
   fs.writeFileSync(path.join(outputDir,'index.html'),html);
