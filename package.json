@@ -9,7 +9,9 @@
     "generate:tool-pages": "node scripts/generate-tool-pages.js && node scripts/generate-localized-tool-pages.js",
     "i18n:check": "node scripts/validate-locales.js",
     "i18n:seo:check": "node scripts/validate-localized-seo.js",
-    "build:css": "tailwindcss -i assets/css/tailwind.input.css -o assets/css/tailwind-local.css --minify"
+    "build:css": "tailwindcss -i assets/css/tailwind.input.css -o assets/css/tailwind-local.css --minify",
+    "generate:static-pages": "node scripts/generate-localized-static-pages.js",
+    "generate:all": "npm run generate:tool-pages && npm run generate:static-pages"
   },
   "dependencies": {
     "express": "^4.21.2"
