@@ -36,6 +36,7 @@ jobs:
           node --check scripts/validate-localized-seo.js
           node --check scripts/generate-tool-pages.js
           node --check scripts/generate-localized-tool-pages.js
+          node --check scripts/generate-localized-static-pages.js
           node --check scripts/validate-localized-pages.js
           node --check scripts/prepare-vendor-assets.js
           node --check tests/localized-error-handling.spec.js
@@ -49,6 +50,7 @@ jobs:
         run: |
           node scripts/generate-tool-pages.js
           node scripts/generate-localized-tool-pages.js
+          node scripts/generate-localized-static-pages.js
           node scripts/validate-localized-pages.js
       - name: Verify localized page output
         run: |
@@ -57,6 +59,15 @@ jobs:
           test "$(find es/tools -name index.html | wc -l)" -eq 50
           grep -q 'hreflang="de"' tools/base64/index.html
           grep -q '/de/tools/base64/' sitemap.xml
+          test -s de/about-us/index.html
+          test -s fr/about-us/index.html
+          test -s es/about-us/index.html
+          test -s de/contact/index.html
+          test -s fr/contact/index.html
+          test -s es/contact/index.html
+          grep -q 'Über QantaraTools' de/about-us/index.html
+          grep -q 'À propos de QantaraTools' fr/about-us/index.html
+          grep -q 'Acerca de QantaraTools' es/about-us/index.html
       - name: Install browser test dependencies
         run: |
           npm install --no-package-lock --no-audit --no-fund
