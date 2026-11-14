@@ -87,6 +87,13 @@ jobs:
           grep -q 'Nutzungsbedingungen' de/terms/index.html
           grep -q 'Conditions d’utilisation' fr/terms/index.html
           grep -q 'Términos del servicio' es/terms/index.html
+          # Catch partial replacements where a short label was translated before a longer phrase.
+          ! grep -q 'Kontakt Us\|Datenschutz Policy\|Nutzungsbedingungen of Service' de/contact/index.html de/privacy/index.html de/terms/index.html
+          ! grep -q 'Confidentialité Policy\|Conditions of Service' fr/privacy/index.html fr/terms/index.html
+          ! grep -q 'Privacidad Policy\|Términos del servicio of Service' es/privacy/index.html es/terms/index.html
+          grep -q 'QANTARATOOLS / DATENSCHUTZ' de/privacy/index.html
+          grep -q 'QANTARATOOLS / CONFIDENTIALITÉ' fr/privacy/index.html
+          grep -q 'QANTARATOOLS / PRIVACIDAD' es/privacy/index.html
           grep -q '/de/privacy/' sitemap.xml
           grep -q '/fr/terms/' sitemap.xml
           # Static information/legal pages must expose the language selector and reciprocal SEO metadata.
