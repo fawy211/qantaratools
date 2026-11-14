@@ -51,12 +51,16 @@
       var staticLocalizedRoutes = {
         '/about-us.html': '/about-us/',
         '/contact.html': '/contact/',
-        '/faq.html': '/faq/'
+        '/faq.html': '/faq/',
+        '/privacy.html': '/privacy/',
+        '/terms.html': '/terms/'
       };
       var staticEnglishRoutes = {
         '/about-us/': '/about-us.html',
         '/contact/': '/contact.html',
-        '/faq/': '/faq.html'
+        '/faq/': '/faq.html',
+        '/privacy/': '/privacy.html',
+        '/terms/': '/terms.html'
       };
       if (target === 'de' || target === 'fr' || target === 'es') {
         var localizedPath = staticLocalizedRoutes[basePath] || basePath;
