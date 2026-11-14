@@ -205,7 +205,7 @@ test('homepage footer links preserve the selected locale', async ({ page }) => {
     await expect(page).toHaveURL(new RegExp(routes[locale].faq.replace(/[.*+?^\${}()|[\]\\]/g, '\\$&') + '$'));
     await expect(page.locator('html')).toHaveAttribute('lang', locale);
 
-    const contact = page.locator('#site-footer a.footer-link[href*="contact"]').first();
+    const contact = page.locator('footer a[href*="contact"]').first();
     await expect(contact).toHaveAttribute('href', locale === 'en' ? 'contact.html' : routes[locale].contact);
     await contact.click();
     await expect(page).toHaveURL(new RegExp(routes[locale].contact.replace(/[.*+?^\${}()|[\]\\]/g, '\\$&') + '$'));
