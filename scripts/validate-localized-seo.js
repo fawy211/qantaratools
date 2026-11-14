@@ -40,5 +40,5 @@ if (errors.length) {
   if (errors.length > 30) console.error('- ... and ' + (errors.length - 30) + ' more issue(s)');
   process.exitCode = 1;
 } else {
-  console.log('Localized SEO QA passed for ' + tools.length + ' tools in de/fr/es.');
+  console.log('Localized SEO QA passed for ' + tools.length + ' tools in ' + locales.join('/') + '.');
 }

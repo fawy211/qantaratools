@@ -88,7 +88,7 @@ if (missing.length || untranslatedToolMeta.length) {
   process.exitCode = 1;
 } else {
   const formatSamples = {};
-  for (const locale of ['ar', 'de', 'fr', 'es']) {
+  for (const locale of locales) {
     i18n.setLocale(locale);
     formatSamples[locale] = {
       number: i18n.formatNumber(12345.6),
@@ -99,6 +99,6 @@ if (missing.length || untranslatedToolMeta.length) {
       throw new Error('Missing localized number/date/currency formatting for ' + locale);
     }
   }
-  console.log('Locale QA passed: ' + used.size + ' UI keys and ' + tools.length + ' tool metadata records checked for ar/de/fr/es.');
+  console.log('Locale QA passed: ' + used.size + ' UI keys and ' + tools.length + ' tool metadata records checked for ' + locales.join('/') + '.');
   console.log('Localized number/date/currency formatting samples: ' + JSON.stringify(formatSamples));
 }
