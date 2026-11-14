@@ -35,7 +35,7 @@ export class ImageWatermarkTool {
       '<label class="block"><span class="flex justify-between text-sm font-semibold text-slate-200 mb-2"><span>'+t.logoOpacity+'</span><output id="wm-logo-opacity-out">80%</output></span><input id="wm-logo-opacity" type="range" min="5" max="100" value="80" class="w-full accent-blue-500"></label></div>'+
       '<label class="block"><span class="block text-sm font-semibold text-slate-200 mb-2">'+t.layer+'</span><select id="wm-layer" class="w-full sm:w-auto p-3 rounded-lg bg-slate-800 text-white border border-slate-700"><option value="text">'+t.textLayer+'</option><option value="logo">'+t.logoLayer+'</option></select></label>'+
       '<div><span class="block text-sm font-semibold text-slate-200 mb-2">'+t.position+'</span><div class="flex flex-wrap gap-2">'+
-      '<button type="button" data-pos="tl" class="px-3 py-2 rounded-lg bg-slate-700 text-white text-sm">'+t.tl+'</button><button type="button" data-pos="tr" class="px-3 py-2 rounded-lg bg-slate-700 text-white text-sm">'+t.tr+'</button><button type="button" data-pos="center" class="px-3 py-2 rounded-lg bg-blue-600 text-white text-sm">'+t.center+'</button><button type="button" data-pos="bl" class="px-3 py-2 rounded-lg bg-slate-700 text-white text-sm">'+t.bl+'</button><button type="button" data-pos="br" class="px-3 py-2 rounded-lg bg-slate-700 text-white text-sm">'+t.br+'</button></div></div>'+
+      '<button type="button" data-pos="tl" class="px-3 py-2 rounded-lg text-white text-sm">'+t.tl+'</button><button type="button" data-pos="tr" class="px-3 py-2 rounded-lg text-white text-sm">'+t.tr+'</button><button type="button" data-pos="center" class="px-3 py-2 rounded-lg text-white text-sm">'+t.center+'</button><button type="button" data-pos="bl" class="px-3 py-2 rounded-lg text-white text-sm">'+t.bl+'</button><button type="button" data-pos="br" class="px-3 py-2 rounded-lg text-white text-sm">'+t.br+'</button></div></div>'+
       '<div class="flex flex-col sm:flex-row gap-3 sm:items-end"><label class="block"><span class="block text-sm font-semibold text-slate-200 mb-2">'+t.format+'</span><select id="wm-format" class="p-3 rounded-lg bg-slate-800 text-white border border-slate-700"><option value="image/png">PNG</option><option value="image/jpeg">JPG</option><option value="image/webp">WebP</option></select></label><button id="wm-download" type="button" class="px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold disabled:opacity-50 disabled:cursor-not-allowed" disabled>'+t.apply+'</button></div>'+
       '<div id="wm-message" class="text-sm text-slate-400" role="status" aria-live="polite"></div></div>';
     this.canvas=this.root.querySelector('#wm-canvas'); this.ctx=this.canvas.getContext('2d');
@@ -83,13 +83,14 @@ export class ImageWatermarkTool {
     if(!this.root)return;
     this.root.querySelectorAll('[data-pos]').forEach(btn=>{
       const active=btn.dataset.pos===this.selectedPosition;
-      // Inline styles make the selected state reliable even if site CSS overrides utility classes.
+      if(!btn.dataset.baseLabel)btn.dataset.baseLabel=btn.textContent.trim();
+      btn.textContent=(active?'✓ ':'')+btn.dataset.baseLabel;
       btn.dataset.selected=active?'true':'false';
+      btn.style.setProperty('background',active?'#2563eb':'#334155','important');
       btn.style.setProperty('background-color',active?'#2563eb':'#334155','important');
       btn.style.setProperty('color','#ffffff','important');
-      btn.style.setProperty('border',active?'2px solid #bfdbfe':'2px solid transparent','important');
+      btn.style.setProperty('border',active?'2px solid #bfdbfe':'2px solid #64748b','important');
       btn.style.setProperty('box-shadow',active?'0 0 0 3px rgba(37,99,235,.35)':'none','important');
-      btn.style.setProperty('transform',active?'translateY(-2px)':'none','important');
       btn.style.setProperty('font-weight',active?'700':'500','important');
       btn.setAttribute('aria-pressed',active?'true':'false');
     });
