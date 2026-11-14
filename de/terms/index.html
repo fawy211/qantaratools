@@ -5,7 +5,7 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#17151f">
 <meta name="robots" content="index,follow"><meta name="description" content="Regeln und Einschränkungen für die Nutzung der kostenlosen browserbasierten QantaraTools-Werkzeugsammlung.">
-<link rel="canonical" href="https://www.qantaratools.com/de/terms/"><link rel="icon" type="image/svg+xml" href="/assets/branding/favicon.svg">
+<link rel="canonical" href="https://www.qantaratools.com/terms.html"><link rel="icon" type="image/svg+xml" href="/assets/branding/favicon.svg">
 <title>Nutzungsbedingungen | QantaraTools</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -18,6 +18,17 @@
 
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6378843738233809" crossorigin="anonymous"></script>
+<script>
+(function(){
+  var params=new URLSearchParams(location.search);
+  var match=location.pathname.match(/^\/(de|fr|es)(?:\/|$)/);
+  var locale=match?match[1]:(params.get('locale')==='ar'?'ar':'en');
+  document.documentElement.lang=locale;
+  document.documentElement.dir=locale==='ar'?'rtl':'ltr';
+  document.documentElement.dataset.locale=locale;
+  try{localStorage.setItem('qantaratools_language_v1',locale);}catch(_){}
+})();
+</script>
 <link rel="alternate" hreflang="en" href="https://www.qantaratools.com/terms.html">
 <link rel="alternate" hreflang="de" href="https://www.qantaratools.com/de/terms/">
 <link rel="alternate" hreflang="fr" href="https://www.qantaratools.com/fr/terms/">
@@ -26,8 +37,8 @@
 </head>
 <body class="qt-policy-page">
 <a class="skip-link" href="#main-content">Zum Hauptinhalt springen</a>
-<header class="qt-policy-header"><a class="qt-policy-brand" href="/de/"><img src="/assets/branding/qantara-mark.svg" alt=""><span>Qantara<span>Tools</span></span></a><nav class="qt-policy-actions" aria-label="Main navigation"><a class="qt-policy-home" href="/de/">Startseite</a><a class="qt-policy-home" href="/de/about-us/">Über uns</a><a class="qt-policy-home" href="/de/faq/">FAQ</a><a class="qt-policy-home" href="/de/contact/">Kontakt</a><button type="button" class="qt-theme-btn" data-theme-toggle aria-label="Toggle theme"><i class="fa-solid fa-sun" aria-hidden="true"></i></button><a class="qt-policy-home" href="/de/">Zurück zu den Tools</a></nav></header>
-<main id="main-content" class="qt-policy-main" tabindex="-1"><div class="qt-policy-kicker">QANTARATOOLS / TERMS</div><h1>Nutzungsbedingungen of Service</h1><p class="qt-policy-lede">Regeln und Einschränkungen für die Nutzung der kostenlosen browserbasierten QantaraTools-Werkzeugsammlung.</p><p class="qt-policy-date">Zuletzt aktualisiert: 17. Oktober 2026</p><div class="qt-policy-card"><section class="qt-policy-section"><h2>1. Zustimmung</h2><p>Durch die Nutzung von QantaraTools stimmen Sie diesen Bedingungen zu. Wenn Sie nicht zustimmen, nutzen Sie die Website bitte nicht.</p></section>
+<header class="qt-policy-header"><a class="qt-policy-brand" href="/de/"><img src="/assets/branding/qantara-mark.svg" alt=""><span>Qantara<span>Tools</span></span></a><nav class="qt-policy-actions" aria-label="Hauptnavigation"><a class="qt-policy-home" href="/de/">Startseite</a><a class="qt-policy-home" href="/de/about-us/">Über uns</a><a class="qt-policy-home" href="/de/faq/">FAQ</a><a class="qt-policy-home" href="/de/contact/">Kontakt</a><button type="button" class="qt-theme-btn" data-theme-toggle aria-label="Design umschalten"><i class="fa-solid fa-sun" aria-hidden="true"></i></button><a class="qt-policy-home" href="/de/">Zurück zu den Tools</a></nav></header>
+<main id="main-content" class="qt-policy-main" tabindex="-1"><div class="qt-policy-kicker">QANTARATOOLS / NUTZUNGSBEDINGUNGEN</div><h1>Nutzungsbedingungen</h1><p class="qt-policy-lede">Regeln und Einschränkungen für die Nutzung der kostenlosen browserbasierten QantaraTools-Werkzeugsammlung.</p><p class="qt-policy-date">Zuletzt aktualisiert: 17. Oktober 2026</p><div class="qt-policy-card"><section class="qt-policy-section"><h2>1. Zustimmung</h2><p>Durch die Nutzung von QantaraTools stimmen Sie diesen Bedingungen zu. Wenn Sie nicht zustimmen, nutzen Sie die Website bitte nicht.</p></section>
 <section class="qt-policy-section"><h2>2. Kostenloser Dienst und Werbung</h2><p>Die aktuelle Web-Werkzeugsammlung kann kostenlos genutzt werden und ist ohne aufdringliche Pop-ups oder absichtlich integrierte Werbe-SDKs konzipiert. Wir können den Dienst, seine Beschränkungen, externe Ressourcen oder das Geschäftsmodell künftig ändern und werden die Website-Informationen dann aktualisieren.</p></section>
 <section class="qt-policy-section"><h2>3. Verhalten einzelner Tools</h2><p>Die Tools unterscheiden sich. Einige laufen lokal, andere laden Hilfsbibliotheken Dritter, und der Währungsrechner kann öffentliche Live-Wechselkursdaten abrufen. Plugins sind in der aktuellen Architektur optionale Module derselben Herkunft. Verwenden Sie jedoch nur Plugins, denen Sie vertrauen.</p></section>
 <section class="qt-policy-section"><h2>4. Zulässige Nutzung</h2><p>Nutzen Sie die Website rechtmäßig. Verwenden Sie sie nicht zur Verbreitung von Schadsoftware, zum Angriff auf Systeme, zur Verletzung von Rechten, zur Umgehung von Sicherheitsmaßnahmen oder zur Verarbeitung von Daten, für die Sie keine Berechtigung haben. Versuchen Sie nicht, die Website oder ihre Anbieter zu stören.</p></section>
@@ -35,7 +46,8 @@
 <section class="qt-policy-section"><h2>6. Dateien und Datenschutz</h2><p>Sie sind dafür verantwortlich, geeignete Dateien und Eingaben auszuwählen. Viele Tools verarbeiten Daten lokal, externe Ressourcen und zukünftige Plugins können sich jedoch anders verhalten. Übermitteln Sie keine vertraulichen oder regulierten Daten, wenn Sie das Verhalten des jeweiligen Tools nicht kennen.</p></section>
 <section class="qt-policy-section"><h2>7. Ressourcen Dritter und Verfügbarkeit</h2><p>CDNs, öffentliche APIs, Browser, Dateiformate und Hilfsbibliotheken können ausfallen oder ohne Vorankündigung geändert werden. QantaraTools kontrolliert keine Dienste Dritter und garantiert keinen unterbrechungsfreien Betrieb.</p></section>
 <section class="qt-policy-section"><h2>8. Haftungsausschluss und Haftung</h2><p>Die Website und die Tools werden im gesetzlich höchstzulässigen Umfang „wie besehen“ bereitgestellt, ohne Zusicherung, dass jedes Ergebnis fehlerfrei oder für einen bestimmten Zweck geeignet ist. Soweit gesetzlich zulässig, haftet QantaraTools nicht für Schäden, die aus der Nutzung, der Unmöglichkeit der Nutzung oder dem Vertrauen auf die Tools entstehen.</p></section>
-<section class="qt-policy-section"><h2>9. Änderungen and contact</h2><p>Wir können diese Bedingungen an die Weiterentwicklung des Produkts anpassen. Fragen können Sie an folgende Adresse senden: <a href="mailto:support@qantaratools.com">support@qantaratools.com</a>.</p></section></div></main>
+<section class="qt-policy-section"><h2>9. Änderungen und Kontakt</h2><p>Wir können diese Bedingungen an die Weiterentwicklung des Produkts anpassen. Fragen können Sie an folgende Adresse senden: <a href="mailto:support@qantaratools.com">support@qantaratools.com</a>.</p></section></div></main>
 <footer class="qt-policy-footer">© 2026 QantaraTools · <a href="/de/privacy/">Datenschutz</a> · <a href="/de/terms/">Nutzungsbedingungen</a> · <a href="/de/contact/">Kontakt</a></footer>
 <script src="/assets/js/language-switcher.js" defer></script>
+<script src="/assets/js/static-page-ar.js" defer></script>
 </body></html>

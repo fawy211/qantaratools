@@ -5,7 +5,7 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#17151f">
 <meta name="robots" content="index,follow"><meta name="description" content="Wie QantaraTools lokale Verarbeitung, Browserspeicher, externe Ressourcen und Datenschutzeinstellungen handhabt.">
-<link rel="canonical" href="https://www.qantaratools.com/de/privacy/"><link rel="icon" type="image/svg+xml" href="/assets/branding/favicon.svg">
+<link rel="canonical" href="https://www.qantaratools.com/privacy.html"><link rel="icon" type="image/svg+xml" href="/assets/branding/favicon.svg">
 <title>Datenschutzerklärung | QantaraTools</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -18,6 +18,17 @@
 
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6378843738233809" crossorigin="anonymous"></script>
+<script>
+(function(){
+  var params=new URLSearchParams(location.search);
+  var match=location.pathname.match(/^\/(de|fr|es)(?:\/|$)/);
+  var locale=match?match[1]:(params.get('locale')==='ar'?'ar':'en');
+  document.documentElement.lang=locale;
+  document.documentElement.dir=locale==='ar'?'rtl':'ltr';
+  document.documentElement.dataset.locale=locale;
+  try{localStorage.setItem('qantaratools_language_v1',locale);}catch(_){}
+})();
+</script>
 <link rel="alternate" hreflang="en" href="https://www.qantaratools.com/privacy.html">
 <link rel="alternate" hreflang="de" href="https://www.qantaratools.com/de/privacy/">
 <link rel="alternate" hreflang="fr" href="https://www.qantaratools.com/fr/privacy/">
@@ -26,8 +37,8 @@
 </head>
 <body class="qt-policy-page">
 <a class="skip-link" href="#main-content">Zum Hauptinhalt springen</a>
-<header class="qt-policy-header"><a class="qt-policy-brand" href="/de/"><img src="/assets/branding/qantara-mark.svg" alt=""><span>Qantara<span>Tools</span></span></a><nav class="qt-policy-actions" aria-label="Main navigation"><a class="qt-policy-home" href="/de/">Startseite</a><a class="qt-policy-home" href="/de/about-us/">Über uns</a><a class="qt-policy-home" href="/de/faq/">FAQ</a><a class="qt-policy-home" href="/de/contact/">Kontakt</a><button type="button" class="qt-theme-btn" data-theme-toggle aria-label="Toggle theme"><i class="fa-solid fa-sun" aria-hidden="true"></i></button><a class="qt-policy-home" href="/de/">Zurück zu den Tools</a></nav></header>
-<main id="main-content" class="qt-policy-main" tabindex="-1"><div class="qt-policy-kicker">QANTARATOOLS / PRIVACY</div><h1>Datenschutz Policy</h1><p class="qt-policy-lede">Wie QantaraTools lokale Verarbeitung, Browserspeicher, externe Ressourcen und Datenschutzeinstellungen handhabt.</p><p class="qt-policy-date">Zuletzt aktualisiert: 17. Oktober 2026</p><div class="qt-policy-card"><section class="qt-policy-section"><h2>1. Was QantaraTools bietet</h2><p>QantaraTools ist eine kostenlose Sammlung browserbasierter Werkzeuge. Die aktuelle Version enthält keine absichtlich integrierten Werbe-SDKs oder Pop-up-Werbung. Einige Tools laden Benutzeroberflächen- oder Verarbeitungbibliotheken von CDNs Dritter; der Währungsrechner ruft bei Bedarf öffentliche Wechselkursdaten ab.</p></section>
+<header class="qt-policy-header"><a class="qt-policy-brand" href="/de/"><img src="/assets/branding/qantara-mark.svg" alt=""><span>Qantara<span>Tools</span></span></a><nav class="qt-policy-actions" aria-label="Hauptnavigation"><a class="qt-policy-home" href="/de/">Startseite</a><a class="qt-policy-home" href="/de/about-us/">Über uns</a><a class="qt-policy-home" href="/de/faq/">FAQ</a><a class="qt-policy-home" href="/de/contact/">Kontakt</a><button type="button" class="qt-theme-btn" data-theme-toggle aria-label="Design umschalten"><i class="fa-solid fa-sun" aria-hidden="true"></i></button><a class="qt-policy-home" href="/de/">Zurück zu den Tools</a></nav></header>
+<main id="main-content" class="qt-policy-main" tabindex="-1"><div class="qt-policy-kicker">QANTARATOOLS / DATENSCHUTZ</div><h1>Datenschutzerklärung</h1><p class="qt-policy-lede">Wie QantaraTools lokale Verarbeitung, Browserspeicher, externe Ressourcen und Datenschutzeinstellungen handhabt.</p><p class="qt-policy-date">Zuletzt aktualisiert: 17. Oktober 2026</p><div class="qt-policy-card"><section class="qt-policy-section"><h2>1. Was QantaraTools bietet</h2><p>QantaraTools ist eine kostenlose Sammlung browserbasierter Werkzeuge. Die aktuelle Version enthält keine absichtlich integrierten Werbe-SDKs oder Pop-up-Werbung. Einige Tools laden Benutzeroberflächen- oder Verarbeitungbibliotheken von CDNs Dritter; der Währungsrechner ruft bei Bedarf öffentliche Wechselkursdaten ab.</p></section>
 <section class="qt-policy-section"><h2>2. Lokale Verarbeitung und Dateien</h2><p>Viele Text-, Bild-, PDF-, Dokument- und Entwicklerwerkzeuge verarbeiten ausgewählte Dateien oder Texte in Ihrem Browser. Eine Datei, die für ein lokales Tool ausgewählt wird, wird von diesem Tool nicht absichtlich auf QantaraTools-Server hochgeladen. Dies ist keine pauschale Zusage für jedes zukünftige Plugin oder jede Funktion mit externen Diensten. Lesen Sie daher vor der Verarbeitung sensibler Inhalte die Tool-Beschreibung und beachten Sie dessen Netzwerkverhalten.</p></section>
 <section class="qt-policy-section"><h2>3. Analyse, externe Anfragen und Anbieter</h2><p>Die Website bittet um Ihre Einwilligung, bevor Google Analytics 4 zur Messung von Besuchen und zur Analyse der allgemeinen Nutzung geladen wird. Verwendete Mess-ID: G-0CKBXQ6WXX. Wenn Sie „Nur notwendige“ auswählen, wird Analytics nicht geladen. Sie können den Browserspeicher dieser Website löschen, damit die Auswahl erneut angezeigt wird. Google kann gemäß seinen Richtlinien Informationen wie Seitenaufrufe, ungefähren Standort, Geräte- und Browserdetails sowie Interaktionsereignisse verarbeiten. Die Website nutzt außerdem Ressourcen Dritter, darunter Google Fonts, Font Awesome, Tailwind-Browserdateien, PDF-/QR-/EXIF-Hilfsbibliotheken und einen öffentlichen Wechselkurs-Endpunkt. Ihr Browser kann diese Anbieter kontaktieren, um Ressourcen oder Live-Daten abzurufen. Deren Datenschutzpraktiken und Verfügbarkeit richten sich nach den jeweiligen eigenen Richtlinien.</p></section>
 <section class="qt-policy-section"><h2>4. Tool-Bewertungen und Feedback</h2><p>Wenn Sie eine Tool-Bewertung abgeben, verwendet QantaraTools Firebase Anonymous Authentication und Firestore, um Ihre Bewertung zentral zu speichern und anderen Besuchern eine Gesamtbewertung anzuzeigen. Dabei wird eine anonyme Firebase-Kennung verwendet; ein Konto ist nicht erforderlich. Optionale schriftliche Hinweise werden separat gespeichert und sind nur für diese anonyme Browser-Identität lesbar. Das Löschen der Browserdaten oder die Verwendung eines anderen Browsers kann eine andere anonyme Identität erzeugen.</p></section>
@@ -38,4 +49,5 @@
 <section class="qt-policy-section"><h2>9. Änderungen</h2><p>Diese Richtlinie kann geändert werden, wenn sich Tools, Plugins, Hosting, Analysen, Werbung oder externe Anbieter ändern. Das oben angegebene Datum kennzeichnet die aktuelle Version.</p></section></div></main>
 <footer class="qt-policy-footer">© 2026 QantaraTools · <a href="/de/privacy/">Datenschutz</a> · <a href="/de/terms/">Nutzungsbedingungen</a> · <a href="/de/contact/">Kontakt</a></footer>
 <script src="/assets/js/language-switcher.js" defer></script>
+<script src="/assets/js/static-page-ar.js" defer></script>
 </body></html>

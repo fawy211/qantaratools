@@ -4,10 +4,10 @@
 <script src="/assets/js/tailwind-loader.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Learn about QantaraTools, a free collection of practical browser-based utilities built to make everyday work quicker and easier.">
+  <meta name="description" content="Erfahren Sie mehr über QantaraTools, eine kostenlose Sammlung praktischer Browser-Tools, die alltägliche Aufgaben erleichtern.">
   <meta name="robots" content="index,follow">
   <meta name="theme-color" content="#17151f">
-  <link rel="canonical" href="https://www.qantaratools.com/de/about-us/">
+  <link rel="canonical" href="https://www.qantaratools.com/about-us.html">
   <link rel="icon" type="image/svg+xml" href="/assets/branding/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -51,6 +51,17 @@
     html.dark .qt-about-card{background:#1a1725;border-color:#45394f}
     @media(max-width:640px){.qt-about-header-inner{padding:12px 14px}.qt-about-brand img{width:36px;height:36px}.qt-about-brand-name{font-size:18px}.qt-about-nav{gap:10px}.qt-about-nav a{font-size:12px}.qt-about-main{padding:28px 14px 48px!important}.qt-about-sections{grid-template-columns:1fr}.qt-about-wide{grid-column:auto}.qt-about-cta{align-items:flex-start;flex-direction:column}}
   </style>
+<script>
+(function(){
+  var params=new URLSearchParams(location.search);
+  var match=location.pathname.match(/^\/(de|fr|es)(?:\/|$)/);
+  var locale=match?match[1]:(params.get('locale')==='ar'?'ar':'en');
+  document.documentElement.lang=locale;
+  document.documentElement.dir=locale==='ar'?'rtl':'ltr';
+  document.documentElement.dataset.locale=locale;
+  try{localStorage.setItem('qantaratools_language_v1',locale);}catch(_){}
+})();
+</script>
 <link rel="alternate" hreflang="en" href="https://www.qantaratools.com/about-us.html">
 <link rel="alternate" hreflang="de" href="https://www.qantaratools.com/de/about-us/">
 <link rel="alternate" hreflang="fr" href="https://www.qantaratools.com/fr/about-us/">
@@ -61,21 +72,21 @@
   <a class="skip-link" href="#main-content">Zum Hauptinhalt springen</a>
   <header id="site-header" class="sticky top-0 z-50 border-b backdrop-blur-md">
     <div class="qt-about-header-inner">
-      <a class="qt-about-brand" href="/de/" aria-label="QantaraTools home">
+      <a class="qt-about-brand" href="/de/" aria-label="QantaraTools-Startseite">
         <img src="/assets/branding/qantara-mark.svg" alt="">
         <span><span class="qt-about-brand-name">Qantara<span>Tools</span></span><span class="qt-about-tagline">Alle Tools · An einem Ort</span></span>
       </a>
-      <nav class="qt-about-nav" aria-label="Main navigation">
+      <nav class="qt-about-nav" aria-label="Hauptnavigation">
         <a href="/de/">Startseite</a>
         <a href="/de/about-us/" aria-current="page">Über uns</a>
         <a href="/de/faq/">FAQ</a><a href="/de/contact/">Kontakt</a><a href="/de/privacy/">Datenschutz</a><a href="/de/terms/">Nutzungsbedingungen</a>
-        <button type="button" class="qt-theme-btn" data-theme-toggle aria-label="Toggle theme"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+        <button type="button" class="qt-theme-btn" data-theme-toggle aria-label="Design umschalten"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
       </nav>
     </div>
   </header>
   <main id="main-content" class="qt-about-main" tabindex="-1">
     <section class="qt-about-hero">
-      <span class="qt-about-kicker"><i class="fa-solid fa-sparkles" aria-hidden="true"></i> Über uns QantaraTools</span>
+      <span class="qt-about-kicker"><i class="fa-solid fa-sparkles" aria-hidden="true"></i> Über QantaraTools</span>
       <h1>Nützliche Tools.<br>Weniger Aufwand.</h1>
       <p>QantaraTools ist eine kostenlose Sammlung praktischer Werkzeuge für Entwickler, Kreative und alle, die alltägliche digitale Aufgaben schneller erledigen möchten.</p>
     </section>
@@ -89,13 +100,13 @@
         <p>Öffnen Sie ein Tool, erledigen Sie Ihre Aufgabe und machen Sie weiter. Die Werkzeugsammlung ist kostenlos und bewusst übersichtlich, zugänglich und auf verschiedenen Geräten nutzbar.</p>
       </section>
       <section class="qt-about-card qt-about-wide">
-        <h2><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Datenschutz, plainly stated</h2>
-        <p>Viele Tools verarbeiten Texte und Dateien lokal in Ihrem Browser; diese Eingaben werden von diesen Tools nicht absichtlich hochgeladen. Einige Funktionen kontaktieren jedoch externe Dienste: Community-Bewertungen werden beispielsweise in Firebase gespeichert, und Analysefunktionen werden nur mit Ihrer Einwilligung geladen. Lesen Sie die <a href="/de/privacy/">Datenschutz Policy</a> für alle Einzelheiten, insbesondere bevor Sie sensible Daten mit einem Tool verwenden, das einen externen Dienst aufruft.</p>
+        <h2><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Datenschutz – klar erklärt</h2>
+        <p>Viele Tools verarbeiten Texte und Dateien lokal in Ihrem Browser; diese Eingaben werden von diesen Tools nicht absichtlich hochgeladen. Einige Funktionen kontaktieren jedoch externe Dienste: Community-Bewertungen werden beispielsweise in Firebase gespeichert, und Analysefunktionen werden nur mit Ihrer Einwilligung geladen. Lesen Sie die <a href="/de/privacy/">Datenschutzerklärung</a> für alle Einzelheiten, insbesondere bevor Sie sensible Daten mit einem Tool verwenden, das einen externen Dienst aufruft.</p>
       </section>
     </div>
     <section class="qt-about-cta">
       <div><strong>Haben Sie eine Idee oder ein Problem entdeckt?</strong><p>Schreiben Sie uns und helfen Sie, die Werkzeugsammlung zu verbessern.</p></div>
-      <a href="/de/contact/">Kontakt Us <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+      <a href="/de/contact/">Kontaktieren Sie uns <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
     </section>
   </main>
   <footer id="site-footer" class="mt-auto border-t py-8">
@@ -111,5 +122,6 @@
     </div>
   </footer>
 <script src="/assets/js/language-switcher.js" defer></script>
+<script src="/assets/js/static-page-ar.js" defer></script>
 </body>
 </html>

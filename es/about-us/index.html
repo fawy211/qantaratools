@@ -4,10 +4,10 @@
 <script src="/assets/js/tailwind-loader.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Learn about QantaraTools, a free collection of practical browser-based utilities built to make everyday work quicker and easier.">
+  <meta name="description" content="Conoce QantaraTools, una colección gratuita de herramientas prácticas en el navegador para agilizar las tareas digitales cotidianas.">
   <meta name="robots" content="index,follow">
   <meta name="theme-color" content="#17151f">
-  <link rel="canonical" href="https://www.qantaratools.com/es/about-us/">
+  <link rel="canonical" href="https://www.qantaratools.com/about-us.html">
   <link rel="icon" type="image/svg+xml" href="/assets/branding/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -51,6 +51,17 @@
     html.dark .qt-about-card{background:#1a1725;border-color:#45394f}
     @media(max-width:640px){.qt-about-header-inner{padding:12px 14px}.qt-about-brand img{width:36px;height:36px}.qt-about-brand-name{font-size:18px}.qt-about-nav{gap:10px}.qt-about-nav a{font-size:12px}.qt-about-main{padding:28px 14px 48px!important}.qt-about-sections{grid-template-columns:1fr}.qt-about-wide{grid-column:auto}.qt-about-cta{align-items:flex-start;flex-direction:column}}
   </style>
+<script>
+(function(){
+  var params=new URLSearchParams(location.search);
+  var match=location.pathname.match(/^\/(de|fr|es)(?:\/|$)/);
+  var locale=match?match[1]:(params.get('locale')==='ar'?'ar':'en');
+  document.documentElement.lang=locale;
+  document.documentElement.dir=locale==='ar'?'rtl':'ltr';
+  document.documentElement.dataset.locale=locale;
+  try{localStorage.setItem('qantaratools_language_v1',locale);}catch(_){}
+})();
+</script>
 <link rel="alternate" hreflang="en" href="https://www.qantaratools.com/about-us.html">
 <link rel="alternate" hreflang="de" href="https://www.qantaratools.com/de/about-us/">
 <link rel="alternate" hreflang="fr" href="https://www.qantaratools.com/fr/about-us/">
@@ -61,15 +72,15 @@
   <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
   <header id="site-header" class="sticky top-0 z-50 border-b backdrop-blur-md">
     <div class="qt-about-header-inner">
-      <a class="qt-about-brand" href="/es/" aria-label="QantaraTools home">
+      <a class="qt-about-brand" href="/es/" aria-label="Inicio de QantaraTools">
         <img src="/assets/branding/qantara-mark.svg" alt="">
         <span><span class="qt-about-brand-name">Qantara<span>Tools</span></span><span class="qt-about-tagline">Todas las herramientas · En un solo lugar</span></span>
       </a>
-      <nav class="qt-about-nav" aria-label="Main navigation">
+      <nav class="qt-about-nav" aria-label="Navegación principal">
         <a href="/es/">Inicio</a>
         <a href="/es/about-us/" aria-current="page">Quiénes somos</a>
         <a href="/es/faq/">Preguntas frecuentes</a><a href="/es/contact/">Contacto</a><a href="/es/privacy/">Privacidad</a><a href="/es/terms/">Términos</a>
-        <button type="button" class="qt-theme-btn" data-theme-toggle aria-label="Toggle theme"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+        <button type="button" class="qt-theme-btn" data-theme-toggle aria-label="Cambiar tema"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
       </nav>
     </div>
   </header>
@@ -89,13 +100,13 @@
         <p>Abre una herramienta, realiza la tarea y vuelve a tu trabajo. El conjunto de herramientas es gratuito, claro, fácil de usar y práctico en distintos dispositivos.</p>
       </section>
       <section class="qt-about-card qt-about-wide">
-        <h2><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Privacidad, plainly stated</h2>
-        <p>Muchas herramientas procesan texto y archivos localmente en tu navegador, por lo que esas herramientas no suben intencionadamente esos datos. Algunas funciones sí se comunican con servicios externos: por ejemplo, las valoraciones de la comunidad se guardan en Firebase y las analíticas solo se cargan si das tu consentimiento. Consulta la <a href="/es/privacy/">Privacidad Policy</a> para conocer todos los detalles, especialmente antes de utilizar datos sensibles con una herramienta que se conecta a un servicio externo.</p>
+        <h2><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Privacidad, explicada con claridad</h2>
+        <p>Muchas herramientas procesan texto y archivos localmente en tu navegador, por lo que esas herramientas no suben intencionadamente esos datos. Algunas funciones sí se comunican con servicios externos: por ejemplo, las valoraciones de la comunidad se guardan en Firebase y las analíticas solo se cargan si das tu consentimiento. Consulta la <a href="/es/privacy/">Política de privacidad</a> para conocer todos los detalles, especialmente antes de utilizar datos sensibles con una herramienta que se conecta a un servicio externo.</p>
       </section>
     </div>
     <section class="qt-about-cta">
       <div><strong>¿Tienes una idea o has encontrado un problema?</strong><p>Escríbenos y ayúdanos a mejorar estas herramientas.</p></div>
-      <a href="/es/contact/">Contacto Us <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+      <a href="/es/contact/">Contactoo <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
     </section>
   </main>
   <footer id="site-footer" class="mt-auto border-t py-8">
@@ -111,5 +122,6 @@
     </div>
   </footer>
 <script src="/assets/js/language-switcher.js" defer></script>
+<script src="/assets/js/static-page-ar.js" defer></script>
 </body>
 </html>
