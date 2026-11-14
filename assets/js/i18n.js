@@ -462,7 +462,7 @@
       aiFileErrorDetail: '无法在此设备上本地打开所选文件。',
       aiPasteFirst: '请先粘贴文本或打开一个文件。',
       aiWordDownload: '下载 Word 文件', aiExcelDownload: '下载 Excel 文件',
-      aiCreatePdf: '创建 PDF 文件', aiWordCreated: '已在本地创�� Word 文件',
+      aiCreatePdf: '创建 PDF 文件', aiWordCreated: '已在本地创建 Word 文件',
       aiExcelCreated: '已在本地创建 Excel 文件',
       aiPdfOpened: '已在本地打开打印预览 — 请选择“另存为 PDF”',
       aiPopup: '请允许弹出窗口，以查看 PDF 预览。',
