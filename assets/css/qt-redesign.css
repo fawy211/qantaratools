@@ -197,3 +197,19 @@ html body #tools-grid-container.is-searching .qt-featured-wrap,
 html body #tools-grid-container.is-searching .section-intro { display: none; }
 html body .qt-empty-state { text-align: center; padding: 2.5rem 1rem; color: var(--qt-muted); }
 html body .qt-empty-state[hidden] { display: none; }
+
+
+/* One consistent QantaraTools identity: only the light/dark theme is user-selectable. */
+html body .qt-identity-switcher { display: none !important; }
+html[data-identity] {
+  --qt-blue: #6857ff !important;
+  --qt-cyan: #19c8b3 !important;
+  --qt-orange: #ff725e !important;
+  --qt-lime: #d8f45d !important;
+  --qt-pink: #ff4fa3 !important;
+  --qt-accent: #5b8cff !important;
+  --qt-accent-soft: rgba(91, 140, 255, .16) !important;
+  --qt-accent-ink: #08101f !important;
+}
+html[data-identity="citrus"] body,
+html[data-identity="violet"] body { background-image: none !important; }

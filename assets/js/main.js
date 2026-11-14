@@ -305,17 +305,6 @@ function toggleTheme() {
     applyTheme(!isDark);
 }
 
-function setVisualIdentity(identity) {
-    const allowed = ['electric', 'citrus', 'violet'];
-    const selected = allowed.includes(identity) ? identity : 'electric';
-    document.documentElement.dataset.identity = selected;
-    localStorage.setItem('visual_identity', selected);
-    document.querySelectorAll('[data-identity]').forEach(button => {
-        const active = button.dataset.identity === selected;
-        button.classList.toggle('is-active', active);
-        button.setAttribute('aria-pressed', active ? 'true' : 'false');
-    });
-}
 
 Object.assign(window, {
     filterTools,
@@ -326,7 +315,6 @@ Object.assign(window, {
     submitToolRequest,
     applyTheme,
     toggleTheme,
-    setVisualIdentity,
     toggleFavorite,
     recordRecentTool,
     openToolById,
@@ -491,7 +479,7 @@ window.addEventListener('DOMContentLoaded', () => {
     prepareToolSections();
     applyHomeTranslations();
     applyTheme(localStorage.getItem('theme') !== 'light');
-    setVisualIdentity(localStorage.getItem('visual_identity') || 'electric');
+    localStorage.removeItem('visual_identity');
     setupFavoriteButtons();
     renderQuickToolLists();
     updateSearchCount();
