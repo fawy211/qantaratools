@@ -59,6 +59,9 @@ jobs:
           test "$(find es/tools -name index.html | wc -l)" -eq 50
           grep -q 'hreflang="de"' tools/base64/index.html
           grep -q '/de/tools/base64/' sitemap.xml
+          grep -q '/de/about-us/' sitemap.xml
+          grep -q '/fr/contact/' sitemap.xml
+          grep -q '/es/about-us/' sitemap.xml
           test -s de/about-us/index.html
           test -s fr/about-us/index.html
           test -s es/about-us/index.html
