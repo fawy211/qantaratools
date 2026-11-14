@@ -38,6 +38,7 @@ jobs:
           node --check scripts/generate-localized-tool-pages.js
           node --check scripts/generate-localized-static-pages.js
           node --check scripts/legal-page-translations.js
+          node --check assets/js/static-page-ar.js
           node --check scripts/validate-localized-pages.js
           node --check scripts/prepare-vendor-assets.js
           node --check tests/localized-error-handling.spec.js
@@ -120,6 +121,14 @@ jobs:
           ! grep -q 'Contact Us\|Main navigation\|Toggle theme' de/contact/index.html fr/contact/index.html es/contact/index.html
           grep -q '/de/privacy/' sitemap.xml
           grep -q '/fr/terms/' sitemap.xml
+          # Arabic static-page translations are loaded for ?locale=ar and must ship with generated pages.
+          test -s assets/js/static-page-ar.js
+          for page in about-us contact faq privacy terms; do
+            grep -q 'static-page-ar.js' "$page.html"
+          done
+          grep -q 'سياسة الخصوصية' assets/js/static-page-ar.js
+          grep -q 'شروط الاستخدام' assets/js/static-page-ar.js
+          grep -q 'الأسئلة الشائعة' assets/js/static-page-ar.js
           # Static information/legal pages must expose the language selector and reciprocal SEO metadata.
           for locale in de fr es; do
             for slug in about-us contact faq privacy terms; do
