@@ -173,9 +173,15 @@ es:{
 "How do I contact QantaraTools?":"¿Cómo puedo contactar con QantaraTools?",
 "Use the Contact Us page. The Contact Us page lists support@qantaratools.com. If you cannot reach us at that address, use the homepage tool-request option.":"Utiliza la página de contacto, donde aparece support@qantaratools.com. Si no puedes contactar mediante esa dirección, utiliza la opción para solicitar herramientas de la página principal."
 }};
-function replaceText(html,map){for(const [a,b] of Object.entries(map)){html=html.split(a).join(b);}return html;}
+function replaceText(html,map){const entries=Object.entries(map).sort((a,b)=>b[0].length-a[0].length);for(const [a,b] of entries){html=html.split(a).join(b);}return html;}
 for(const locale of locales){
  Object.assign(dict[locale], legalTranslations[locale] || {});
+ const legalChrome={
+  de:{'QANTARATOOLS / PRIVACY':'QANTARATOOLS / DATENSCHUTZ','QANTARATOOLS / TERMS':'QANTARATOOLS / NUTZUNGSBEDINGUNGEN','Last updated: October 17, 2026':'Zuletzt aktualisiert: 17. Oktober 2026'},
+  fr:{'QANTARATOOLS / PRIVACY':'QANTARATOOLS / CONFIDENTIALITÉ','QANTARATOOLS / TERMS':'QANTARATOOLS / CONDITIONS','Last updated: October 17, 2026':'Dernière mise à jour : 17 octobre 2026'},
+  es:{'QANTARATOOLS / PRIVACY':'QANTARATOOLS / PRIVACIDAD','QANTARATOOLS / TERMS':'QANTARATOOLS / CONDICIONES','Last updated: October 17, 2026':'Última actualización: 17 de octubre de 2026'}
+ };
+ Object.assign(dict[locale],legalChrome[locale]);
  const dir=path.join(root,locale);fs.mkdirSync(dir,{recursive:true});
  for(const page of pages){
   let html=fs.readFileSync(path.join(root,page),'utf8');
