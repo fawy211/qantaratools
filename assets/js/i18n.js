@@ -640,6 +640,21 @@
     "loanInvalid": "Introduce datos válidos del préstamo.",
     "calculateLoanFirst": "Calcula primero el préstamo.",
     "sheetLoan": "Calendario de amortización"
+
+  ,
+  "ru": {
+    "vatTitle":"Калькулятор НДС","vatIntro":"Добавьте НДС к цене или рассчитайте налог, уже включённый в итоговую сумму.","vatAdd":"Добавить НДС","vatRemove":"Исключить НДС","amount":"Сумма","vatRate":"Ставка НДС (%)","calculate":"Рассчитать","clear":"Очистить","netPrice":"Цена без налога","vat":"НДС","total":"Итого","vatInvalid":"Введите корректную сумму и ставку НДС от 0 до 100.","loanTitle":"Калькулятор кредита и ипотеки","loanIntro":"Рассчитайте ежемесячные платежи и общую сумму процентов, а также просмотрите график погашения.","loanAmount":"Сумма кредита","annualInterest":"Годовая процентная ставка (%)","termYears":"Срок (лет)","downloadSchedule":"Скачать график платежей","monthlyPayment":"Ежемесячный платёж","totalInterest":"Общая сумма процентов","totalPaid":"Всего выплачено","month":"Месяц","payment":"Платёж","principal":"Основной долг","interest":"Проценты","balance":"Остаток долга","loanInvalid":"Введите корректные данные кредита.","calculateLoanFirst":"Сначала рассчитайте кредит.","sheetLoan":"График погашения кредита"
+  },
+  "tr": {
+    "vatTitle":"KDV Hesaplayıcı","vatIntro":"Bir fiyata KDV ekleyin veya toplam fiyata dahil olan KDV tutarını hesaplayın.","vatAdd":"KDV ekle","vatRemove":"KDV'yi çıkar","amount":"Tutar","vatRate":"KDV oranı (%)","calculate":"Hesapla","clear":"Temizle","netPrice":"Vergisiz fiyat","vat":"KDV","total":"Toplam","vatInvalid":"0 ile 100 arasında geçerli bir tutar ve KDV oranı girin.","loanTitle":"Kredi ve Konut Kredisi Hesaplayıcı","loanIntro":"Aylık taksitleri ve toplam faizi tahmin edin, ödeme planını görüntüleyin.","loanAmount":"Kredi tutarı","annualInterest":"Yıllık faiz (%)","termYears":"Vade (yıl)","downloadSchedule":"Ödeme planını indir","monthlyPayment":"Aylık taksit","totalInterest":"Toplam faiz","totalPaid":"Toplam ödeme","month":"Ay","payment":"Taksit","principal":"Anapara","interest":"Faiz","balance":"Kalan borç","loanInvalid":"Geçerli kredi bilgileri girin.","calculateLoanFirst":"Önce krediyi hesaplayın.","sheetLoan":"Kredi ödeme planı"
+  },
+  "hi": {
+    "vatTitle":"VAT कैलकुलेटर","vatIntro":"कीमत में VAT जोड़ें या कुल कीमत में शामिल VAT की गणना करें।","vatAdd":"VAT जोड़ें","vatRemove":"VAT हटाएँ","amount":"राशि","vatRate":"VAT दर (%)","calculate":"गणना करें","clear":"साफ़ करें","netPrice":"कर से पहले की कीमत","vat":"VAT","total":"कुल","vatInvalid":"0 से 100 के बीच सही राशि और VAT दर दर्ज करें।","loanTitle":"लोन और होम लोन कैलकुलेटर","loanIntro":"मासिक किस्त और कुल ब्याज का अनुमान लगाएँ तथा भुगतान अनुसूची देखें।","loanAmount":"लोन राशि","annualInterest":"वार्षिक ब्याज (%)","termYears":"अवधि (वर्ष)","downloadSchedule":"भुगतान अनुसूची डाउनलोड करें","monthlyPayment":"मासिक किस्त","totalInterest":"कुल ब्याज","totalPaid":"कुल भुगतान","month":"महीना","payment":"किस्त","principal":"मूलधन","interest":"ब्याज","balance":"बाकी राशि","loanInvalid":"लोन की सही जानकारी दर्ज करें।","calculateLoanFirst":"पहले लोन की गणना करें।","sheetLoan":"लोन भुगतान अनुसूची"
+  },
+  "zh-CN": {
+    "vatTitle":"增值税计算器","vatIntro":"为价格添加增值税，或计算总价中已包含的增值税。","vatAdd":"添加增值税","vatRemove":"扣除增值税","amount":"金额","vatRate":"增值税税率 (%)","calculate":"计算","clear":"清除","netPrice":"未税价格","vat":"增值税","total":"总计","vatInvalid":"请输入有效金额和 0 至 100 之间的增值税税率。","loanTitle":"贷款与房贷计算器","loanIntro":"估算每月还款额和总利息，并查看还款计划。","loanAmount":"贷款金额","annualInterest":"年利率 (%)","termYears":"期限（年）","downloadSchedule":"下载还款计划","monthlyPayment":"每月还款额","totalInterest":"总利息","totalPaid":"累计还款","month":"月份","payment":"还款额","principal":"本金","interest":"利息","balance":"剩余本金","loanInvalid":"请输入有效的贷款信息。","calculateLoanFirst":"请先计算贷款。","sheetLoan":"贷款还款计划"
+  }
+
   }
 };
 
