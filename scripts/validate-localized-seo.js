@@ -7,7 +7,7 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const tools = JSON.parse(fs.readFileSync(path.join(root, 'tool-pages.json'), 'utf8'));
 const localized = require('./seo-locales.js');
-const locales = ['de', 'fr', 'es'];
+const locales = ['de', 'fr', 'es', 'ru', 'tr', 'hi', 'zh-CN'];
 const errors = [];
 
 for (const locale of locales) {

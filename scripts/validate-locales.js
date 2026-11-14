@@ -7,7 +7,7 @@ const path = require('node:path');
 const vm = require('node:vm');
 
 const root = path.resolve(__dirname, '..');
-const locales = ['ar', 'de', 'fr', 'es'];
+const locales = ['ar', 'de', 'fr', 'es', 'ru', 'tr', 'hi', 'zh-CN'];
 const source = fs.readFileSync(path.join(root, 'assets/js/i18n.js'), 'utf8');
 const windowStub = { dispatchEvent() {} };
 const context = {
