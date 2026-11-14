@@ -37,6 +37,7 @@ jobs:
           node --check scripts/generate-tool-pages.js
           node --check scripts/generate-localized-tool-pages.js
           node --check scripts/generate-localized-static-pages.js
+          node --check scripts/legal-page-translations.js
           node --check scripts/validate-localized-pages.js
           node --check scripts/prepare-vendor-assets.js
           node --check tests/localized-error-handling.spec.js
@@ -74,6 +75,20 @@ jobs:
           test -s de/faq/index.html
           test -s fr/faq/index.html
           test -s es/faq/index.html
+          test -s de/privacy/index.html
+          test -s fr/privacy/index.html
+          test -s es/privacy/index.html
+          test -s de/terms/index.html
+          test -s fr/terms/index.html
+          test -s es/terms/index.html
+          grep -q 'Datenschutzerklärung' de/privacy/index.html
+          grep -q 'Politique de confidentialité' fr/privacy/index.html
+          grep -q 'Política de privacidad' es/privacy/index.html
+          grep -q 'Nutzungsbedingungen' de/terms/index.html
+          grep -q 'Conditions d’utilisation' fr/terms/index.html
+          grep -q 'Términos del servicio' es/terms/index.html
+          grep -q '/de/privacy/' sitemap.xml
+          grep -q '/fr/terms/' sitemap.xml
           grep -q 'Über QantaraTools' de/about-us/index.html
           grep -q 'À propos de QantaraTools' fr/about-us/index.html
           grep -q 'Acerca de QantaraTools' es/about-us/index.html
