@@ -18,7 +18,7 @@
     var queryLocale = new URLSearchParams(window.location.search).get('locale');
     // The URL is authoritative: never show a saved locale that does not match
     // the page currently being displayed. Locale persistence is handled by navigation.
-    var current = prefix ? prefix[1] : (queryLocale === 'ar' ? 'ar' : 'en');
+    var current = prefix ? prefix[1] : (queryLocale === 'ar' ? 'ar' : (window.QTI18n && window.QTI18n.locale ? window.QTI18n.locale : 'en'));
     var basePath = prefix ? (path.slice(prefix[0].length) || '/') : path;
     if (!basePath.startsWith('/')) basePath = '/' + basePath;
 
