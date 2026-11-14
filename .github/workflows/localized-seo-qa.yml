@@ -89,6 +89,26 @@ jobs:
           grep -q 'Términos del servicio' es/terms/index.html
           grep -q '/de/privacy/' sitemap.xml
           grep -q '/fr/terms/' sitemap.xml
+          # Static information/legal pages must expose the language selector and reciprocal SEO metadata.
+          for locale in de fr es; do
+            for slug in about-us contact faq privacy terms; do
+              file="$locale/$slug/index.html"
+              test -s "$file"
+              grep -q 'assets/js/language-switcher.js' "$file"
+              grep -q "<html lang=\"$locale\"" "$file"
+              grep -q "https://www.qantaratools.com/$locale/$slug/" "$file"
+              grep -q 'hreflang="en"' "$file"
+              grep -q 'hreflang="de"' "$file"
+              grep -q 'hreflang="fr"' "$file"
+              grep -q 'hreflang="es"' "$file"
+              grep -q 'hreflang="x-default"' "$file"
+            done
+          done
+          # Language switcher must map all five static page routes in both directions.
+          for slug in about-us contact faq privacy terms; do
+            grep -q "'/$slug.html'" assets/js/language-switcher.js
+            grep -q "'/$slug/'" assets/js/language-switcher.js
+          done
           grep -q 'Über QantaraTools' de/about-us/index.html
           grep -q 'À propos de QantaraTools' fr/about-us/index.html
           grep -q 'Acerca de QantaraTools' es/about-us/index.html
