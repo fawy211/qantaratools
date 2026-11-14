@@ -4,7 +4,7 @@ const fs=require('node:fs');
 const path=require('node:path');
 const root=path.resolve(__dirname,'..');
 const site='https://www.qantaratools.com';
-const locales=['de','fr','es'];
+const locales=['de','fr','es','ru','tr','hi','zh-CN'];
 const pages=['about-us.html','contact.html','faq.html','privacy.html','terms.html'];
 const legalTranslations=require('./legal-page-translations.js');
 const dict={
@@ -173,6 +173,89 @@ es:{
 "How do I contact QantaraTools?":"¿Cómo puedo contactar con QantaraTools?",
 "Use the Contact Us page. The Contact Us page lists support@qantaratools.com. If you cannot reach us at that address, use the homepage tool-request option.":"Utiliza la página de contacto, donde aparece support@qantaratools.com. Si no puedes contactar mediante esa dirección, utiliza la opción para solicitar herramientas de la página principal."
 }};
+
+const extraStaticTranslations={
+ru:{
+'Skip to main content':'Перейти к основному содержимому','Home':'Главная','About Us':'О нас','About':'О проекте','FAQ':'Частые вопросы','Contact':'Контакты','Privacy':'Конфиденциальность','Terms':'Условия',
+'About QantaraTools':'О QantaraTools','Useful tools.<br>Less busywork.':'Полезные инструменты.<br>Меньше рутины.','Our mission':'Наша миссия','Built for quick wins':'Для быстрых результатов',
+'Privacy, plainly stated':'О конфиденциальности — просто','Have an idea or spotted a problem?':'Есть идея или заметили проблему?','Send it our way and help make the toolkit better.':'Напишите нам и помогите улучшить набор инструментов.','Contact Us':'Связаться с нами',
+'Need help with a tool, found a problem, or have a suggestion? We would be happy to hear from you.':'Нужна помощь с инструментом, нашли ошибку или хотите предложить идею? Будем рады вашему сообщению.',
+'QantaraTools Support':'Поддержка QantaraTools','For support, bug reports, feedback, and general questions, email us at:':'По вопросам поддержки, сообщениям об ошибках, отзывам и общим вопросам пишите нам: ',
+'Please include the tool name and a short description of the issue. If relevant, include your browser, operating system, and approximate file size. Do not send passwords, private keys, or confidential information.':'Укажите название инструмента и кратко опишите проблему. При необходимости сообщите браузер, операционную систему и примерный размер файла. Не отправляйте пароли, закрытые ключи или конфиденциальные сведения.',
+'Tool Suggestions':'Предложения по инструментам','Have an idea for a useful new tool? Use the “Request a New Tool” option on the QantaraTools homepage or email your suggestion to the support address.':'Есть идея полезного инструмента? Воспользуйтесь пунктом «Предложить новый инструмент» на главной странице QantaraTools или отправьте предложение в службу поддержки.',
+'Before You Contact Us':'Перед обращением в поддержку','Refresh the page and try the tool again.':'Обновите страницу и попробуйте снова.','Use a current browser.':'Используйте актуальную версию браузера.','For file tools, try a smaller sample file.':'Для инструментов работы с файлами попробуйте файл меньшего размера.','Tell us exactly which step failed and what you expected to happen.':'Точно укажите, на каком этапе возникла ошибка и какого результата вы ожидали.',
+'Frequently Asked Questions':'Часто задаваемые вопросы','Practical answers to common questions about using QantaraTools, handling files, troubleshooting tools, and getting support.':'Ответы на распространённые вопросы об использовании QantaraTools, работе с файлами, устранении неполадок и поддержке.',
+'Getting Started':'Начало работы','What is QantaraTools?':'Что такое QantaraTools?','Do I need to install anything?':'Нужно ли что-нибудь устанавливать?','Is QantaraTools free?':'QantaraTools бесплатен?','Which browsers are supported?':'Какие браузеры поддерживаются?','Privacy & Files':'Конфиденциальность и файлы','Are my files uploaded to QantaraTools?':'Загружаются ли мои файлы на QantaraTools?','Where are generated files saved?':'Где сохраняются созданные файлы?','Why does a tool ask for a file?':'Зачем инструменту нужен файл?','What should I do if a large file fails?':'Что делать, если большой файл не обрабатывается?','Common Tool Problems':'Распространённые проблемы с инструментами','How do I contact QantaraTools?':'Как связаться с QantaraTools?',
+'Main navigation':'Главная навигация','Toggle theme':'Сменить тему','Back to tools':'Вернуться к инструментам','All Tools · One Place':'Все инструменты · В одном месте','Do not email passwords, private keys, or confidential files.':'Не отправляйте по электронной почте пароли, закрытые ключи и конфиденциальные файлы.',
+'No blanket guarantee should be assumed. Many utilities are client-side, but some features can use external resources or live data. The Privacy Policy and the individual tool behavior are the correct references.':'Не следует считать это безусловной гарантией. Многие инструменты работают в браузере, но отдельные функции могут обращаться к внешним ресурсам или актуальным данным. Ориентируйтесь на Политику конфиденциальности и фактическое поведение конкретного инструмента.',
+'Use the Contact Us page. The Contact Us page lists support@qantaratools.com. If you cannot reach us at that address, use the homepage tool-request option.':'Откройте страницу контактов: там указан адрес support@qantaratools.com. Если связаться по нему не удаётся, воспользуйтесь формой предложения инструмента на главной странице.',
+'Learn about QantaraTools, a free collection of practical browser-based utilities built to make everyday work quicker and easier.':'Узнайте больше о QantaraTools — наборе практичных браузерных инструментов, помогающих быстрее выполнять повседневные задачи.',
+'Contact QantaraTools support for help, bug reports, feedback, and tool suggestions.':'Свяжитесь со службой поддержки QantaraTools, чтобы получить помощь, сообщить об ошибке, оставить отзыв или предложить инструмент.',
+'Frequently asked questions and troubleshooting help for QantaraTools.':'Ответы на частые вопросы и помощь в устранении неполадок QantaraTools.',
+'QANTARATOOLS / PRIVACY':'QANTARATOOLS / КОНФИДЕНЦИАЛЬНОСТЬ','QANTARATOOLS / TERMS':'QANTARATOOLS / УСЛОВИЯ','Last updated: October 17, 2026':'Последнее обновление: 17 октября 2026 г.'
+},
+tr:{
+'Skip to main content':'Ana içeriğe geç','Home':'Ana sayfa','About Us':'Hakkımızda','About':'Hakkında','FAQ':'SSS','Contact':'İletişim','Privacy':'Gizlilik','Terms':'Koşullar',
+'About QantaraTools':'QantaraTools Hakkında','Useful tools.<br>Less busywork.':'Yararlı araçlar.<br>Daha az angarya.','Our mission':'Misyonumuz','Built for quick wins':'Hızlı sonuçlar için tasarlandı',
+'Privacy, plainly stated':'Gizlilik, açık ve net','Have an idea or spotted a problem?':'Bir fikriniz mi var veya sorun mu fark ettiniz?','Send it our way and help make the toolkit better.':'Bize yazın ve araç setini geliştirmemize yardımcı olun.','Contact Us':'Bize ulaşın',
+'Need help with a tool, found a problem, or have a suggestion? We would be happy to hear from you.':'Bir araçla ilgili yardıma mı ihtiyacınız var, sorun mu buldunuz veya öneriniz mi var? Mesajınızı memnuniyetle bekliyoruz.',
+'QantaraTools Support':'QantaraTools Destek','For support, bug reports, feedback, and general questions, email us at:':'Destek, hata bildirimi, geri bildirim ve genel sorularınız için bize şu adresten e-posta gönderin: ',
+'Please include the tool name and a short description of the issue. If relevant, include your browser, operating system, and approximate file size. Do not send passwords, private keys, or confidential information.':'Lütfen aracın adını ve sorunun kısa bir açıklamasını ekleyin. Gerekirse tarayıcınızı, işletim sisteminizi ve yaklaşık dosya boyutunu belirtin. Parola, özel anahtar veya gizli bilgi göndermeyin.',
+'Tool Suggestions':'Araç Önerileri','Have an idea for a useful new tool? Use the “Request a New Tool” option on the QantaraTools homepage or email your suggestion to the support address.':'Yararlı bir araç fikriniz mi var? QantaraTools ana sayfasındaki “Yeni Araç Öner” seçeneğini kullanın veya önerinizi destek e-posta adresine gönderin.',
+'Before You Contact Us':'Bize Ulaşmadan Önce','Refresh the page and try the tool again.':'Sayfayı yenileyip aracı tekrar deneyin.','Use a current browser.':'Güncel bir tarayıcı kullanın.','For file tools, try a smaller sample file.':'Dosya araçlarında daha küçük bir örnek dosya deneyin.','Tell us exactly which step failed and what you expected to happen.':'Hangi adımın başarısız olduğunu ve ne olmasını beklediğinizi açıkça belirtin.',
+'Frequently Asked Questions':'Sıkça Sorulan Sorular','Practical answers to common questions about using QantaraTools, handling files, troubleshooting tools, and getting support.':'QantaraTools kullanımı, dosyalar, sorun giderme ve destek hakkında sık sorulan soruların yanıtları.',
+'Getting Started':'Başlarken','What is QantaraTools?':'QantaraTools nedir?','Do I need to install anything?':'Herhangi bir şey yüklemem gerekiyor mu?','Is QantaraTools free?':'QantaraTools ücretsiz mi?','Which browsers are supported?':'Hangi tarayıcılar destekleniyor?','Privacy & Files':'Gizlilik ve Dosyalar','Are my files uploaded to QantaraTools?':'Dosyalarım QantaraTools’a yükleniyor mu?','Where are generated files saved?':'Oluşturulan dosyalar nereye kaydedilir?','Why does a tool ask for a file?':'Bir araç neden dosya istiyor?','What should I do if a large file fails?':'Büyük bir dosya işlenemezse ne yapmalıyım?','Common Tool Problems':'Yaygın Araç Sorunları','How do I contact QantaraTools?':'QantaraTools ile nasıl iletişim kurabilirim?',
+'Main navigation':'Ana gezinme','Toggle theme':'Temayı değiştir','Back to tools':'Araçlara dön','All Tools · One Place':'Tüm Araçlar · Tek Yerde','Do not email passwords, private keys, or confidential files.':'E-posta ile parola, özel anahtar veya gizli dosya göndermeyin.',
+'No blanket guarantee should be assumed. Many utilities are client-side, but some features can use external resources or live data. The Privacy Policy and the individual tool behavior are the correct references.':'Genel ve koşulsuz bir garanti varsayılmamalıdır. Birçok araç tarayıcıda çalışır; ancak bazı özellikler harici kaynakları veya canlı verileri kullanabilir. Gizlilik Politikası ve ilgili aracın gerçek çalışma biçimi esas alınmalıdır.',
+'Use the Contact Us page. The Contact Us page lists support@qantaratools.com. If you cannot reach us at that address, use the homepage tool-request option.':'İletişim sayfasında support@qantaratools.com adresi yer alır. Bu adrese ulaşamazsanız ana sayfadaki araç önerisi seçeneğini kullanın.',
+'Learn about QantaraTools, a free collection of practical browser-based utilities built to make everyday work quicker and easier.':'Günlük dijital işleri kolaylaştırmak için geliştirilmiş pratik tarayıcı araçları koleksiyonu QantaraTools hakkında bilgi edinin.',
+'Contact QantaraTools support for help, bug reports, feedback, and tool suggestions.':'Yardım, hata bildirimi, geri bildirim ve araç önerileri için QantaraTools destek ekibiyle iletişime geçin.',
+'Frequently asked questions and troubleshooting help for QantaraTools.':'QantaraTools hakkında sık sorulan sorular ve sorun giderme yardımı.',
+'QANTARATOOLS / PRIVACY':'QANTARATOOLS / GİZLİLİK','QANTARATOOLS / TERMS':'QANTARATOOLS / KOŞULLAR','Last updated: October 17, 2026':'Son güncelleme: 17 Ekim 2026'
+},
+hi:{
+'Skip to main content':'मुख्य सामग्री पर जाएँ','Home':'होम','About Us':'हमारे बारे में','About':'परिचय','FAQ':'अक्सर पूछे जाने वाले प्रश्न','Contact':'संपर्क','Privacy':'गोपनीयता','Terms':'नियम',
+'About QantaraTools':'QantaraTools के बारे में','Useful tools.<br>Less busywork.':'उपयोगी टूल।<br>कम मेहनत।','Our mission':'हमारा उद्देश्य','Built for quick wins':'तेज़ और आसान काम के लिए',
+'Privacy, plainly stated':'गोपनीयता, स्पष्ट शब्दों में','Have an idea or spotted a problem?':'कोई सुझाव है या समस्या मिली?','Send it our way and help make the toolkit better.':'हमें बताएँ और टूलकिट को बेहतर बनाने में मदद करें।','Contact Us':'हमसे संपर्क करें',
+'Need help with a tool, found a problem, or have a suggestion? We would be happy to hear from you.':'किसी टूल में मदद चाहिए, कोई समस्या मिली या सुझाव देना चाहते हैं? हमें आपका संदेश पाकर खुशी होगी।',
+'QantaraTools Support':'QantaraTools सहायता','For support, bug reports, feedback, and general questions, email us at:':'सहायता, बग रिपोर्ट, प्रतिक्रिया और सामान्य प्रश्नों के लिए हमें यहाँ ईमेल करें: ',
+'Please include the tool name and a short description of the issue. If relevant, include your browser, operating system, and approximate file size. Do not send passwords, private keys, or confidential information.':'कृपया टूल का नाम और समस्या का संक्षिप्त विवरण दें। ज़रूरत हो तो ब्राउज़र, ऑपरेटिंग सिस्टम और फ़ाइल का अनुमानित आकार बताएँ। पासवर्ड, निजी कुंजी या गोपनीय जानकारी न भेजें।',
+'Tool Suggestions':'टूल सुझाव','Have an idea for a useful new tool? Use the “Request a New Tool” option on the QantaraTools homepage or email your suggestion to the support address.':'किसी उपयोगी नए टूल का विचार है? QantaraTools होमपेज पर “नया टूल सुझाएँ” विकल्प चुनें या अपना सुझाव सहायता ईमेल पर भेजें।',
+'Before You Contact Us':'संपर्क करने से पहले','Refresh the page and try the tool again.':'पेज रीफ़्रेश करके टूल फिर आज़माएँ।','Use a current browser.':'अपडेटेड ब्राउज़र का उपयोग करें।','For file tools, try a smaller sample file.':'फ़ाइल टूल के लिए छोटी नमूना फ़ाइल आज़माएँ।','Tell us exactly which step failed and what you expected to happen.':'बताएँ कि कौन-सा चरण विफल हुआ और आप क्या परिणाम चाहते थे।',
+'Frequently Asked Questions':'अक्सर पूछे जाने वाले प्रश्न','Practical answers to common questions about using QantaraTools, handling files, troubleshooting tools, and getting support.':'QantaraTools के उपयोग, फ़ाइलों, समस्या समाधान और सहायता से जुड़े सामान्य प्रश्नों के व्यावहारिक उत्तर।',
+'Getting Started':'शुरुआत करें','What is QantaraTools?':'QantaraTools क्या है?','Do I need to install anything?':'क्या मुझे कुछ इंस्टॉल करना होगा?','Is QantaraTools free?':'क्या QantaraTools मुफ़्त है?','Which browsers are supported?':'कौन-से ब्राउज़र समर्थित हैं?','Privacy & Files':'गोपनीयता और फ़ाइलें','Are my files uploaded to QantaraTools?':'क्या मेरी फ़ाइलें QantaraTools पर अपलोड होती हैं?','Where are generated files saved?':'बनाई गई फ़ाइलें कहाँ सहेजी जाती हैं?','Why does a tool ask for a file?':'टूल फ़ाइल क्यों माँगता है?','What should I do if a large file fails?':'बड़ी फ़ाइल विफल होने पर क्या करें?','Common Tool Problems':'आम टूल समस्याएँ','How do I contact QantaraTools?':'मैं QantaraTools से कैसे संपर्क करूँ?',
+'Main navigation':'मुख्य नेविगेशन','Toggle theme':'थीम बदलें','Back to tools':'टूल पर वापस जाएँ','All Tools · One Place':'सभी टूल · एक ही जगह','Do not email passwords, private keys, or confidential files.':'ईमेल में पासवर्ड, निजी कुंजी या गोपनीय फ़ाइलें न भेजें।',
+'No blanket guarantee should be assumed. Many utilities are client-side, but some features can use external resources or live data. The Privacy Policy and the individual tool behavior are the correct references.':'इसे सभी सुविधाओं के लिए सार्वभौमिक गारंटी न मानें। कई टूल ब्राउज़र में चलते हैं, लेकिन कुछ सुविधाएँ बाहरी संसाधनों या लाइव डेटा का उपयोग कर सकती हैं। सही जानकारी के लिए गोपनीयता नीति और संबंधित टूल का व्यवहार देखें।',
+'Use the Contact Us page. The Contact Us page lists support@qantaratools.com. If you cannot reach us at that address, use the homepage tool-request option.':'संपर्क पेज पर support@qantaratools.com दिया गया है। यदि वहाँ संपर्क न हो पाए, तो होमपेज पर टूल अनुरोध विकल्प का उपयोग करें।',
+'Learn about QantaraTools, a free collection of practical browser-based utilities built to make everyday work quicker and easier.':'QantaraTools के बारे में जानें—ब्राउज़र में चलने वाले व्यावहारिक टूल का संग्रह, जो रोज़मर्रा के डिजिटल काम तेज़ और आसान बनाता है।',
+'Contact QantaraTools support for help, bug reports, feedback, and tool suggestions.':'सहायता, बग रिपोर्ट, प्रतिक्रिया और नए टूल के सुझावों के लिए QantaraTools सहायता टीम से संपर्क करें।',
+'Frequently asked questions and troubleshooting help for QantaraTools.':'QantaraTools के सामान्य प्रश्नों के उत्तर और समस्या समाधान सहायता।',
+'QANTARATOOLS / PRIVACY':'QANTARATOOLS / गोपनीयता','QANTARATOOLS / TERMS':'QANTARATOOLS / नियम','Last updated: October 17, 2026':'अंतिम अपडेट: 17 अक्टूबर 2026'
+},
+'zh-CN':{
+'Skip to main content':'跳转到主要内容','Home':'首页','About Us':'关于我们','About':'关于','FAQ':'常见问题','Contact':'联系我们','Privacy':'隐私','Terms':'服务条款',
+'About QantaraTools':'关于 QantaraTools','Useful tools.<br>Less busywork.':'实用工具。<br>减少重复劳动。','Our mission':'我们的使命','Built for quick wins':'让日常任务更高效',
+'Privacy, plainly stated':'清晰说明隐私','Have an idea or spotted a problem?':'有新想法或发现问题？','Send it our way and help make the toolkit better.':'欢迎告诉我们，帮助改进工具集。','Contact Us':'联系我们',
+'Need help with a tool, found a problem, or have a suggestion? We would be happy to hear from you.':'使用工具时需要帮助、发现问题或有改进建议？欢迎联系我们。',
+'QantaraTools Support':'QantaraTools 支持','For support, bug reports, feedback, and general questions, email us at:':'如需支持、报告错误、提供反馈或咨询一般问题，请发送邮件至：',
+'Please include the tool name and a short description of the issue. If relevant, include your browser, operating system, and approximate file size. Do not send passwords, private keys, or confidential information.':'请注明工具名称并简要描述问题。如有必要，请提供浏览器、操作系统和文件的大致大小。请勿发送密码、私钥或机密信息。',
+'Tool Suggestions':'工具建议','Have an idea for a useful new tool? Use the “Request a New Tool” option on the QantaraTools homepage or email your suggestion to the support address.':'有实用工具的创意？请使用 QantaraTools 首页上的“建议新工具”选项，或发送邮件至支持邮箱。',
+'Before You Contact Us':'联系我们之前','Refresh the page and try the tool again.':'刷新页面后重试该工具。','Use a current browser.':'请使用最新版本的浏览器。','For file tools, try a smaller sample file.':'使用文件工具时，请尝试较小的示例文件。','Tell us exactly which step failed and what you expected to happen.':'请准确说明哪个步骤出现问题，以及你预期的结果。',
+'Frequently Asked Questions':'常见问题','Practical answers to common questions about using QantaraTools, handling files, troubleshooting tools, and getting support.':'关于使用 QantaraTools、处理文件、排查工具问题和获取支持的常见问题解答。',
+'Getting Started':'快速入门','What is QantaraTools?':'什么是 QantaraTools？','Do I need to install anything?':'需要安装软件吗？','Is QantaraTools free?':'QantaraTools 免费吗？','Which browsers are supported?':'支持哪些浏览器？','Privacy & Files':'隐私与文件','Are my files uploaded to QantaraTools?':'我的文件会上传到 QantaraTools 吗？','Where are generated files saved?':'生成的文件保存在哪里？','Why does a tool ask for a file?':'为什么工具需要选择文件？','What should I do if a large file fails?':'大文件处理失败时该怎么办？','Common Tool Problems':'常见工具问题','How do I contact QantaraTools?':'如何联系 QantaraTools？',
+'Main navigation':'主导航','Toggle theme':'切换主题','Back to tools':'返回工具','All Tools · One Place':'所有工具 · 一站式服务','Do not email passwords, private keys, or confidential files.':'请勿通过电子邮件发送密码、私钥或机密文件。',
+'No blanket guarantee should be assumed. Many utilities are client-side, but some features can use external resources or live data. The Privacy Policy and the individual tool behavior are the correct references.':'请勿将此视为适用于所有功能的全面保证。许多工具在浏览器本地运行，但部分功能可能使用外部资源或实时数据。请以隐私政策和具体工具的实际行为为准。',
+'Use the Contact Us page. The Contact Us page lists support@qantaratools.com. If you cannot reach us at that address, use the homepage tool-request option.':'请访问联系我们页面，其中列有 support@qantaratools.com。如果无法通过该邮箱联系，请使用首页上的工具建议选项。',
+'Learn about QantaraTools, a free collection of practical browser-based utilities built to make everyday work quicker and easier.':'了解 QantaraTools：一组实用的浏览器工具，帮助你更快完成日常数字任务。',
+'Contact QantaraTools support for help, bug reports, feedback, and tool suggestions.':'如需帮助、报告错误、提供反馈或建议新工具，请联系 QantaraTools 支持团队。',
+'Frequently asked questions and troubleshooting help for QantaraTools.':'QantaraTools 常见问题与故障排查帮助。',
+'QANTARATOOLS / PRIVACY':'QANTARATOOLS / 隐私政策','QANTARATOOLS / TERMS':'QANTARATOOLS / 服务条款','Last updated: October 17, 2026':'最后更新：2026年10月17日'
+}
+};
+for(const [locale,map] of Object.entries(extraStaticTranslations)){
+ dict[locale]=Object.assign({},legalTranslations[locale]||{},map);
+}
+
 function replaceText(html,map){
  const keys=Object.keys(map).sort((a,b)=>b.length-a.length);
  if(!keys.length) return html;
@@ -214,7 +297,7 @@ for(const locale of locales){
    'Before You Contact Us':'Antes de contactarnos','Refresh the page and try the tool again.':'Actualiza la página e inténtalo de nuevo.','Use a current browser.':'Utiliza un navegador actualizado.','For file tools, try a smaller sample file.':'Para las herramientas de archivos, prueba con un archivo de muestra más pequeño.','Tell us exactly which step failed and what you expected to happen.':'Indica exactamente qué paso falló y qué resultado esperabas.'
   }
  };
- Object.assign(dict[locale],staticPageChrome[locale]);
+ Object.assign(dict[locale],staticPageChrome[locale] || {});
  Object.assign(dict[locale], legalTranslations[locale] || {});
  const legalChrome={
   de:{
@@ -239,7 +322,7 @@ for(const locale of locales){
    'Frequently asked questions and troubleshooting help for QantaraTools.':'Preguntas frecuentes y ayuda para solucionar problemas en QantaraTools.'
   }
  };
- Object.assign(dict[locale],legalChrome[locale]);
+ Object.assign(dict[locale],legalChrome[locale] || {});
  const dir=path.join(root,locale);fs.mkdirSync(dir,{recursive:true});
  for(const page of pages){
   let html=fs.readFileSync(path.join(root,page),'utf8');
@@ -250,7 +333,7 @@ for(const locale of locales){
    fr:{'aria-label="Main navigation"':'aria-label="Navigation principale"','aria-label="QantaraTools home"':'aria-label="Accueil QantaraTools"','content="Frequently asked questions and troubleshooting help for QantaraTools."':'content="Questions fréquentes et aide au dépannage pour QantaraTools."'},
    es:{'aria-label="Main navigation"':'aria-label="Navegación principal"','aria-label="QantaraTools home"':'aria-label="Inicio de QantaraTools"','content="Frequently asked questions and troubleshooting help for QantaraTools."':'content="Preguntas frecuentes y ayuda para solucionar problemas en QantaraTools."'}
   };
-  for(const [from,to] of Object.entries(pageChrome[locale])) html=html.split(from).join(to);
+  for(const [from,to] of Object.entries(pageChrome[locale] || {})) html=html.split(from).join(to);
   const faqCorrections={
    de:{
     'No blanket guarantee should be assumed. Many utilities are client-side, but some features can use external resources or live data. The Privacy Policy and the individual tool behavior are the correct references.':'Es gibt keine pauschale Garantie. Viele Tools laufen lokal im Browser, einige Funktionen können jedoch externe Dienste oder Live-Daten nutzen. Maßgeblich sind die Datenschutzerklärung und das tatsächliche Verhalten des jeweiligen Tools.',
@@ -265,7 +348,7 @@ for(const locale of locales){
     'Use the Contact Us page. The Contact Us page lists support@qantaratools.com. If you cannot reach us at that address, use the homepage tool-request option.':'Consulta la página de contacto, donde figura support@qantaratools.com. Si no puedes comunicarte con nosotros mediante esa dirección, utiliza la opción para solicitar herramientas de la página principal.'
    }
   };
-  for(const [from,to] of Object.entries(faqCorrections[locale])) html=html.split(from).join(to);
+  for(const [from,to] of Object.entries(faqCorrections[locale] || {})) html=html.split(from).join(to);
   html=html.replace(/<html lang="en" dir="ltr">/,'<html lang="'+locale+'" dir="ltr">');
   const routeSlug=({'about-us.html':'about-us','contact.html':'contact','faq.html':'faq','privacy.html':'privacy','terms.html':'terms'})[page];
   // Replace canonical URLs whether the source uses www or the bare domain.
@@ -273,7 +356,11 @@ for(const locale of locales){
   const pageTitles={
    de:{'about-us.html':'Über QantaraTools','contact.html':'Kontakt | QantaraTools','faq.html':'Häufig gestellte Fragen | QantaraTools','privacy.html':'Datenschutzerklärung | QantaraTools','terms.html':'Nutzungsbedingungen | QantaraTools'},
    fr:{'about-us.html':'À propos de QantaraTools','contact.html':'Contact | QantaraTools','faq.html':'Foire aux questions | QantaraTools','privacy.html':'Politique de confidentialité | QantaraTools','terms.html':'Conditions d’utilisation | QantaraTools'},
-   es:{'about-us.html':'Acerca de QantaraTools','contact.html':'Contacto | QantaraTools','faq.html':'Preguntas frecuentes | QantaraTools','privacy.html':'Política de privacidad | QantaraTools','terms.html':'Términos del servicio | QantaraTools'}
+   es:{'about-us.html':'Acerca de QantaraTools','contact.html':'Contacto | QantaraTools','faq.html':'Preguntas frecuentes | QantaraTools','privacy.html':'Política de privacidad | QantaraTools','terms.html':'Términos del servicio | QantaraTools'},
+   ru:{'about-us.html':'О QantaraTools | QantaraTools','contact.html':'Контакты | QantaraTools','faq.html':'Часто задаваемые вопросы | QantaraTools','privacy.html':'Политика конфиденциальности | QantaraTools','terms.html':'Условия использования | QantaraTools'},
+   tr:{'about-us.html':'QantaraTools Hakkında | QantaraTools','contact.html':'İletişim | QantaraTools','faq.html':'Sıkça Sorulan Sorular | QantaraTools','privacy.html':'Gizlilik Politikası | QantaraTools','terms.html':'Hizmet Şartları | QantaraTools'},
+   hi:{'about-us.html':'QantaraTools के बारे में | QantaraTools','contact.html':'संपर्क | QantaraTools','faq.html':'अक्सर पूछे जाने वाले प्रश्न | QantaraTools','privacy.html':'गोपनीयता नीति | QantaraTools','terms.html':'सेवा की शर्तें | QantaraTools'},
+   'zh-CN':{'about-us.html':'关于 QantaraTools | QantaraTools','contact.html':'联系我们 | QantaraTools','faq.html':'常见问题 | QantaraTools','privacy.html':'隐私政策 | QantaraTools','terms.html':'服务条款 | QantaraTools'}
   };
   html=html.replace(/<title>[^<]*<\/title>/,'<title>'+pageTitles[locale][page]+'</title>');
   html=html.replace(/href="index\.html"/g,'href="/'+locale+'/"');
@@ -286,7 +373,7 @@ for(const locale of locales){
   html=html.replace(/src="assets\//g,'src="/assets/').replace(/href="assets\//g,'href="/assets/');
   html=html.replace(/src="\/assets\/js\/language-switcher\.js"/g,'src="/assets/js/language-switcher.js"');
   const slug=routeSlug;
-  const alternates=['en','de','fr','es'].map(l=>'<link rel="alternate" hreflang="'+l+'" href="'+site+'/'+(l==='en'?page:l+'/'+slug+'/')+'">').join('\n');
+  const alternates=['en','de','fr','es','ru','tr','hi','zh-CN'].map(l=>'<link rel="alternate" hreflang="'+l+'" href="'+site+'/'+(l==='en'?page:l+'/'+slug+'/')+'">').join('\n');
   alternates+'<link rel="alternate" hreflang="ar" href="'+site+'/'+page+'?locale=ar">';
   html=html.replace('</head>',alternates+'\n<link rel="alternate" hreflang="ar" href="'+site+'/'+page+'?locale=ar">\n<link rel="alternate" hreflang="x-default" href="'+site+'/'+page+'">\n</head>');
   const outputDir=path.join(dir,slug);fs.mkdirSync(outputDir,{recursive:true});
@@ -307,4 +394,4 @@ if(fs.existsSync(sitemapPath)){
  fs.writeFileSync(sitemapPath,sitemap);
 }
 
-process.stdout.write('Generated localized About, Contact, FAQ, Privacy, and Terms pages for de, fr, es.\\n');
+process.stdout.write('Generated localized About, Contact, FAQ, Privacy, and Terms pages for de, fr, es, ru, tr, hi, zh-CN.\\n');
