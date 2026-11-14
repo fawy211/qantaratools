@@ -84,12 +84,13 @@ export class ImageWatermarkTool {
     this.root.querySelectorAll('[data-pos]').forEach(btn=>{
       const active=btn.dataset.pos===this.selectedPosition;
       // Inline styles make the selected state reliable even if site CSS overrides utility classes.
-      btn.style.backgroundColor=active?'#2563eb':'#334155';
-      btn.style.color='#ffffff';
-      btn.style.border=active?'2px solid #93c5fd':'2px solid transparent';
-      btn.style.boxShadow=active?'0 0 0 2px rgba(37,99,235,.22)':'none';
-      btn.style.transform=active?'translateY(-1px)':'none';
-      btn.style.fontWeight=active?'700':'500';
+      btn.dataset.selected=active?'true':'false';
+      btn.style.setProperty('background-color',active?'#2563eb':'#334155','important');
+      btn.style.setProperty('color','#ffffff','important');
+      btn.style.setProperty('border',active?'2px solid #bfdbfe':'2px solid transparent','important');
+      btn.style.setProperty('box-shadow',active?'0 0 0 3px rgba(37,99,235,.35)':'none','important');
+      btn.style.setProperty('transform',active?'translateY(-2px)':'none','important');
+      btn.style.setProperty('font-weight',active?'700':'500','important');
       btn.setAttribute('aria-pressed',active?'true':'false');
     });
   }
