@@ -64,6 +64,23 @@ test('static-page language selector keeps the same page while changing locale', 
   await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
 });
 
+test('Arabic information and legal pages apply RTL and Arabic content', async ({ page }) => {
+  const expected = {
+    'about-us': 'عن قنطرة تولز',
+    contact: 'اتصل بنا',
+    faq: 'الأسئلة الشائعة',
+    privacy: 'سياسة الخصوصية',
+    terms: 'شروط الاستخدام'
+  };
+  for (const slug of slugs) {
+    await page.goto(pagePath('ar', slug));
+    await expect(page.locator('html')).toHaveAttribute('lang', 'ar');
+    await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
+    await expect(page.locator('body')).toContainText(expected[slug]);
+    await expect(page.locator('.qt-language-select')).toHaveValue('ar');
+  }
+});
+
 test('localized legal and information pages remain usable on a narrow mobile viewport', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 });
   for (const locale of locales) {
