@@ -3,7 +3,7 @@
 const fs=require('node:fs');
 const path=require('node:path');
 const root=path.resolve(__dirname,'..');
-const site='https://qantaratools.com';
+const site='https://www.qantaratools.com';
 const locales=['de','fr','es'];
 const pages=['about-us.html','contact.html','faq.html','privacy.html','terms.html'];
 const legalTranslations=require('./legal-page-translations.js');
@@ -182,7 +182,7 @@ for(const locale of locales){
   html=replaceText(html,dict[locale]);
   html=html.replace(/<html lang="en" dir="ltr">/,'<html lang="'+locale+'" dir="ltr">');
   const routeSlug=({'about-us.html':'about-us','contact.html':'contact','faq.html':'faq','privacy.html':'privacy','terms.html':'terms'})[page];
-  html=html.replace(/<link rel="canonical" href="https:\/\/qantaratools\.com\/[^"]*">/,'<link rel="canonical" href="https://qantaratools.com/'+locale+'/'+routeSlug+'/">');
+  html=html.replace(/<link rel="canonical" href="https:\/\/qantaratools\.com\/[^"]*">/,'<link rel="canonical" href="https://www.qantaratools.com/'+locale+'/'+routeSlug+'/">');
   const pageTitles={
    de:{'about-us.html':'Über QantaraTools','contact.html':'Kontakt | QantaraTools','faq.html':'Häufig gestellte Fragen | QantaraTools','privacy.html':'Datenschutzerklärung | QantaraTools','terms.html':'Nutzungsbedingungen | QantaraTools'},
    fr:{'about-us.html':'À propos de QantaraTools','contact.html':'Contact | QantaraTools','faq.html':'Foire aux questions | QantaraTools','privacy.html':'Politique de confidentialité | QantaraTools','terms.html':'Conditions d’utilisation | QantaraTools'},
