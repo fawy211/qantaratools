@@ -53,15 +53,15 @@ for(const locale of locales){
   html=html.replace(/<title>[^<]*<\/title>/,'<title>'+({de:page==='about-us.html'?'Über QantaraTools': 'Kontakt | QantaraTools',fr:page==='about-us.html'?'À propos de QantaraTools':'Contact | QantaraTools',es:page==='about-us.html'?'Acerca de QantaraTools':'Contacto | QantaraTools'}[locale])+'</title>');
   html=html.replace(/href="index\.html"/g,'href="/'+locale+'/"');
   for(const p of pages.concat(['faq.html','privacy.html','terms.html','contact.html'])){
-   const target=p==='index.html'?'/'+locale+'/':'/'+locale+'/'+p;
+   const target=p==='about-us.html'?'/'+locale+'/about-us/':(p==='contact.html'?'/'+locale+'/contact/':'/'+p);
    html=html.replace(new RegExp('href="'+p.replace('.','\\.')+'"','g'),'href="'+target+'"');
   }
   html=html.replace(/(?:src|href)="assets\//g,'$&'.replace('assets/','/assets/'));
   html=html.replace(/src="assets\//g,'src="/assets/').replace(/href="assets\//g,'href="/assets/');
   html=html.replace(/src="\/assets\/js\/language-switcher\.js"/g,'src="/assets/js/language-switcher.js"');
-  const alternates=['en','de','fr','es'].map(l=>'<link rel="alternate" hreflang="'+l+'" href="https://qantaratools.com/'+(l==='en'?'':l+'/')+page+'">').join('\n');
+  const slug=page==='about-us.html'?'about-us':'contact';\n  const alternates=['en','de','fr','es'].map(l=>'<link rel="alternate" hreflang="'+l+'" href="https://qantaratools.com/'+(l==='en'?'':l+'/')+slug+'/">').join('\n');
   html=html.replace('</head>',alternates+'\n<link rel="alternate" hreflang="x-default" href="https://qantaratools.com/'+page+'">\n</head>');
-  fs.writeFileSync(path.join(dir,page),html);
+  const slug=page==='about-us.html'?'about-us':'contact';\n  const outputDir=path.join(dir,slug);fs.mkdirSync(outputDir,{recursive:true});\n  fs.writeFileSync(path.join(outputDir,'index.html'),html);
  }
 }
 process.stdout.write('Generated localized About and Contact pages for de, fr, es.\\n');
