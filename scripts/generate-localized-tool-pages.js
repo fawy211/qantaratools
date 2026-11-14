@@ -71,9 +71,9 @@ function renderHome(locale) {
   ...['en','de','fr','es'].map(code=>'<link rel="alternate" hreflang="'+code+'" href="'+site+(code==='en'?'':'/'+code)+'/">'),
   '<link rel="alternate" hreflang="ar" href="'+site+'/?locale=ar">',
   '<link rel="alternate" hreflang="x-default" href="'+site+'/">'
- ].join('\\n  ');
- html=html.replace(/<link\\b(?=[^>]*\\brel=["']alternate["'])[^>]*>\\s*/gi,'');
- html=html.replace(/<link\\b(?=[^>]*\\brel=["']canonical["'])[^>]*>/i,match=>match+'\\n  '+homeAlternates);
+ ].join('\n  ');
+ html=html.replace(/<link\b(?=[^>]*\brel=["']alternate["'])[^>]*>\s*/gi,'');
+ html=html.replace(/<link\b(?=[^>]*\brel=["']canonical["'])[^>]*>/i,match=>match+'\n  '+homeAlternates);
  // Preserve the exact English homepage structure, features, cards, controls and footer.
  // Only route tool links and static asset paths into their root-safe localized locations.
  html=html.replace(/(href=["'])\/tools\//g,'$1/'+locale+'/tools/');
