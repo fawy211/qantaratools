@@ -78,7 +78,7 @@
       var target=new URL(href,location.href);
       if(target.origin!==location.origin) return;
       if(target.pathname==='/index.html') target.pathname='/';
-      if(target.pathname==='/' || /^\\/(about-us|contact|faq|privacy|terms)\\.html$/.test(target.pathname)){
+      if(target.pathname==='/' || /^\/(about-us|contact|faq|privacy|terms)\.html$/.test(target.pathname)){
         target.searchParams.set('locale','ar');
         anchor.setAttribute('href',target.pathname+'?'+target.searchParams.toString()+target.hash);
       }
