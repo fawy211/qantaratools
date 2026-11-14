@@ -458,7 +458,7 @@ function applyHomeTranslations() {
         let slug=a.dataset.qtStaticPage;
         if(!slug){
             const pathname=new URL(a.getAttribute('href'),location.href).pathname;
-            slug=['about-us','faq','contact','privacy','terms'].find(value=>pathname==='/' + value + '.html' || pathname==='/' + value + '/');
+            slug=['about-us','faq','contact','privacy','terms'].find(value=>pathname.endsWith('/' + value + '.html') || pathname.endsWith('/' + value + '/'));
             if(!slug) return;
             a.dataset.qtStaticPage=slug;
         }
