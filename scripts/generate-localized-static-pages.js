@@ -62,7 +62,6 @@ for(const locale of locales){
   const slug=page==='about-us.html'?'about-us':'contact';
   const alternates=['en','de','fr','es'].map(l=>'<link rel="alternate" hreflang="'+l+'" href="https://qantaratools.com/'+(l==='en'?'':l+'/')+slug+'/">').join('\n');
   html=html.replace('</head>',alternates+'\n<link rel="alternate" hreflang="x-default" href="https://qantaratools.com/'+page+'">\n</head>');
-  const slug=page==='about-us.html'?'about-us':'contact';
   const outputDir=path.join(dir,slug);fs.mkdirSync(outputDir,{recursive:true});
   fs.writeFileSync(path.join(outputDir,'index.html'),html);
  }
