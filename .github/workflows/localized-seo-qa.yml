@@ -94,6 +94,13 @@ jobs:
           grep -q 'QANTARATOOLS / DATENSCHUTZ' de/privacy/index.html
           grep -q 'QANTARATOOLS / CONFIDENTIALITÉ' fr/privacy/index.html
           grep -q 'QANTARATOOLS / PRIVACIDAD' es/privacy/index.html
+          grep -q 'Navigation principale' fr/contact/index.html
+          grep -q 'Navegación principal' es/contact/index.html
+          grep -q 'Hauptnavigation' de/contact/index.html
+          grep -q 'Changer de thème' fr/contact/index.html
+          grep -q 'Contactez l’assistance QantaraTools' fr/contact/index.html
+          grep -q 'Contacta con el soporte de QantaraTools' es/contact/index.html
+          grep -q 'Kontaktieren Sie den QantaraTools-Support' de/contact/index.html
           grep -q '/de/privacy/' sitemap.xml
           grep -q '/fr/terms/' sitemap.xml
           # Static information/legal pages must expose the language selector and reciprocal SEO metadata.
