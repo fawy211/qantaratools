@@ -81,9 +81,13 @@ jobs:
           test -s de/terms/index.html
           test -s fr/terms/index.html
           test -s es/terms/index.html
-          grep -q 'Sprache' de/tools/base64/index.html
-          grep -q 'Langue' fr/tools/base64/index.html
-          grep -q 'Idioma' es/tools/base64/index.html
+          # The selector is injected at runtime by the shared language-switcher script.
+          grep -q 'assets/js/language-switcher.js' de/tools/base64/index.html
+          grep -q 'assets/js/language-switcher.js' fr/tools/base64/index.html
+          grep -q 'assets/js/language-switcher.js' es/tools/base64/index.html
+          grep -q "de: { name: 'Deutsch', label: 'Sprache' }" assets/js/language-switcher.js
+          grep -q "fr: { name: 'Français', label: 'Langue' }" assets/js/language-switcher.js
+          grep -q "es: { name: 'Español', label: 'Idioma' }" assets/js/language-switcher.js
           grep -q 'data-theme-toggle' de/tools/base64/index.html
           grep -q 'data-theme-toggle' fr/tools/base64/index.html
           grep -q 'data-theme-toggle' es/tools/base64/index.html
