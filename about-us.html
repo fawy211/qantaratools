@@ -51,6 +51,16 @@
     html.dark .qt-about-card{background:#1a1725;border-color:#45394f}
     @media(max-width:640px){.qt-about-header-inner{padding:12px 14px}.qt-about-brand img{width:36px;height:36px}.qt-about-brand-name{font-size:18px}.qt-about-nav{gap:10px}.qt-about-nav a{font-size:12px}.qt-about-main{padding:28px 14px 48px!important}.qt-about-sections{grid-template-columns:1fr}.qt-about-wide{grid-column:auto}.qt-about-cta{align-items:flex-start;flex-direction:column}}
   </style>
+<script>
+(function(){
+  var params=new URLSearchParams(location.search);
+  var locale=params.get('locale')==='ar'?'ar':'en';
+  document.documentElement.lang=locale;
+  document.documentElement.dir=locale==='ar'?'rtl':'ltr';
+  document.documentElement.dataset.locale=locale;
+  try{localStorage.setItem('qantaratools_language_v1',locale);}catch(_){}
+})();
+</script>
 </head>
 <body id="page-body" class="min-h-screen flex flex-col transition-colors duration-300">
   <a class="skip-link" href="#main-content">Skip to main content</a>
