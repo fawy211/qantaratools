@@ -13,7 +13,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: localized-seo-qa-v3-${{ github.ref }}
+  group: localized-seo-qa-v4-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
