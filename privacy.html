@@ -18,6 +18,16 @@
 
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6378843738233809" crossorigin="anonymous"></script>
+<script>
+(function(){
+  var params=new URLSearchParams(location.search);
+  var locale=params.get('locale')==='ar'?'ar':'en';
+  document.documentElement.lang=locale;
+  document.documentElement.dir=locale==='ar'?'rtl':'ltr';
+  document.documentElement.dataset.locale=locale;
+  try{localStorage.setItem('qantaratools_language_v1',locale);}catch(_){}
+})();
+</script>
 </head>
 <body class="qt-policy-page">
 <a class="skip-link" href="#main-content">Skip to main content</a>
