@@ -66,4 +66,18 @@ for(const locale of locales){
   fs.writeFileSync(path.join(outputDir,'index.html'),html);
  }
 }
+const sitemapPath=path.join(root,'sitemap.xml');
+if(fs.existsSync(sitemapPath)){
+ let sitemap=fs.readFileSync(sitemapPath,'utf8');
+ const urls=[];
+ for(const locale of locales){
+  for(const slug of ['about-us','contact']){
+   const url=site+'/'+locale+'/'+slug+'/';
+   if(!sitemap.includes('<loc>'+url+'</loc>')) urls.push('  <url><loc>'+url+'</loc></url>');
+  }
+ }
+ if(urls.length) sitemap=sitemap.replace('</urlset>',urls.join('\n')+'\n</urlset>');
+ fs.writeFileSync(sitemapPath,sitemap);
+}
+
 process.stdout.write('Generated localized About and Contact pages for de, fr, es.\\n');
