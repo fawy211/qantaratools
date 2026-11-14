@@ -256,7 +256,7 @@ for(const locale of locales){
   html=html.replace(/<html lang="en" dir="ltr">/,'<html lang="'+locale+'" dir="ltr">');
   const routeSlug=({'about-us.html':'about-us','contact.html':'contact','faq.html':'faq','privacy.html':'privacy','terms.html':'terms'})[page];
   // Replace canonical URLs whether the source uses www or the bare domain.
-  html=html.replace(/<link rel="canonical" href="https?:\\/\\/(?:www\\.)?qantaratools\\.com\\/[^"]*">/,'<link rel="canonical" href="'+site+'/'+locale+'/'+routeSlug+'/">');
+  html=html.replace(/<link rel="canonical" href="https?:\/\/(?:www\.)?qantaratools\.com\/[^"]*">/,'<link rel="canonical" href="'+site+'/'+locale+'/'+routeSlug+'/">');
   const pageTitles={
    de:{'about-us.html':'Über QantaraTools','contact.html':'Kontakt | QantaraTools','faq.html':'Häufig gestellte Fragen | QantaraTools','privacy.html':'Datenschutzerklärung | QantaraTools','terms.html':'Nutzungsbedingungen | QantaraTools'},
    fr:{'about-us.html':'À propos de QantaraTools','contact.html':'Contact | QantaraTools','faq.html':'Foire aux questions | QantaraTools','privacy.html':'Politique de confidentialité | QantaraTools','terms.html':'Conditions d’utilisation | QantaraTools'},
