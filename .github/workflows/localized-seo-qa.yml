@@ -81,6 +81,15 @@ jobs:
           test -s de/terms/index.html
           test -s fr/terms/index.html
           test -s es/terms/index.html
+          grep -q 'Sprache' de/tools/base64/index.html
+          grep -q 'Langue' fr/tools/base64/index.html
+          grep -q 'Idioma' es/tools/base64/index.html
+          grep -q 'data-theme-toggle' de/tools/base64/index.html
+          grep -q 'data-theme-toggle' fr/tools/base64/index.html
+          grep -q 'data-theme-toggle' es/tools/base64/index.html
+          grep -q '/de/privacy/' de/tools/base64/index.html
+          grep -q '/fr/terms/' fr/tools/base64/index.html
+          grep -q '/es/privacy/' es/tools/base64/index.html
           grep -q 'Datenschutzerklärung' de/privacy/index.html
           grep -q 'Politique de confidentialité' fr/privacy/index.html
           grep -q 'Política de privacidad' es/privacy/index.html
