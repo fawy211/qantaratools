@@ -97,7 +97,7 @@ test('localized legal and information pages remain usable on a narrow mobile vie
 
 test('all information and legal pages have working canonical routes and localized navigation', async ({ page }) => {
   const expectedTitles = {
-    en: ['About Us', 'Contact Us', 'Frequently Asked Questions', 'Privacy Policy', 'Terms of Service'],
+    en: ['About QantaraTools', 'Contact Us', 'Frequently Asked Questions', 'Privacy Policy', 'Terms of Service'],
     ar: ['من نحن', 'اتصل بنا', 'الأسئلة الشائعة', 'سياسة الخصوصية', 'شروط الاستخدام'],
     de: ['Über QantaraTools', 'Kontakt', 'Häufig gestellte Fragen', 'Datenschutzerklärung', 'Nutzungsbedingungen'],
     fr: ['À propos de QantaraTools', 'Contact', 'Foire aux questions', 'Politique de confidentialité', 'Conditions d’utilisation'],
