@@ -173,12 +173,20 @@ es:{
 "How do I contact QantaraTools?":"¿Cómo puedo contactar con QantaraTools?",
 "Use the Contact Us page. The Contact Us page lists support@qantaratools.com. If you cannot reach us at that address, use the homepage tool-request option.":"Utiliza la página de contacto, donde aparece support@qantaratools.com. Si no puedes contactar mediante esa dirección, utiliza la opción para solicitar herramientas de la página principal."
 }};
-function replaceText(html,map){const entries=Object.entries(map).sort((a,b)=>b[0].length-a[0].length);for(const [a,b] of entries){html=html.split(a).join(b);}return html;}
+function replaceText(html,map){
+ const keys=Object.keys(map).sort((a,b)=>b.length-a.length);
+ if(!keys.length) return html;
+ const escaped=keys.map(key=>key.replace(/[.*+?^${}()|[\\]\\\\]/g,'\\\\function replaceText(html,map){const entries=Object.entries(map).sort((a,b)=>b[0].length-a[0].length);for(const [a,b] of entries){html=html.split(a).join(b);}return html;}'));
+ const matcher=new RegExp(escaped.join('|'),'g');
+ return html.replace(matcher,match=>map[match]);
+}
 for(const locale of locales){
  const staticPageChrome={
   de:{
    'Skip to main content':'Zum Hauptinhalt springen','Main navigation':'Hauptnavigation','Home':'Startseite','About':'Über uns','FAQ':'FAQ','Contact':'Kontakt','Privacy':'Datenschutz','Terms':'Nutzungsbedingungen','Toggle theme':'Design umschalten',
    'Contact Us':'Kontaktieren Sie uns','Need help with a tool, found a problem, or have a suggestion? We would be happy to hear from you.':'Benötigen Sie Hilfe zu einem Tool, haben Sie ein Problem entdeckt oder einen Vorschlag? Wir freuen uns auf Ihre Nachricht.',
+   'Do not email passwords, private keys, or confidential files.':'Senden Sie keine Passwörter, privaten Schlüssel oder vertraulichen Dateien per E-Mail.',
+
    'QantaraTools Support':'QantaraTools-Support','For support, bug reports, feedback, and general questions, email us at:':'Bei Supportanfragen, Fehlermeldungen, Feedback und allgemeinen Fragen schreiben Sie uns eine E-Mail an:',
    'Please include the tool name and a short description of the issue. If relevant, include your browser, operating system, and approximate file size. Do not send passwords, private keys, or confidential information.':'Nennen Sie bitte das Tool und beschreiben Sie das Problem kurz. Geben Sie gegebenenfalls Browser, Betriebssystem und ungefähre Dateigröße an. Senden Sie keine Passwörter, privaten Schlüssel oder vertraulichen Informationen.',
    'Tool Suggestions':'Tool-Vorschläge','Have an idea for a useful new tool? Use the “Request a New Tool” option on the QantaraTools homepage or email your suggestion to the support address.':'Haben Sie eine Idee für ein nützliches neues Tool? Nutzen Sie auf der QantaraTools-Startseite die Option „Neues Tool vorschlagen“ oder senden Sie Ihren Vorschlag per E-Mail an den Support.',
@@ -187,6 +195,8 @@ for(const locale of locales){
   fr:{
    'Skip to main content':'Aller au contenu principal','Main navigation':'Navigation principale','Home':'Accueil','About':'À propos','FAQ':'FAQ','Contact':'Contact','Privacy':'Confidentialité','Terms':'Conditions','Toggle theme':'Changer de thème',
    'Contact Us':'Nous contacter','Need help with a tool, found a problem, or have a suggestion? We would be happy to hear from you.':'Besoin d’aide avec un outil, vous avez rencontré un problème ou souhaitez faire une suggestion ? Nous serons ravis de vous lire.',
+   'Do not email passwords, private keys, or confidential files.':'N’envoyez pas de mots de passe, de clés privées ni de fichiers confidentiels par e-mail.',
+
    'QantaraTools Support':'Assistance QantaraTools','For support, bug reports, feedback, and general questions, email us at:':'Pour toute demande d’assistance, tout signalement de bug, commentaire ou question générale, écrivez-nous à :',
    'Please include the tool name and a short description of the issue. If relevant, include your browser, operating system, and approximate file size. Do not send passwords, private keys, or confidential information.':'Veuillez indiquer le nom de l’outil et décrire brièvement le problème. Si nécessaire, précisez votre navigateur, votre système d’exploitation et la taille approximative du fichier. N’envoyez aucun mot de passe, clé privée ou renseignement confidentiel.',
    'Tool Suggestions':'Suggestions d’outils','Have an idea for a useful new tool? Use the “Request a New Tool” option on the QantaraTools homepage or email your suggestion to the support address.':'Une idée d’outil utile ? Utilisez l’option « Proposer un nouvel outil » sur la page d’accueil de QantaraTools ou envoyez votre suggestion à l’adresse d’assistance.',
@@ -195,6 +205,8 @@ for(const locale of locales){
   es:{
    'Skip to main content':'Saltar al contenido principal','Main navigation':'Navegación principal','Home':'Inicio','About':'Acerca de','FAQ':'Preguntas frecuentes','Contact':'Contacto','Privacy':'Privacidad','Terms':'Términos','Toggle theme':'Cambiar tema',
    'Contact Us':'Contacto','Need help with a tool, found a problem, or have a suggestion? We would be happy to hear from you.':'¿Necesitas ayuda con una herramienta, has encontrado un problema o tienes alguna sugerencia? Nos encantará recibir tu mensaje.',
+   'Do not email passwords, private keys, or confidential files.':'No envíes contraseñas, claves privadas ni archivos confidenciales por correo electrónico.',
+
    'QantaraTools Support':'Soporte de QantaraTools','For support, bug reports, feedback, and general questions, email us at:':'Para recibir soporte, informar de errores, enviar comentarios o realizar consultas generales, escríbenos a:',
    'Please include the tool name and a short description of the issue. If relevant, include your browser, operating system, and approximate file size. Do not send passwords, private keys, or confidential information.':'Incluye el nombre de la herramienta y una breve descripción del problema. Si corresponde, indica tu navegador, sistema operativo y el tamaño aproximado del archivo. No envíes contraseñas, claves privadas ni información confidencial.',
    'Tool Suggestions':'Sugerencias de herramientas','Have an idea for a useful new tool? Use the “Request a New Tool” option on the QantaraTools homepage or email your suggestion to the support address.':'¿Tienes una idea para una herramienta útil? Utiliza la opción «Solicitar una nueva herramienta» en la página principal de QantaraTools o envía tu sugerencia al correo de soporte.',
