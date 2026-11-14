@@ -24,8 +24,8 @@ for (const locale of ['en', 'ar', 'de', 'fr', 'es']) {
       en: 'Get everyday tasks done with practical browser-based tools for PDFs, text, images, coding, and more. Many tools process your data locally on your device.',
       ar: 'أنجز مهامك اليومية باستخدام أدوات عملية تعمل في المتصفح لملفات PDF والنصوص والصور والبرمجة وغيرها. تعالج أدوات كثيرة بياناتك محليًا على جهازك.',
       de: 'Erledige alltägliche Aufgaben mit praktischen Browser-Tools für PDFs, Texte, Bilder, Programmierung und mehr. Viele Tools verarbeiten deine Daten lokal auf deinem Gerät.',
-      fr: 'Accomplissez vos tâches quotidiennes avec des outils pratiques dans le navigateur pour les PDF, le texte, les images, le développement et bien plus. De nombreux outils traitent vos données localement sur votre appareil.',
-      es: 'Realiza tus tareas cotidianas con herramientas prácticas en el navegador para PDF, texto, imágenes, programación y mucho más. Muchas herramientas procesan tus datos localmente en tu dispositivo.'
+      fr: 'Réalisez vos tâches quotidiennes avec des outils pratiques dans le navigateur pour les PDF, textes, images, code et plus encore. De nombreux outils traitent vos données localement sur votre appareil.',
+      es: 'Resuelve tus tareas diarias con herramientas prácticas en el navegador para PDF, texto, imágenes, programación y mucho más. Muchas herramientas procesan tus datos localmente en tu dispositivo.'
     };
     await expect(page.locator('#hero-desc')).toHaveText(localizedHeroDescriptions[locale]);
     const localizedAllTools = { en: 'All Tools', ar: 'كل الأدوات', de: 'Alle Tools', fr: 'Tous les outils', es: 'Todas las herramientas' };
