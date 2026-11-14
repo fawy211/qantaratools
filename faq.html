@@ -22,7 +22,8 @@
 <script>
 (function(){
   var params=new URLSearchParams(location.search);
-  var locale=params.get('locale')==='ar'?'ar':'en';
+  var match=location.pathname.match(/^\/(de|fr|es)(?:\/|$)/);
+  var locale=match?match[1]:(params.get('locale')==='ar'?'ar':'en');
   document.documentElement.lang=locale;
   document.documentElement.dir=locale==='ar'?'rtl':'ltr';
   document.documentElement.dataset.locale=locale;
