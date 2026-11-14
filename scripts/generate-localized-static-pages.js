@@ -176,8 +176,8 @@ es:{
 function replaceText(html,map){
  const keys=Object.keys(map).sort((a,b)=>b.length-a.length);
  if(!keys.length) return html;
- const special='\\\\^$.*+?()[]{}|';
- const escaped=keys.map(key=>Array.from(key,ch=>special.includes(ch)?'\\\\'+ch:ch).join(''));
+ const special='\\^$.*+?()[]{}|';
+ const escaped=keys.map(key=>Array.from(key,ch=>special.includes(ch)?'\\'+ch:ch).join(''));
  const matcher=new RegExp(escaped.join('|'),'g');
  return html.replace(matcher,match=>map[match]);
 }
