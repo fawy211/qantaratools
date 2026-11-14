@@ -186,3 +186,30 @@ test('information-page navigation preserves the selected language across page li
     if (locale === 'ar') await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
   }
 });
+
+test('homepage footer links preserve the selected locale', async ({ page }) => {
+  const homePaths = { en: '/', ar: '/?locale=ar', de: '/de/', fr: '/fr/', es: '/es/' };
+  const routes = {
+    en: { faq: '/faq.html', contact: '/contact.html' },
+    ar: { faq: '/faq.html?locale=ar', contact: '/contact.html?locale=ar' },
+    de: { faq: '/de/faq/', contact: '/de/contact/' },
+    fr: { faq: '/fr/faq/', contact: '/fr/contact/' },
+    es: { faq: '/es/faq/', contact: '/es/contact/' }
+  };
+  for (const locale of locales) {
+    await page.goto(homePaths[locale]);
+    await expect(page.locator('html')).toHaveAttribute('lang', locale);
+    const faq = page.locator('#site-footer a[data-qt-static-page="faq"]');
+    await expect(faq).toHaveAttribute('href', routes[locale].faq);
+    await faq.click();
+    await expect(page).toHaveURL(new RegExp(routes[locale].faq.replace(/[.*+?^\${}()|[\]\\]/g, '\\$&') + '$'));
+    await expect(page.locator('html')).toHaveAttribute('lang', locale);
+
+    const contact = page.locator('#site-footer a[data-qt-static-page="contact"]');
+    await expect(contact).toHaveAttribute('href', routes[locale].contact);
+    await contact.click();
+    await expect(page).toHaveURL(new RegExp(routes[locale].contact.replace(/[.*+?^\${}()|[\]\\]/g, '\\$&') + '$'));
+    await expect(page.locator('html')).toHaveAttribute('lang', locale);
+    if (locale === 'ar') await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
+  }
+});
