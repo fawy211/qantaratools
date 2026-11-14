@@ -453,8 +453,23 @@ function applyHomeTranslations() {
     const footerDesc = document.querySelectorAll('#site-footer .footer-desc');
     if(footerDesc[0])footerDesc[0].textContent=t('aboutDesc',footerDesc[0].textContent);
     if(footerDesc[1])footerDesc[1].textContent=t('builtWith',footerDesc[1].textContent);
-    const footerLinkKeys = {'about-us.html':'aboutUs','faq.html':'faq','contact.html':'contactUs','privacy.html':'privacyPolicy','terms.html':'terms'};
-    document.querySelectorAll('#site-footer a.footer-link').forEach(a=>{const key=footerLinkKeys[a.getAttribute('href')];if(key)a.textContent=t(key,a.textContent);});
+    const footerLinkKeys = {'about-us':'aboutUs','faq':'faq','contact':'contactUs','privacy':'privacyPolicy','terms':'terms'};
+    document.querySelectorAll('#site-footer a.footer-link').forEach(a=>{
+        let slug=a.dataset.qtStaticPage;
+        if(!slug){
+            const pathname=new URL(a.getAttribute('href'),location.href).pathname;
+            const match=pathname.match(/\\/(about-us|faq|contact|privacy|terms)(?:\\.html|\\/)?$/);
+            if(match) slug=match[1];
+            if(!slug) return;
+            a.dataset.qtStaticPage=slug;
+        }
+        const key=footerLinkKeys[slug];
+        if(key) a.textContent=t(key,a.textContent);
+        const locale=i18n.locale;
+        if(locale==='ar') a.setAttribute('href','/'+slug+'.html?locale=ar');
+        else if(locale==='de'||locale==='fr'||locale==='es') a.setAttribute('href','/'+locale+'/'+slug+'/');
+        else a.setAttribute('href','/'+slug+'.html');
+    });
     const copyright = document.querySelector('#site-footer .max-w-7xl.text-center');
     if(copyright) copyright.firstChild.textContent='© 2026 QantaraTools. '+t('copyright','All rights reserved. Free browser-based utilities. Processing varies by tool.');
     const support = document.querySelector('#site-footer a[href*="ko-fi.com"]');
