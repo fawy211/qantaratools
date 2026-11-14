@@ -381,8 +381,17 @@ function applyHomeTranslations() {
     set('#hero-title', 'homeHeroTitle', 'Free Online Tools for Work, PDF, Text & Images');
     set('#hero-desc', 'homeHeroDesc', 'Get everyday tasks done with practical browser-based tools for PDFs, text, images, coding, and more.');
     const metrics = document.querySelectorAll('.qt-hero-metrics span');
-    const metricKeys = [['freeToUse','Free to use'],['noAds','No annoying ads'],['focusedTools','50+ focused tools'],['localFirst','Local-first processing']];
-    metrics.forEach((el, i) => { if (metricKeys[i]) el.textContent = t(metricKeys[i][0], metricKeys[i][1]); });
+    const metricKeys = [['freeToUse','Free to use'],['noAds','No annoying ads'],null,['localFirst','Local-first processing']];
+    metrics.forEach((el, i) => {
+        if (i === 2) {
+            // Keep the actual tool count visible while translating its descriptor.
+            const count = el.querySelector('strong') || document.createElement('strong');
+            count.textContent = '50+';
+            el.replaceChildren(count, document.createTextNode(' ' + t('focusedTools','focused tools')));
+            return;
+        }
+        if (metricKeys[i]) el.textContent = t(metricKeys[i][0], metricKeys[i][1]);
+    });
     const search = document.getElementById('tool-search-input');
     if (search) { search.placeholder = t('searchPlaceholder','Find a tool in seconds...'); search.setAttribute('aria-label',t('searchTools','Search tools')); }
     const searchLabel = document.querySelector('label[for="tool-search-input"]');
