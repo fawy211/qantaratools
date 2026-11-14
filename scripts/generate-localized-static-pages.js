@@ -231,6 +231,28 @@ for(const locale of locales){
  for(const page of pages){
   let html=fs.readFileSync(path.join(root,page),'utf8');
   html=replaceText(html,dict[locale]);
+  // Localize metadata and remaining accessibility chrome after text substitutions.
+  const pageChrome={
+   de:{'aria-label="Main navigation"':'aria-label="Hauptnavigation"','aria-label="QantaraTools home"':'aria-label="QantaraTools-Startseite"','content="Frequently asked questions and troubleshooting help for QantaraTools."':'content="Häufige Fragen und Hilfe zur Fehlerbehebung bei QantaraTools."'},
+   fr:{'aria-label="Main navigation"':'aria-label="Navigation principale"','aria-label="QantaraTools home"':'aria-label="Accueil QantaraTools"','content="Frequently asked questions and troubleshooting help for QantaraTools."':'content="Questions fréquentes et aide au dépannage pour QantaraTools."'},
+   es:{'aria-label="Main navigation"':'aria-label="Navegación principal"','aria-label="QantaraTools home"':'aria-label="Inicio de QantaraTools"','content="Frequently asked questions and troubleshooting help for QantaraTools."':'content="Preguntas frecuentes y ayuda para solucionar problemas en QantaraTools."'}
+  };
+  for(const [from,to] of Object.entries(pageChrome[locale])) html=html.split(from).join(to);
+  const faqCorrections={
+   de:{
+    'No blanket guarantee should be assumed. Many utilities are client-side, but some features can use external resources or live data. The Privacy Policy and the individual tool behavior are the correct references.':'Es gibt keine pauschale Garantie. Viele Tools laufen lokal im Browser, einige Funktionen können jedoch externe Dienste oder Live-Daten nutzen. Maßgeblich sind die Datenschutzerklärung und das tatsächliche Verhalten des jeweiligen Tools.',
+    'Use the Contact Us page. The Contact Us page lists support@qantaratools.com. If you cannot reach us at that address, use the homepage tool-request option.':'Nutzen Sie die Kontaktseite. Dort finden Sie support@qantaratools.com. Falls Sie uns unter dieser Adresse nicht erreichen, verwenden Sie die Möglichkeit, auf der Startseite ein Tool vorzuschlagen.'
+   },
+   fr:{
+    'No blanket guarantee should be assumed. Many utilities are client-side, but some features can use external resources or live data. The Privacy Policy and the individual tool behavior are the correct references.':'Aucune garantie générale ne doit être supposée. De nombreux outils fonctionnent dans le navigateur, mais certaines fonctions peuvent utiliser des services externes ou des données en direct. Consultez la politique de confidentialité et le fonctionnement de chaque outil.',
+    'Use the Contact Us page. The Contact Us page lists support@qantaratools.com. If you cannot reach us at that address, use the homepage tool-request option.':'Consultez la page de contact, qui indique l’adresse support@qantaratools.com. Si vous ne parvenez pas à nous joindre à cette adresse, utilisez l’option de suggestion d’outil sur la page d’accueil.'
+   },
+   es:{
+    'No blanket guarantee should be assumed. Many utilities are client-side, but some features can use external resources or live data. The Privacy Policy and the individual tool behavior are the correct references.':'No debe suponerse una garantía general. Muchas herramientas funcionan en el navegador, pero algunas funciones pueden utilizar servicios externos o datos en directo. Consulta la política de privacidad y el funcionamiento de cada herramienta.',
+    'Use the Contact Us page. The Contact Us page lists support@qantaratools.com. If you cannot reach us at that address, use the homepage tool-request option.':'Consulta la página de contacto, donde figura support@qantaratools.com. Si no puedes comunicarte con nosotros mediante esa dirección, utiliza la opción para solicitar herramientas de la página principal.'
+   }
+  };
+  for(const [from,to] of Object.entries(faqCorrections[locale])) html=html.split(from).join(to);
   html=html.replace(/<html lang="en" dir="ltr">/,'<html lang="'+locale+'" dir="ltr">');
   const routeSlug=({'about-us.html':'about-us','contact.html':'contact','faq.html':'faq','privacy.html':'privacy','terms.html':'terms'})[page];
   html=html.replace(/<link rel="canonical" href="https:\/\/qantaratools\.com\/[^"]*">/,'<link rel="canonical" href="https://www.qantaratools.com/'+locale+'/'+routeSlug+'/">');
