@@ -178,6 +178,8 @@ jobs:
         run: npx playwright test tests/tool-interaction-presence.spec.js --project=chromium --workers=2
       - name: Test localized homepage and tool functionality
         run: npx playwright test tests/localized-pages.spec.js --project=chromium --workers=2
+      - name: Test localized static and legal page controls
+        run: npx playwright test tests/static-pages-controls.spec.js --project=chromium --workers=1
       - name: Test localized invalid-input and error handling
         run: npx playwright test tests/localized-error-handling.spec.js --project=chromium --workers=1
       - name: Test local-first tools with external network blocked
