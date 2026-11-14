@@ -3,7 +3,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const root = path.resolve(__dirname, '..');
-const site = 'https://qantaratools.com';
+const site = 'https://www.qantaratools.com';
 const tools = JSON.parse(fs.readFileSync(path.join(root, 'tool-pages.json'), 'utf8'));
 const seo = require('./seo-locales.js');
 const locales = ['de', 'fr', 'es'];
