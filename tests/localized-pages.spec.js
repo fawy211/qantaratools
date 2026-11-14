@@ -61,11 +61,11 @@ for (const locale of ['en', 'ar', 'de', 'fr', 'es']) {
     await expect(page.locator('[data-identity="violet"]:visible').first()).toHaveAttribute('aria-pressed', 'true');
     await page.evaluate(() => window.QTTheme.apply('light'));
     const lightText = await page.locator('#hero-title').evaluate(el => getComputedStyle(el).color);
-    const lightRgb = lightText.match(/\\d+/g).slice(0, 3).map(Number);
+    const lightRgb = lightText.match(/\d+/g).slice(0, 3).map(Number);
     expect(lightRgb.reduce((sum, value) => sum + value, 0)).toBeLessThan(420);
     await page.evaluate(() => window.QTTheme.apply('dark'));
     const darkText = await page.locator('#hero-title').evaluate(el => getComputedStyle(el).color);
-    const darkRgb = darkText.match(/\\d+/g).slice(0, 3).map(Number);
+    const darkRgb = darkText.match(/\d+/g).slice(0, 3).map(Number);
     expect(darkRgb.reduce((sum, value) => sum + value, 0)).toBeGreaterThan(420);
   });
 
