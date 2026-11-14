@@ -177,9 +177,27 @@ function replaceText(html,map){const entries=Object.entries(map).sort((a,b)=>b[0
 for(const locale of locales){
  Object.assign(dict[locale], legalTranslations[locale] || {});
  const legalChrome={
-  de:{'QANTARATOOLS / PRIVACY':'QANTARATOOLS / DATENSCHUTZ','QANTARATOOLS / TERMS':'QANTARATOOLS / NUTZUNGSBEDINGUNGEN','Last updated: October 17, 2026':'Zuletzt aktualisiert: 17. Oktober 2026'},
-  fr:{'QANTARATOOLS / PRIVACY':'QANTARATOOLS / CONFIDENTIALITÉ','QANTARATOOLS / TERMS':'QANTARATOOLS / CONDITIONS','Last updated: October 17, 2026':'Dernière mise à jour : 17 octobre 2026'},
-  es:{'QANTARATOOLS / PRIVACY':'QANTARATOOLS / PRIVACIDAD','QANTARATOOLS / TERMS':'QANTARATOOLS / CONDICIONES','Last updated: October 17, 2026':'Última actualización: 17 de octubre de 2026'}
+  de:{
+   'QANTARATOOLS / PRIVACY':'QANTARATOOLS / DATENSCHUTZ','QANTARATOOLS / TERMS':'QANTARATOOLS / NUTZUNGSBEDINGUNGEN','Last updated: October 17, 2026':'Zuletzt aktualisiert: 17. Oktober 2026',
+   'Main navigation':'Hauptnavigation','Toggle theme':'Design umschalten',
+   'Learn about QantaraTools, a free collection of practical browser-based utilities built to make everyday work quicker and easier.':'Erfahren Sie mehr über QantaraTools, eine kostenlose Sammlung praktischer Browser-Tools, die alltägliche Aufgaben erleichtern.',
+   'Contact QantaraTools support for help, bug reports, feedback, and tool suggestions.':'Kontaktieren Sie den QantaraTools-Support bei Fragen, Fehlermeldungen, Feedback und Tool-Vorschlägen.',
+   'Frequently asked questions and troubleshooting help for QantaraTools.':'Häufige Fragen und Hilfe zur Fehlerbehebung bei QantaraTools.'
+  },
+  fr:{
+   'QANTARATOOLS / PRIVACY':'QANTARATOOLS / CONFIDENTIALITÉ','QANTARATOOLS / TERMS':'QANTARATOOLS / CONDITIONS','Last updated: October 17, 2026':'Dernière mise à jour : 17 octobre 2026',
+   'Main navigation':'Navigation principale','Toggle theme':'Changer de thème',
+   'Learn about QantaraTools, a free collection of practical browser-based utilities built to make everyday work quicker and easier.':'Découvrez QantaraTools, une collection gratuite d’outils pratiques dans le navigateur pour simplifier les tâches quotidiennes.',
+   'Contact QantaraTools support for help, bug reports, feedback, and tool suggestions.':'Contactez l’assistance QantaraTools pour obtenir de l’aide, signaler un bug, donner votre avis ou suggérer un outil.',
+   'Frequently asked questions and troubleshooting help for QantaraTools.':'Questions fréquentes et aide au dépannage pour QantaraTools.'
+  },
+  es:{
+   'QANTARATOOLS / PRIVACY':'QANTARATOOLS / PRIVACIDAD','QANTARATOOLS / TERMS':'QANTARATOOLS / CONDICIONES','Last updated: October 17, 2026':'Última actualización: 17 de octubre de 2026',
+   'Main navigation':'Navegación principal','Toggle theme':'Cambiar tema',
+   'Learn about QantaraTools, a free collection of practical browser-based utilities built to make everyday work quicker and easier.':'Conoce QantaraTools, una colección gratuita de herramientas prácticas en el navegador para agilizar las tareas digitales cotidianas.',
+   'Contact QantaraTools support for help, bug reports, feedback, and tool suggestions.':'Contacta con el soporte de QantaraTools para solicitar ayuda, informar de errores, enviar comentarios o sugerir herramientas.',
+   'Frequently asked questions and troubleshooting help for QantaraTools.':'Preguntas frecuentes y ayuda para solucionar problemas en QantaraTools.'
+  }
  };
  Object.assign(dict[locale],legalChrome[locale]);
  const dir=path.join(root,locale);fs.mkdirSync(dir,{recursive:true});
