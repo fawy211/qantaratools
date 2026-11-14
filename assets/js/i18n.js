@@ -10,7 +10,11 @@
     ar: { intl: 'ar-EG', dir: 'rtl', name: 'العربية' },
     de: { intl: 'de-DE', dir: 'ltr', name: 'Deutsch' },
     fr: { intl: 'fr-FR', dir: 'ltr', name: 'Français' },
-    es: { intl: 'es-ES', dir: 'ltr', name: 'Español' }
+    es: { intl: 'es-ES', dir: 'ltr', name: 'Español' },
+    ru: { intl: 'ru-RU', dir: 'ltr', name: 'Русский' },
+    tr: { intl: 'tr-TR', dir: 'ltr', name: 'Türkçe' },
+    hi: { intl: 'hi-IN', dir: 'ltr', name: 'हिन्दी' },
+    'zh-CN': { intl: 'zh-CN', dir: 'ltr', name: '简体中文' }
   };
 
   const MESSAGES = {
