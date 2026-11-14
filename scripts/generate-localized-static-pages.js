@@ -255,7 +255,8 @@ for(const locale of locales){
   for(const [from,to] of Object.entries(faqCorrections[locale])) html=html.split(from).join(to);
   html=html.replace(/<html lang="en" dir="ltr">/,'<html lang="'+locale+'" dir="ltr">');
   const routeSlug=({'about-us.html':'about-us','contact.html':'contact','faq.html':'faq','privacy.html':'privacy','terms.html':'terms'})[page];
-  html=html.replace(/<link rel="canonical" href="https:\/\/qantaratools\.com\/[^"]*">/,'<link rel="canonical" href="https://www.qantaratools.com/'+locale+'/'+routeSlug+'/">');
+  // Replace canonical URLs whether the source uses www or the bare domain.
+  html=html.replace(/<link rel="canonical" href="https?:\\/\\/(?:www\\.)?qantaratools\\.com\\/[^"]*">/,'<link rel="canonical" href="'+site+'/'+locale+'/'+routeSlug+'/">');
   const pageTitles={
    de:{'about-us.html':'Über QantaraTools','contact.html':'Kontakt | QantaraTools','faq.html':'Häufig gestellte Fragen | QantaraTools','privacy.html':'Datenschutzerklärung | QantaraTools','terms.html':'Nutzungsbedingungen | QantaraTools'},
    fr:{'about-us.html':'À propos de QantaraTools','contact.html':'Contact | QantaraTools','faq.html':'Foire aux questions | QantaraTools','privacy.html':'Politique de confidentialité | QantaraTools','terms.html':'Conditions d’utilisation | QantaraTools'},
@@ -272,8 +273,9 @@ for(const locale of locales){
   html=html.replace(/src="assets\//g,'src="/assets/').replace(/href="assets\//g,'href="/assets/');
   html=html.replace(/src="\/assets\/js\/language-switcher\.js"/g,'src="/assets/js/language-switcher.js"');
   const slug=routeSlug;
-  const alternates=['en','de','fr','es'].map(l=>'<link rel="alternate" hreflang="'+l+'" href="https://www.qantaratools.com/'+(l==='en'?page:l+'/'+slug+'/')+'">').join('\n');
-  html=html.replace('</head>',alternates+'\n<link rel="alternate" hreflang="x-default" href="https://www.qantaratools.com/'+page+'">\n</head>');
+  const alternates=['en','de','fr','es'].map(l=>'<link rel="alternate" hreflang="'+l+'" href="'+site+'/'+(l==='en'?page:l+'/'+slug+'/')+'">').join('\n');
+  alternates+'<link rel="alternate" hreflang="ar" href="'+site+'/'+page+'?locale=ar">';
+  html=html.replace('</head>',alternates+'\n<link rel="alternate" hreflang="ar" href="'+site+'/'+page+'?locale=ar">\n<link rel="alternate" hreflang="x-default" href="'+site+'/'+page+'">\n</head>');
   const outputDir=path.join(dir,slug);fs.mkdirSync(outputDir,{recursive:true});
   fs.writeFileSync(path.join(outputDir,'index.html'),html);
  }
