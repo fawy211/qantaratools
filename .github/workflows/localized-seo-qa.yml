@@ -146,6 +146,11 @@ jobs:
           grep -q 'Häufig gestellte Fragen' de/faq/index.html
           grep -q 'Foire aux questions' fr/faq/index.html
           grep -q 'Preguntas frecuentes' es/faq/index.html
+          grep -q 'Häufige Fragen und Hilfe zur Fehlerbehebung' de/faq/index.html
+          grep -q 'Questions fréquentes et aide au dépannage' fr/faq/index.html
+          grep -q 'Preguntas frecuentes y ayuda para solucionar problemas' es/faq/index.html
+          ! grep -q 'Use the Kontakt Us page\|Use the Nous contacter page\|Use the Contacto Us page' de/faq/index.html fr/faq/index.html es/faq/index.html
+          ! grep -q 'No blanket guarantee should be assumed' de/faq/index.html fr/faq/index.html es/faq/index.html
       - name: Install browser test dependencies
         run: |
           npm install --no-package-lock --no-audit --no-fund
