@@ -30,7 +30,7 @@ const TOOL_REGISTRY = {
     'sql-formatter': { title: 'SQL Formatter', path: '../../tools/Core & Dev/SQL Formatter.js', exportName: 'SqlFormatterTool' },
     'code-formatter': { title: 'HTML / CSS / JavaScript Formatter', path: '../../tools/Core & Dev/HTML CSS JS Formatter.js', exportName: 'CodeFormatterTool' },
     'image-format': { title: 'Image Format Converter', path: '../../tools/Security & Media/Image Format Converter.js', exportName: 'ImageFormatTool' },
-    'image-cropper': { title: 'Image Cropper', path: '../../tools/Security & Media/Image Cropper.js', exportName: 'ImageCropperTool' },
+    'image-cropper': { title: 'Image Cropper', path: '../../tools/Security & Media/Image Cropper.js?v=20261115-2', exportName: 'ImageCropperTool' },
     'text-sorter': { title: 'Text Sorter', path: '../../tools/Text & Unicode/Text Sorter.js', exportName: 'TextSorterTool' },
     'lorem-ipsum': { title: 'Lorem Ipsum Generator', path: '../../tools/Text & Unicode/Lorem Ipsum Generator.js', exportName: 'LoremIpsumTool' },
     'markdown-html': { title: 'Markdown to HTML', path: '../../tools/Text & Unicode/Markdown to HTML.js', exportName: 'MarkdownHtmlTool' },
