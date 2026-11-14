@@ -98,9 +98,13 @@ jobs:
           grep -q 'Navegación principal' es/contact/index.html
           grep -q 'Hauptnavigation' de/contact/index.html
           grep -q 'Changer de thème' fr/contact/index.html
-          grep -q 'Contactez l’assistance QantaraTools' fr/contact/index.html
-          grep -q 'Contacta con el soporte de QantaraTools' es/contact/index.html
-          grep -q 'Kontaktieren Sie den QantaraTools-Support' de/contact/index.html
+          grep -q 'Assistance QantaraTools' fr/contact/index.html
+          grep -q 'Soporte de QantaraTools' es/contact/index.html
+          grep -q 'QantaraTools-Support' de/contact/index.html
+          grep -q 'Nous contacter' fr/contact/index.html
+          grep -q 'Contacto' es/contact/index.html
+          grep -q 'Kontaktieren Sie uns' de/contact/index.html
+          ! grep -q 'Contact Us\|Main navigation\|Toggle theme' de/contact/index.html fr/contact/index.html es/contact/index.html
           grep -q '/de/privacy/' sitemap.xml
           grep -q '/fr/terms/' sitemap.xml
           # Static information/legal pages must expose the language selector and reciprocal SEO metadata.
