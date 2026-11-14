@@ -160,3 +160,29 @@ test('language switching works in both directions for every static page', async 
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
   }
 });
+
+test('information-page navigation preserves the selected language across page links', async ({ page }) => {
+  const routes = {
+    en: { faq: '/faq.html', contact: '/contact.html' },
+    ar: { faq: '/faq.html?locale=ar', contact: '/contact.html?locale=ar' },
+    de: { faq: '/de/faq/', contact: '/de/contact/' },
+    fr: { faq: '/fr/faq/', contact: '/fr/contact/' },
+    es: { faq: '/es/faq/', contact: '/es/contact/' }
+  };
+  for (const locale of locales) {
+    await page.goto(pagePath(locale, 'about-us'));
+    const faqLink = page.locator('header a[href*="faq"]').first();
+    await expect(faqLink).toBeVisible();
+    await faqLink.click();
+    await expect(page).toHaveURL(new RegExp(routes[locale].faq.replace(/[.*+?^\${}()|[\]\\]/g, '\\$&') + '$'));
+    await expect(page.locator('html')).toHaveAttribute('lang', locale);
+    if (locale === 'ar') await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
+
+    const contactLink = page.locator('header a[href*="contact"]').first();
+    await expect(contactLink).toBeVisible();
+    await contactLink.click();
+    await expect(page).toHaveURL(new RegExp(routes[locale].contact.replace(/[.*+?^\${}()|[\]\\]/g, '\\$&') + '$'));
+    await expect(page.locator('html')).toHaveAttribute('lang', locale);
+    if (locale === 'ar') await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
+  }
+});
