@@ -169,17 +169,26 @@ jobs:
           PORT=4174 node assets/js/server.js > /tmp/qantaratools-server.log 2>&1 &
           SERVER_PID=$!
           trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
-          for attempt in $(seq 1 30); do
-            if curl -fsS http://127.0.0.1:4174/index.html >/dev/null; then break; fi
+          ready=0
+          for attempt in $(seq 1 15); do
+            if ! kill -0 "$SERVER_PID" 2>/dev/null; then
+              cat /tmp/qantaratools-server.log
+              exit 1
+            fi
+            if curl --max-time 2 -fsS http://127.0.0.1:4174/index.html >/dev/null; then ready=1; break; fi
             sleep 1
           done
+          if [ "$ready" -ne 1 ]; then
+            cat /tmp/qantaratools-server.log
+            exit 1
+          fi
           for locale in de fr es; do
             for slug in about-us faq contact privacy terms; do
-              curl -fsS "http://127.0.0.1:4174/$locale/$slug/" >/dev/null
+              curl --max-time 5 -fsS "http://127.0.0.1:4174/$locale/$slug/" >/dev/null
             done
           done
           for slug in about-us faq contact privacy terms; do
-            curl -fsS "http://127.0.0.1:4174/$slug.html" >/dev/null
+            curl --max-time 5 -fsS "http://127.0.0.1:4174/$slug.html" >/dev/null
           done
       - name: Build local Tailwind CSS
         run: npm run build:css
