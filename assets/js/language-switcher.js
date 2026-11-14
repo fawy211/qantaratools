@@ -16,9 +16,9 @@
     var path = window.location.pathname || '/';
     var prefix = path.match(/^\/(de|fr|es)(?=\/|$)/);
     var queryLocale = new URLSearchParams(window.location.search).get('locale');
-    var storedLocale = '';
-    try { storedLocale = localStorage.getItem('qantaratools_language_v1') || ''; } catch (_) {}
-    var current = prefix ? prefix[1] : (queryLocale === 'ar' ? 'ar' : (Object.prototype.hasOwnProperty.call(locales, storedLocale) ? storedLocale : 'en'));
+    // The URL is authoritative: never show a saved locale that does not match
+    // the page currently being displayed. Locale persistence is handled by navigation.
+    var current = prefix ? prefix[1] : (queryLocale === 'ar' ? 'ar' : 'en');
     var basePath = prefix ? (path.slice(prefix[0].length) || '/') : path;
     if (!basePath.startsWith('/')) basePath = '/' + basePath;
 
