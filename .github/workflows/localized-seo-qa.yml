@@ -185,9 +185,19 @@ jobs:
       # even if a later functional test finds a defect. The run result still determines QA status.
       - name: Package VS Code test copy
         run: |
-          mkdir -p dist
-          zip -qr dist/QantaraTools-VSCode-Test.zip . \
-            -x ".git/*" "node_modules/*" "test-results/*" "playwright-report/*" "dist/*" ".github/*"
+          package_dir="$RUNNER_TEMP/qantaratools-vscode-package"
+          rm -rf "$package_dir"
+          mkdir -p "$package_dir" dist
+          rsync -a ./ "$package_dir/" \
+            --exclude='.git/' \
+            --exclude='node_modules/' \
+            --exclude='test-results/' \
+            --exclude='playwright-report/' \
+            --exclude='dist/' \
+            --exclude='.github/' \
+            --exclude='*.log'
+          (cd "$package_dir" && zip -qr "$GITHUB_WORKSPACE/dist/QantaraTools-VSCode-Test.zip" .)
+          unzip -t dist/QantaraTools-VSCode-Test.zip
       - name: Upload VS Code test copy
         uses: actions/upload-artifact@v4
         with:
