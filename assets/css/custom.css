@@ -193,3 +193,15 @@ html[dir="rtl"] .qt-about-card h2{flex-direction:row}
  .qt-about-nav{gap:7px 12px!important;flex-wrap:wrap}
  .qt-about-main{padding:28px 0 48px!important}
 }
+
+/* Responsive legal and informational page header; prevent mobile horizontal overflow. */
+@media(max-width:680px){
+ .qt-policy-header{align-items:flex-start!important;flex-direction:column!important;gap:12px!important}
+ .qt-policy-actions{width:100%;display:flex;flex-wrap:wrap;gap:8px 12px!important;min-width:0}
+ .qt-policy-actions a,.qt-policy-actions button{max-width:100%;white-space:normal}
+ .qt-policy-main,.qt-static-page{box-sizing:border-box;max-width:100%;min-width:0}
+ .qt-policy-card,.qt-static-card{box-sizing:border-box;max-width:100%;overflow-wrap:anywhere}
+}
+html[dir="rtl"] .qt-policy-header{direction:rtl}
+html[dir="rtl"] .qt-policy-main,html[dir="rtl"] .qt-static-page{text-align:right}
+html[dir="rtl"] .qt-policy-actions{direction:rtl;flex-wrap:wrap}
