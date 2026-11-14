@@ -190,7 +190,7 @@ for(const locale of locales){
   html=html.replace(/src="assets\//g,'src="/assets/').replace(/href="assets\//g,'href="/assets/');
   html=html.replace(/src="\/assets\/js\/language-switcher\.js"/g,'src="/assets/js/language-switcher.js"');
   const slug=page==='about-us.html'?'about-us':(page==='contact.html'?'contact':'faq');
-  const alternates=['en','de','fr','es'].map(l=>'<link rel="alternate" hreflang="'+l+'" href="https://qantaratools.com/'+(l==='en'?'':l+'/')+slug+'/">').join('\n');
+  const alternates=['en','de','fr','es'].map(l=>'<link rel="alternate" hreflang="'+l+'" href="https://qantaratools.com/'+(l==='en'?'':l+'/')+(l==='en'?page.replace('.html','/'):slug+'/')+'">').join('\n');
   html=html.replace('</head>',alternates+'\n<link rel="alternate" hreflang="x-default" href="https://qantaratools.com/'+page+'">\n</head>');
   const outputDir=path.join(dir,slug);fs.mkdirSync(outputDir,{recursive:true});
   fs.writeFileSync(path.join(outputDir,'index.html'),html);
