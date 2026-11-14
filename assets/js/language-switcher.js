@@ -48,10 +48,22 @@
       var params = new URLSearchParams(window.location.search);
       params.delete('locale');
       var targetPath = basePath;
+      var staticLocalizedRoutes = {
+        '/about-us.html': '/about-us/',
+        '/contact.html': '/contact/',
+        '/faq.html': '/faq/'
+      };
+      var staticEnglishRoutes = {
+        '/about-us/': '/about-us.html',
+        '/contact/': '/contact.html',
+        '/faq/': '/faq.html'
+      };
       if (target === 'de' || target === 'fr' || target === 'es') {
-        targetPath = '/' + target + (basePath === '/' ? '/' : basePath);
-      } else if (target === 'ar') {
-        params.set('locale', 'ar');
+        var localizedPath = staticLocalizedRoutes[basePath] || basePath;
+        targetPath = '/' + target + (localizedPath === '/' ? '/' : localizedPath);
+      } else {
+        if (staticEnglishRoutes[basePath]) targetPath = staticEnglishRoutes[basePath];
+        if (target === 'ar') params.set('locale', 'ar');
       }
       var query = params.toString();
       try { localStorage.setItem('qantaratools_language_v1', target); } catch (_) {}
