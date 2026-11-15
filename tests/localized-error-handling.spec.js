@@ -11,6 +11,7 @@ const errorLocales = {
     discount: 'A discount cannot be greater than 100%.',
     pdf: 'This does not look like a valid PDF file.',
     imageLoad: "The image could not be loaded. Choose a valid image file.",
+    watermarkError: "Could not process this image. Please try another file.",
     imageInvalid: "Please choose a valid image file.",
     cropLoad: "This image could not be opened. Try another file."
   },
@@ -24,6 +25,7 @@ const errorLocales = {
     discount: 'لا يمكن أن يتجاوز الخصم 100%.',
     pdf: 'هذا الملف لا يبدو أنه ملف PDF صالح.',
     imageLoad: "تعذر تحميل الصورة. اختر ملف صورة صالحًا.",
+    watermarkError: "تعذرت معالجة الصورة. جرّب ملفًا آخر.",
     imageInvalid: "يرجى اختيار ملف صورة صالح.",
     cropLoad: "تعذر فتح هذه الصورة. جرّب صورة أخرى."
   },
@@ -37,6 +39,7 @@ const errorLocales = {
     discount: 'Ein Rabatt darf nicht höher als 100 % sein.',
     pdf: 'Dies scheint keine gültige PDF-Datei zu sein.',
     imageLoad: "Das Bild konnte nicht geladen werden. Wähle eine gültige Bilddatei aus.",
+    watermarkError: "Bild konnte nicht verarbeitet werden. Bitte versuche eine andere Datei.",
     imageInvalid: "Bitte wähle eine gültige Bilddatei aus.",
     cropLoad: "Dieses Bild konnte nicht geöffnet werden. Versuche eine andere Datei."
   },
@@ -50,6 +53,7 @@ const errorLocales = {
     discount: 'Une remise ne peut pas dépasser 100 %.',
     pdf: 'Ce fichier ne semble pas être un PDF valide.',
     imageLoad: "Impossible de charger l’image. Choisissez un fichier image valide.",
+    watermarkError: "Impossible de traiter cette image. Essayez un autre fichier.",
     imageInvalid: "Veuillez choisir un fichier image valide.",
     cropLoad: "Impossible d’ouvrir cette image. Essayez un autre fichier."
   },
@@ -63,6 +67,7 @@ const errorLocales = {
     discount: 'El descuento no puede superar el 100 %.',
     pdf: 'El archivo no parece ser un PDF válido.',
     imageLoad: "No se pudo cargar la imagen. Selecciona un archivo de imagen válido.",
+    watermarkError: "No se pudo procesar la imagen. Prueba con otro archivo.",
     imageInvalid: "Selecciona un archivo de imagen válido.",
     cropLoad: "No se pudo abrir esta imagen. Prueba con otro archivo."
   }
@@ -198,7 +203,7 @@ for (const [locale, expected] of Object.entries(errorLocales)) {
       mimeType: 'image/png',
       buffer: Buffer.from('not an image')
     });
-    await expect(page.locator('#wm-message')).toHaveText(expected.imageLoad, { timeout: 10000 });
+    await expect(page.locator('#wm-message')).toHaveText(expected.watermarkError, { timeout: 10000 });
   });
 }
 
