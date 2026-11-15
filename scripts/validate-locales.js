@@ -35,8 +35,10 @@ for (const file of ['assets/js/main.js', 'assets/js/router.js', 'assets/js/ai-of
 
 const used = new Map();
 const patterns = [
-  /\b(?:this\.t|tr)\(\s*['"]([A-Za-z][A-Za-z0-9]+)['"]/g,
-  /\bt\(\s*['"]([A-Za-z][A-Za-z0-9]+)['"]/g
+  // Validate keys from the shared locale dictionary only. Tool classes with their own
+  // this.t() dictionaries are self-contained and must not be mistaken for QTI18n keys.
+  /\btr\(\s*['"]([A-Za-z][A-Za-z0-9]+)['"]/g,
+  /\bQTI18n\.t\(\s*['"]([A-Za-z][A-Za-z0-9]+)['"]/g
 ];
 for (const file of files) {
   const text = fs.readFileSync(file, 'utf8');
