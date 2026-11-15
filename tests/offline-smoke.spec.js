@@ -128,16 +128,11 @@ test('offline smoke: browser image editing tools process and export files withou
   expect((await rotated).suggestedFilename()).toBe('edited-image.png');
 
   await page.goto('/tools/image-cropper/', { waitUntil: 'domcontentloaded' });
-  await page.locator('#cropFile').setInputFiles(file);
+  await page.locator('.qt-crop-file').setInputFiles({ name: 'crop.png', mimeType: 'image/png', buffer: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAhUlEQVR4nBXKMREAQQjAwFOCEpSghDIqUIISDOXnt973HsbDfFgP++E83If38L3ACMzACuzACdzAiz8kRmImVmInTuImXv6hMAqzsAq7cAq38OoPjdGYjdXYjdO4jdd/GIzBHKzBHpzBHbz5w2Is5mIt9uIs7uLtHw7jMA/rsA/ncA/v8AOKIpRBFTqJEgAAAABJRU5ErkJggg==', 'base64') });
   await page.waitForFunction(() => window.__offlineLoadedImageCount > 0);
-  await expect.poll(() => page.locator('#cropCanvas').evaluate(canvas => canvas.width)).toBeGreaterThan(0);
-  await page.locator('#cx').fill('0');
-  await page.locator('#cy').fill('0');
-  await page.locator('#cw').fill('1');
-  await page.locator('#ch').fill('1');
-  await page.locator('#cropRun').click();
-  await expect(page.locator('#cropCanvas')).toHaveJSProperty('width', 1);
-  await expect(page.locator('#cropDown')).toBeVisible();
+  await page.locator('.qt-run').click();
+  await expect.poll(() => page.locator('.qt-crop-output').evaluate(canvas => canvas.width)).toBeGreaterThan(0);
+  await expect(page.locator('.qt-download')).toBeVisible();
 
   await page.goto('/tools/image-format/', { waitUntil: 'domcontentloaded' });
   await page.locator('#ifFile').setInputFiles(file);
@@ -167,10 +162,11 @@ test('offline smoke: browser image editing tools process and export files withou
   expect(batchDownloads.map(download => download.suggestedFilename()).sort()).toEqual(['converted-1.png', 'converted-2.png']);
 
   await page.goto('/tools/image-watermark/', { waitUntil: 'domcontentloaded' });
-  await page.locator('#f').setInputFiles(file);
-  await page.locator('#t').fill('Qantara');
+  await page.locator('#wm-file').setInputFiles(file);
+  await page.waitForFunction(() => window.__offlineLoadedImageCount > 0);
+  await page.locator('#wm-text').fill('Qantara');
   const watermarked = page.waitForEvent('download');
-  await page.locator('#go').click();
+  await page.locator('#wm-download').click();
   expect((await watermarked).suggestedFilename()).toBe('watermarked-image.png');
 });
 

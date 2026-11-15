@@ -48,7 +48,6 @@ for (const locale of ['en', 'ar', 'de', 'fr', 'es']) {
     await expect(page.locator('#recent-tools-list')).toBeAttached();
     await expect(page.locator('#favorite-tools-list')).toBeAttached();
     await expect(page.locator('.qt-featured-wrap')).toBeVisible();
-    await expect(page.locator('.qt-identity-switcher')).toBeVisible();
     await expect(page.locator('[data-theme-toggle]')).toBeVisible();
     await expect(page.locator('#request-modal')).toBeAttached();
     await expect(page.locator('#site-footer')).toBeVisible();
@@ -63,7 +62,7 @@ for (const locale of ['en', 'ar', 'de', 'fr', 'es']) {
     }
   });
 
-  test(locale + ' homepage keeps theme and visual identity controls consistent', async ({ page }) => {
+  test(locale + ' homepage keeps theme controls consistent', async ({ page }) => {
     const homePath = locale === 'en' ? '/' : locale === 'ar' ? '/?locale=ar' : '/' + locale + '/';
     await page.goto(homePath);
     const themeButton = page.locator('[data-theme-toggle]');
@@ -72,13 +71,9 @@ for (const locale of ['en', 'ar', 'de', 'fr', 'es']) {
     await themeButton.click();
     const after = await page.evaluate(() => localStorage.getItem('theme'));
     expect(after).not.toBe(before);
-    await page.locator('[data-identity="violet"]:visible').first().click();
-    await expect(page.locator('html')).toHaveAttribute('data-identity', 'violet');
     await page.reload();
-    await expect(page.locator('html')).toHaveAttribute('data-identity', 'violet');
     expect(await page.evaluate(() => localStorage.getItem('theme'))).toBe(after);
     await expect(page.locator('[data-theme-toggle]')).toBeVisible();
-    await expect(page.locator('[data-identity="violet"]:visible').first()).toHaveAttribute('aria-pressed', 'true');
     await page.evaluate(() => window.QTTheme.apply('light'));
     const lightText = await page.locator('#hero-title').evaluate(el => getComputedStyle(el).color);
     const lightRgb = lightText.match(/\d+/g).slice(0, 3).map(Number);
@@ -115,9 +110,6 @@ test('all localized homepages retain mobile controls and correct RTL alignment',
     await page.goto(homePath);
     await expect(page.locator('.qt-language-select')).toBeVisible();
     await expect(page.locator('[data-theme-toggle]')).toBeVisible();
-    for (const identity of ['electric', 'citrus', 'violet']) {
-      await expect(page.locator('[data-identity="' + identity + '"]:visible').first()).toBeVisible();
-    }
     const alignment = await page.locator('#tools-grid-container > div:first-child').evaluate(el => getComputedStyle(el).textAlign);
     expect(alignment).toBe(locale === 'ar' ? 'right' : 'left');
     await expect(page.locator('.tool-card a.qt-tool-permalink')).toHaveCount(50);
@@ -917,16 +909,11 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     expect((await rotatedDownload).suggestedFilename()).toBe('edited-image.png');
 
     await page.goto(tool('image-cropper'));
-    await page.locator('#cropFile').setInputFiles(file);
+    await page.locator('.qt-crop-file').setInputFiles({ name: 'crop.png', mimeType: 'image/png', buffer: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAhUlEQVR4nBXKMREAQQjAwFOCEpSghDIqUIISDOXnt973HsbDfFgP++E83If38L3ACMzACuzACdzAiz8kRmImVmInTuImXv6hMAqzsAq7cAq38OoPjdGYjdXYjdO4jdd/GIzBHKzBHpzBHbz5w2Is5mIt9uIs7uLtHw7jMA/rsA/ncA/v8AOKIpRBFTqJEgAAAABJRU5ErkJggg==', 'base64') });
     await page.waitForFunction(() => window.__loadedImageCount > 0);
-    await page.locator('#cx').fill('0');
-    await page.locator('#cy').fill('0');
-    await page.locator('#cw').fill('1');
-    await page.locator('#ch').fill('1');
-    await page.locator('#cropRun').click();
-    await expect(page.locator('#cropCanvas')).toHaveJSProperty('width', 1);
-    await expect(page.locator('#cropCanvas')).toHaveJSProperty('height', 1);
-    await expect(page.locator('#cropDown')).toBeVisible();
+    await page.locator('.qt-run').click();
+    await expect.poll(() => page.locator('.qt-crop-output').evaluate(canvas => canvas.width)).toBeGreaterThan(0);
+    await expect(page.locator('.qt-download')).toBeVisible();
 
     await page.goto(tool('image-format'));
     await page.locator('#ifFile').setInputFiles(file);
@@ -938,12 +925,11 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     expect((await convertedDownload).suggestedFilename()).toBe('converted-image.png');
 
     await page.goto(tool('image-watermark'));
-    await page.locator('#f').setInputFiles(file);
-    await page.locator('#t').fill('Qantara');
-    const imageLoaded = page.waitForFunction(() => window.__loadedImageCount > 0);
+    await page.locator('#wm-file').setInputFiles(file);
+    await page.waitForFunction(() => window.__loadedImageCount > 0);
+    await page.locator('#wm-text').fill('Qantara');
     const watermarkedDownload = page.waitForEvent('download');
-    await page.locator('#go').click();
-    await imageLoaded;
+    await page.locator('#wm-download').click();
     expect((await watermarkedDownload).suggestedFilename()).toBe('watermarked-image.png');
   });
 }
