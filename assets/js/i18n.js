@@ -25,6 +25,7 @@
       words: 'Words', characters: 'Characters', sentences: 'Sentences', paragraphs: 'Paragraphs',
       readingTime: 'Reading time', seconds: 'sec', minutes: 'min',
       speaker: 'Speaker', message: 'Message', text: 'Text',
+      dataAnalyzerTitle: 'Data Analyzer & Splitter', dataAnalyzerDesc: 'Analyze, clean, filter, split and export spreadsheet data locally.', financialStatementsTitle: 'Financial Statements Generator', financialStatementsDesc: 'Create financial statements manually or from an imported trial balance.',
       aiTitle: "Chat to Office File Converter",
       aiIntro: "Convert an AI conversation, text file, or Word document into a clean Word, Excel, or PDF file. Everything is processed on your device.",
       aiFileName: "File name",
@@ -83,6 +84,7 @@
       words: 'الكلمات', characters: 'الأحرف', sentences: 'الجمل', paragraphs: 'الفقرات',
       readingTime: 'وقت القراءة', seconds: 'ثانية', minutes: 'دقيقة',
       speaker: 'المتحدث', message: 'الرسالة', text: 'النص',
+      dataAnalyzerTitle: 'محلل ومقسم البيانات', dataAnalyzerDesc: 'حلل البيانات ونظفها وصفّها وقسمها وصدّرها محليًا.', financialStatementsTitle: 'منشئ القوائم المالية', financialStatementsDesc: 'أنشئ القوائم المالية يدويًا أو من ميزان مراجعة مستورد.',
       aiTitle: "تحويل المحادثات والمحتوى إلى ملفات Office",
       aiIntro: "حوّل محادثة ذكاء اصطناعي أو ملفًا نصيًا أو مستند Word إلى ملف Word أو Excel أو PDF منسق. تتم المعالجة بالكامل على جهازك.",
       aiFileName: "اسم الملف",
@@ -141,6 +143,7 @@
       words: 'Wörter', characters: 'Zeichen', sentences: 'Sätze', paragraphs: 'Absätze',
       readingTime: 'Lesezeit', seconds: 'Sek.', minutes: 'Min.',
       speaker: 'Sprecher', message: 'Nachricht', text: 'Text',
+      dataAnalyzerTitle: 'Datenanalyse & Aufteilung', dataAnalyzerDesc: 'Tabellendaten lokal analysieren, bereinigen, filtern, aufteilen und exportieren.', financialStatementsTitle: 'Finanzbericht-Generator', financialStatementsDesc: 'Finanzberichte manuell oder aus einer importierten Saldenliste erstellen.',
       aiTitle: "Chat- und Text-zu-Office-Konverter",
       aiIntro: "Wandle einen KI-Chat, eine Textdatei oder ein Word-Dokument in eine übersichtliche Word-, Excel- oder PDF-Datei um. Die Verarbeitung erfolgt vollständig auf deinem Gerät.",
       aiFileName: "Dateiname",
@@ -199,6 +202,7 @@
       words: 'Mots', characters: 'Caractères', sentences: 'Phrases', paragraphs: 'Paragraphes',
       readingTime: 'Temps de lecture', seconds: 's', minutes: 'min',
       speaker: 'Intervenant', message: 'Message', text: 'Texte',
+      dataAnalyzerTitle: 'Analyseur et séparateur de données', dataAnalyzerDesc: 'Analyser, nettoyer, filtrer, répartir et exporter des données localement.', financialStatementsTitle: 'Générateur d’états financiers', financialStatementsDesc: 'Créer des états financiers manuellement ou depuis une balance importée.',
       aiTitle: "Convertisseur de conversations et textes vers Office",
       aiIntro: "Convertissez une conversation avec une IA, un fichier texte ou un document Word en fichier Word, Excel ou PDF bien présenté. Tout est traité sur votre appareil.",
       aiFileName: "Nom du fichier",
@@ -257,6 +261,7 @@
       words: 'Palabras', characters: 'Caracteres', sentences: 'Oraciones', paragraphs: 'Párrafos',
       readingTime: 'Tiempo de lectura', seconds: 's', minutes: 'min',
       speaker: 'Interlocutor', message: 'Mensaje', text: 'Texto',
+      dataAnalyzerTitle: 'Analizador y separador de datos', dataAnalyzerDesc: 'Analizar, limpiar, filtrar, dividir y exportar datos localmente.', financialStatementsTitle: 'Generador de estados financieros', financialStatementsDesc: 'Crear estados financieros manualmente o desde un balance importado.',
       aiTitle: "Convertidor de chats y textos a Office",
       aiIntro: "Convierte una conversación con IA, un archivo de texto o un documento Word en un archivo Word, Excel o PDF bien organizado. Todo se procesa en tu dispositivo.",
       aiFileName: "Nombre del archivo",
@@ -3254,6 +3259,8 @@
     "colorTitle",
     "colorDesc"
   ],
+  "data-analyzer": [ "dataAnalyzerTitle", "dataAnalyzerDesc" ],
+  "financial-statements": [ "financialStatementsTitle", "financialStatementsDesc" ],
   "csv-cleaner": [
     "csvCleanTitle",
     "csvCleanDesc"
