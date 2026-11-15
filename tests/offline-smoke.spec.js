@@ -166,10 +166,11 @@ test('offline smoke: browser image editing tools process and export files withou
   expect(batchDownloads.map(download => download.suggestedFilename()).sort()).toEqual(['converted-1.png', 'converted-2.png']);
 
   await page.goto('/tools/image-watermark/', { waitUntil: 'domcontentloaded' });
-  await page.locator('#f').setInputFiles(file);
-  await page.locator('#t').fill('Qantara');
+  await page.locator('#wm-file').setInputFiles(file);
+  await expect(page.locator('#wm-stage-wrap')).toBeVisible();
+  await page.locator('#wm-text').fill('Qantara');
   const watermarked = page.waitForEvent('download');
-  await page.locator('#go').click();
+  await page.locator('#wm-download').click();
   expect((await watermarked).suggestedFilename()).toBe('watermarked-image.png');
 });
 
