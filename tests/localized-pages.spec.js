@@ -898,7 +898,7 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
 // Browser-only image editing tools: verify file input, canvas output and downloads.
 for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
   test('Image rotate, crop, format and watermark tools process files in ' + locale, async ({ page }) => {
-    const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAIAAAB7QOjdAAAAD0lEQVR4nGP8z8DAwMAAAAYIAQHLR3Z1AAAAAElFTkSuQmCC', 'base64');
+    const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEklEQVR4nGP4z8DwHxkzkC4AADxAH+HggXe0AAAAAElFTkSuQmCC', 'base64');
     const file = { name: 'tiny.png', mimeType: 'image/png', buffer: png };
     await page.addInitScript(() => {
       const NativeImage = window.Image;
@@ -920,16 +920,15 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     expect((await rotatedDownload).suggestedFilename()).toBe('edited-image.png');
 
     await page.goto(tool('image-cropper'));
-    await page.locator('#cropFile').setInputFiles(file);
+    await page.locator('.qt-crop-file').setInputFiles(file);
     await page.waitForFunction(() => window.__loadedImageCount > 0);
-    await page.locator('#cx').fill('0');
-    await page.locator('#cy').fill('0');
-    await page.locator('#cw').fill('1');
-    await page.locator('#ch').fill('1');
-    await page.locator('#cropRun').click();
-    await expect(page.locator('#cropCanvas')).toHaveJSProperty('width', 1);
-    await expect(page.locator('#cropCanvas')).toHaveJSProperty('height', 1);
-    await expect(page.locator('#cropDown')).toBeVisible();
+    await expect(page.locator('.qt-crop-stage')).toBeVisible();
+    await page.locator('.qt-run').click();
+    await expect.poll(() => page.locator('.qt-crop-output').evaluate(canvas => canvas.width)).toBeGreaterThan(0);
+    await expect.poll(() => page.locator('.qt-crop-output').evaluate(canvas => canvas.height)).toBeGreaterThan(0);
+    const croppedDownload = page.waitForEvent('download');
+    await page.locator('.qt-download').click();
+    expect((await croppedDownload).suggestedFilename()).toBe('qantaratools-cropped-image.png');
 
     await page.goto(tool('image-format'));
     await page.locator('#ifFile').setInputFiles(file);
@@ -955,7 +954,7 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
 // Image compression and batch conversion must produce downloadable local results.
 for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
   test('Image compressor and batch converter work in ' + locale, async ({ page }) => {
-    const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAIAAAB7QOjdAAAAD0lEQVR4nGP8z8DAwMAAAAYIAQHLR3Z1AAAAAElFTkSuQmCC', 'base64');
+    const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEklEQVR4nGP4z8DwHxkzkC4AADxAH+HggXe0AAAAAElFTkSuQmCC', 'base64');
     const file = { name: 'tiny.png', mimeType: 'image/png', buffer: png };
     await page.addInitScript(() => {
       const NativeImage = window.Image;
@@ -1168,7 +1167,7 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
 for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
   test('Code formatter, SVG encoder and image Base64 converter work in ' + locale, async ({ page }) => {
     const tool = slug => route.prefix + '/tools/' + slug + '/' + route.suffix;
-    const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAIAAAB7QOjdAAAAD0lEQVR4nGP8z8DAwMAAAAYIAQHLR3Z1AAAAAElFTkSuQmCC', 'base64');
+    const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEklEQVR4nGP4z8DwHxkzkC4AADxAH+HggXe0AAAAAElFTkSuQmCC', 'base64');
 
     await page.goto(tool('code-formatter'));
     await page.locator('#cfType').selectOption({ label: 'HTML' });
