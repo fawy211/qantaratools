@@ -15,6 +15,7 @@ export class FinancialStatementsTool {
  this.q('#fsOutput').innerHTML=out;this.q('#fsOutput').classList.remove('hidden');this.q('#fsDownload').onclick=()=>this.download({company,period,currency:cur,profit,assets,liabilities,equity,delta,...d});this.q('#fsPrint').onclick=()=>this.print(out,company,period);}
  download(data){const rows=Object.entries(data).map(([k,v])=>[k,v]);const csv=[['Item','Value'],...rows].map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\r\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='financial-statements.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);}
  print(content,company,period){const w=window.open('','_blank');if(!w)return;w.document.write('<html><head><title>Financial Statements</title><style>body{font:14px Arial;padding:28px;color:#111}table{border-collapse:collapse;width:100%}td{padding:8px;border-bottom:1px solid #ddd}</style></head><body><h1>'+this.esc(company)+'</h1><p>'+this.esc(period)+'</p>'+content.replace(/<button[\s\S]*?<\/button>/g,'')+'</body></html>');w.document.close();w.print();}
+ num(v){const n=Number(String(v??0).replace(/[, ]/g,''));return Number.isFinite(n)?n:0;}
  esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
  destroy(){if(this.root)this.root.innerHTML='';}
 }
