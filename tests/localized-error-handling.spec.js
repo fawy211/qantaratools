@@ -169,22 +169,31 @@ for (const [locale, expected] of Object.entries(errorLocales)) {
     });
     await expect(page.locator('#cropStatus')).toHaveText(expected.imageLoad, { timeout: 10000 });
 
-    // Advanced image tools must surface corrupt-file failures instead of leaving rejected promises.
-    for (const slug of ['image-rotate-flip', 'image-batch', 'image-watermark']) {
-      await page.goto(tool(slug));
-      await page.locator('#f').setInputFiles({
-        name: 'broken-image.png',
-        mimeType: 'image/png',
-        buffer: Buffer.from('not an image')
-      });
-      if (slug === 'image-rotate-flip') {
-        // This tool validates the file immediately on selection.
-      } else {
-        if (slug === 'image-watermark') await page.locator('#t').fill('Qantara');
-        await page.locator('#go').click();
-      }
-      await expect(page.locator('#m')).toHaveText(expected.imageLoad, { timeout: 10000 });
-    }
+    // Advanced image tools must surface corrupt-file failures using their real controls.
+    await page.goto(tool('image-rotate-flip'));
+    await page.locator('#f').setInputFiles({
+      name: 'broken-image.png',
+      mimeType: 'image/png',
+      buffer: Buffer.from('not an image')
+    });
+    await expect(page.locator('#m')).toHaveText(expected.imageLoad, { timeout: 10000 });
+
+    await page.goto(tool('image-batch'));
+    await page.locator('#f').setInputFiles({
+      name: 'broken-image.png',
+      mimeType: 'image/png',
+      buffer: Buffer.from('not an image')
+    });
+    await page.locator('#go').click();
+    await expect(page.locator('#m')).toHaveText(expected.imageLoad, { timeout: 10000 });
+
+    await page.goto(tool('image-watermark'));
+    await page.locator('#wm-file').setInputFiles({
+      name: 'broken-image.png',
+      mimeType: 'image/png',
+      buffer: Buffer.from('not an image')
+    });
+    await expect(page.locator('#wm-message')).toHaveText(expected.imageLoad, { timeout: 10000 });
   });
 }
 
