@@ -940,11 +940,12 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     expect((await convertedDownload).suggestedFilename()).toBe('converted-image.png');
 
     await page.goto(tool('image-watermark'));
-    await page.locator('#f').setInputFiles(file);
-    await page.locator('#t').fill('Qantara');
+    await page.locator('#wm-file').setInputFiles(file);
+    await page.locator('#wm-text').fill('Qantara');
     const imageLoaded = page.waitForFunction(() => window.__loadedImageCount > 0);
+    await imageLoaded;
     const watermarkedDownload = page.waitForEvent('download');
-    await page.locator('#go').click();
+    await page.locator('#wm-download').click();
     await imageLoaded;
     expect((await watermarkedDownload).suggestedFilename()).toBe('watermarked-image.png');
   });
