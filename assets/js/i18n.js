@@ -3084,7 +3084,7 @@
     "requestTool": "Tool vorschlagen",
     "allTools": "Alle Tools",
     "development": "Entwicklung",
-    "businessCategory": "Business & Finance Tools",
+    "businessCategory": "Business- und Finanztools",
     "pdfDocuments": "PDF & Dokumente",
     "securityMedia": "Sicherheit & Medien",
     "textCategory": "Text",
