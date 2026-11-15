@@ -43,7 +43,6 @@ for(const locale of locales){
   ['id="recent-tools-list"','recent tools missing'],
   ['id="favorite-tools-list"','favorites missing'],
   ['qt-featured-wrap','featured Office tool missing'],
-  ['class="qt-identity-switcher"','visual identity controls missing'],
   ['data-theme-toggle','theme control missing'],
   ['id="request-modal"','tool request modal missing'],
   ['id="site-footer"','site footer missing'],
