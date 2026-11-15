@@ -204,6 +204,8 @@ export const TOOL_REGISTRY_META = {
     "desktop": "planned",
     "offline": true
   },
+  "data-analyzer": { "title":"Data Analyzer & Splitter", "category":"Core & Dev", "version":"1.0.0", "web":true, "desktop":"planned", "offline":true },
+  "financial-statements": { "title":"Financial Statements Generator", "category":"Business & Finance", "version":"1.0.0", "web":true, "desktop":"planned", "offline":"requires-external-library-for-xlsx" },
   "csv-cleaner": {
     "title": "CSV Data Cleaner",
     "category": "Core & Dev",
