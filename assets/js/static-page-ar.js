@@ -67,6 +67,9 @@
     '8. Security and retention':'8. الأمان والاحتفاظ بالبيانات',
     '9. Children and contact':'9. الأطفال والتواصل',
     '10. Changes':'10. التغييرات',
+    "The toolkit is general-purpose and is not directed at children. For support or privacy questions, contact":"الموقع مخصص للاستخدام العام وليس موجّهًا للأطفال بشكل خاص. إذا كانت لديك استفسارات تتعلق بالدعم أو الخصوصية، يمكنك التواصل معنا عبر البريد الإلكتروني",
+    "Do not email passwords, private keys, or confidential files.":"يُرجى عدم إرسال كلمات المرور أو المفاتيح الخاصة أو الملفات التي تحتوي على معلومات سرية عبر البريد الإلكتروني.",
+    "8. Children and contact":"8. خصوصية الأطفال والتواصل معنا",
   };
   function walk(root){
     var walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
