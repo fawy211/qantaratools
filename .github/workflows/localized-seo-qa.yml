@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - feature/complete-multilingual-support
+      - feature/data-analysis-financial-statements
   pull_request:
     branches:
       - main
@@ -13,7 +14,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: localized-seo-qa-v5-${{ github.ref }}
+  group: localized-seo-qa-v6-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -56,9 +57,10 @@ jobs:
           node scripts/validate-localized-pages.js
       - name: Verify localized page output
         run: |
-          test "$(find de/tools -name index.html | wc -l)" -eq 50
-          test "$(find fr/tools -name index.html | wc -l)" -eq 50
-          test "$(find es/tools -name index.html | wc -l)" -eq 50
+          expected_tool_count="$(node -e "console.log(require('./tool-pages.json').length)")"
+          test "$(find de/tools -name index.html | wc -l)" -eq "$expected_tool_count"
+          test "$(find fr/tools -name index.html | wc -l)" -eq "$expected_tool_count"
+          test "$(find es/tools -name index.html | wc -l)" -eq "$expected_tool_count"
           grep -q 'hreflang="de"' tools/base64/index.html
           grep -q '/de/tools/base64/' sitemap.xml
           grep -q '/de/about-us/' sitemap.xml

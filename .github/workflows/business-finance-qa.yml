@@ -1,0 +1,32 @@
+name: Business and Finance Tools QA
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches:
+      - feature/data-analysis-financial-statements
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  business-finance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm install --no-package-lock --no-audit --no-fund
+      - name: Generate English and localized tool pages
+        run: npm run generate:all
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Run Data Analyzer and Financial Statements browser tests
+        run: npx playwright test tests/business-finance-tools.spec.js --project=chromium --workers=1

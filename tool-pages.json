@@ -298,5 +298,17 @@
     "title": "Stopwatch & Pomodoro Timer",
     "category": "Fun & Creative",
     "description": "Boost productivity with timers and focus sessions."
+  },
+  {
+    "id": "data-analyzer",
+    "title": "Data Analyzer & Splitter",
+    "category": "Business & Finance",
+    "description": "Analyze, clean, filter, split, and export CSV, JSON, and spreadsheet data in your browser."
+  },
+  {
+    "id": "financial-statements",
+    "title": "Financial Statements Generator",
+    "category": "Business & Finance",
+    "description": "Create income statements, balance sheets, and cash flow summaries manually or from an imported trial balance."
   }
 ]

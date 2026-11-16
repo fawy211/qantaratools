@@ -11,7 +11,9 @@ const errorLocales = {
     discount: 'A discount cannot be greater than 100%.',
     pdf: 'This does not look like a valid PDF file.',
     imageLoad: "The image could not be loaded. Choose a valid image file.",
-    imageInvalid: "Please choose a valid image file."
+    watermarkError: "Could not process this image. Please try another file.",
+    imageInvalid: "Please choose a valid image file.",
+    cropLoad: "This image could not be opened. Try another file."
   },
   ar: {
     loan: "أدخل بيانات قرض صحيحة.",
@@ -23,7 +25,9 @@ const errorLocales = {
     discount: 'لا يمكن أن يتجاوز الخصم 100%.',
     pdf: 'هذا الملف لا يبدو أنه ملف PDF صالح.',
     imageLoad: "تعذر تحميل الصورة. اختر ملف صورة صالحًا.",
-    imageInvalid: "يرجى اختيار ملف صورة صالح."
+    watermarkError: "تعذرت معالجة الصورة. جرّب ملفًا آخر.",
+    imageInvalid: "يرجى اختيار ملف صورة صالح.",
+    cropLoad: "تعذر فتح هذه الصورة. جرّب صورة أخرى."
   },
   de: {
     loan: "Bitte gib gültige Kreditdaten ein.",
@@ -35,7 +39,9 @@ const errorLocales = {
     discount: 'Ein Rabatt darf nicht höher als 100 % sein.',
     pdf: 'Dies scheint keine gültige PDF-Datei zu sein.',
     imageLoad: "Das Bild konnte nicht geladen werden. Wähle eine gültige Bilddatei aus.",
-    imageInvalid: "Bitte wähle eine gültige Bilddatei aus."
+    watermarkError: "Bild konnte nicht verarbeitet werden. Bitte versuche eine andere Datei.",
+    imageInvalid: "Bitte wähle eine gültige Bilddatei aus.",
+    cropLoad: "Dieses Bild konnte nicht geöffnet werden. Versuche eine andere Datei."
   },
   fr: {
     loan: "Veuillez saisir des informations de prêt valides.",
@@ -47,7 +53,9 @@ const errorLocales = {
     discount: 'Une remise ne peut pas dépasser 100 %.',
     pdf: 'Ce fichier ne semble pas être un PDF valide.',
     imageLoad: "Impossible de charger l’image. Choisissez un fichier image valide.",
-    imageInvalid: "Veuillez choisir un fichier image valide."
+    watermarkError: "Impossible de traiter cette image. Essayez un autre fichier.",
+    imageInvalid: "Veuillez choisir un fichier image valide.",
+    cropLoad: "Impossible d’ouvrir cette image. Essayez un autre fichier."
   },
   es: {
     loan: "Introduce datos válidos del préstamo.",
@@ -59,7 +67,9 @@ const errorLocales = {
     discount: 'El descuento no puede superar el 100 %.',
     pdf: 'El archivo no parece ser un PDF válido.',
     imageLoad: "No se pudo cargar la imagen. Selecciona un archivo de imagen válido.",
-    imageInvalid: "Selecciona un archivo de imagen válido."
+    watermarkError: "No se pudo procesar la imagen. Prueba con otro archivo.",
+    imageInvalid: "Selecciona un archivo de imagen válido.",
+    cropLoad: "No se pudo abrir esta imagen. Prueba con otro archivo."
   }
 };
 
@@ -162,29 +172,38 @@ for (const [locale, expected] of Object.entries(errorLocales)) {
     });
     await expect(page.locator('#imgStats')).toHaveText(expected.imageLoad, { timeout: 10000 });
     await page.goto(tool('image-cropper'));
-    await page.locator('#cropFile').setInputFiles({
+    await page.locator('.qt-crop-file').setInputFiles({
       name: 'broken-image.png',
       mimeType: 'image/png',
       buffer: Buffer.from('not an image')
     });
-    await expect(page.locator('#cropStatus')).toHaveText(expected.imageLoad, { timeout: 10000 });
+    await expect(page.locator('.qt-crop-status')).toHaveText(expected.cropLoad, { timeout: 10000 });
 
-    // Advanced image tools must surface corrupt-file failures instead of leaving rejected promises.
-    for (const slug of ['image-rotate-flip', 'image-batch', 'image-watermark']) {
-      await page.goto(tool(slug));
-      await page.locator('#f').setInputFiles({
-        name: 'broken-image.png',
-        mimeType: 'image/png',
-        buffer: Buffer.from('not an image')
-      });
-      if (slug === 'image-rotate-flip') {
-        // This tool validates the file immediately on selection.
-      } else {
-        if (slug === 'image-watermark') await page.locator('#t').fill('Qantara');
-        await page.locator('#go').click();
-      }
-      await expect(page.locator('#m')).toHaveText(expected.imageLoad, { timeout: 10000 });
-    }
+    // Advanced image tools must surface corrupt-file failures using their real controls.
+    await page.goto(tool('image-rotate-flip'));
+    await page.locator('#f').setInputFiles({
+      name: 'broken-image.png',
+      mimeType: 'image/png',
+      buffer: Buffer.from('not an image')
+    });
+    await expect(page.locator('#m')).toHaveText(expected.imageLoad, { timeout: 10000 });
+
+    await page.goto(tool('image-batch'));
+    await page.locator('#f').setInputFiles({
+      name: 'broken-image.png',
+      mimeType: 'image/png',
+      buffer: Buffer.from('not an image')
+    });
+    await page.locator('#go').click();
+    await expect(page.locator('#m')).toHaveText(expected.imageLoad, { timeout: 10000 });
+
+    await page.goto(tool('image-watermark'));
+    await page.locator('#wm-file').setInputFiles({
+      name: 'broken-image.png',
+      mimeType: 'image/png',
+      buffer: Buffer.from('not an image')
+    });
+    await expect(page.locator('#wm-message')).toHaveText(expected.watermarkError, { timeout: 10000 });
   });
 }
 

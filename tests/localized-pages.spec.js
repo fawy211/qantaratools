@@ -1,7 +1,8 @@
 const { test, expect } = require('@playwright/test');
+const expectedToolCount = require('../tool-pages.json').length;
 
 for (const locale of ['en', 'ar', 'de', 'fr', 'es']) {
-  test(locale + ' localized homepage lists all 50 tools', async ({ page }) => {
+  test(locale + ' localized homepage lists all registered tools', async ({ page }) => {
     const homePath = locale === 'en' ? '/' : locale === 'ar' ? '/?locale=ar' : '/' + locale + '/';
     await page.goto(homePath);
     await expect(page.locator('html')).toHaveAttribute('lang', locale);
@@ -30,6 +31,15 @@ for (const locale of ['en', 'ar', 'de', 'fr', 'es']) {
     await expect(page.locator('#hero-desc')).toHaveText(localizedHeroDescriptions[locale]);
     const localizedAllTools = { en: 'All Tools', ar: 'كل الأدوات', de: 'Alle Tools', fr: 'Tous les outils', es: 'Todas las herramientas' };
     await expect(page.locator('.category-filter[data-filter="all"]')).toContainText(localizedAllTools[locale]);
+    const localizedBusinessCategory = {
+      en: 'Business & Finance Tools',
+      ar: 'أدوات الأعمال والمال',
+      de: 'Business- und Finanztools',
+      fr: 'Outils professionnels et financiers',
+      es: 'Herramientas de negocios y finanzas'
+    };
+    await expect(page.locator('.category-filter[data-filter="business"]')).toContainText(localizedBusinessCategory[locale]);
+
     await expect(page.locator('.qt-hero-metrics span')).toHaveCount(4);
     await expect(page.locator('.qt-hero-metrics span').nth(2)).toContainText('50+');
     const metricCountLabel = {
@@ -48,14 +58,13 @@ for (const locale of ['en', 'ar', 'de', 'fr', 'es']) {
     await expect(page.locator('#recent-tools-list')).toBeAttached();
     await expect(page.locator('#favorite-tools-list')).toBeAttached();
     await expect(page.locator('.qt-featured-wrap')).toBeVisible();
-    await expect(page.locator('.qt-identity-switcher')).toBeVisible();
     await expect(page.locator('[data-theme-toggle]')).toBeVisible();
     await expect(page.locator('#request-modal')).toBeAttached();
     await expect(page.locator('#site-footer')).toBeVisible();
     await expect(page.locator('link[rel="stylesheet"][href*="qt-redesign.css"]')).toHaveCount(1);
     await expect(page.locator('link[rel="stylesheet"][href*="theme-light.css"]')).toHaveCount(1);
     const toolLinks = page.locator('.tool-card a.qt-tool-permalink');
-    await expect(toolLinks).toHaveCount(50);
+    await expect(toolLinks).toHaveCount(expectedToolCount);
     for (const link of await toolLinks.all()) {
       await expect(link).toHaveAttribute('href', new RegExp(locale === 'en' || locale === 'ar'
         ? '^/tools/'
@@ -63,7 +72,7 @@ for (const locale of ['en', 'ar', 'de', 'fr', 'es']) {
     }
   });
 
-  test(locale + ' homepage keeps theme and visual identity controls consistent', async ({ page }) => {
+  test(locale + ' homepage keeps the light and dark theme control consistent', async ({ page }) => {
     const homePath = locale === 'en' ? '/' : locale === 'ar' ? '/?locale=ar' : '/' + locale + '/';
     await page.goto(homePath);
     const themeButton = page.locator('[data-theme-toggle]');
@@ -72,13 +81,10 @@ for (const locale of ['en', 'ar', 'de', 'fr', 'es']) {
     await themeButton.click();
     const after = await page.evaluate(() => localStorage.getItem('theme'));
     expect(after).not.toBe(before);
-    await page.locator('[data-identity="violet"]:visible').first().click();
-    await expect(page.locator('html')).toHaveAttribute('data-identity', 'violet');
     await page.reload();
-    await expect(page.locator('html')).toHaveAttribute('data-identity', 'violet');
     expect(await page.evaluate(() => localStorage.getItem('theme'))).toBe(after);
     await expect(page.locator('[data-theme-toggle]')).toBeVisible();
-    await expect(page.locator('[data-identity="violet"]:visible').first()).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('[data-identity]')).toHaveCount(0);
     await page.evaluate(() => window.QTTheme.apply('light'));
     const lightText = await page.locator('#hero-title').evaluate(el => getComputedStyle(el).color);
     const lightRgb = lightText.match(/\d+/g).slice(0, 3).map(Number);
@@ -115,12 +121,9 @@ test('all localized homepages retain mobile controls and correct RTL alignment',
     await page.goto(homePath);
     await expect(page.locator('.qt-language-select')).toBeVisible();
     await expect(page.locator('[data-theme-toggle]')).toBeVisible();
-    for (const identity of ['electric', 'citrus', 'violet']) {
-      await expect(page.locator('[data-identity="' + identity + '"]:visible').first()).toBeVisible();
-    }
     const alignment = await page.locator('#tools-grid-container > div:first-child').evaluate(el => getComputedStyle(el).textAlign);
     expect(alignment).toBe(locale === 'ar' ? 'right' : 'left');
-    await expect(page.locator('.tool-card a.qt-tool-permalink')).toHaveCount(50);
+    await expect(page.locator('.tool-card a.qt-tool-permalink')).toHaveCount(expectedToolCount);
   }
 });
 
@@ -895,7 +898,7 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
 // Browser-only image editing tools: verify file input, canvas output and downloads.
 for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
   test('Image rotate, crop, format and watermark tools process files in ' + locale, async ({ page }) => {
-    const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAIAAAB7QOjdAAAAD0lEQVR4nGP8z8DAwMAAAAYIAQHLR3Z1AAAAAElFTkSuQmCC', 'base64');
+    const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEklEQVR4nGP4z8DwHxkzkC4AADxAH+HggXe0AAAAAElFTkSuQmCC', 'base64');
     const file = { name: 'tiny.png', mimeType: 'image/png', buffer: png };
     await page.addInitScript(() => {
       const NativeImage = window.Image;
@@ -917,16 +920,15 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     expect((await rotatedDownload).suggestedFilename()).toBe('edited-image.png');
 
     await page.goto(tool('image-cropper'));
-    await page.locator('#cropFile').setInputFiles(file);
+    await page.locator('.qt-crop-file').setInputFiles(file);
     await page.waitForFunction(() => window.__loadedImageCount > 0);
-    await page.locator('#cx').fill('0');
-    await page.locator('#cy').fill('0');
-    await page.locator('#cw').fill('1');
-    await page.locator('#ch').fill('1');
-    await page.locator('#cropRun').click();
-    await expect(page.locator('#cropCanvas')).toHaveJSProperty('width', 1);
-    await expect(page.locator('#cropCanvas')).toHaveJSProperty('height', 1);
-    await expect(page.locator('#cropDown')).toBeVisible();
+    await expect(page.locator('.qt-crop-stage')).toBeVisible();
+    await page.locator('.qt-run').click();
+    await expect.poll(() => page.locator('.qt-crop-output').evaluate(canvas => canvas.width)).toBeGreaterThan(0);
+    await expect.poll(() => page.locator('.qt-crop-output').evaluate(canvas => canvas.height)).toBeGreaterThan(0);
+    const croppedDownload = page.waitForEvent('download');
+    await page.locator('.qt-download').click();
+    expect((await croppedDownload).suggestedFilename()).toBe('qantaratools-cropped-image.png');
 
     await page.goto(tool('image-format'));
     await page.locator('#ifFile').setInputFiles(file);
@@ -938,11 +940,12 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     expect((await convertedDownload).suggestedFilename()).toBe('converted-image.png');
 
     await page.goto(tool('image-watermark'));
-    await page.locator('#f').setInputFiles(file);
-    await page.locator('#t').fill('Qantara');
+    await page.locator('#wm-file').setInputFiles(file);
+    await page.locator('#wm-text').fill('Qantara');
     const imageLoaded = page.waitForFunction(() => window.__loadedImageCount > 0);
+    await imageLoaded;
     const watermarkedDownload = page.waitForEvent('download');
-    await page.locator('#go').click();
+    await page.locator('#wm-download').click();
     await imageLoaded;
     expect((await watermarkedDownload).suggestedFilename()).toBe('watermarked-image.png');
   });
@@ -952,7 +955,7 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
 // Image compression and batch conversion must produce downloadable local results.
 for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
   test('Image compressor and batch converter work in ' + locale, async ({ page }) => {
-    const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAIAAAB7QOjdAAAAD0lEQVR4nGP8z8DAwMAAAAYIAQHLR3Z1AAAAAElFTkSuQmCC', 'base64');
+    const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEklEQVR4nGP4z8DwHxkzkC4AADxAH+HggXe0AAAAAElFTkSuQmCC', 'base64');
     const file = { name: 'tiny.png', mimeType: 'image/png', buffer: png };
     await page.addInitScript(() => {
       const NativeImage = window.Image;
@@ -1165,7 +1168,7 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
 for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
   test('Code formatter, SVG encoder and image Base64 converter work in ' + locale, async ({ page }) => {
     const tool = slug => route.prefix + '/tools/' + slug + '/' + route.suffix;
-    const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAIAAAB7QOjdAAAAD0lEQVR4nGP8z8DAwMAAAAYIAQHLR3Z1AAAAAElFTkSuQmCC', 'base64');
+    const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEklEQVR4nGP4z8DwHxkzkC4AADxAH+HggXe0AAAAAElFTkSuQmCC', 'base64');
 
     await page.goto(tool('code-formatter'));
     await page.locator('#cfType').selectOption({ label: 'HTML' });
@@ -1224,5 +1227,56 @@ for (const [locale, route] of Object.entries(extraFunctionalPaths)) {
     await expect(page.locator('#timerDisplay')).toHaveText('00:00');
     await page.locator('#pomoModeTab').click();
     await expect(page.locator('#timerDisplay')).toHaveText('25:00');
+  });
+}
+
+
+// New Business & Finance tools: exercise actual interactions in every supported locale.
+for (const locale of ['en', 'ar', 'de', 'fr', 'es']) {
+  test(locale + ' Data Analyzer sample, filtering and split workflow', async ({ page }) => {
+    const route = locale === 'en' ? '/tools/data-analyzer/' : locale === 'ar' ? '/tools/data-analyzer/?locale=ar' : '/' + locale + '/tools/data-analyzer/';
+    await page.goto(route);
+    await expect(page.locator('#daSample')).toBeVisible();
+    await page.locator('#daSample').click();
+    await expect(page.locator('#daTable tbody tr')).toHaveCount(5);
+    await page.locator('#daSearch').fill('Sales');
+    await expect(page.locator('#daTable tbody tr')).toHaveCount(3);
+    await page.locator('#daSearch').fill('');
+    await page.locator('#daSplitMode').selectOption('column');
+    await page.locator('#daSplitColumn').selectOption({ label: 'Department' });
+    const [download] = await Promise.all([
+      page.waitForEvent('download'),
+      page.locator('#daSplit').click()
+    ]);
+    expect(download.suggestedFilename()).toMatch(/Sales\.csv|IT\.csv/);
+    await expect(page.locator('#daStatus')).toContainText(/2/);
+  });
+
+  test(locale + ' Financial Statements manual and trial balance workflows', async ({ page }) => {
+    const route = locale === 'en' ? '/tools/financial-statements/' : locale === 'ar' ? '/tools/financial-statements/?locale=ar' : '/' + locale + '/tools/financial-statements/';
+    await page.goto(route);
+    await page.locator('[data-field="revenue"]').fill('1000');
+    await page.locator('[data-field="cogs"]').fill('300');
+    await page.locator('[data-field="opex"]').fill('200');
+    await page.locator('[data-field="currentAssets"]').fill('1000');
+    await page.locator('[data-field="equity"]').fill('500');
+    await page.locator('#fsGenerate').click();
+    await expect(page.locator('#fsOutput')).toBeVisible();
+    await expect(page.locator('#fsOutput')).toContainText(/Balanced|متوازن|Ausgeglichen|Équilibré|Equilibrado/);
+
+    await page.locator('#fsImport').click();
+    await page.locator('#fsFile').setInputFiles({
+      name: 'trial-balance.csv',
+      mimeType: 'text/csv',
+      buffer: Buffer.from('Account,Debit,Credit\r\nCash,1000,0\r\nCapital,0,1000\r\nSales,0,1000\r\nExpenses,1000,0')
+    });
+    await expect(page.locator('#fsAccounts [data-account]')).toHaveCount(4);
+    await page.locator('[data-account="0"]').selectOption('current_asset');
+    await page.locator('[data-account="1"]').selectOption('equity');
+    await page.locator('[data-account="2"]').selectOption('revenue');
+    await page.locator('[data-account="3"]').selectOption('expense');
+    await page.locator('#fsGenerate').click();
+    await expect(page.locator('#fsOutput')).toBeVisible();
+    await expect(page.locator('#fsOutput')).toContainText(/Balanced|متوازن|Ausgeglichen|Équilibré|Equilibrado/);
   });
 }

@@ -45,6 +45,8 @@ const TOOL_REGISTRY = {
         path: '../../tools/Core & Dev/Color Converter.js',
         exportName: 'ColorConverterTool'
     },
+    'data-analyzer': { title: 'Data Analyzer & Splitter', path: '../../tools/Core & Dev/Data Analyzer & Splitter.js', exportName: 'DataAnalyzerTool' },
+    'financial-statements': { title: 'Financial Statements Generator', path: '../../tools/Business & Finance/Financial Statements Generator.js', exportName: 'FinancialStatementsTool' },
     'csv-cleaner': {
         title: 'CSV Data Cleaner',
         path: '../../tools/Core & Dev/csv-cleaner.js',
