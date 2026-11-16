@@ -157,7 +157,7 @@ const page = tool => {
     };
     const apply=()=>{const locale=window.QTI18n?.locale||new URLSearchParams(location.search).get('locale')||'en';const copy=notices[locale]||notices.en;const box=document.querySelector('.qt-privacy-note');if(box){box.querySelector('strong').textContent=copy[0];box.querySelector('p').textContent=copy[1];}document.querySelectorAll('.qt-new-badge').forEach(b=>{b.textContent='NEW';});};
     if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply);else apply();
-    window.addEventListener('qantara:locale-changed',apply);
+    window.addEventListener('qt:localechange',apply);
   })();
   </script>
 
