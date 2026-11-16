@@ -1,0 +1,70 @@
+name: Generate and publish static SEO pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: generate-static-seo-main
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm install --no-package-lock --no-audit --no-fund
+      - name: Validate localized SEO source
+        run: npm run i18n:seo:check
+      - name: Build local CSS and prepare local helper assets
+        run: |
+          npm run build:css
+          node scripts/prepare-vendor-assets.js
+      - name: Generate all English and localized static pages and sitemap
+        run: |
+          node scripts/generate-tool-pages.js
+          node scripts/generate-localized-tool-pages.js
+          node scripts/generate-localized-static-pages.js
+          node scripts/validate-localized-pages.js
+      - name: Verify new finance tool pages are included
+        run: |
+          test -s tools/data-analyzer/index.html
+          test -s tools/financial-statements/index.html
+          test -s de/tools/data-analyzer/index.html
+          test -s de/tools/financial-statements/index.html
+          test -s fr/tools/data-analyzer/index.html
+          test -s fr/tools/financial-statements/index.html
+          test -s es/tools/data-analyzer/index.html
+          test -s es/tools/financial-statements/index.html
+          grep -q '/tools/data-analyzer/' sitemap.xml
+          grep -q '/tools/financial-statements/' sitemap.xml
+          grep -q '/de/tools/data-analyzer/' sitemap.xml
+          grep -q '/fr/tools/financial-statements/' sitemap.xml
+          grep -q '/es/tools/data-analyzer/' sitemap.xml
+      - name: Commit generated pages to main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html de fr es tools sitemap.xml assets/vendor assets/fonts assets/css/tailwind-local.css
+          if ! git diff --cached --quiet; then
+            git commit -m "Generate localized SEO pages and sitemap [skip ci]"
+            git push origin HEAD:main
+          else
+            echo "Generated pages are already up to date."
+          fi
