@@ -86,4 +86,17 @@
   <script src="/assets/js/router.js"></script>
   <script src="/assets/js/accessibility.js"></script>
   <script>window.addEventListener('DOMContentLoaded',()=>{if(window.router)window.router.loadTool("Business & Finance","Financial Statements Generator","financial-statements");});</script>
-<script data-qt-locale-persist>(function(){function bind(){document.querySelectorAll("[data-locale-link]").forEach(function(a){if(a.dataset.qtLocaleBound)return;a.dataset.qtLocaleBound="1";a.addEventListener("click",function(){var locale=a.dataset.localeLink;try{localStorage.setItem("qantaratools_language_v1",locale);}catch(e){}if(window.QTI18n&&window.QTI18n.setLocale)window.QTI18n.setLocale(locale);});});}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",bind);else bind();})();</script></body></html>
+<script>
+(function(){
+ const notices={
+ en:['Privacy-first · Processed locally on your device','Your files and financial data are processed in your browser. They are not uploaded to or stored on QantaraTools servers. The spreadsheet reader may load from a public CDN; your file contents are not sent to that service.'],
+ ar:['الخصوصية أولًا · تتم المعالجة محليًا على جهازك','تتم معالجة ملفاتك وبياناتك المالية داخل متصفحك. لا يتم رفعها إلى خوادم QantaraTools أو تخزينها عليها. قد يتم تحميل مكتبة قراءة الجداول من شبكة CDN عامة، لكن محتوى ملفاتك لا يُرسل إلى تلك الخدمة.'],
+ de:['Datenschutz zuerst · Verarbeitung lokal auf Ihrem Gerät','Ihre Dateien und Finanzdaten werden in Ihrem Browser verarbeitet und nicht auf QantaraTools-Server hochgeladen oder dort gespeichert. Die Tabellenbibliothek kann von einem öffentlichen CDN geladen werden; Ihre Dateiinhalte werden nicht an diesen Dienst gesendet.'],
+ fr:['Confidentialité prioritaire · Traitement local sur votre appareil','Vos fichiers et données financières sont traités dans votre navigateur et ne sont ni téléversés ni stockés sur les serveurs de QantaraTools. La bibliothèque de tableur peut être chargée depuis un CDN public ; le contenu de vos fichiers ne lui est pas envoyé.'],
+ es:['Privacidad primero · Procesamiento local en tu dispositivo','Tus archivos y datos financieros se procesan en tu navegador y no se suben ni se almacenan en los servidores de QantaraTools. La biblioteca de hojas de cálculo puede cargarse desde una CDN pública; el contenido de tus archivos no se envía a ese servicio.']
+ };
+ const apply=()=>{const locale=window.QTI18n?.locale||new URLSearchParams(location.search).get('locale')||'en';const copy=notices[locale]||notices.en;const box=document.querySelector('.qt-privacy-note');if(box){box.querySelector('strong').textContent=copy[0];box.querySelector('p').textContent=copy[1];}};
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply);else apply();
+ window.addEventListener('qt:localechange',apply);
+})();
+</script><script data-qt-locale-persist>(function(){function bind(){document.querySelectorAll("[data-locale-link]").forEach(function(a){if(a.dataset.qtLocaleBound)return;a.dataset.qtLocaleBound="1";a.addEventListener("click",function(){var locale=a.dataset.localeLink;try{localStorage.setItem("qantaratools_language_v1",locale);}catch(e){}if(window.QTI18n&&window.QTI18n.setLocale)window.QTI18n.setLocale(locale);});});}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",bind);else bind();})();</script></body></html>
