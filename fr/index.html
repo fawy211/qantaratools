@@ -293,8 +293,12 @@
 <button aria-label="Close request form" class="text-slate-400 hover:text-slate-100 text-xl cursor-pointer" onclick="closeRequestModal()" type="button">×</button>
 </div>
 <p class="text-slate-400 text-sm mb-4" id="request-modal-description">Have an idea for a useful tool? Share it with us.</p>
+<label class="block text-sm font-medium text-slate-300 mb-1" for="req-requester-name">Your Name</label>
+<input autocomplete="name" class="w-full p-3 mb-4 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 focus:outline-none focus:border-blue-500" id="req-requester-name" maxlength="120" placeholder="Enter your name" required type="text"/>
+<label class="block text-sm font-medium text-slate-300 mb-1" for="req-requester-email">Your Email</label>
+<input autocomplete="email" class="w-full p-3 mb-4 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 focus:outline-none focus:border-blue-500" id="req-requester-email" maxlength="254" placeholder="you@example.com" required type="email"/>
 <label class="sr-only" for="req-tool-name">Tool name or idea</label>
-<input autocomplete="off" class="w-full p-3 mb-4 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 focus:outline-none focus:border-blue-500" id="req-tool-name" placeholder="Tool Name / Idea..." type="text"/>
+<input autocomplete="off" class="w-full p-3 mb-4 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 focus:outline-none focus:border-blue-500" id="req-tool-name" maxlength="160" placeholder="Tool Name / Idea..." required type="text"/>
 <label class="sr-only" for="req-tool-desc">Describe what the tool should do</label>
 <textarea class="w-full p-3 mb-4 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 focus:outline-none focus:border-blue-500" id="req-tool-desc" placeholder="Briefly describe what it should do..." rows="4"></textarea>
 <label class="sr-only" for="req-tool-example">Example use (optional)</label>
