@@ -51,6 +51,7 @@ const css = `
     .qt-tool-main{width:min(960px,calc(100% - 28px));margin:0 auto;padding:30px 0 64px}
     .qt-crumbs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px;padding:0;list-style:none;font-size:12.5px;color:var(--qt-muted)}.qt-crumbs li+li::before{content:"\\203A";margin-inline-end:6px}.qt-crumbs a{color:var(--qt-blue);text-decoration:none;font-weight:700}
     .qt-tool-intro{padding:28px 32px;border:2px solid #17151f;border-radius:24px;background:linear-gradient(115deg,#fffdf8,#f1eeff 58%,#e9fff6);box-shadow:6px 6px 0 #17151f}
+    .qt-privacy-note{display:flex;gap:14px;align-items:flex-start;margin-top:18px;padding:16px 18px;border:1px solid #16a34a55;border-radius:16px;background:#ecfdf5;color:#14532d}.qt-privacy-note strong{display:block;margin-bottom:4px;font-size:14px}.qt-privacy-note p{margin:0;color:#166534;font-size:13px;line-height:1.65}.qt-privacy-note .qt-privacy-icon{font-size:22px;line-height:1}html.dark .qt-privacy-note{background:#052e24;border-color:#16a34a66;color:#dcfce7}html.dark .qt-privacy-note p{color:#bbf7d0}
     .qt-tool-kicker{color:#6857ff;font-size:11px;font-weight:900;letter-spacing:.15em;text-transform:uppercase}.qt-tool-intro h1{margin:12px 0;color:#17151f;font-size:clamp(30px,5vw,48px);line-height:1.08;letter-spacing:-.04em;font-weight:900}.qt-tool-intro p{max-width:720px;color:#635d6c;font-size:15px;line-height:1.75}
     .qt-tool-workspace{margin-top:28px;padding:24px;border:1px solid var(--qt-line);border-radius:22px;background:var(--qt-panel);box-shadow:0 10px 28px rgba(23,21,31,.08)}.qt-tool-workspace h2{margin:0 0 14px;font-size:20px;font-weight:900;color:var(--qt-text)}
     .qt-tool-details{margin-top:28px;padding:24px;border:1px solid var(--qt-line);border-radius:20px;background:var(--qt-panel)}.qt-tool-details h2{font-size:19px;font-weight:900;color:var(--qt-text);margin:0 0 10px}.qt-tool-details h3{font-size:16px;font-weight:800;color:var(--qt-text);margin:18px 0 6px}.qt-tool-details p,.qt-tool-details li{color:var(--qt-muted);line-height:1.75;font-size:14px}.qt-tool-details ol{padding-inline-start:20px}
@@ -116,10 +117,12 @@ const page = tool => {
     <nav aria-label="Breadcrumb"><ol class="qt-crumbs"><li><a href="/">All tools</a></li><li>${esc(tool.category)}</li><li aria-current="page">${esc(tool.title)}</li></ol></nav>
     <section class="qt-tool-intro" aria-labelledby="tool-page-title">
       <span class="qt-tool-kicker">${esc(tool.category)} · Free browser tool</span>
+      ${["data-analyzer","financial-statements"].includes(tool.id) ? '<span class="qt-new-badge" style="display:inline-flex;margin-inline-start:8px;vertical-align:middle;padding:5px 10px;border-radius:999px;background:#2563eb;color:#fff;font-size:10px;font-weight:900;letter-spacing:.08em">NEW</span>' : ""}
       <h1 id="tool-page-title">${esc(tool.title)}</h1>
       <p>${esc(c.intro)}</p>
       <p>${esc(categoryText[tool.category] || categoryText['Core & Dev'])}</p>
     </section>
+    ${["data-analyzer","financial-statements"].includes(tool.id) ? '<aside class="qt-privacy-note" aria-label="Privacy and local processing"><span class="qt-privacy-icon" aria-hidden="true">🔒</span><div><strong>Privacy-first · Processed locally on your device</strong><p>Your files and financial data are processed in your browser. They are not uploaded to or stored on QantaraTools servers.</p></div></aside>' : ""}
     <section id="tool-workspace" class="qt-tool-workspace" aria-labelledby="active-tool-title">
       <h2 id="active-tool-title">${esc(tool.title)}</h2>
       <div id="active-tool-box"><p role="status" aria-live="polite">Loading ${esc(tool.title)}…</p></div>
