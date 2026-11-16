@@ -250,6 +250,8 @@ function closeRequestModal() {
 }
 
 async function submitToolRequest() {
+    const requesterName = document.getElementById('req-requester-name');
+    const requesterEmail = document.getElementById('req-requester-email');
     const name = document.getElementById('req-tool-name');
     const desc = document.getElementById('req-tool-desc');
     const example = document.getElementById('req-tool-example');
@@ -257,14 +259,24 @@ async function submitToolRequest() {
         .find(button => button.getAttribute('onclick') === 'submitToolRequest()');
     const locale = window.QTI18n?.locale || 'en';
     const messages = {
-        en: { name: 'Please enter the tool name or idea.', desc: 'Please briefly describe what the tool should do.', sending: 'Sending…', saved: 'Thanks! Your suggestion was saved and the notification email was accepted for sending.', savedNoEmail: 'Your suggestion was saved, but the notification email could not be sent. Please try again later or contact support.', failed: 'Sorry, we could not submit your suggestion. Please try again.' },
-        ar: { name: 'يرجى إدخال اسم الأداة أو الفكرة.', desc: 'يرجى وصف وظيفة الأداة المقترحة باختصار.', sending: 'جارٍ الإرسال…', saved: 'شكرًا لك! تم حفظ اقتراحك وقبول طلب إرسال إشعار البريد.', savedNoEmail: 'تم حفظ اقتراحك، لكن تعذر إرسال إشعار البريد. يرجى المحاولة لاحقًا أو التواصل مع الدعم.', failed: 'عذرًا، تعذر إرسال اقتراحك. يرجى المحاولة مرة أخرى.' },
-        de: { name: 'Bitte gib den Namen oder die Idee des Tools ein.', desc: 'Bitte beschreibe kurz, was das Tool tun soll.', sending: 'Wird gesendet…', saved: 'Danke! Dein Vorschlag wurde gespeichert und die E-Mail-Benachrichtigung zum Versand angenommen.', savedNoEmail: 'Dein Vorschlag wurde gespeichert, aber die E-Mail-Benachrichtigung konnte nicht gesendet werden. Bitte versuche es später erneut oder kontaktiere den Support.', failed: 'Dein Vorschlag konnte leider nicht gesendet werden. Bitte versuche es erneut.' },
-        fr: { name: 'Veuillez saisir le nom ou l’idée de l’outil.', desc: 'Veuillez décrire brièvement la fonction souhaitée.', sending: 'Envoi…', saved: 'Merci ! Votre proposition a été enregistrée et la demande d’envoi de l’e-mail de notification a été acceptée.', savedNoEmail: 'Votre proposition a été enregistrée, mais l’e-mail de notification n’a pas pu être envoyé. Veuillez réessayer plus tard ou contacter le support.', failed: 'Désolé, votre proposition n’a pas pu être envoyée. Veuillez réessayer.' },
-        es: { name: 'Introduce el nombre o la idea de la herramienta.', desc: 'Describe brevemente qué debería hacer la herramienta.', sending: 'Enviando…', saved: '¡Gracias! Tu propuesta se ha guardado y se ha aceptado el envío del correo de notificación.', savedNoEmail: 'Tu propuesta se ha guardado, pero no se pudo enviar el correo de notificación. Inténtalo más tarde o contacta con soporte.', failed: 'No se pudo enviar tu propuesta. Inténtalo de nuevo.' }
+        en: { requesterName: 'Please enter your name.', requesterEmail: 'Please enter a valid email address.', name: 'Please enter the tool name or idea.', desc: 'Please briefly describe what the tool should do.', sending: 'Sending…', saved: 'Thanks! Your suggestion was saved and the notification email was accepted for sending.', savedNoEmail: 'Your suggestion was saved, but the notification email could not be sent. Please try again later or contact support.', failed: 'Sorry, we could not submit your suggestion. Please try again.' },
+        ar: { requesterName: 'يرجى إدخال اسمك.', requesterEmail: 'يرجى إدخال بريد إلكتروني صحيح.', name: 'يرجى إدخال اسم الأداة أو الفكرة.', desc: 'يرجى وصف وظيفة الأداة المقترحة باختصار.', sending: 'جارٍ الإرسال…', saved: 'شكرًا لك! تم حفظ اقتراحك وقبول طلب إرسال إشعار البريد.', savedNoEmail: 'تم حفظ اقتراحك، لكن تعذر إرسال إشعار البريد. يرجى المحاولة لاحقًا أو التواصل مع الدعم.', failed: 'عذرًا، تعذر إرسال اقتراحك. يرجى المحاولة مرة أخرى.' },
+        de: { requesterName: 'Bitte gib deinen Namen ein.', requesterEmail: 'Bitte gib eine gültige E-Mail-Adresse ein.', name: 'Bitte gib den Namen oder die Idee des Tools ein.', desc: 'Bitte beschreibe kurz, was das Tool tun soll.', sending: 'Wird gesendet…', saved: 'Danke! Dein Vorschlag wurde gespeichert und die E-Mail-Benachrichtigung zum Versand angenommen.', savedNoEmail: 'Dein Vorschlag wurde gespeichert, aber die E-Mail-Benachrichtigung konnte nicht gesendet werden. Bitte versuche es später erneut oder kontaktiere den Support.', failed: 'Dein Vorschlag konnte leider nicht gesendet werden. Bitte versuche es erneut.' },
+        fr: { requesterName: 'Veuillez saisir votre nom.', requesterEmail: 'Veuillez saisir une adresse e-mail valide.', name: 'Veuillez saisir le nom ou l’idée de l’outil.', desc: 'Veuillez décrire brièvement la fonction souhaitée.', sending: 'Envoi…', saved: 'Merci ! Votre proposition a été enregistrée et la demande d’envoi de l’e-mail de notification a été acceptée.', savedNoEmail: 'Votre proposition a été enregistrée, mais l’e-mail de notification n’a pas pu être envoyé. Veuillez réessayer plus tard ou contacter le support.', failed: 'Désolé, votre proposition n’a pas pu être envoyée. Veuillez réessayer.' },
+        es: { requesterName: 'Introduce tu nombre.', requesterEmail: 'Introduce una dirección de correo válida.', name: 'Introduce el nombre o la idea de la herramienta.', desc: 'Describe brevemente qué debería hacer la herramienta.', sending: 'Enviando…', saved: '¡Gracias! Tu propuesta se ha guardado y se ha aceptado el envío del correo de notificación.', savedNoEmail: 'Tu propuesta se ha guardado, pero no se pudo enviar el correo de notificación. Inténtalo más tarde o contacta con soporte.', failed: 'No se pudo enviar tu propuesta. Inténtalo de nuevo.' }
     };
     const msg = messages[locale] || messages.en;
 
+    if (!requesterName || !requesterName.value.trim()) {
+        alert(msg.requesterName);
+        requesterName?.focus();
+        return;
+    }
+    if (!requesterEmail || !requesterEmail.value.trim() || !requesterEmail.checkValidity()) {
+        alert(msg.requesterEmail);
+        requesterEmail?.focus();
+        return;
+    }
     if (!name || !name.value.trim()) {
         alert(msg.name);
         name?.focus();
@@ -292,6 +304,8 @@ async function submitToolRequest() {
                 'apikey': 'sb_publishable_sfa_reilyTUT0iE8i2atkg_JY1lfNiH'
             },
             body: JSON.stringify({
+                requesterName: requesterName.value.trim(),
+                requesterEmail: requesterEmail.value.trim(),
                 name: name.value.trim(),
                 description: desc.value.trim(),
                 example: (example?.value || '').trim()
@@ -304,6 +318,8 @@ async function submitToolRequest() {
         }
 
         alert(result.emailSent === true ? msg.saved : msg.savedNoEmail);
+        requesterName.value = '';
+        requesterEmail.value = '';
         name.value = '';
         if (desc) desc.value = '';
         if (example) example.value = '';
@@ -469,6 +485,22 @@ function applyHomeTranslations() {
         const modalTitle = document.getElementById('request-modal-title');
         if (modalTitle) { const icon = modalTitle.querySelector('i'); modalTitle.textContent = ''; if (icon) modalTitle.append(icon, document.createTextNode(' ')); modalTitle.append(document.createTextNode(t('requestTitle','Request a New Tool'))); }
         set('#request-modal-description', 'requestDesc', 'Have an idea for a useful tool? Share it with us.');
+        const requestFieldText = {
+            en: { name: 'Your Name', email: 'Your Email', namePlaceholder: 'Enter your name', emailPlaceholder: 'you@example.com' },
+            ar: { name: 'اسمك', email: 'بريدك الإلكتروني', namePlaceholder: 'أدخل اسمك', emailPlaceholder: 'name@example.com' },
+            de: { name: 'Dein Name', email: 'Deine E-Mail-Adresse', namePlaceholder: 'Gib deinen Namen ein', emailPlaceholder: 'du@beispiel.de' },
+            fr: { name: 'Votre nom', email: 'Votre adresse e-mail', namePlaceholder: 'Saisissez votre nom', emailPlaceholder: 'vous@exemple.fr' },
+            es: { name: 'Tu nombre', email: 'Tu correo electrónico', namePlaceholder: 'Introduce tu nombre', emailPlaceholder: 'tu@ejemplo.com' }
+        };
+        const fieldText = requestFieldText[i18n.locale] || requestFieldText.en;
+        const requesterNameLabel = document.querySelector('label[for="req-requester-name"]');
+        const requesterEmailLabel = document.querySelector('label[for="req-requester-email"]');
+        const requesterNameInput = document.getElementById('req-requester-name');
+        const requesterEmailInput = document.getElementById('req-requester-email');
+        if (requesterNameLabel) requesterNameLabel.textContent = fieldText.name;
+        if (requesterEmailLabel) requesterEmailLabel.textContent = fieldText.email;
+        if (requesterNameInput) requesterNameInput.placeholder = fieldText.namePlaceholder;
+        if (requesterEmailInput) requesterEmailInput.placeholder = fieldText.emailPlaceholder;
         const placeholders = [['#req-tool-name','toolNameIdea','Tool Name / Idea...'],['#req-tool-desc','describeTool','Briefly describe what it should do...'],['#req-tool-example','optionalExample','Optional: give an example of how you would use it...']];
         placeholders.forEach(([selector,key,fallback]) => { const el=document.querySelector(selector); if(el)el.placeholder=t(key,fallback); });
         const buttons = modal.querySelectorAll('button');
