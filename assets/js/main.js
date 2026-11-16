@@ -249,34 +249,75 @@ function closeRequestModal() {
     requestModalReturnFocus = null;
 }
 
-function submitToolRequest() {
+async function submitToolRequest() {
     const name = document.getElementById('req-tool-name');
     const desc = document.getElementById('req-tool-desc');
     const example = document.getElementById('req-tool-example');
+    const submitButton = [...(document.querySelectorAll('#request-modal button'))]
+        .find(button => button.getAttribute('onclick') === 'submitToolRequest()');
+    const locale = window.QTI18n?.locale || 'en';
+    const messages = {
+        en: { name: 'Please enter the tool name or idea.', desc: 'Please briefly describe what the tool should do.', sending: 'Sending…', saved: 'Thanks! Your suggestion was saved and the notification email was accepted for sending.', savedNoEmail: 'Your suggestion was saved, but the notification email could not be sent. Please try again later or contact support.', failed: 'Sorry, we could not submit your suggestion. Please try again.' },
+        ar: { name: 'يرجى إدخال اسم الأداة أو الفكرة.', desc: 'يرجى وصف وظيفة الأداة المقترحة باختصار.', sending: 'جارٍ الإرسال…', saved: 'شكرًا لك! تم حفظ اقتراحك وقبول طلب إرسال إشعار البريد.', savedNoEmail: 'تم حفظ اقتراحك، لكن تعذر إرسال إشعار البريد. يرجى المحاولة لاحقًا أو التواصل مع الدعم.', failed: 'عذرًا، تعذر إرسال اقتراحك. يرجى المحاولة مرة أخرى.' },
+        de: { name: 'Bitte gib den Namen oder die Idee des Tools ein.', desc: 'Bitte beschreibe kurz, was das Tool tun soll.', sending: 'Wird gesendet…', saved: 'Danke! Dein Vorschlag wurde gespeichert und die E-Mail-Benachrichtigung zum Versand angenommen.', savedNoEmail: 'Dein Vorschlag wurde gespeichert, aber die E-Mail-Benachrichtigung konnte nicht gesendet werden. Bitte versuche es später erneut oder kontaktiere den Support.', failed: 'Dein Vorschlag konnte leider nicht gesendet werden. Bitte versuche es erneut.' },
+        fr: { name: 'Veuillez saisir le nom ou l’idée de l’outil.', desc: 'Veuillez décrire brièvement la fonction souhaitée.', sending: 'Envoi…', saved: 'Merci ! Votre proposition a été enregistrée et la demande d’envoi de l’e-mail de notification a été acceptée.', savedNoEmail: 'Votre proposition a été enregistrée, mais l’e-mail de notification n’a pas pu être envoyé. Veuillez réessayer plus tard ou contacter le support.', failed: 'Désolé, votre proposition n’a pas pu être envoyée. Veuillez réessayer.' },
+        es: { name: 'Introduce el nombre o la idea de la herramienta.', desc: 'Describe brevemente qué debería hacer la herramienta.', sending: 'Enviando…', saved: '¡Gracias! Tu propuesta se ha guardado y se ha aceptado el envío del correo de notificación.', savedNoEmail: 'Tu propuesta se ha guardado, pero no se pudo enviar el correo de notificación. Inténtalo más tarde o contacta con soporte.', failed: 'No se pudo enviar tu propuesta. Inténtalo de nuevo.' }
+    };
+    const msg = messages[locale] || messages.en;
+
     if (!name || !name.value.trim()) {
-        alert(window.QTI18n?.t('enterToolName','Please enter the tool name or idea.') || 'Please enter the tool name or idea.');
+        alert(msg.name);
+        name?.focus();
         return;
     }
+    if (!desc || !desc.value.trim()) {
+        alert(msg.desc);
+        desc?.focus();
+        return;
+    }
+    if (submitButton?.disabled) return;
 
-    const request = {
-        id: `REQ-${Date.now()}`,
-        name: name.value.trim(),
-        description: (desc?.value || '').trim(),
-        example: (example?.value || '').trim(),
-        status: 'New',
-        createdAt: new Date().toISOString()
-    };
+    const originalLabel = submitButton?.textContent;
+    if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = msg.sending;
+        submitButton.setAttribute('aria-busy', 'true');
+    }
 
-    const key = 'qantaratools_tool_requests_v1';
-    const existing = JSON.parse(localStorage.getItem(key) || '[]');
-    existing.push(request);
-    localStorage.setItem(key, JSON.stringify(existing));
+    try {
+        const response = await fetch('https://gvkkmjthrhfnhcfhdasf.supabase.co/functions/v1/tool-request-notify', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'apikey': 'sb_publishable_sfa_reilyTUT0iE8i2atkg_JY1lfNiH'
+            },
+            body: JSON.stringify({
+                name: name.value.trim(),
+                description: desc.value.trim(),
+                example: (example?.value || '').trim()
+            })
+        });
+        const result = await response.json().catch(() => ({}));
 
-    alert(window.QTI18n?.t('requestSaved','Thanks! Your request was saved on this device.') || 'Thanks! Your request was saved on this device.');
-    name.value = '';
-    if (desc) desc.value = '';
-    if (example) example.value = '';
-    closeRequestModal();
+        if (!response.ok || result.success !== true || result.saved !== true) {
+            throw new Error(result.error || 'Request submission failed');
+        }
+
+        alert(result.emailSent === true ? msg.saved : msg.savedNoEmail);
+        name.value = '';
+        if (desc) desc.value = '';
+        if (example) example.value = '';
+        closeRequestModal();
+    } catch (error) {
+        console.error('Tool request submission failed:', error);
+        alert(msg.failed);
+    } finally {
+        if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.textContent = originalLabel || 'Submit Request';
+            submitButton.removeAttribute('aria-busy');
+        }
+    }
 }
 
 function applyTheme(isDark) {
