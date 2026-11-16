@@ -61,10 +61,26 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # The job checks out main at the start, and main can advance before this
+          # step runs. Publish on top of the current remote tip so the push is a
+          # fast-forward: fetch the latest main, regenerate the pages from it, then
+          # commit and push.
+          git fetch origin main
+          git reset --hard origin/main
+
+          npm run build:css
+          node scripts/prepare-vendor-assets.js
+          node scripts/generate-tool-pages.js
+          node scripts/generate-localized-tool-pages.js
+          node scripts/generate-localized-static-pages.js
+          node scripts/validate-localized-pages.js
+
           git add index.html de fr es tools sitemap.xml assets/vendor assets/fonts assets/css/tailwind-local.css
-          if ! git diff --cached --quiet; then
-            git commit -m "Generate localized SEO pages and sitemap [skip ci]"
-            git push origin HEAD:main
-          else
+          if git diff --cached --quiet; then
             echo "Generated pages are already up to date."
+            exit 0
           fi
+
+          git commit -m "Generate localized SEO pages and sitemap [skip ci]"
+          git push origin HEAD:main
