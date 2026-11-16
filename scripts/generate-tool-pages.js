@@ -145,6 +145,7 @@ const page = tool => {
   <script src="/assets/js/plugin-system.js"></script>
   <script src="/assets/js/tool-feedback.js"></script>
   <script src="/assets/js/i18n.js"></script>
+  <script src="/assets/js/language-switcher.js" defer></script>
   <script>
   (function(){
     const notices={
