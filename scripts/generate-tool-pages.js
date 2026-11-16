@@ -122,7 +122,7 @@ const page = tool => {
       <p>${esc(c.intro)}</p>
       <p>${esc(categoryText[tool.category] || categoryText['Core & Dev'])}</p>
     </section>
-    ${["data-analyzer","financial-statements"].includes(tool.id) ? '<aside class="qt-privacy-note" aria-label="Privacy and local processing"><span class="qt-privacy-icon" aria-hidden="true">🔒</span><div><strong>Privacy-first · Processed locally on your device</strong><p>Your files and financial data are processed in your browser. They are not uploaded to or stored on QantaraTools servers.</p></div></aside>' : ""}
+    ${["data-analyzer","financial-statements"].includes(tool.id) ? '<aside class="qt-privacy-note" aria-label="Privacy and local processing"><span class="qt-privacy-icon" aria-hidden="true">🔒</span><div><strong>Privacy-first · Processed locally on your device</strong><p>Your files and financial data are processed in your browser. They are not uploaded to or stored on QantaraTools servers. The spreadsheet reader may load from a public CDN; your file contents are not sent to that service.</p></div></aside>' : ""}
     <section id="tool-workspace" class="qt-tool-workspace" aria-labelledby="active-tool-title">
       <h2 id="active-tool-title">${esc(tool.title)}</h2>
       <div id="active-tool-box"><p role="status" aria-live="polite">Loading ${esc(tool.title)}…</p></div>
@@ -145,6 +145,21 @@ const page = tool => {
   <script src="/assets/js/plugin-system.js"></script>
   <script src="/assets/js/tool-feedback.js"></script>
   <script src="/assets/js/i18n.js"></script>
+  <script>
+  (function(){
+    const notices={
+      en:['Privacy-first · Processed locally on your device','Your files and financial data are processed in your browser. They are not uploaded to or stored on QantaraTools servers. The spreadsheet reader may load from a public CDN; your file contents are not sent to that service.'],
+      ar:['الخصوصية أولًا · تتم المعالجة محليًا على جهازك','تتم معالجة ملفاتك وبياناتك المالية داخل متصفحك. لا يتم رفعها إلى خوادم QantaraTools أو تخزينها عليها. قد يتم تحميل مكتبة قراءة الجداول من شبكة CDN عامة، لكن محتوى ملفاتك لا يُرسل إلى تلك الخدمة.'],
+      de:['Datenschutz zuerst · Verarbeitung lokal auf Ihrem Gerät','Ihre Dateien und Finanzdaten werden in Ihrem Browser verarbeitet und nicht auf QantaraTools-Server hochgeladen oder dort gespeichert. Die Tabellenbibliothek kann von einem öffentlichen CDN geladen werden; Ihre Dateiinhalte werden nicht an diesen Dienst gesendet.'],
+      fr:['Confidentialité prioritaire · Traitement local sur votre appareil','Vos fichiers et données financières sont traités dans votre navigateur et ne sont ni téléversés ni stockés sur les serveurs de QantaraTools. La bibliothèque de tableur peut être chargée depuis un CDN public ; le contenu de vos fichiers ne lui est pas envoyé.'],
+      es:['Privacidad primero · Procesamiento local en tu dispositivo','Tus archivos y datos financieros se procesan en tu navegador y no se suben ni se almacenan en los servidores de QantaraTools. La biblioteca de hojas de cálculo puede cargarse desde una CDN pública; el contenido de tus archivos no se envía a ese servicio.']
+    };
+    const apply=()=>{const locale=window.QTI18n?.locale||new URLSearchParams(location.search).get('locale')||'en';const copy=notices[locale]||notices.en;const box=document.querySelector('.qt-privacy-note');if(box){box.querySelector('strong').textContent=copy[0];box.querySelector('p').textContent=copy[1];}document.querySelectorAll('.qt-new-badge').forEach(b=>{b.textContent='NEW';});};
+    if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply);else apply();
+    window.addEventListener('qantara:locale-changed',apply);
+  })();
+  </script>
+
   <script src="/assets/js/router.js"></script>
   <script src="/assets/js/accessibility.js"></script>
   <script>window.addEventListener('DOMContentLoaded',()=>{if(window.router)window.router.loadTool(${JSON.stringify(tool.category)},${JSON.stringify(tool.title)},${JSON.stringify(tool.id)});});</script>
