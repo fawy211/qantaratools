@@ -41,6 +41,7 @@ jobs:
           node --check scripts/generate-arabic-legal-pages.js
           node --check scripts/legal-page-translations.js
           node --check assets/js/static-page-ar.js
+          node --check assets/js/language-switcher.js
           node --check scripts/validate-localized-pages.js
           node --check scripts/prepare-vendor-assets.js
           node --check tests/localized-error-handling.spec.js
