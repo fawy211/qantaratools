@@ -208,6 +208,9 @@ jobs:
           for slug in about-us faq contact privacy terms; do
             curl --max-time 5 -fsS "http://127.0.0.1:4174/$slug.html" >/dev/null
           done
+          for slug in about-us faq contact privacy terms; do
+            curl --max-time 5 -fsS "http://127.0.0.1:4174/ar/$slug/" >/dev/null
+          done
       - name: Build local Tailwind CSS
         run: npm run build:css
       - name: Verify compiled Tailwind stylesheet
