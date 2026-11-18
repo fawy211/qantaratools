@@ -89,13 +89,13 @@ for(const slug of arabicLegalPages){
  const file=path.join(root,'ar',slug,'index.html');
  if(!fs.existsSync(file)){errors.push(label+': static Arabic page missing');continue;}
  const html=fs.readFileSync(file,'utf8');
- if(!/<html\\b[^>]*\\blang="ar"[^>]*\\bdir="rtl"/i.test(html)) errors.push(label+': missing Arabic lang/RTL');
+ if(!/<html\b[^>]*\blang="ar"[^>]*\bdir="rtl"/i.test(html)) errors.push(label+': missing Arabic lang/RTL');
  if(!html.includes('rel="canonical" href="https://www.qantaratools.com/ar/'+slug+'/"')) errors.push(label+': canonical missing or incorrect');
  if(!html.includes('hreflang="ar"')) errors.push(label+': Arabic hreflang missing');
  if(!html.includes('<title>')||!html.includes('name="description"')) errors.push(label+': SEO title or description missing');
  if(!html.includes('/assets/js/theme.js')) errors.push(label+': theme script missing');
- const visible=html.replace(/<script[\\s\\S]*?<\\/script>/gi,'').replace(/<style[\\s\\S]*?<\\/style>/gi,'').replace(/<[^>]+>/g,' ').replace(/&(?:nbsp|amp|lt|gt|quot);/g,' ').replace(/\\s+/g,' ');
- const englishTerms=/\\b(?:About Us|Contact Us|Privacy Policy|Terms of Service|Frequently Asked Questions|Skip to main content|Last updated|What is QantaraTools|Do I need to install anything)\\b/i;
+ const visible=html.replace(/<script[\s\S]*?<\/script>/gi,'').replace(/<style[\s\S]*?<\/style>/gi,'').replace(/<[^>]+>/g,' ').replace(/&(?:nbsp|amp|lt|gt|quot);/g,' ').replace(/\s+/g,' ');
+ const englishTerms=/\b(?:About Us|Contact Us|Privacy Policy|Terms of Service|Frequently Asked Questions|Skip to main content|Last updated|What is QantaraTools|Do I need to install anything)\b/i;
  if(englishTerms.test(visible)) errors.push(label+': untranslated English copy found');
  for(const href of [...html.matchAll(/href="([^"]+)"/g)].map(m=>m[1])){
   if(href.startsWith('/ar/')){
