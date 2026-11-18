@@ -10,7 +10,7 @@
   };
   function init() {
     if (document.querySelector('[data-qt-language-switcher]')) return;
-    var nav = document.querySelector('#site-header nav[aria-label="Site controls"], .qt-tool-nav, .qt-loc-head nav, .qt-static-nav, .qt-policy-actions, .qt-about-nav');
+    var nav = document.querySelector('#site-header nav[aria-label="Site controls"], .qt-tool-nav, .qt-loc-head nav, .qt-static-nav, .qt-policy-actions, .qt-about-nav, .ar-nav');
     if (!nav) return;
 
     var path = window.location.pathname || '/';
@@ -62,7 +62,7 @@
         '/privacy/': '/privacy.html',
         '/terms/': '/terms.html'
       };
-      if (target === 'de' || target === 'fr' || target === 'es') {
+      if (target === 'ar' && staticLocalizedRoutes[basePath]) {\n        targetPath = '/ar' + staticLocalizedRoutes[basePath];\n      } else if (target === 'de' || target === 'fr' || target === 'es') {
         var localizedPath = staticLocalizedRoutes[basePath] || basePath;
         targetPath = '/' + target + (localizedPath === '/' ? '/' : localizedPath);
       } else {
