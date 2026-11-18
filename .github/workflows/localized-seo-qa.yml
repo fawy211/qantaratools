@@ -83,6 +83,9 @@ jobs:
           grep -q 'hreflang="ar" href="https://www.qantaratools.com/ar/privacy/"' de/privacy/index.html
           grep -q 'hreflang="ar" href="https://www.qantaratools.com/ar/privacy/"' fr/privacy/index.html
           grep -q 'hreflang="ar" href="https://www.qantaratools.com/ar/privacy/"' es/privacy/index.html
+          grep -q '/ar/about-us/' sitemap.xml
+          grep -q '/ar/contact/' sitemap.xml
+          grep -q '/ar/faq/' sitemap.xml
           grep -q '/ar/privacy/' sitemap.xml
           grep -q '/ar/terms/' sitemap.xml
           test -s de/about-us/index.html
