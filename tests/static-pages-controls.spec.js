@@ -192,7 +192,7 @@ test('homepage footer links preserve the selected locale', async ({ page }) => {
   const homePaths = { en: '/', ar: '/?locale=ar', de: '/de/', fr: '/fr/', es: '/es/' };
   const routes = {
     en: { faq: '/faq.html', contact: '/contact.html' },
-    ar: { faq: '/faq.html?locale=ar', contact: '/contact.html?locale=ar' },
+    ar: { faq: '/ar/faq/', contact: '/ar/contact/' },
     de: { faq: '/de/faq/', contact: '/de/contact/' },
     fr: { faq: '/fr/faq/', contact: '/fr/contact/' },
     es: { faq: '/es/faq/', contact: '/es/contact/' }
