@@ -60,7 +60,7 @@ test('static-page language selector keeps the same page while changing locale', 
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
 
   await page.locator('.qt-language-select').selectOption('ar');
-  await expect(page).toHaveURL(/\\/ar\\/faq\\\/$/);
+  await expect(page).toHaveURL(/\/ar\/faq\/$/);
   await expect(page.locator('html')).toHaveAttribute('lang', 'ar');
   await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
 });
