@@ -60,7 +60,7 @@ test('static-page language selector keeps the same page while changing locale', 
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
 
   await page.locator('.qt-language-select').selectOption('ar');
-  await expect(page).toHaveURL(/\/faq\.html\?locale=ar$/);
+  await expect(page).toHaveURL(/\\/ar\\/faq\\\/$/);
   await expect(page.locator('html')).toHaveAttribute('lang', 'ar');
   await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
 });
@@ -152,7 +152,7 @@ test('language switching works in both directions for every static page', async 
     await expect(page.locator('html')).toHaveAttribute('lang', 'es');
 
     await page.locator('.qt-language-select').selectOption('ar');
-    await expect(page).toHaveURL(new RegExp('/' + slug + '\\.html\\?locale=ar$'));
+    await expect(page).toHaveURL(new RegExp('/ar/' + slug + '/$'));
     await expect(page.locator('html')).toHaveAttribute('lang', 'ar');
     await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
 
