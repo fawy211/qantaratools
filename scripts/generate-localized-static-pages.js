@@ -287,10 +287,22 @@ for(const locale of locales){
   html=html.replace(/src="\/assets\/js\/language-switcher\.js"/g,'src="/assets/js/language-switcher.js"');
   const slug=routeSlug;
   const alternates=['en','de','fr','es'].map(l=>'<link rel="alternate" hreflang="'+l+'" href="'+site+'/'+(l==='en'?page:l+'/'+slug+'/')+'">').join('\n');
-  alternates+'<link rel="alternate" hreflang="ar" href="'+site+'/'+page+'?locale=ar">';
+  alternates+'<link rel="alternate" hreflang="ar" href="'+site+'/ar/'+slug+'/">';
   html=html.replace('</head>',alternates+'\n<link rel="alternate" hreflang="ar" href="'+site+'/'+page+'?locale=ar">\n<link rel="alternate" hreflang="x-default" href="'+site+'/'+page+'">\n</head>');
   const outputDir=path.join(dir,slug);fs.mkdirSync(outputDir,{recursive:true});
   fs.writeFileSync(path.join(outputDir,'index.html'),html);
+ }
+}
+// Keep the English legal pages in the same reciprocal hreflang cluster.
+for(const page of pages){
+ const slug=({'about-us.html':'about-us','contact.html':'contact','faq.html':'faq','privacy.html':'privacy','terms.html':'terms'})[page];
+ const file=path.join(root,page);
+ let html=fs.readFileSync(file,'utf8');
+ if(!html.includes('hreflang="ar"')){
+  const alternates=['en','de','fr','es'].map(locale=>'<link rel="alternate" hreflang="'+locale+'" href="'+site+'/'+(locale==='en'?page:locale+'/'+slug+'/')+'">').join('\n');
+  const arabic='<link rel="alternate" hreflang="ar" href="'+site+'/ar/'+slug+'/"><link rel="alternate" hreflang="x-default" href="'+site+'/'+page+'">';
+  html=html.replace('</head>',alternates+'\n'+arabic+'\n</head>');
+  fs.writeFileSync(file,html);
  }
 }
 const sitemapPath=path.join(root,'sitemap.xml');
