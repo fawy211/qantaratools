@@ -288,7 +288,7 @@ for(const locale of locales){
   const slug=routeSlug;
   const alternates=['en','de','fr','es'].map(l=>'<link rel="alternate" hreflang="'+l+'" href="'+site+'/'+(l==='en'?page:l+'/'+slug+'/')+'">').join('\n');
   alternates+'<link rel="alternate" hreflang="ar" href="'+site+'/ar/'+slug+'/">';
-  html=html.replace('</head>',alternates+'\n<link rel="alternate" hreflang="ar" href="'+site+'/'+page+'?locale=ar">\n<link rel="alternate" hreflang="x-default" href="'+site+'/'+page+'">\n</head>');
+  html=html.replace('</head>',alternates+'\n<link rel="alternate" hreflang="ar" href="'+site+'/ar/'+slug+'/">\n<link rel="alternate" hreflang="x-default" href="'+site+'/'+page+'">\n</head>');
   const outputDir=path.join(dir,slug);fs.mkdirSync(outputDir,{recursive:true});
   fs.writeFileSync(path.join(outputDir,'index.html'),html);
  }
