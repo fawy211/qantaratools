@@ -91,7 +91,8 @@ for(const slug of arabicLegalPages){
  const html=fs.readFileSync(file,'utf8');
  if(!/<html\b[^>]*\blang="ar"[^>]*\bdir="rtl"/i.test(html)) errors.push(label+': missing Arabic lang/RTL');
  if(!html.includes('rel="canonical" href="https://www.qantaratools.com/ar/'+slug+'/"')) errors.push(label+': canonical missing or incorrect');
- validateHreflangs(html,label);\n if(!html.includes('hreflang="ar"')) errors.push(label+': Arabic hreflang missing');\n if(!html.includes('assets/js/language-switcher.js')) errors.push(label+': shared language selector missing');
+ validateHreflangs(html,label);
+ if(!html.includes('hreflang="ar"')) errors.push(label+': Arabic hreflang missing');\n if(!html.includes('assets/js/language-switcher.js')) errors.push(label+': shared language selector missing');
  if(!html.includes('<title>')||!html.includes('name="description"')) errors.push(label+': SEO title or description missing');
  if(!html.includes('/assets/js/theme.js')) errors.push(label+': theme script missing');
  const visible=html.replace(/<script[\s\S]*?<\/script>/gi,'').replace(/<style[\s\S]*?<\/style>/gi,'').replace(/<[^>]+>/g,' ').replace(/&(?:nbsp|amp|lt|gt|quot);/g,' ').replace(/\s+/g,' ');
