@@ -5,7 +5,8 @@ const locales = ['en', 'ar', 'de', 'fr', 'es'];
 
 function pagePath(locale, slug) {
   if (locale === 'de' || locale === 'fr' || locale === 'es') return '/' + locale + '/' + slug + '/';
-  return '/' + slug + '.html' + (locale === 'ar' ? '?locale=ar' : '');
+  if (locale === 'ar') return '/ar/' + slug + '/';
+  return '/' + slug + '.html';
 }
 
 for (const locale of locales) {
@@ -164,7 +165,7 @@ test('language switching works in both directions for every static page', async 
 test('information-page navigation preserves the selected language across page links', async ({ page }) => {
   const routes = {
     en: { faq: '/faq.html', contact: '/contact.html' },
-    ar: { faq: '/faq.html?locale=ar', contact: '/contact.html?locale=ar' },
+    ar: { faq: '/ar/faq/', contact: '/ar/contact/' },
     de: { faq: '/de/faq/', contact: '/de/contact/' },
     fr: { faq: '/fr/faq/', contact: '/fr/contact/' },
     es: { faq: '/es/faq/', contact: '/es/contact/' }
