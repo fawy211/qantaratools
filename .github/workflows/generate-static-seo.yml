@@ -41,6 +41,7 @@ jobs:
           node scripts/generate-tool-pages.js
           node scripts/generate-localized-tool-pages.js
           node scripts/generate-localized-static-pages.js
+          node scripts/generate-arabic-legal-pages.js
           node scripts/validate-localized-pages.js
       - name: Verify new finance tool pages are included
         run: |
@@ -61,7 +62,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html de fr es tools sitemap.xml assets/vendor assets/fonts assets/css/tailwind-local.css
+          git add index.html de fr es ar tools sitemap.xml assets/vendor assets/fonts assets/css/tailwind-local.css
           if ! git diff --cached --quiet; then
             git commit -m "Generate localized SEO pages and sitemap [skip ci]"
             git push origin HEAD:main
