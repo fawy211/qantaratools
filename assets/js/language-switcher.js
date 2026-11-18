@@ -53,7 +53,12 @@
         '/contact.html': '/contact/',
         '/faq.html': '/faq/',
         '/privacy.html': '/privacy/',
-        '/terms.html': '/terms/'
+        '/terms.html': '/terms/',
+        '/about-us/': '/about-us/',
+        '/contact/': '/contact/',
+        '/faq/': '/faq/',
+        '/privacy/': '/privacy/',
+        '/terms/': '/terms/'
       };
       var staticEnglishRoutes = {
         '/about-us/': '/about-us.html',
@@ -63,7 +68,8 @@
         '/terms/': '/terms.html'
       };
       if (target === 'ar' && staticLocalizedRoutes[basePath]) {
-        targetPath = '/ar' + staticLocalizedRoutes[basePath];\n      } else if (target === 'de' || target === 'fr' || target === 'es') {
+        targetPath = '/ar' + staticLocalizedRoutes[basePath];
+      } else if (target === 'de' || target === 'fr' || target === 'es') {
         var localizedPath = staticLocalizedRoutes[basePath] || basePath;
         targetPath = '/' + target + (localizedPath === '/' ? '/' : localizedPath);
       } else {
