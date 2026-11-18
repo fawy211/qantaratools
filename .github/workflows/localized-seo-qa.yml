@@ -38,6 +38,7 @@ jobs:
           node --check scripts/generate-tool-pages.js
           node --check scripts/generate-localized-tool-pages.js
           node --check scripts/generate-localized-static-pages.js
+          node --check scripts/generate-arabic-legal-pages.js
           node --check scripts/legal-page-translations.js
           node --check assets/js/static-page-ar.js
           node --check scripts/validate-localized-pages.js
@@ -54,6 +55,7 @@ jobs:
           node scripts/generate-tool-pages.js
           node scripts/generate-localized-tool-pages.js
           node scripts/generate-localized-static-pages.js
+          node scripts/generate-arabic-legal-pages.js
           node scripts/validate-localized-pages.js
       - name: Verify localized page output
         run: |
@@ -69,6 +71,15 @@ jobs:
           grep -q '/de/faq/' sitemap.xml
           grep -q '/fr/faq/' sitemap.xml
           grep -q '/es/faq/' sitemap.xml
+          test -s ar/about-us/index.html
+          test -s ar/contact/index.html
+          test -s ar/faq/index.html
+          test -s ar/privacy/index.html
+          test -s ar/terms/index.html
+          grep -q 'lang="ar" dir="rtl"' ar/privacy/index.html
+          grep -q 'سياسة الخصوصية' ar/privacy/index.html
+          grep -q '/ar/privacy/' sitemap.xml
+          grep -q '/ar/terms/' sitemap.xml
           test -s de/about-us/index.html
           test -s fr/about-us/index.html
           test -s es/about-us/index.html
