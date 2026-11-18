@@ -78,6 +78,10 @@ jobs:
           test -s ar/terms/index.html
           grep -q 'lang="ar" dir="rtl"' ar/privacy/index.html
           grep -q 'سياسة الخصوصية' ar/privacy/index.html
+          grep -q 'hreflang="ar" href="https://www.qantaratools.com/ar/privacy/"' privacy.html
+          grep -q 'hreflang="ar" href="https://www.qantaratools.com/ar/privacy/"' de/privacy/index.html
+          grep -q 'hreflang="ar" href="https://www.qantaratools.com/ar/privacy/"' fr/privacy/index.html
+          grep -q 'hreflang="ar" href="https://www.qantaratools.com/ar/privacy/"' es/privacy/index.html
           grep -q '/ar/privacy/' sitemap.xml
           grep -q '/ar/terms/' sitemap.xml
           test -s de/about-us/index.html
@@ -263,7 +267,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html de fr es tools sitemap.xml assets/vendor assets/fonts assets/css/tailwind-local.css
+          git add index.html about-us.html contact.html faq.html privacy.html terms.html de fr es ar tools sitemap.xml assets/vendor assets/fonts assets/css/tailwind-local.css
           if ! git diff --cached --quiet; then
             git commit -m "Generate localized SEO landing pages"
             git fetch origin "$GITHUB_REF_NAME"
