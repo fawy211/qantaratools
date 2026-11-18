@@ -90,7 +90,16 @@
       var target=new URL(href,location.href);
       if(target.origin!==location.origin) return;
       if(target.pathname==='/index.html') target.pathname='/';
-      if(target.pathname==='/' || /^\/(about-us|contact|faq|privacy|terms)\.html$/.test(target.pathname)){
+      var arabicStaticRoutes={
+        '/about-us.html':'/ar/about-us/',
+        '/contact.html':'/ar/contact/',
+        '/faq.html':'/ar/faq/',
+        '/privacy.html':'/ar/privacy/',
+        '/terms.html':'/ar/terms/'
+      };
+      if(arabicStaticRoutes[target.pathname]){
+        anchor.setAttribute('href',arabicStaticRoutes[target.pathname]+target.hash);
+      }else if(target.pathname==='/'){
         target.searchParams.set('locale','ar');
         anchor.setAttribute('href',target.pathname+'?'+target.searchParams.toString()+target.hash);
       }
