@@ -19,6 +19,30 @@
     // The URL is authoritative: never show a saved locale that does not match
     // the page currently being displayed. Locale persistence is handled by navigation.
     var current = prefix ? prefix[1] : (queryLocale === 'ar' ? 'ar' : (window.QTI18n && window.QTI18n.locale ? window.QTI18n.locale : 'en'));
+    // Keep footer policy links in the visitor's active language, including
+    // the Arabic homepage which uses ?locale=ar rather than an /ar/ path.
+    var footerRoutes = {
+      'about-us.html': 'about-us',
+      'contact.html': 'contact',
+      'faq.html': 'faq',
+      'privacy.html': 'privacy',
+      'terms.html': 'terms',
+      'about-us': 'about-us',
+      'contact': 'contact',
+      'faq': 'faq',
+      'privacy': 'privacy',
+      'terms': 'terms'
+    };
+    if (current !== 'en') {
+      document.querySelectorAll('#site-footer a[href]').forEach(function (link) {
+        var rawHref = link.getAttribute('href') || '';
+        if (/^(?:[a-z]+:|#|\\/\\/)/i.test(rawHref)) return;
+        var cleanPath = rawHref.split(/[?#]/)[0].replace(/\\/+$/, '');
+        var lastPart = cleanPath.split('/').filter(Boolean).pop() || '';
+        var route = footerRoutes[lastPart];
+        if (route) link.href = '/' + current + '/' + route + '/';
+      });
+    }
     var basePath = prefix ? (path.slice(prefix[0].length) || '/') : path;
     if (!basePath.startsWith('/')) basePath = '/' + basePath;
 
