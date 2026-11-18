@@ -81,6 +81,22 @@ for(const tool of tools){
  if(!html.includes('href="https://www.qantaratools.com/tools/'+tool.id+'/?locale=ar"')) errors.push('en/'+tool.id+': Arabic hreflang URL missing');
  if(!html.includes('assets/js/language-switcher.js')) errors.push('en/'+tool.id+': shared language selector script missing');
 }
+// Validate reciprocal alternate URLs for the existing English and European legal pages.
+const legalSlugs=['about-us','contact','faq','privacy','terms'];
+for(const slug of legalSlugs){
+ const englishFile=path.join(root,slug==='about-us'?'about-us.html':slug+'.html');
+ if(fs.existsSync(englishFile)){
+  const html=fs.readFileSync(englishFile,'utf8');
+  const expected='href="https://www.qantaratools.com/ar/'+slug+'/"';
+  if(!html.includes('hreflang="ar" '+expected)) errors.push('en/'+slug+': Arabic hreflang route missing');
+ }
+ for(const locale of locales){
+  const file=path.join(root,locale,slug,'index.html');
+  if(!fs.existsSync(file)){errors.push(locale+'/'+slug+': localized legal page missing');continue;}
+  const html=fs.readFileSync(file,'utf8');
+  if(!html.includes('hreflang="ar" href="https://www.qantaratools.com/ar/'+slug+'/"')) errors.push(locale+'/'+slug+': Arabic hreflang route missing');
+ }
+}
 // Arabic static legal pages are generated separately because the existing locale
 // generator only creates German, French, and Spanish legal routes.
 const arabicLegalPages=['about-us','contact','faq','privacy','terms'];
