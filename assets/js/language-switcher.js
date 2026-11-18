@@ -62,7 +62,8 @@
         '/privacy/': '/privacy.html',
         '/terms/': '/terms.html'
       };
-      if (target === 'ar' && staticLocalizedRoutes[basePath]) {\n        targetPath = '/ar' + staticLocalizedRoutes[basePath];\n      } else if (target === 'de' || target === 'fr' || target === 'es') {
+      if (target === 'ar' && staticLocalizedRoutes[basePath]) {
+        targetPath = '/ar' + staticLocalizedRoutes[basePath];\n      } else if (target === 'de' || target === 'fr' || target === 'es') {
         var localizedPath = staticLocalizedRoutes[basePath] || basePath;
         targetPath = '/' + target + (localizedPath === '/' ? '/' : localizedPath);
       } else {
