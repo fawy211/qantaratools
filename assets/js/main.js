@@ -526,7 +526,7 @@ function applyHomeTranslations() {
         const key=footerLinkKeys[slug];
         if(key) a.textContent=t(key,a.textContent);
         const locale=i18n.locale;
-        if(locale==='ar') a.setAttribute('href','/'+slug+'.html?locale=ar');
+        if(locale==='ar') a.setAttribute('href','/ar/'+slug+'/');
         else if(locale==='de'||locale==='fr'||locale==='es') a.setAttribute('href','/'+locale+'/'+slug+'/');
         else a.setAttribute('href','/'+slug+'.html');
     });

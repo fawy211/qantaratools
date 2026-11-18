@@ -10,11 +10,11 @@
   };
   function init() {
     if (document.querySelector('[data-qt-language-switcher]')) return;
-    var nav = document.querySelector('#site-header nav[aria-label="Site controls"], .qt-tool-nav, .qt-loc-head nav, .qt-static-nav, .qt-policy-actions, .qt-about-nav');
+    var nav = document.querySelector('#site-header nav[aria-label="Site controls"], .qt-tool-nav, .qt-loc-head nav, .qt-static-nav, .qt-policy-actions, .qt-about-nav, .ar-nav');
     if (!nav) return;
 
     var path = window.location.pathname || '/';
-    var prefix = path.match(/^\/(de|fr|es)(?=\/|$)/);
+    var prefix = path.match(/^\/(de|fr|es|ar)(?=\/|$)/);
     var queryLocale = new URLSearchParams(window.location.search).get('locale');
     // The URL is authoritative: never show a saved locale that does not match
     // the page currently being displayed. Locale persistence is handled by navigation.
@@ -53,7 +53,12 @@
         '/contact.html': '/contact/',
         '/faq.html': '/faq/',
         '/privacy.html': '/privacy/',
-        '/terms.html': '/terms/'
+        '/terms.html': '/terms/',
+        '/about-us/': '/about-us/',
+        '/contact/': '/contact/',
+        '/faq/': '/faq/',
+        '/privacy/': '/privacy/',
+        '/terms/': '/terms/'
       };
       var staticEnglishRoutes = {
         '/about-us/': '/about-us.html',
@@ -62,7 +67,9 @@
         '/privacy/': '/privacy.html',
         '/terms/': '/terms.html'
       };
-      if (target === 'de' || target === 'fr' || target === 'es') {
+      if (target === 'ar' && staticLocalizedRoutes[basePath]) {
+        targetPath = '/ar' + staticLocalizedRoutes[basePath];
+      } else if (target === 'de' || target === 'fr' || target === 'es') {
         var localizedPath = staticLocalizedRoutes[basePath] || basePath;
         targetPath = '/' + target + (localizedPath === '/' ? '/' : localizedPath);
       } else {
