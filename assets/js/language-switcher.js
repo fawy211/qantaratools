@@ -14,7 +14,7 @@
     if (!nav) return;
 
     var path = window.location.pathname || '/';
-    var prefix = path.match(/^\/(de|fr|es)(?=\/|$)/);
+    var prefix = path.match(/^\/(de|fr|es|ar)(?=\/|$)/);
     var queryLocale = new URLSearchParams(window.location.search).get('locale');
     // The URL is authoritative: never show a saved locale that does not match
     // the page currently being displayed. Locale persistence is handled by navigation.
