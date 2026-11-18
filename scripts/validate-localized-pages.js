@@ -123,6 +123,7 @@ for(const slug of arabicLegalPages){
  }
 }
 const sitemap=fs.readFileSync(path.join(root,'sitemap.xml'),'utf8');
+for(const slug of ['about-us','contact','faq','privacy','terms']) if(!sitemap.includes('<loc>https://www.qantaratools.com/ar/'+slug+'/</loc>')) errors.push('ar/'+slug+': legal URL absent from sitemap');
 if(!sitemap.includes('<loc>https://www.qantaratools.com/</loc>')) errors.push('en/: homepage absent from sitemap');
 if(!sitemap.includes('<loc>https://www.qantaratools.com/?locale=ar</loc>')) errors.push('ar/: homepage absent from sitemap');
 for(const tool of tools) if(!sitemap.includes('<loc>https://www.qantaratools.com/tools/'+tool.id+'/?locale=ar</loc>')) errors.push('ar/'+tool.id+': Arabic URL absent from sitemap');
