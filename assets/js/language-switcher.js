@@ -36,8 +36,9 @@
     if (current !== 'en') {
       document.querySelectorAll('#site-footer a[href]').forEach(function (link) {
         var rawHref = link.getAttribute('href') || '';
-        if (/^(?:[a-z]+:|#|\\/\\/)/i.test(rawHref)) return;
-        var cleanPath = rawHref.split(/[?#]/)[0].replace(/\\/+$/, '');
+        if (/^[a-z]+:/i.test(rawHref) || rawHref.charAt(0) === '#' || rawHref.indexOf('//') === 0) return;
+        var cleanPath = rawHref.split(/[?#]/)[0];
+        while (cleanPath.endsWith('/')) cleanPath = cleanPath.slice(0, -1);
         var lastPart = cleanPath.split('/').filter(Boolean).pop() || '';
         var route = footerRoutes[lastPart];
         if (route) link.href = '/' + current + '/' + route + '/';
